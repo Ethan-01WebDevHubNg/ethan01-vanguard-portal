@@ -1,0 +1,17 @@
+{
+  "name": "Ethan01 Agency Portal",
+  "short_name": "Ethan01",
+  "description": "Precision InfoTech Agency Operations Vanguard",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0e0e0e",
+  "theme_color": "#ccff00",
+  "icons": [
+    {
+      "src": "/assets/icons/ethan01logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

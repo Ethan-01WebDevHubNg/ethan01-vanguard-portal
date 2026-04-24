@@ -1,0 +1,228 @@
+<div id="sidebar-mount"></div>
+<header class="fixed top-0 right-0 w-full md:w-[calc(100%-16rem)] z-40 bg-[#0e0e0e]/60 backdrop-blur-xl flex justify-between items-center px-4 sm:px-8 h-16 shadow-sm transition-all duration-300 border-b border-white/5">
+<div class="flex items-center gap-4">
+<button onclick="window.toggleSidebar(this)" class="md:hidden relative w-8 h-8 flex items-center justify-center group z-[80] shrink-0">
+<div class="flex flex-col justify-between w-5 h-4 transform transition-all duration-300 origin-center">
+<div class="bg-white h-[2px] w-full transform transition-all duration-300 origin-left group-[.active]:rotate-[42deg] group-[.active]:w-5 group-[.active]:bg-primary"></div>
+<div class="bg-white h-[2px] w-full transform transition-all duration-300 group-[.active]:opacity-0"></div>
+<div class="bg-white h-[2px] w-full transform transition-all duration-300 origin-left group-[.active]:-rotate-[42deg] group-[.active]:w-5 group-[.active]:bg-primary"></div>
+</div>
+</button>
+<div class="hidden sm:flex items-center">
+<span class="material-symbols-outlined text-zinc-400 text-lg">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-[0.6875rem] tracking-widest text-zinc-300 w-64 placeholder:text-zinc-600 uppercase" placeholder="Search resources..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4 sm:gap-6">
+<div class="hidden sm:flex items-center gap-4 border-r border-white/10 pr-6">
+<span class="material-symbols-outlined text-zinc-400 hover:text-[#f3ffca] cursor-pointer transition-colors">notifications</span>
+</div>
+<div class="flex items-center gap-3 group cursor-pointer">
+<div class="text-right hidden sm:block">
+<p class="text-[0.6875rem] font-bold text-white tracking-widest uppercase">Alex Rivera</p>
+<p class="text-[0.6rem] text-zinc-500 uppercase tracking-wider">Acme Corp CEO</p>
+</div>
+<img class="w-8 h-8 rounded-full border border-primary/20 group-hover:border-primary transition-colors shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAe1ydUEWyDenihh49vPQ0aiHm575zHY1XsQsr_nov-d3rdQLZZ0dr6pwuspuqYccq_8O2MP0pVLdXSk7gbjIXN8mNqJbqatQ1Am1Wqp-I89h58T65ITNjbLY2Jxqp_-9CX3oyvkvsLJxRhvhNmtndsrRLx9MxC1wTh1lQ7qX1fEr6eaZvkrTIKqJpDYaKc1aIZrnkiKxZxkkyXl6aCLsCt7tCf-QXQEJrzIehbk5Vt9NYueIgYOBXJ55Ckq0quCBFjzZuw_AjwzA" alt="Client"/>
+</div>
+</div>
+</header>
+
+<main class="ml-0 md:ml-64 pt-24 pb-20 px-4 sm:px-8 min-h-screen transition-all duration-300">
+<header class="mb-10">
+<p class="text-[0.6875rem] uppercase tracking-[0.1em] text-primary font-bold mb-2">Project Workspace</p>
+<h2 class="text-4xl sm:text-[3.5rem] font-black tracking-tighter leading-tight text-white mb-6">Deliverables & Financials</h2>
+
+<div class="flex gap-4 sm:gap-8 border-b border-outline-variant/10 overflow-x-auto no-scrollbar">
+<button onclick="switchClientTab('tab-files', this)" class="client-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-primary border-b-2 border-primary transition-all whitespace-nowrap">Project Files</button>
+<button onclick="switchClientTab('tab-invoices', this)" class="client-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-white transition-all whitespace-nowrap">Financials & Invoices</button>
+<button onclick="switchClientTab('tab-timeline', this)" class="client-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-white transition-all whitespace-nowrap">Project Timeline</button>
+</div>
+</header>
+
+<section id="tab-files" class="client-tab-content grid grid-cols-1 lg:grid-cols-12 gap-6 mb-16 animate-in fade-in duration-300">
+<div class="lg:col-span-8 bg-surface-container-high rounded-xl p-6 sm:p-8 flex flex-col justify-between min-h-[320px] relative overflow-hidden shadow-sm">
+<div class="absolute inset-0 opacity-10">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUovs8ig_fD25qEIxlwELksFYLrDxbXZr253pLM4-5W4dB_3cnQlSgDio7H0vgr4MidLKOyCS4Hdbr73kO8VT3wzvdoPxxStDorjyLRDZyRfGt0t7kcCtyg75yEYkoJYpuJmT6x7QePo9RZg3jIHWfKJdmxhGoBK0wuO51NclyBJ5x2OMR5x9KUko2DZoydeSC6f-YsDhcBZIQoaqt6Ol9L7ffJ3KWIA0I1T62VeJvVyd6jek96dM8mdNRUwXZG2FvTF77_OJCDw" alt="Blueprint"/>
+</div>
+<div class="relative z-10">
+<span class="bg-primary/10 text-primary text-[0.6rem] px-2 py-1 rounded-full font-bold uppercase tracking-widest">Latest Version</span>
+<h3 class="text-2xl font-bold text-white mt-4 max-w-md">Final Architectural System Design - V4.2</h3>
+<p class="text-zinc-400 text-sm mt-2 max-w-xs leading-relaxed">Comprehensive technical breakdown including infrastructure scaling and API documentation.</p>
+</div>
+<div class="relative z-10 flex items-end justify-between mt-8 lg:mt-0">
+<div class="flex gap-4">
+<div>
+<p class="text-[0.6rem] uppercase tracking-widest text-zinc-500">Size</p>
+<p class="text-white font-bold">124.5 MB</p>
+</div>
+<div>
+<p class="text-[0.6rem] uppercase tracking-widest text-zinc-500">Format</p>
+<p class="text-white font-bold">PDF / FIG</p>
+</div>
+</div>
+<button class="bg-white text-black h-12 w-12 rounded-full flex items-center justify-center hover:scale-110 transition-transform shrink-0 shadow-lg" onclick="Toast.show('Initiating secure download...', 'success')">
+<span class="material-symbols-outlined">download</span>
+</button>
+</div>
+</div>
+<div class="lg:col-span-4 flex flex-col gap-4">
+<div class="bg-surface-container-low p-6 rounded-xl border border-white/5 hover:border-primary/30 transition-all cursor-pointer group" onclick="Toast.show('Downloading archive...', 'info')">
+<div class="flex justify-between items-start mb-4">
+<div class="h-10 w-10 bg-surface-container-highest rounded-lg flex items-center justify-center text-zinc-400 group-hover:text-primary transition-colors shrink-0">
+<span class="material-symbols-outlined">description</span>
+</div>
+<span class="material-symbols-outlined text-zinc-600">download</span>
+</div>
+<p class="text-white font-bold text-sm">Brand_Guidelines_Identity.zip</p>
+<p class="text-zinc-500 text-[0.6875rem] mt-1">Uploaded 2 days ago • 45MB</p>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl border border-white/5 hover:border-primary/30 transition-all cursor-pointer group" onclick="Toast.show('Downloading raw assets...', 'info')">
+<div class="flex justify-between items-start mb-4">
+<div class="h-10 w-10 bg-surface-container-highest rounded-lg flex items-center justify-center text-zinc-400 group-hover:text-primary transition-colors shrink-0">
+<span class="material-symbols-outlined">image</span>
+</div>
+<span class="material-symbols-outlined text-zinc-600">download</span>
+</div>
+<p class="text-white font-bold text-sm">Hero_Visual_Assets_RAW.tar</p>
+<p class="text-zinc-500 text-[0.6875rem] mt-1">Uploaded 5 days ago • 1.2GB</p>
+</div>
+</div>
+</section>
+
+<section id="tab-invoices" class="client-tab-content hidden animate-in fade-in duration-300">
+<div class="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 mb-6">
+<div>
+<h3 class="text-2xl font-bold text-white tracking-tight">Active Invoices</h3>
+<p class="text-sm text-zinc-500 mt-1">Review and manage your project billing cycles.</p>
+</div>
+<div class="flex gap-4">
+<button class="bg-surface-container-highest text-white px-6 py-2.5 rounded-xl text-sm font-bold hover:bg-surface-bright transition-colors hidden sm:block" onclick="Toast.show('Compiling billing history PDF...', 'info')">Export History</button>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-xl overflow-x-auto border border-white/5">
+<table class="w-full text-left border-collapse min-w-[600px]">
+<thead>
+<tr class="bg-surface-container-highest/30">
+<th class="px-6 py-5 text-[0.6875rem] font-bold text-zinc-500 uppercase tracking-widest">Invoice ID</th>
+<th class="px-6 py-5 text-[0.6875rem] font-bold text-zinc-500 uppercase tracking-widest">Billing Period</th>
+<th class="px-6 py-5 text-[0.6875rem] font-bold text-zinc-500 uppercase tracking-widest">Amount</th>
+<th class="px-6 py-5 text-[0.6875rem] font-bold text-zinc-500 uppercase tracking-widest">Status</th>
+<th class="px-6 py-5 text-[0.6875rem] font-bold text-zinc-500 uppercase tracking-widest text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/5">
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="px-6 py-6 font-mono text-sm text-white font-bold">#INV-2024-001</td>
+<td class="px-6 py-6 text-sm text-zinc-400">Mar 01 - Mar 31, 2024</td>
+<td class="px-6 py-6">
+<p class="text-sm font-bold text-white">$12,450.00</p>
+<p class="text-[0.6rem] text-zinc-500 uppercase tracking-widest">VAT Included</p>
+</td>
+<td class="px-6 py-6">
+<span class="bg-error/10 text-error px-3 py-1 rounded-full text-[0.65rem] font-bold uppercase tracking-wider border border-error/20">Pending Payment</span>
+</td>
+<td class="px-6 py-6 text-right">
+<button onclick="Modal.show('Secure Checkout', '<div class=\'space-y-4\'><div class=\'bg-surface-container-highest p-4 rounded-xl border border-white/5\'><p class=\'text-xs text-zinc-500 uppercase tracking-widest mb-1\'>Amount Due</p><p class=\'text-3xl font-black text-white\'>$12,450.00</p></div><div class=\'space-y-2\'><label class=\'text-xs font-bold text-zinc-400 uppercase tracking-widest\'>Card Information</label><div class=\'relative\'><span class=\'material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500\'>credit_card</span><input type=\'text\' class=\'w-full bg-surface-container-highest rounded-lg pl-10 p-3 text-sm border-none text-white focus:ring-1 focus:ring-primary\' placeholder=\'**** **** **** ****\'/></div></div></div>', '<button onclick=\'Modal.hide()\' class=\'text-zinc-400 hover:text-white font-bold text-sm px-4\'>Cancel</button><button onclick=\'Modal.hide(); Toast.show(\'Payment processed successfully. Thank you.\', \'success\')\' class=\'bg-primary text-on-primary px-6 py-2.5 rounded-lg font-bold text-sm shadow-[0_4px_15px_rgba(204,255,0,0.2)]\'>Authorize Payment</button>')" class="bg-primary hover:bg-primary-dim text-on-primary text-[0.65rem] font-black uppercase tracking-widest px-5 py-2.5 rounded-lg transition-all shadow-sm">Pay Now</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="px-6 py-6 font-mono text-sm text-zinc-400">#INV-2024-002</td>
+<td class="px-6 py-6 text-sm text-zinc-500">Feb 01 - Feb 28, 2024</td>
+<td class="px-6 py-6">
+<p class="text-sm font-bold text-zinc-400">$8,200.00</p>
+</td>
+<td class="px-6 py-6">
+<span class="bg-primary/5 text-primary/70 px-3 py-1 rounded-full text-[0.65rem] font-bold uppercase tracking-wider border border-primary/10">Paid</span>
+</td>
+<td class="px-6 py-6 text-right">
+<button class="text-zinc-500 hover:text-white transition-colors p-2" onclick="Toast.show('Downloading PDF receipt...', 'info')">
+<span class="material-symbols-outlined text-sm">download</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section id="tab-timeline" class="client-tab-content hidden animate-in fade-in duration-300">
+    <div class="bg-surface-container-low rounded-2xl p-6 sm:p-10 border border-white/5">
+        <div class="flex items-center justify-between mb-12">
+            <div>
+                <h3 class="text-xl font-bold text-white tracking-tight">Project Roadmap</h3>
+                <p class="text-sm text-zinc-500 mt-1">Live progress tracking of global deliverables.</p>
+            </div>
+            <div class="px-3 py-1 bg-surface-container-highest rounded-full border border-white/10 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                <span class="text-[10px] font-bold uppercase tracking-widest text-zinc-300">Phase 2 Active</span>
+            </div>
+        </div>
+
+        <div class="relative space-y-8 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-surface-container-highest before:to-transparent">
+            
+            <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-surface bg-primary text-on-primary shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-[0_0_15px_rgba(204,255,0,0.2)] z-10">
+                    <span class="material-symbols-outlined text-sm font-bold">check</span>
+                </div>
+                <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-surface-container-highest p-5 rounded-xl border border-white/5 opacity-70">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Phase 01</span>
+                        <span class="text-[10px] text-zinc-600 font-mono">100%</span>
+                    </div>
+                    <h4 class="text-base font-bold text-white">Discovery & Audit</h4>
+                    <p class="text-xs text-zinc-500 mt-2 leading-relaxed">Technical architecture review, stakeholder interviews, and security audit completed successfully.</p>
+                </div>
+            </div>
+            
+            <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-surface bg-surface-container-highest text-primary border-primary shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-[0_0_20px_rgba(204,255,0,0.1)] z-10">
+                    <span class="material-symbols-outlined text-sm animate-pulse">bolt</span>
+                </div>
+                <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-surface-container-highest p-5 rounded-xl border border-primary/20 shadow-lg">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-primary">Phase 02 • Active</span>
+                        <span class="text-[10px] text-primary font-mono font-bold">65%</span>
+                    </div>
+                    <h4 class="text-base font-bold text-white">Core Development</h4>
+                    <p class="text-xs text-zinc-400 mt-2 leading-relaxed">Baseline API infrastructure and database schemas are being deployed to the staging environment.</p>
+                </div>
+            </div>
+
+            <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-surface bg-surface-container text-zinc-600 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                    <span class="material-symbols-outlined text-sm">schedule</span>
+                </div>
+                <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-surface-container p-5 rounded-xl border border-white/5 opacity-50">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-zinc-600">Phase 03</span>
+                    </div>
+                    <h4 class="text-base font-bold text-zinc-500">Quality Assurance & Testing</h4>
+                    <p class="text-xs text-zinc-600 mt-2 leading-relaxed">Rigorous penetration testing, load balancing, and bug resolution across all endpoints.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+</main>
+
+<script>
+    // Inline script for Tab Switching
+    window.switchClientTab = function(tabId, btnElement) {
+        // Hide all
+        document.querySelectorAll('.client-tab-content').forEach(el => el.classList.add('hidden'));
+        // Show target
+        document.getElementById(tabId).classList.remove('hidden');
+        
+        // Reset buttons
+        document.querySelectorAll('.client-tab-btn').forEach(btn => {
+            btn.classList.remove('text-primary', 'border-b-2', 'border-primary');
+            btn.classList.add('text-on-surface-variant');
+        });
+        
+        // Activate clicked
+        btnElement.classList.remove('text-on-surface-variant');
+        btnElement.classList.add('text-primary', 'border-b-2', 'border-primary');
+    };
+</script>

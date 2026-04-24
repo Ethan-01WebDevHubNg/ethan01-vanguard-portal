@@ -1,0 +1,467 @@
+<div id="sidebar-mount"></div>
+<div id="header-mount"
+    data-search-placeholder="SEARCH PROJECT ASSETS..."
+    data-search-toast="Searching project database..."
+    data-role-simulator="true"
+    data-role-options="Lead Architect, Project Manager, Editor">
+</div>
+
+<main class="ml-0 md:ml-64 min-h-screen p-4 sm:p-8 bg-surface transition-all duration-300" style="padding-top: 6rem;">
+<header class="mb-10">
+<div class="flex flex-col lg:flex-row lg:justify-between lg:items-end gap-6 mb-6">
+<div>
+<div class="flex items-center gap-4 mb-2">
+<span class="text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-primary" id="active-project-title">Select a Project</span>
+<span class="px-2 py-0.5 rounded text-[0.6rem] font-black uppercase bg-primary/10 text-primary" id="active-phase-badge">Status: Pending</span>
+</div>
+<h1 class="text-4xl sm:text-[3.5rem] font-black tracking-tighter leading-none mb-4">PROJECT WORKSPACE</h1>
+<p class="text-on-surface-variant max-w-2xl leading-relaxed text-sm sm:text-base">Track project tasks, manage timelines, and upload deliverables for client review.</p>
+</div>
+<div class="flex flex-wrap gap-3">
+<button class="bg-surface-container-highest px-6 py-3 rounded-xl text-sm font-bold hover:bg-surface-bright text-white transition-colors w-full sm:w-auto" onclick="window.openManageAccessModal()">Manage Access</button>
+<button class="bg-primary text-surface-container-lowest px-6 py-3 rounded-xl text-sm font-black hover:bg-primary-dim transition-all w-full sm:w-auto shadow-[0_4px_15px_rgba(204,255,0,0.15)]" onclick="Toast.show('Generating status report PDF...', 'info'); setTimeout(() => Toast.show('Report Exported successfully.', 'success'), 2000)">Export Status Report</button>
+</div>
+</div>
+
+<div class="flex gap-4 sm:gap-8 border-b border-zinc-800 overflow-x-auto no-scrollbar relative" id="cmd-tabs">
+<div id="tab-slide-indicator" class="absolute bottom-[-1px] h-[2px] bg-primary transition-all duration-300 ease-out w-0 left-0"></div>
+
+<button id="tab-btn-projects" onclick="window.switchCmdTab('tab-projects', this)" class="cmd-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-primary whitespace-nowrap">Projects</button>
+<button id="tab-btn-overview" onclick="window.switchCmdTab('tab-overview', this)" class="cmd-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-white transition-colors whitespace-nowrap">Overview</button>
+<button id="tab-btn-tracker" onclick="window.switchCmdTab('tab-tracker', this)" class="cmd-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-white transition-colors whitespace-nowrap">Task Board</button>
+<button id="tab-btn-deliverables" onclick="window.switchCmdTab('tab-deliverables', this)" class="cmd-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-white transition-colors whitespace-nowrap">Deliverables</button>
+<button id="tab-btn-invoices" onclick="window.switchCmdTab('tab-invoices', this)" class="cmd-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-white transition-colors whitespace-nowrap">Invoices</button>
+</div>
+</header>
+
+<section id="tab-projects" class="cmd-tab-content animate-in fade-in duration-300">
+    <div class="flex justify-between items-center mb-6">
+        <h3 class="text-lg font-bold text-white tracking-tight">Active Commissioned Projects</h3>
+        <button class="bg-surface-container-highest hover:bg-surface-bright text-white px-4 py-2 rounded-lg text-xs font-bold transition-colors flex items-center gap-2 border border-white/10" onclick="window.location.hash='#/admin/project/new'">
+            <span class="material-symbols-outlined text-[16px]">add</span> New Project
+        </button>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-surface-container-low p-6 rounded-2xl border border-white/5 hover:border-primary/40 transition-all cursor-pointer group shadow-sm" onclick="document.getElementById('active-project-title').innerText = 'Nebula Quantum Labs'; document.getElementById('active-phase-badge').innerText = 'Active: Phase 2'; Toast.show('Workspace loaded: Nebula Quantum Labs', 'success'); document.getElementById('tab-btn-overview').click();">
+            <div class="flex justify-between items-start mb-4">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500/20 to-purple-500/20 flex items-center justify-center border border-white/5">
+                    <img class="w-8 h-8 object-cover rounded" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVvTejy_QtD0S4Fosz9DyXIZciFyQV9lh5n4dU5hMg1erzf6rDsch-AGSIg_5kd8GMRObgJAQMhRwq_B_Uc-qVWGEWaUh_MEYTKTnkqJm5WRpSogJsppZk-gfxRNgi_pSILgBRcK3Rj9tiWGjPnG3NBaX8ayQxtYZ-8vgZ4bRkMAAEfQ_DarJWErYMcsoKeiMy_wGUoKGFF2kHGmAm-PBH8eov5jOg1taqx0nU6S3vXzv_1Hm5OWUVOcU4tq-4CYeThYScmIeKDg"/>
+                </div>
+                <span class="px-2 py-1 bg-primary/10 text-primary text-[10px] font-bold rounded uppercase tracking-wider">74%</span>
+            </div>
+            <h4 class="text-lg font-bold text-white mb-1 group-hover:text-primary transition-colors">Nebula Quantum Labs</h4>
+            <p class="text-xs text-zinc-500 mb-6">Quantum Infrastructure Overhaul</p>
+            <div class="flex justify-between items-center pt-4 border-t border-white/5">
+                <div class="flex -space-x-2">
+                    <img class="w-6 h-6 rounded-full border-2 border-surface-container-low" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdnloQ4jaEjE-gq2UFXusiLHruzlSz9PvgZIOflIy5kUMKTnzEQj6cFMgDKQZKVJM5egLZvLYeBAE9cDOTV4nJzADThdWcdi4JWN6O4U89YH-rZjw_VNRJgX1S622YyX-CbLX_2CkKycskwKihKYHRlGXIN5B_NLoFGHGizOgWSyfQfNwWLd98tHHphL5VIEi_Tf9DOB8sH-w7Rw9c0Oq9QEMzi5Dulzr7pK2GyqDeXwNywmQwaoa6JRaTTGWGOnS2QehoCu0x6w"/>
+                    <img class="w-6 h-6 rounded-full border-2 border-surface-container-low" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAY7Z4yiw1BSwsw3W9vyiiiYT07Z9gTuWDbyXGdWVINRtCkhrWLoTpgdLqzsA3pdtb8qon7ik1I5OQQA39woV5nVsmUIjbQuWj-0VSVhi-dcR9jWOmCuCX3ZQ-GbNSH1_GcV9pn8Lu0sVhHoOP6cHJtfNXQqRPpRyQbHaViSKFtz__iS1HwVgCA2SwfRBB3LQ1VUM-x01XabMdLeZ_rZXGxO9aOC26WLla5-1INRCmrmFAsrqdPU0BTheH3w1yrKs4838c9dYL47Q"/>
+                </div>
+                <span class="text-[10px] uppercase font-bold tracking-widest text-zinc-400 group-hover:text-white transition-colors">Open Workspace →</span>
+            </div>
+        </div>
+
+        <div class="bg-surface-container-low p-6 rounded-2xl border border-white/5 hover:border-primary/40 transition-all cursor-pointer group shadow-sm" onclick="document.getElementById('active-project-title').innerText = 'Arcane Robotics'; document.getElementById('active-phase-badge').innerText = 'Active: Phase 1'; Toast.show('Workspace loaded: Arcane Robotics', 'success'); document.getElementById('tab-btn-overview').click();">
+            <div class="flex justify-between items-start mb-4">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500/20 to-red-500/20 flex items-center justify-center border border-white/5">
+                    <img class="w-8 h-8 object-cover rounded" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfjXSiuhTNN4Xsu6N_pEvywxyJHycg__Aa_hoMGKnMILdl7REJcwfkHNNpZC-PuYB8sPZ7vVgPs5q18LUwiXjcI3LyyGbdvj60KE4RTwq_c-walXB0bQYTYrKC04-iu6NIwijLEZXxqdYzGjq5lWcA5bUhOhdHVrzsvTIPjagmD4i8dSqLOkPeajefLle_S8C1QNUDNK4Zf2I1TyYAxMsQgUUxw6OddJ6krMY46X0OFTrEM-CQ3OmzEzFhlXp0YiS0eUKDcIBQxw"/>
+                </div>
+                <span class="px-2 py-1 bg-surface-container-highest text-zinc-300 text-[10px] font-bold rounded uppercase tracking-wider">32%</span>
+            </div>
+            <h4 class="text-lg font-bold text-white mb-1 group-hover:text-primary transition-colors">Arcane Robotics</h4>
+            <p class="text-xs text-zinc-500 mb-6">Cloud API Integration</p>
+            <div class="flex justify-between items-center pt-4 border-t border-white/5">
+                <div class="flex -space-x-2">
+                    <img class="w-6 h-6 rounded-full border-2 border-surface-container-low" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiDTvPrMikmWy5As-Q5LS_BtgbdVpoh21nbDQiYmCniLejBSodIH0DDJeMLg5GburFUphZoIscs1sA2RbZ3ZqVWZe6g0BIL_-V7GHtIB8BZZhJOMPUv2NTsezwR0jWRt3tECYdaqCRtZ-ZPO2ijeFw1qQpiX-RufGpEd6SvGICDDevsSaWVRH4AVSFVbBjFCvVcRrbCUNomynEKt3elSRmNndMAALULTEY9AbYUI1o14krwysSCLJCcF1itxjg3gLl7dkwX-6azg"/>
+                </div>
+                <span class="text-[10px] uppercase font-bold tracking-widest text-zinc-400 group-hover:text-white transition-colors">Open Workspace →</span>
+            </div>
+        </div>
+
+        <div class="bg-surface-container-low p-6 rounded-2xl border border-white/5 hover:border-primary/40 transition-all cursor-pointer group shadow-sm" onclick="document.getElementById('active-project-title').innerText = 'Veridian Systems'; document.getElementById('active-phase-badge').innerText = 'Status: Under Review'; Toast.show('Workspace loaded: Veridian Systems', 'success'); document.getElementById('tab-btn-overview').click();">
+            <div class="flex justify-between items-start mb-4">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500/20 to-teal-500/20 flex items-center justify-center border border-white/5">
+                    <img class="w-8 h-8 object-cover rounded" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5iOl8j_aFTsITwxSksUNxvLVGXhwgOinXEMcO4s1qfEmh_Uh2J8RvzG41pIQSnHbxxVAKpouIYRSA4Gmm0mwqtFl9I0GtulTWq1jjP3CqLqEkwsEISu8u16f2-w59oSVxvxW2Y_0lBHVkYRsxcnctew6QogAXq9XCokmprfLGAAjFhH4SB1uHvFh3U1QcuGV39c8yZxm1JB79GTVHtXOBpugdd-M6xBPNxyW-tC8oEXn0QUX_H4THNEVpI7SffKrH68q3Hd_y4w"/>
+                </div>
+                <span class="px-2 py-1 bg-primary/10 text-primary text-[10px] font-bold rounded uppercase tracking-wider">92%</span>
+            </div>
+            <h4 class="text-lg font-bold text-white mb-1 group-hover:text-primary transition-colors">Veridian Systems</h4>
+            <p class="text-xs text-zinc-500 mb-6">Security Architecture Audit</p>
+            <div class="flex justify-between items-center pt-4 border-t border-white/5">
+                <div class="flex -space-x-2">
+                    <img class="w-6 h-6 rounded-full border-2 border-surface-container-low" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzYav_bX7RjBH9StPS3lMVVArfGTNyBvhWUBci83DkY7nK5Q4lzjC3OvkKPkE5HHD3zgJASiAY6pz_8XTRTsAPRuiT_rFlUIOXV_0clPjGxzHdsbe96mVB_0FAopVFDdQU0uo2Vg4fIfUpMV6fPlLa_uIQKhJSRj6SV8HbA1-5noIsLsSRnRhWPZyjQFZArL_zjWuF-IuYQ4JxOCGhdHxWkKlZyMICG6h7Os6zsywHNRBHpnjT5P2_NJTHTSwYE5z8REaRqKY2vg"/>
+                </div>
+                <span class="text-[10px] uppercase font-bold tracking-widest text-zinc-400 group-hover:text-white transition-colors">Open Workspace →</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="tab-overview" class="cmd-tab-content hidden animate-in fade-in duration-300">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <div class="bg-surface-container-low p-6 rounded-2xl border border-white/5 relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-6 opacity-10"><span class="material-symbols-outlined text-6xl">monitoring</span></div>
+            <h3 class="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-4">Project Health</h3>
+            <div class="flex items-end gap-4">
+                <span class="text-5xl font-black text-white">74%</span>
+                <span class="text-primary font-bold mb-1 bg-primary/10 px-2 py-0.5 rounded text-[10px] uppercase">On Track</span>
+            </div>
+            <div class="w-full bg-zinc-800 h-2 rounded-full mt-6">
+                <div class="bg-primary h-full rounded-full w-[74%]"></div>
+            </div>
+        </div>
+        <div class="bg-surface-container-low p-6 rounded-2xl border border-white/5 relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-6 opacity-10"><span class="material-symbols-outlined text-6xl">schedule</span></div>
+            <h3 class="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-4">Time Elapsed</h3>
+            <div class="flex items-end gap-4">
+                <span class="text-5xl font-black text-white">42</span>
+                <span class="text-zinc-400 font-bold mb-1 text-sm uppercase">Days</span>
+            </div>
+            <p class="text-xs text-zinc-500 mt-6">Est. completion in 18 days.</p>
+        </div>
+        <div class="bg-surface-container-low p-6 rounded-2xl border border-white/5 relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-6 opacity-10"><span class="material-symbols-outlined text-6xl">account_balance_wallet</span></div>
+            <h3 class="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-4">Budget Consumed</h3>
+            <div class="flex items-end gap-4">
+                <span class="text-5xl font-black text-white">$14k</span>
+                <span class="text-zinc-400 font-bold mb-1 text-sm uppercase">/ $20k</span>
+            </div>
+            <div class="w-full bg-zinc-800 h-2 rounded-full mt-6">
+                <div class="bg-secondary h-full rounded-full w-[70%]"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="bg-surface-container-low p-6 sm:p-8 rounded-2xl border border-white/5">
+        <h3 class="text-lg font-bold text-white mb-6 tracking-tight">Recent Activity Log</h3>
+        <div class="space-y-6">
+            <div class="flex gap-4">
+                <div class="w-10 h-10 rounded-full bg-primary/20 text-primary flex items-center justify-center shrink-0 border border-primary/30">
+                    <span class="material-symbols-outlined text-sm">check</span>
+                </div>
+                <div>
+                    <p class="text-sm text-white font-bold">Phase 1 Approved by Client</p>
+                    <p class="text-xs text-zinc-400 mt-1">Alex Rivera approved the Discovery wireframes.</p>
+                    <p class="text-[10px] text-zinc-600 mt-2 font-mono">2 hours ago</p>
+                </div>
+            </div>
+            <div class="flex gap-4">
+                <div class="w-10 h-10 rounded-full bg-surface-container-highest text-zinc-400 flex items-center justify-center shrink-0 border border-white/10">
+                    <span class="material-symbols-outlined text-sm">upload</span>
+                </div>
+                <div>
+                    <p class="text-sm text-white font-bold">Asset Uploaded</p>
+                    <p class="text-xs text-zinc-400 mt-1">Lara Croft uploaded 'Brand_Assets.zip'.</p>
+                    <p class="text-[10px] text-zinc-600 mt-2 font-mono">Yesterday</p>
+                </div>
+            </div>
+            <div class="flex gap-4">
+                <div class="w-10 h-10 rounded-full bg-surface-container-highest text-zinc-400 flex items-center justify-center shrink-0 border border-white/10">
+                    <span class="material-symbols-outlined text-sm">task_alt</span>
+                </div>
+                <div>
+                    <p class="text-sm text-white font-bold">Task Completed</p>
+                    <p class="text-xs text-zinc-400 mt-1">Ethan Hunt marked 'Database Schema Design' as Review Ready.</p>
+                    <p class="text-[10px] text-zinc-600 mt-2 font-mono">Aug 14, 2024</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="tab-tracker" class="cmd-tab-content hidden animate-in fade-in duration-300">
+<div class="flex flex-col lg:grid lg:grid-cols-3 gap-8 mb-16 h-full lg:min-h-[600px]">
+    <div class="flex flex-col gap-4">
+    <div class="flex justify-between items-center px-2">
+    <h3 class="text-sm font-bold text-zinc-300">To Do <span class="ml-2 text-zinc-600 font-normal text-xs">(3)</span></h3>
+    </div>
+    <div class="bg-surface-container-low p-4 rounded-3xl flex flex-col gap-4 flex-1 border border-white/5">
+        <div class="bg-surface-container-high p-5 rounded-xl border border-transparent hover:border-zinc-600 transition-all cursor-grab shadow-sm">
+            <div class="flex justify-between items-start mb-3">
+                <span class="px-2 py-1 bg-zinc-800 text-zinc-300 text-[10px] font-bold rounded uppercase tracking-wider">Phase 3: Testing</span>
+            </div>
+            <h4 class="text-sm font-bold text-white mb-2 leading-tight">QA Review of User Dashboard</h4>
+            <div class="flex justify-between items-center mt-4">
+                <img class="w-6 h-6 rounded-full border-2 border-surface-container-high" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC79JaQ71aRS2QeVna0GeSXGZ4qiTttidI5NHF-J7CF-la2nan8h1fX42tNzNxHwBTVCQ_vMgpy4SQl3QkrgX3_B4wn3AP6uL9G4Ci9lDFvaFs8IHvLTIkDeiXbyaio6RQ8XhDKL_WnsXPWu7SFXHvnUCD2kvBRNLp0-Z96IsarKyPiytAyp6lFEjvUrLeZoURTYeuXmOhsGGRDqCH04tfl4AsjvRwGgiJeKL-ELrGGj0Dv8TBJOOWxbllUag0LPNQIFhu5ieqwIA"/>
+                <div class="text-[10px] font-bold text-zinc-500 uppercase flex items-center gap-1">
+                    <span class="material-symbols-outlined text-xs">event</span> Nov 28
+                </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-white/5 flex justify-end">
+                <button class="text-[10px] uppercase font-bold text-zinc-400 hover:text-primary flex items-center gap-1 transition-colors" onclick="window.openAddBranchModal()">
+                    <span class="material-symbols-outlined text-sm">fork_right</span> Add Sub-task Branch
+                </button>
+            </div>
+        </div>
+        <button class="border border-dashed border-outline-variant/20 py-4 rounded-xl flex items-center justify-center gap-2 text-zinc-500 hover:text-white hover:bg-white/5 transition-all" onclick="window.openAddTaskModal()">
+            <span class="material-symbols-outlined text-sm">add</span>
+            <span class="text-xs font-bold uppercase tracking-widest">Add Task</span>
+        </button>
+    </div>
+    </div>
+    <div class="flex flex-col gap-4">
+    <div class="flex justify-between items-center px-2">
+    <h3 class="text-sm font-bold text-primary">In Progress <span class="ml-2 text-primary/50 font-normal text-xs">(1)</span></h3>
+    </div>
+    <div class="bg-surface-container-low p-4 rounded-3xl flex flex-col gap-4 flex-1 border border-white/5">
+        <div class="bg-surface-container-high p-5 rounded-xl border border-primary/40 relative overflow-hidden shadow-[0_4px_20px_rgba(204,255,0,0.05)] cursor-grab">
+            <div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+            <div class="flex justify-between items-start mb-3">
+                <span class="px-2 py-1 bg-primary/20 text-primary text-[10px] font-bold rounded uppercase tracking-wider">Phase 2: Development</span>
+                <span class="material-symbols-outlined text-sm text-primary animate-pulse">bolt</span>
+            </div>
+            <h4 class="text-sm font-bold text-white mb-2 leading-tight">Build Authentication System</h4>
+            <div class="w-full bg-zinc-800 h-1.5 rounded-full mb-4 mt-3">
+                <div class="bg-primary h-full rounded-full w-[65%]"></div>
+            </div>
+            <div class="flex justify-between items-center">
+                <div class="flex -space-x-2">
+                    <img class="w-6 h-6 rounded-full border-2 border-surface-container-high" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6XYZi6omaNNt_p9d5Q9-Xpm2TnzjW9D44A_3KmtS2nk5FS7VO5igfICahrBsHPTmQGspX9SNCnRkB1e-yA65uNqY8rP3Mgi_dGpFWBwvyMNHq54T4e5o6CtViryzweKNfAa0_ph0uaElKTo1Bnh8ni1lpvmJ7rl0KFmx_ISQgOrIjXDlGpdN5VAkO-JTN_g4iN9892iVfBJ6Q735zze6bSJNxGeAscEKkSDbGw_s3btrxLIresvJvV2RGUa3a4owC7VfxthzmiQ"/>
+                    <img class="w-6 h-6 rounded-full border-2 border-surface-container-high" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKQ7lptZTDebP6VBw5lYSP_uftNpGeSW59SD7x5E2S1ktQDCp_VzMoXHbLu5uyy0i5NQ-QiInrROLWAHCtrz78TzsChNOGgOoXqbQSZJBpyeL7k85d6L7B-mUVZ8oXw8ms3RrG9AzOBYI6K4lZVey7ETW6hbpPWiF5osVgfktw1kC0tUGHG6E_J9XAq6TVGxKLishJtiQ1XdhcRSZENYs7QGbc5HdK7olPHRIpMz4z8B90-EHpEc53S5ip5KZSsiA9fpdBKEu68g"/>
+                </div>
+                <div class="text-[10px] font-bold text-primary uppercase">65% Complete</div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-white/5">
+                <p class="text-[9px] text-zinc-500 uppercase font-bold tracking-widest mb-2">Active Branches</p>
+                <div class="flex items-center gap-2 pl-2 border-l-2 border-surface-variant">
+                    <div class="w-2 h-px bg-surface-variant"></div>
+                    <span class="text-xs text-zinc-300">Google SSO Integration</span>
+                </div>
+                
+                <button class="w-full mt-4 py-2 bg-primary/10 hover:bg-primary/20 text-primary rounded-lg text-[10px] font-bold uppercase tracking-widest transition-colors flex justify-center items-center gap-2" onclick="document.getElementById('demo-upload').click()">
+                    <span class="material-symbols-outlined text-[14px]">upload</span> Upload Demo & Submit
+                </button>
+                <input type="file" id="demo-upload" class="hidden" onchange="Toast.show('Demo uploaded. Milestone submitted for client confirmation.', 'success')">
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="flex flex-col gap-4">
+    <div class="flex justify-between items-center px-2">
+    <h3 class="text-sm font-bold text-zinc-300">Under Review <span class="ml-2 text-zinc-600 font-normal text-xs">(1)</span></h3>
+    </div>
+    <div class="bg-surface-container-low p-4 rounded-3xl flex flex-col gap-4 flex-1 border border-white/5">
+        <div class="bg-surface-container-high p-5 rounded-xl border border-transparent hover:border-zinc-600 transition-all cursor-grab">
+            <div class="flex justify-between items-start mb-3">
+                <span class="px-2 py-1 bg-zinc-800 text-zinc-400 text-[10px] font-bold rounded uppercase tracking-wider">Phase 1: Discovery</span>
+            </div>
+            <h4 class="text-sm font-bold text-white mb-2 leading-tight">Database Architecture Planning</h4>
+            <div class="flex justify-between items-center mt-4">
+                <img class="w-6 h-6 rounded-full border-2 border-surface-container-high" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVa32wYKcNbDP9fiZ9cY2gsHrLgtczFqK9U8A8lw7g_pTeUmr2EUpkSpta8Dus0Jnvgnjnal0-XhepD4E8eIYQtp4tUFYnraXphkWnBqJ_o0L8vFopEupFV73JFbLF-LtQRPWS69Q9GcoA45__6eSya-m2R0EsRkb8MCnqHcmzM_kseLcfR7oaD4geu06ww-Mavr8LfhIfsXsLniTaY3KibBpdUBRRjWFWTyKDM8kFXlNLBfxZw20g-PPK86LVqRkKgogWZwVkdA"/>
+                <div class="text-[10px] font-bold text-secondary uppercase bg-secondary/10 px-2 py-1 rounded">Pending Approval</div>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-white/5">
+                <button class="w-full py-2 bg-surface-container-highest hover:bg-surface-bright text-zinc-300 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-colors flex justify-center items-center gap-2" onclick="window.openSandboxDemo()">
+                    <span class="material-symbols-outlined text-[14px]">preview</span> View Sandbox Demo
+                </button>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+</section>
+
+<section id="tab-deliverables" class="cmd-tab-content hidden animate-in fade-in duration-300">
+    <div class="flex justify-between items-center mb-6">
+        <h3 class="text-lg font-bold text-white tracking-tight">Project Assets & Deliverables</h3>
+        <button class="bg-surface-container-highest hover:bg-surface-bright text-white px-4 py-2 rounded-lg text-xs font-bold transition-colors flex items-center gap-2 border border-white/10" onclick="window.openUploadAssetModal()">
+            <span class="material-symbols-outlined text-[16px]">upload</span> Upload Asset
+        </button>
+    </div>
+    <div class="bg-surface-container-low rounded-xl overflow-x-auto border border-white/5 shadow-sm">
+        <table class="w-full text-left border-collapse min-w-[600px]">
+            <thead>
+                <tr class="border-b border-zinc-800 bg-surface-container-highest/30">
+                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-zinc-500">File Name</th>
+                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-zinc-500">Uploaded By</th>
+                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-zinc-500">Visibility</th>
+                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-zinc-500 text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-zinc-800">
+                <tr class="hover:bg-surface-bright transition-colors group">
+                    <td class="px-6 py-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-zinc-800 rounded-lg flex items-center justify-center shrink-0 text-primary"><span class="material-symbols-outlined">description</span></div>
+                            <div>
+                                <div class="text-sm font-bold text-white tracking-tight">System_Architecture_V4.pdf</div>
+                                <div class="text-[10px] text-zinc-500 font-mono tracking-tighter mt-0.5">12.4 MB • Oct 14, 2024</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 text-xs text-zinc-400 font-medium">Ethan Vance</td>
+                    <td class="px-6 py-4"><span class="whitespace-nowrap px-2 py-1 rounded text-[9px] font-black uppercase bg-primary/10 text-primary tracking-widest">Client Visible</span></td>
+                    <td class="px-6 py-4 text-right">
+                        <button class="p-2 text-zinc-500 hover:text-white transition-colors" onclick="Toast.show('File downloading...', 'info')"><span class="material-symbols-outlined text-sm">download</span></button>
+                        <button class="p-2 text-zinc-500 hover:text-error transition-colors" onclick="Toast.show('File deleted.', 'info')"><span class="material-symbols-outlined text-sm">delete</span></button>
+                    </td>
+                </tr>
+                <tr class="hover:bg-surface-bright transition-colors group">
+                    <td class="px-6 py-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-zinc-800 rounded-lg flex items-center justify-center shrink-0 text-secondary"><span class="material-symbols-outlined">image</span></div>
+                            <div>
+                                <div class="text-sm font-bold text-white tracking-tight">Brand_Guidelines_Identity.zip</div>
+                                <div class="text-[10px] text-zinc-500 font-mono tracking-tighter mt-0.5">45.0 MB • Oct 12, 2024</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 text-xs text-zinc-400 font-medium">Lara Croft</td>
+                    <td class="px-6 py-4"><span class="whitespace-nowrap px-2 py-1 rounded text-[9px] font-black uppercase bg-zinc-800 text-zinc-400 tracking-widest">Internal Only</span></td>
+                    <td class="px-6 py-4 text-right">
+                        <button class="p-2 text-zinc-500 hover:text-white transition-colors" onclick="Toast.show('File downloading...', 'info')"><span class="material-symbols-outlined text-sm">download</span></button>
+                        <button class="p-2 text-zinc-500 hover:text-error transition-colors" onclick="Toast.show('File deleted.', 'info')"><span class="material-symbols-outlined text-sm">delete</span></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section id="tab-invoices" class="cmd-tab-content hidden animate-in fade-in duration-300">
+    <div class="flex justify-between items-center mb-6">
+        <h3 class="text-lg font-bold text-white tracking-tight">Billing & Invoices</h3>
+        <button class="bg-primary hover:bg-primary-dim text-surface-container-lowest px-4 py-2 rounded-lg text-xs font-bold transition-colors flex items-center gap-2 shadow-[0_4px_15px_rgba(204,255,0,0.15)]" onclick="window.openInvoiceModal()">
+            <span class="material-symbols-outlined text-[16px]">add</span> Generate Invoice
+        </button>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-surface-container-low p-6 rounded-2xl border border-white/5 flex flex-col justify-center min-w-0">
+            <h4 class="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-2 shrink-0">Total Billed</h4>
+            <p class="text-2xl lg:text-3xl font-black text-white break-all whitespace-normal" style="overflow-wrap: anywhere;">$24,500<span class="text-lg text-zinc-500 font-medium">.00</span></p>
+        </div>
+        <div class="bg-surface-container-low p-6 rounded-2xl border border-white/5 flex flex-col justify-center min-w-0">
+            <h4 class="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-2 shrink-0">Collected</h4>
+            <p class="text-2xl lg:text-3xl font-black text-primary break-all whitespace-normal" style="overflow-wrap: anywhere;">$12,050<span class="text-lg text-primary/50 font-medium">.00</span></p>
+        </div>
+        <div class="bg-surface-container-low p-6 rounded-2xl border border-error/20 bg-error/5 relative flex flex-col justify-center min-w-0">
+            <h4 class="text-xs font-bold text-error uppercase tracking-widest mb-2 shrink-0">Outstanding</h4>
+            <p class="text-2xl lg:text-3xl font-black text-white break-all whitespace-normal" style="overflow-wrap: anywhere;">$12,450<span class="text-lg text-white/50 font-medium">.00</span></p>
+        </div>
+    </div>
+
+    <div class="bg-surface-container-low rounded-xl overflow-x-auto border border-white/5 shadow-sm">
+        <table class="w-full text-left border-collapse min-w-[600px]">
+            <thead>
+                <tr class="border-b border-zinc-800 bg-surface-container-highest/30">
+                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-zinc-500">Invoice ID</th>
+                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-zinc-500">Issue Date</th>
+                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-zinc-500">Amount</th>
+                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-zinc-500">Status</th>
+                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-zinc-500 text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-zinc-800">
+                <tr class="hover:bg-surface-bright transition-colors group bg-surface-container-high/30">
+                    <td class="px-6 py-4 text-sm font-bold text-zinc-500 font-mono tracking-tight">#INV-PENDING</td>
+                    <td class="px-6 py-4 text-xs text-zinc-500 font-medium italic">Awaiting Phase 2 Completion</td>
+                    <td class="px-6 py-4 text-sm font-bold text-zinc-400">₦250,000.00</td>
+                    <td class="px-6 py-4"><span class="px-2 py-1 rounded text-[9px] font-black uppercase bg-zinc-800 text-zinc-400 tracking-widest">Upcoming</span></td>
+                    <td class="px-6 py-4 text-right">
+                        <button class="px-3 py-1 bg-surface-container-highest hover:bg-primary hover:text-surface-container-lowest text-zinc-400 rounded transition-colors text-[10px] font-bold uppercase tracking-widest" onclick="window.openInvoiceModal()">Convert</button>
+                    </td>
+                </tr>
+                <tr class="hover:bg-surface-bright transition-colors group">
+                    <td class="px-6 py-4 text-sm font-bold text-white font-mono tracking-tight">#INV-2024-001</td>
+                    <td class="px-6 py-4 text-xs text-zinc-400 font-medium">Oct 01, 2024</td>
+                    <td class="px-6 py-4 text-sm font-bold text-white">$12,450.00</td>
+                    <td class="px-6 py-4"><span class="px-2 py-1 rounded text-[9px] font-black uppercase bg-error/10 text-error tracking-widest">Overdue</span></td>
+                    <td class="px-6 py-4 text-right">
+                        <button class="p-2 text-zinc-500 hover:text-white transition-colors" onclick="Toast.show('Sending payment reminder email...', 'info')"><span class="material-symbols-outlined text-sm">forward_to_inbox</span></button>
+                        <button class="p-2 text-zinc-500 hover:text-white transition-colors" onclick="Toast.show('Downloading PDF receipt...', 'info')"><span class="material-symbols-outlined text-sm">download</span></button>
+                    </td>
+                </tr>
+                <tr class="hover:bg-surface-bright transition-colors group">
+                    <td class="px-6 py-4 text-sm font-bold text-zinc-400 font-mono tracking-tight">#INV-2024-002</td>
+                    <td class="px-6 py-4 text-xs text-zinc-500 font-medium">Sep 01, 2024</td>
+                    <td class="px-6 py-4 text-sm font-bold text-zinc-400">$12,050.00</td>
+                    <td class="px-6 py-4"><span class="px-2 py-1 rounded text-[9px] font-black uppercase bg-primary/10 text-primary tracking-widest">Paid</span></td>
+                    <td class="px-6 py-4 text-right">
+                        <button class="p-2 text-zinc-500 hover:text-white transition-colors" onclick="Toast.show('Downloading PDF receipt...', 'info')"><span class="material-symbols-outlined text-sm">download</span></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+</main>
+
+<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" style="display:none;" onload="
+    window.switchCmdTab = function(tabId, btnElement) {
+        document.querySelectorAll('.cmd-tab-content').forEach(el => {
+            el.classList.add('hidden');
+            el.classList.remove('animate-in', 'fade-in');
+        });
+        const targetEl = document.getElementById(tabId);
+        if(targetEl) {
+            targetEl.classList.remove('hidden');
+            setTimeout(() => targetEl.classList.add('animate-in', 'fade-in'), 10);
+        }
+        document.querySelectorAll('.cmd-tab-btn').forEach(btn => {
+            btn.classList.remove('text-primary');
+            btn.classList.add('text-on-surface-variant');
+        });
+        btnElement.classList.remove('text-on-surface-variant');
+        btnElement.classList.add('text-primary');
+        const indicator = document.getElementById('tab-slide-indicator');
+        const container = document.getElementById('cmd-tabs');
+        if(indicator && container) {
+            const containerRect = container.getBoundingClientRect();
+            const btnRect = btnElement.getBoundingClientRect();
+            const scrollLeft = container.scrollLeft;
+            const targetLeft = (btnRect.left - containerRect.left) + scrollLeft;
+            indicator.style.width = btnRect.width + 'px';
+            indicator.style.transform = 'translateX(' + targetLeft + 'px)';
+        }
+    };
+
+    window.openSandboxDemo = function() {
+        const m = `<div class='bg-surface-container-lowest rounded-lg border border-outline-variant overflow-hidden shadow-inner'><div class='bg-surface-container-high px-4 py-2 border-b border-outline-variant flex justify-between items-center'><span class='text-[10px] font-mono text-zinc-400'>ethan01-vanguard-sandbox.local</span><div class='flex gap-2'><span class='w-2.5 h-2.5 rounded-full bg-error'></span><span class='w-2.5 h-2.5 rounded-full bg-secondary'></span><span class='w-2.5 h-2.5 rounded-full bg-emerald-500'></span></div></div><iframe src='about:blank' class='w-full h-[60vh] bg-white' style='border:none;' onload='this.contentDocument.body.innerHTML=&quot;<div style=\\&quot;display:flex;height:100%;align-items:center;justify-content:center;font-family:sans-serif;color:#666;\\&quot;><h1>Protected Milestone Demo Build Running...</h1></div>&quot;'></iframe></div>`;
+        const a = `<button onclick='window.Modal.hide()' class='text-zinc-400 hover:text-white font-bold text-sm px-4'>Close Sandbox</button><button onclick='window.Modal.hide(); window.Toast.show(&quot;Milestone marked as Approved by Client.&quot;, &quot;success&quot;)' class='bg-primary text-surface-container-lowest px-6 py-2.5 rounded-lg font-bold text-sm'>Force Client Approval</button>`;
+        if(window.Modal) window.Modal.show('Sandbox: UI/UX Master Template', m, a);
+        else console.warn('Modal globally missing. Ensure window.Modal = Modal in modal.js');
+    };
+
+    window.openInvoiceModal = function() {
+        const m = `<div class='space-y-4 text-left'><div class='space-y-2'><label class='text-[0.6875rem] font-bold text-zinc-400 uppercase tracking-widest'>Billing Phase / Milestone</label><select class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-white focus:ring-1 focus:ring-primary'><option>Phase 2: Firebase DB Architecture</option><option>Custom Retainer Billing</option></select></div><div class='grid grid-cols-2 gap-4'><div class='space-y-2'><label class='text-[0.6875rem] font-bold text-zinc-400 uppercase tracking-widest'>Due Date</label><input type='date' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-white focus:ring-1 focus:ring-primary' style='color-scheme: dark;'/></div><div class='space-y-2'><label class='text-[0.6875rem] font-bold text-zinc-400 uppercase tracking-widest'>Amount (₦)</label><input type='number' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-white focus:ring-1 focus:ring-primary' value='250000'/></div></div><div class='space-y-2 pt-2'><label class='flex items-center gap-3 cursor-pointer group'><input type='checkbox' checked class='w-4 h-4 rounded-sm bg-surface-container border-outline-variant text-primary focus:ring-0'/><span class='text-xs text-zinc-400 group-hover:text-white transition-colors'>Instantly email PDF receipt to Client Admin</span></label></div></div>`;
+        const a = `<button onclick='window.Modal.hide()' class='text-zinc-400 hover:text-white font-bold text-sm px-4'>Cancel</button><button onclick='window.Modal.hide(); window.Toast.show(&quot;PDF Invoice generated and dispatched.&quot;, &quot;success&quot;)' class='bg-primary text-surface-container-lowest px-6 py-2.5 rounded-lg font-bold text-sm flex items-center gap-2'><span class='material-symbols-outlined text-[16px]'>send</span> Issue Invoice</button>`;
+        if(window.Modal) window.Modal.show('Generate New Invoice', m, a);
+    };
+
+    window.openManageAccessModal = function() {
+        const m = `<p class='mb-4 text-sm text-zinc-300'>Select agency members to grant access to this workspace.</p><div class='flex gap-2 mb-4'><input type='email' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-white focus:ring-1 focus:ring-primary' placeholder='team@ethan01.com'/></div>`;
+        const a = `<button onclick='window.Modal.hide()' class='text-zinc-400 hover:text-white font-bold text-sm px-4'>Cancel</button><button onclick='window.Modal.hide(); window.Toast.show(&quot;Access granted successfully.&quot;, &quot;success&quot;)' class='bg-primary text-surface-container-lowest px-6 py-2.5 rounded-lg font-bold text-sm'>Grant Access</button>`;
+        if(window.Modal) window.Modal.show('Manage Access', m, a);
+    };
+
+    window.openAddTaskModal = function() {
+        const m = `<div class='space-y-4'><div class='space-y-2'><label class='text-xs font-bold text-zinc-400 uppercase tracking-widest'>Task Description</label><input type='text' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-white focus:ring-1 focus:ring-primary' placeholder='What needs to be done?'/></div><div class='space-y-2'><label class='text-xs font-bold text-zinc-400 uppercase tracking-widest'>Assign Phase</label><select class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-white focus:ring-1 focus:ring-primary'><option>Phase 1: Discovery</option><option>Phase 2: Development</option></select></div></div>`;
+        const a = `<button onclick='window.Modal.hide()' class='text-zinc-400 hover:text-white font-bold text-sm px-4'>Cancel</button><button onclick='window.Modal.hide(); window.Toast.show(&quot;Task added to backlog.&quot;, &quot;success&quot;)' class='bg-primary text-surface-container-lowest px-6 py-2.5 rounded-lg font-bold text-sm'>Save Task</button>`;
+        if(window.Modal) window.Modal.show('Create New Task', m, a);
+    };
+
+    window.openAddBranchModal = function() {
+        const m = `<div class='space-y-4'><div class='space-y-2'><label class='text-xs font-bold text-zinc-400 uppercase tracking-widest'>Branch Title</label><input type='text' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-white focus:ring-1 focus:ring-primary' placeholder='e.g. Edge case testing'/></div></div>`;
+        const a = `<button onclick='window.Modal.hide()' class='text-zinc-400 hover:text-white font-bold text-sm px-4'>Cancel</button><button onclick='window.Modal.hide(); window.Toast.show(&quot;Branch attached successfully.&quot;, &quot;success&quot;)' class='bg-primary text-surface-container-lowest px-6 py-2.5 rounded-lg font-bold text-sm'>Attach Branch</button>`;
+        if(window.Modal) window.Modal.show('Add Sub-Task Branch', m, a);
+    };
+
+    window.openUploadAssetModal = function() {
+        const m = `<div class='border-2 border-dashed border-zinc-600 rounded-xl p-12 text-center hover:bg-white/5 transition-colors cursor-pointer'><span class='material-symbols-outlined text-4xl text-zinc-500 mb-2'>cloud_upload</span><p class='text-sm font-bold text-white'>Drag and drop file here</p><p class='text-xs text-zinc-500 mt-1'>PDF, ZIP, or FIG up to 500MB</p></div>`;
+        const a = `<button onclick='window.Modal.hide()' class='text-zinc-400 hover:text-white font-bold text-sm px-4'>Cancel</button>`;
+        if(window.Modal) window.Modal.show('Upload Asset', m, a);
+    };
+
+    setTimeout(() => {
+        const activeBtn = document.querySelector('.cmd-tab-btn.text-primary') || document.querySelector('.cmd-tab-btn');
+        if (activeBtn) {
+            const tabId = activeBtn.id.replace('tab-btn-', 'tab-');
+            window.switchCmdTab(tabId, activeBtn);
+        }
+    }, 100);
+
+    this.remove();
+" />

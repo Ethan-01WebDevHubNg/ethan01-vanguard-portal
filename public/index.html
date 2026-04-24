@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethan01 InfoTech | Agency Vanguard</title>
+    <link rel="icon" type="image/x-icon" href="/assets/icons/ethan01.ico?v=2">
+    
+    <meta name="theme-color" content="#0a0a0a">
+    <link rel="manifest" href="/manifest.json">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/assets/css/main.css">
+
+    <script>
+        const storedTheme = localStorage.getItem('ethan01_theme') || 'dark';
+        if (storedTheme === 'dark') document.documentElement.classList.add('dark');
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: 'var(--color-primary)',
+                        'primary-container': 'var(--color-primary-container)',
+                        surface: 'var(--color-surface)',
+                        'surface-container-lowest': 'var(--color-surface-container-lowest)',
+                        'surface-container-low': 'var(--color-surface-container-low)',
+                        'surface-container': 'var(--color-surface-container)',
+                        'surface-container-high': 'var(--color-surface-container-high)',
+                        'surface-container-highest': 'var(--color-surface-container-highest)',
+                        'on-surface': 'var(--color-on-surface)',
+                        'on-surface-variant': 'var(--color-on-surface-variant)',
+                        outline: 'var(--color-outline)',
+                        'outline-variant': 'var(--color-outline-variant)',
+                        error: 'var(--color-error)',
+                        'error-container': 'var(--color-error-container)',
+                        'error-dim': 'var(--color-error-dim)',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface transition-colors duration-300">
+
+    <div id="global-preloader" class="fixed inset-0 z-[9999] bg-surface flex flex-col items-center justify-center transition-opacity duration-500">
+        <canvas id="loaderCanvas" width="300" height="180" class="block"></canvas>
+        <div class="w-[130px] flex justify-between -mt-[15px] animate-[pulseFade_2s_infinite_ease-in-out] select-none" id="loaderText">
+            <span class="text-[13px] font-black uppercase text-[var(--preloader-text)]">L</span>
+            <span class="text-[13px] font-black uppercase text-[var(--preloader-text)]">O</span>
+            <span class="text-[13px] font-black uppercase text-[var(--preloader-text)]">A</span>
+            <span class="text-[13px] font-black uppercase text-[var(--preloader-text)]">D</span>
+            <span class="text-[13px] font-black uppercase text-[var(--preloader-text)]">I</span>
+            <span class="text-[13px] font-black uppercase text-[var(--preloader-text)]">N</span>
+            <span class="text-[13px] font-black uppercase text-[var(--preloader-text)]">G</span>
+            <span class="text-[13px] font-black uppercase text-[var(--preloader-text)]">.</span>
+            <span class="text-[13px] font-black uppercase text-[var(--preloader-text)]">.</span>
+            <span class="text-[13px] font-black uppercase text-[var(--preloader-text)]">.</span>
+        </div>
+    </div>
+
+<div id="main-content" class="h-full w-full"></div>
+
+    <script type="module" src="/js/core/theme.js"></script>
+    <script type="module" src="/js/components/Loader.js"></script>
+    <script type="module" src="/js/components/notifications.js"></script>
+    <script type="module" src="/js/core/app.js"></script>
+</body>
+</html>

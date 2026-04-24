@@ -1,0 +1,89 @@
+<main class="flex min-h-screen w-full overflow-y-auto lg:overflow-hidden">
+<section class="hidden lg:flex lg:w-3/5 relative overflow-hidden bg-[#0a0a0a]">
+<div class="absolute inset-0 z-0">
+<img alt="high-performance abstract graphic" class="w-full h-full object-cover opacity-40 grayscale hover:grayscale-0 transition-all duration-1000" data-alt="abstract high-tech architectural render with neon green light streaks and sharp geometric shapes in a dark moody atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAT6H60ONG_A1IIx7uGyXZfZfiFqGPYDD41Vr25iFFYJgosiu3f8qf9uLJsNAWNRMgs8PNJ84pARDE5FGe7o4Z1wN8auZk4opCFtNRYQAM0-u8RJN3NtOvb2ZqNnHy1lALOBgPCo1LlVcFSAV7_wUKfGgvAxGE1d5c7WQGyn0YxFTSq9HteNqldjtKzeZJAYzUM7Nu2tTi3gRDHrGUzdfJ0zny-kitdkSQKKuy_LTfMk3_lvXWc3tuhoOrkyxkE14MSim64c1V22g"/>
+<div class="absolute inset-0 bg-gradient-to-tr from-[#0a0a0a] via-transparent to-[#ccff00]/10"></div>
+</div>
+<div class="relative z-10 flex flex-col justify-center h-full p-16 text-white w-full">
+<div class="max-w-2xl">
+<div class="flex items-center gap-3 mb-6">
+<div class="h-px w-12 bg-primary"></div>
+<span class="text-primary text-[10px] uppercase tracking-[0.3em] font-bold">Vanguard Operations</span>
+</div>
+<h1 class="text-6xl font-black tracking-tighter leading-[1.1] mb-6 uppercase text-white">
+                        Engineered<br/>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-[#739900]">Excellence.</span>
+</h1>
+<p class="text-lg text-zinc-400 font-medium leading-relaxed max-w-lg">
+                        Secure access to the Ethan01 Master Command Center. Manage projects, teams, and deployment metrics with absolute precision.
+                    </p>
+</div>
+</div>
+</section>
+<section class="w-full lg:w-2/5 flex flex-col justify-center bg-surface relative z-10 px-6 sm:px-12 py-12 lg:py-0 border-l border-outline-variant shadow-2xl">
+<div class="w-full max-w-sm mx-auto">
+<header class="mb-10 text-center lg:text-left">
+<img src="/assets/icons/ethan01logo.svg" alt="ETHAN01 Logo" class="h-7 w-auto mb-8 mx-auto lg:mx-0 object-contain">
+<h2 class="text-3xl font-black tracking-tighter text-on-surface mb-2">AGENCY LOGIN</h2>
+<p class="text-sm text-on-surface-variant font-medium">Authenticate your secure session.</p>
+</header>
+
+<form class="space-y-5" onsubmit="event.preventDefault(); if(window.processLogin){ window.processLogin(event, this, 'admin'); } else { alert('System initializing... please check your network connection.'); }">
+<div class="space-y-2">
+<label class="text-[0.6875rem] font-bold uppercase tracking-widest text-on-surface-variant ml-1" for="email">Staff Email</label>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+<span class="material-symbols-outlined text-zinc-500 group-focus-within:text-on-surface transition-colors duration-300">
+                                mail
+                            </span>
+</div>
+<input class="w-full bg-surface-container border border-outline-variant rounded-lg py-3 pl-12 pr-4 text-on-surface placeholder:text-zinc-500 focus:bg-surface-container-lowest focus:text-on-surface focus:ring-2 focus:ring-primary transition-all duration-300 outline-none" id="email" placeholder="admin@ethan01.com" required="" type="email"/>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center ml-1 mb-1">
+<label class="text-[0.6875rem] font-bold uppercase tracking-widest text-on-surface-variant" for="password">Password</label>
+<a class="text-[10px] text-primary hover:text-primary-container font-bold uppercase tracking-widest transition-colors" href="#/admin/forgot-password">Forgot Password?</a>
+</div>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+<span class="material-symbols-outlined text-zinc-500 group-focus-within:text-on-surface transition-colors duration-300">
+                                lock
+                            </span>
+</div>
+<input class="w-full bg-surface-container border border-outline-variant rounded-lg py-3 pl-12 pr-12 text-on-surface placeholder:text-zinc-500 focus:bg-surface-container-lowest focus:text-on-surface focus:ring-2 focus:ring-primary transition-all duration-300 outline-none" id="password" placeholder="••••••••" required="" type="password"/>
+<div class="absolute inset-y-0 right-0 flex items-center pr-3">
+    <button type="button" class="text-zinc-500 hover:text-on-surface transition-colors cursor-pointer flex items-center justify-center p-1"
+        onmousedown="document.getElementById('password').type='text'" 
+        onmouseup="document.getElementById('password').type='password'" 
+        onmouseleave="document.getElementById('password').type='password'"
+        ontouchstart="document.getElementById('password').type='text'"
+        ontouchend="document.getElementById('password').type='password'"
+        ondblclick="if(window.Toast) window.Toast.show('Press and hold to view password.', 'info')"
+        title="Press and hold to view">
+        <span class="material-symbols-outlined text-lg">visibility</span>
+    </button>
+</div>
+</div>
+</div>
+<div class="flex items-center">
+<input class="w-4 h-4 rounded-sm bg-surface-container-high border-outline-variant text-primary focus:ring-offset-surface focus:ring-primary transition-colors" id="remember" type="checkbox"/>
+<label class="ml-3 text-sm text-on-surface-variant cursor-pointer select-none" for="remember">Remember this device</label>
+</div>
+<button id="login-btn" class="w-full bg-primary text-surface-container-lowest font-black uppercase tracking-widest py-3 mt-4 rounded-lg hover:bg-primary-container transition-all duration-300 transform active:scale-[0.98] shadow-[0_4px_20px_rgba(204,255,0,0.15)] hover:shadow-[0_8px_25px_rgba(204,255,0,0.25)] flex items-center justify-center gap-3" type="submit">
+<span>Login</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</form>
+<footer class="mt-8 pt-6 border-t border-outline-variant text-center flex flex-col items-center gap-2">
+<div class="flex items-center gap-2">
+    <div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+    <span class="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold">System Status: Operational</span>
+</div>
+<p class="text-[9px] text-zinc-500 uppercase tracking-widest leading-relaxed mt-2">
+    © 2026 ETHAN01 AGENCY PORTAL v2.4.1
+</p>
+</footer>
+</div>
+</section>
+</main>

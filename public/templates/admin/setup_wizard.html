@@ -1,0 +1,406 @@
+<div id="sidebar-mount"></div>
+<main class="flex-1 ml-0 md:ml-64 min-h-screen transition-all duration-300">
+<div id="header-mount" 
+     data-search-placeholder="SEARCH PROJECTS..." 
+     data-search-toast="Searching global index..."
+     data-role-simulator="false">
+</div>
+
+<div class="pt-24 px-4 sm:px-12 pb-4 lg:pb-0 max-w-6xl mx-auto flex flex-col relative">
+<div class="mb-12 shrink-0">
+<span class="text-[0.6875rem] uppercase tracking-[0.15em] text-primary-dim font-bold mb-2 block">Project Onboarding</span>
+<h1 class="text-4xl sm:text-[3.5rem] font-black tracking-tighter leading-[0.9] text-on-surface uppercase">NEW CLIENT SETUP</h1>
+<p class="text-on-surface-variant text-sm mt-4 max-w-xl leading-relaxed">Create a new project workspace. Define the client details, project phases, brand colors, and overall budget.</p>
+</div>
+
+<div id="bento-grid-container" class="grid grid-cols-1 lg:grid-cols-12 gap-8 relative items-start lg:h-[calc(100vh-88px)]">
+
+<div id="left-column" class="lg:col-span-8 space-y-8 lg:h-full lg:max-h-[calc(100vh-88px)] lg:overflow-hidden no-scrollbar lg:pb-12 lg:sticky lg:top-[88px]">
+    
+<section class="bg-surface-container-high rounded-xl p-6 sm:p-8 transition-all border border-primary shadow-[0_0_15px_rgba(204,255,0,0.05)] relative">
+<div class="absolute top-4 right-4 flex items-center gap-2">
+    <span class="text-[10px] font-bold text-primary uppercase tracking-widest">Active Step</span>
+    <div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+</div>
+<div class="flex items-center gap-4 mb-8">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary">business</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-white">1. Client Details</h3>
+<p class="text-[0.6875rem] text-zinc-500 uppercase tracking-wider">Basic company information</p>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<div class="sm:col-span-2 flex items-center gap-6 p-4 bg-surface-container-highest rounded-xl border border-white/5">
+    <div class="w-16 h-16 rounded-full border border-dashed border-zinc-500 flex flex-col items-center justify-center cursor-pointer hover:border-primary transition-colors text-zinc-400 hover:text-primary" onclick="Toast.show('File picker opened.', 'info')">
+        <span class="material-symbols-outlined text-xl transition-transform">upload</span>
+    </div>
+    <div>
+        <p class="text-sm font-bold text-white mb-1">Upload Client Logo</p>
+        <p class="text-xs text-zinc-500">SVG, PNG, or JPG (Max 2MB)</p>
+    </div>
+</div>
+
+<div class="space-y-2">
+<label class="text-[0.6875rem] uppercase tracking-wider text-zinc-400 font-bold ml-1">Company Name</label>
+<input class="w-full bg-surface-container-highest border-none rounded-lg p-4 text-white placeholder-zinc-600 focus:ring-2 focus:ring-primary/20 transition-all" placeholder="e.g. Acme Corp" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="text-[0.6875rem] uppercase tracking-wider text-zinc-400 font-bold ml-1">Website Domain</label>
+<input class="w-full bg-surface-container-highest border-none rounded-lg p-4 text-white placeholder-zinc-600 focus:ring-2 focus:ring-primary/20 transition-all" placeholder="acme.co" type="text"/>
+</div>
+</div>
+</section>
+
+<section class="bg-surface-container-high rounded-xl p-6 sm:p-8 transition-all border border-white/5 relative overflow-hidden opacity-60 hover:opacity-100 focus-within:opacity-100">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+<div class="flex items-center gap-4 mb-8">
+<div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary">timeline</span>
+</div>
+<div class="flex-1">
+<h3 class="text-lg font-bold text-white">2. Project Phases & Timeline</h3>
+<p class="text-[0.6875rem] text-zinc-400 uppercase tracking-wider">Set the completion percentage and cost for each phase</p>
+</div>
+<div class="text-right">
+    <p class="text-xs text-zinc-500 font-bold uppercase">Total Scope</p>
+    <p class="text-xl font-black text-white">100%</p>
+</div>
+</div>
+
+<div class="space-y-3 mb-6" id="phases-container">
+    <div class="flex flex-col sm:flex-row sm:items-center gap-3 bg-surface-container-highest p-3 rounded-lg border border-dashed border-zinc-700">
+        <div class="flex items-center gap-3 flex-1 w-full">
+            <div class="w-8 h-8 rounded bg-zinc-800 flex items-center justify-center text-xs font-bold text-zinc-500 shrink-0">1</div>
+            <input class="flex-1 w-full min-w-0 bg-transparent border-none focus:ring-0 text-sm text-white placeholder-zinc-600 outline-none" type="text" value="Discovery & Planning"/>
+        </div>
+        <div class="flex items-center justify-start gap-3 w-full sm:w-auto pl-11 sm:pl-0 overflow-x-auto no-scrollbar scroll-smooth pb-1 sm:pb-0">
+            <div class="w-16 relative shrink-0">
+                <input class="w-full bg-surface-container-low border-none rounded p-2 text-sm text-center text-white focus:ring-1 focus:ring-primary outline-none" type="number" value="100"/>
+                <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-zinc-500 font-bold">%</span>
+            </div>
+            <div class="w-28 relative shrink-0">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-zinc-500 font-bold dynamic-currency-symbol">₦</span>
+                <input class="phase-cost-input w-full bg-surface-container-low border-none rounded p-2 pl-7 text-sm text-right text-primary font-bold focus:ring-1 focus:ring-primary outline-none" type="number" value="0" oninput="window.updateTotalBudget()"/>
+            </div>
+            <div class="flex items-center gap-1 shrink-0">
+                <button class="text-zinc-600 hover:text-primary transition-colors p-1" onclick="this.closest('.p-3').querySelector('input[type=text]').focus()" title="Edit Phase">
+                    <span class="material-symbols-outlined text-sm">edit</span>
+                </button>
+                <button class="text-zinc-600 hover:text-error transition-colors p-1" onclick="this.closest('.p-3').remove(); window.updateTotalBudget(); if(window.Toast) window.Toast.show('Phase removed.', 'info')" title="Delete Phase">
+                    <span class="material-symbols-outlined text-sm">delete</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button class="flex items-center gap-2 text-xs font-bold text-zinc-400 hover:text-white transition-colors" onclick="window.openPhaseModal()">
+    <span class="material-symbols-outlined text-sm">add_circle</span> Add New Phase
+</button>
+</section>
+
+<section class="bg-surface-container-high rounded-xl p-6 sm:p-8 transition-all border border-white/5 opacity-60 hover:opacity-100 focus-within:opacity-100">
+<div class="flex items-center gap-4 mb-8">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-zinc-400">palette</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-white">3. Brand Colors</h3>
+<p class="text-[0.6875rem] text-zinc-500 uppercase tracking-wider">Customize the client's portal look</p>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row gap-8 sm:gap-12">
+<div class="flex-1 space-y-6">
+<div class="space-y-4">
+<label class="text-[0.6875rem] uppercase tracking-wider text-zinc-400 font-bold block mb-3">Primary Brand Color</label>
+<div class="flex flex-wrap items-center gap-3 mb-4">
+    <button onclick="window.updateBrandColor('#CCFF00')" class="w-8 h-8 rounded-full bg-[#CCFF00] border-2 border-transparent hover:border-white focus:border-white transition-colors shadow-sm"></button>
+    <button onclick="window.updateBrandColor('#00E5FF')" class="w-8 h-8 rounded-full bg-[#00E5FF] border-2 border-transparent hover:border-white focus:border-white transition-colors shadow-sm"></button>
+    <button onclick="window.updateBrandColor('#FF0055')" class="w-8 h-8 rounded-full bg-[#FF0055] border-2 border-transparent hover:border-white focus:border-white transition-colors shadow-sm"></button>
+    <button onclick="window.updateBrandColor('#7000FF')" class="w-8 h-8 rounded-full bg-[#7000FF] border-2 border-transparent hover:border-white focus:border-white transition-colors shadow-sm"></button>
+    
+    <div class="relative w-8 h-8 rounded-full border-2 border-dashed border-zinc-500 hover:border-white transition-colors flex items-center justify-center cursor-pointer overflow-hidden group bg-surface-container-highest">
+        <span class="material-symbols-outlined text-[16px] text-zinc-400 group-hover:text-white pointer-events-none">add</span>
+        <input type="color" id="brand-color-picker" class="absolute inset-0 w-[200%] h-[200%] -top-[50%] -left-[50%] opacity-0 cursor-pointer" value="#CCFF00" oninput="window.updateBrandColor(this.value)" onchange="window.updateBrandColor(this.value)"/>
+    </div>
+</div>
+
+<div class="flex items-center gap-4 bg-surface-container-highest rounded-xl p-3 border border-transparent focus-within:border-primary/30 transition-colors max-w-[200px]">
+    <span class="text-zinc-500 font-mono text-sm font-bold pl-2">HEX</span>
+    <input type="text" id="brand-color-text" class="bg-transparent border-none focus:ring-0 text-white font-mono text-sm flex-1 w-full uppercase outline-none" value="#CCFF00" oninput="window.updateBrandColor(this.value)"/>
+</div>
+</div>
+</div>
+<div class="w-full sm:w-64">
+<label class="text-[0.6875rem] uppercase tracking-wider text-zinc-400 font-bold block mb-4">PORTAL PREVIEW</label>
+<div class="aspect-square bg-surface-container-lowest rounded-xl border border-outline-variant/10 p-4 flex flex-col justify-between overflow-hidden relative group">
+<div class="absolute inset-0 opacity-50 preview-color-bg-target" style="background: linear-gradient(to bottom right, #ccff0033, transparent);"></div>
+<div class="relative z-10 flex justify-between">
+<div class="w-8 h-2 bg-[#ccff00] rounded-full preview-color-target" style="background-color: #ccff00;"></div>
+<div class="w-2 h-2 bg-white/20 rounded-full"></div>
+</div>
+<div class="relative z-10 space-y-2">
+<div class="h-4 w-2/3 bg-white/10 rounded"></div>
+<div class="h-3 w-1/2 bg-white/5 rounded"></div>
+</div>
+<div class="relative z-10 bg-[#ccff00] h-8 rounded-lg flex items-center justify-center preview-color-target" style="background-color: #ccff00;">
+<div class="w-12 h-1 bg-[#131313]/30 rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+</div>
+
+<div id="right-column" class="lg:col-span-4 space-y-8 lg:h-full lg:max-h-[calc(100vh-88px)] lg:overflow-hidden no-scrollbar lg:pb-12 lg:sticky lg:top-[88px]">
+<section class="bg-surface-container-high rounded-xl p-6 sm:p-8 border border-white/5 shadow-sm">
+<div class="flex items-center gap-4 mb-8">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-zinc-400">payments</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-white">4. Budget & Billing</h3>
+<p class="text-[0.6875rem] text-zinc-500 uppercase tracking-wider">Project financials</p>
+</div>
+</div>
+<div class="space-y-6">
+
+<div class="space-y-2">
+<label class="text-[0.6875rem] uppercase tracking-wider text-zinc-400 font-bold ml-1">Total Project Budget</label>
+<div class="relative flex items-center bg-surface-container-highest rounded-lg px-4 focus-within:ring-2 focus-within:ring-primary/20 transition-all">
+    <select id="currency-selector" class="bg-transparent border-none text-primary font-bold focus:ring-0 cursor-pointer w-auto py-4 pl-0 pr-2 outline-none" onchange="window.updateTotalBudget(); window.updateCurrency();">
+        <option value="₦" class="bg-surface-container-high text-white" selected>₦</option>
+        <option value="$" class="bg-surface-container-high text-white">$</option>
+        <option value="£" class="bg-surface-container-high text-white">£</option>
+    </select>
+    <input id="display-total-budget" class="w-full bg-transparent border-none p-4 pl-2 text-2xl font-black tracking-tight text-white placeholder-zinc-700 focus:ring-0 outline-none" placeholder="0.00" type="text" value="0.00" readonly/>
+</div>
+</div>
+
+<div class="space-y-2 mt-6">
+    <div class="flex justify-between items-end mb-2">
+        <label class="text-[0.6875rem] uppercase tracking-wider text-zinc-400 font-bold ml-1">Extra Billing Items</label>
+        <button class="text-[10px] text-primary hover:text-white transition-colors uppercase tracking-widest font-bold" onclick="window.addExtraBillingItem()">+ Add Item</button>
+    </div>
+    <div id="extra-billing-container" class="space-y-2"></div>
+</div>
+
+<div class="space-y-2">
+<label class="text-[0.6875rem] uppercase tracking-wider text-zinc-400 font-bold">Support Level (SLA)</label>
+<div class="relative">
+<select class="w-full bg-surface-container-highest border-none rounded-lg p-4 text-sm text-white appearance-none focus:ring-2 focus:ring-primary/20 transition-all cursor-pointer outline-none" onchange="Toast.show('SLA Tier updated.', 'info')">
+<option>Enterprise (24/7 Priority Support)</option>
+<option>Professional (Standard Business Hours)</option>
+<option>Basic (Email Support Only)</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none">expand_more</span>
+</div>
+</div>
+
+<div class="pt-6 space-y-3 border-t border-white/10">
+<button class="w-full bg-primary text-[#0a0a0a] font-black uppercase tracking-widest py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-primary-dim transition-all shadow-[0_4px_20px_rgba(202,253,0,0.15)]" onclick="Toast.show('Project workspace successfully created.', 'success'); setTimeout(() => window.location.hash='#/admin/command_center', 1500)">
+    Create Workspace
+</button>
+<button class="w-full text-zinc-500 text-xs font-bold uppercase tracking-widest py-3 hover:text-white transition-colors" onclick="Toast.show('Draft saved.', 'info')">
+    Save as Draft
+</button>
+</div>
+</div>
+</section>
+
+<section class="bg-surface-container-high rounded-xl p-6 sm:p-8 border border-white/5 shadow-sm">
+    <h3 class="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+        <span class="material-symbols-outlined text-[16px]">save</span> Saved Drafts
+    </h3>
+    <div class="space-y-3">
+        <div class="p-3 bg-surface-container-highest rounded-lg flex justify-between items-center group cursor-pointer hover:border-primary/30 border border-transparent transition-colors">
+            <div>
+                <p class="text-xs font-bold text-white mb-0.5">Draft: Acme Corp Setup</p>
+                <p class="text-[10px] text-zinc-500 font-mono">Saved 2h ago</p>
+            </div>
+            <span class="material-symbols-outlined text-zinc-500 group-hover:text-primary text-[18px]">restore</span>
+        </div>
+    </div>
+</section>
+
+</div>
+</div>
+</div>
+</main>
+
+<template id="tpl-phase-modal">
+    <div class='space-y-4 text-left'>
+        <div class='space-y-2'>
+            <label class='text-xs font-bold text-zinc-400 uppercase tracking-widest'>Phase Name</label>
+            <input type='text' id='new-phase-name' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-white focus:ring-1 focus:ring-primary outline-none' placeholder='e.g. Server Migration'/>
+        </div>
+        <div class='grid grid-cols-2 gap-4'>
+            <div class='space-y-2'>
+                <label class='text-xs font-bold text-zinc-400 uppercase tracking-widest'>Completion %</label>
+                <input type='number' id='new-phase-percent' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-white focus:ring-1 focus:ring-primary outline-none' placeholder='10'/>
+            </div>
+            <div class='space-y-2'>
+                <label class='text-xs font-bold text-zinc-400 uppercase tracking-widest flex items-center gap-1'>
+                    Amount (<span class='dynamic-currency-symbol'>₦</span>)
+                </label>
+                <div class='relative'>
+                    <span class='absolute left-3 top-1/2 -translate-y-1/2 text-sm text-zinc-500 font-bold dynamic-currency-symbol'>₦</span>
+                    <input type='number' id='modal-phase-cost' class='w-full bg-surface-container-highest rounded-lg p-3 pl-7 text-sm border-none text-white focus:ring-1 focus:ring-primary outline-none' placeholder='0.00'/>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="tpl-phase-action">
+    <button onclick='if(window.Modal) window.Modal.hide()' class='text-zinc-400 hover:text-white font-bold text-sm px-4 transition-colors'>Cancel</button>
+    <button onclick='window.addPhaseAndCost()' class='bg-primary text-[#0a0a0a] px-6 py-2.5 rounded-lg font-bold text-sm transition-all'>Add Phase</button>
+</template>
+
+<template id="tpl-extra-billing">
+    <input type='text' placeholder='Item Name' class='flex-1 bg-surface-container-highest border-none rounded-lg px-3 py-3 text-xs text-white focus:ring-1 focus:ring-primary outline-none'/>
+    <div class='w-1/3 relative shrink-0'>
+        <span class='absolute left-3 top-1/2 -translate-y-1/2 text-xs text-zinc-500 font-bold dynamic-currency-symbol'>₦</span>
+        <input type='number' placeholder='Cost' class='w-full extra-cost-input bg-surface-container-highest border-none rounded-lg px-3 py-3 pl-7 text-xs text-white focus:ring-1 focus:ring-primary outline-none' oninput='window.updateTotalBudget()'/>
+    </div>
+    <button class='text-zinc-500 hover:text-error transition-colors px-2' onclick='this.parentElement.remove(); window.updateTotalBudget();'><span class='material-symbols-outlined text-sm'>close</span></button>
+</template>
+
+<template id="tpl-phase-item">
+    <div class='flex items-center gap-3 flex-1 w-full'>
+        <div class='w-8 h-8 rounded bg-zinc-800 flex items-center justify-center text-xs font-bold text-zinc-500 shrink-0'>{count}</div>
+        <input class='flex-1 w-full min-w-0 bg-transparent border-none focus:ring-0 text-sm text-white placeholder-zinc-600 outline-none' type='text' value='{name}'/>
+    </div>
+    <div class='flex items-center justify-start gap-3 w-full sm:w-auto pl-11 sm:pl-0 overflow-x-auto no-scrollbar scroll-smooth pb-1 sm:pb-0'>
+        <div class='w-16 relative shrink-0'>
+            <input class='w-full bg-surface-container-low border-none rounded p-2 text-sm text-center text-white focus:ring-1 focus:ring-primary outline-none' type='number' value='{pct}'/>
+            <span class='absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-zinc-500 font-bold'>%</span>
+        </div>
+        <div class='w-28 relative shrink-0'>
+            <span class='absolute left-3 top-1/2 -translate-y-1/2 text-sm text-zinc-500 font-bold dynamic-currency-symbol'>₦</span>
+            <input class='phase-cost-input w-full bg-surface-container-low border-none rounded p-2 pl-7 text-sm text-right text-primary font-bold focus:ring-1 focus:ring-primary outline-none' type='number' value='{cost}' oninput='window.updateTotalBudget()'/>
+        </div>
+        <div class='flex items-center gap-1 shrink-0'>
+            <button class='text-zinc-600 hover:text-primary transition-colors p-1' onclick='this.closest(".p-3").querySelector("input[type=text]").focus()' title='Edit Phase'><span class='material-symbols-outlined text-sm'>edit</span></button>
+            <button class='text-zinc-600 hover:text-error transition-colors p-1' onclick='this.closest(".p-3").remove(); window.updateTotalBudget(); if(window.Toast) window.Toast.show("Phase removed.", "info");' title='Delete Phase'><span class='material-symbols-outlined text-sm'>delete</span></button>
+        </div>
+    </div>
+</template>
+
+<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" style="display:none;" onload="
+    window.updateCurrency = function() {
+        const selector = document.getElementById('currency-selector');
+        if (!selector) return;
+        const symbol = selector.value;
+        document.querySelectorAll('.dynamic-currency-symbol').forEach(el => {
+            el.innerText = symbol;
+        });
+    };
+
+    window.updateTotalBudget = function() {
+        let total = 0;
+        document.querySelectorAll('.phase-cost-input').forEach(i => total += parseFloat(i.value) || 0);
+        document.querySelectorAll('.extra-cost-input').forEach(i => total += parseFloat(i.value) || 0);
+        const display = document.getElementById('display-total-budget');
+        if(display) display.value = total.toLocaleString('en-US', {minimumFractionDigits: 2});
+    };
+
+    window.addExtraBillingItem = function() {
+        const cont = document.getElementById('extra-billing-container');
+        if(!cont) return;
+        const div = document.createElement('div');
+        div.className = 'flex items-center gap-2 w-full';
+        div.innerHTML = document.getElementById('tpl-extra-billing').innerHTML;
+        cont.appendChild(div);
+        
+        // Sync the newly added item to the current global currency state
+        window.updateCurrency();
+    };
+
+    window.openPhaseModal = function() {
+        const m = document.getElementById('tpl-phase-modal').innerHTML;
+        const a = document.getElementById('tpl-phase-action').innerHTML;
+        if(window.Modal) window.Modal.show('Add Project Phase', m, a);
+        
+        // Ensure modal reflects the active currency selection
+        setTimeout(window.updateCurrency, 10);
+    };
+
+    window.addPhaseAndCost = function() {
+        const nameIn = document.getElementById('new-phase-name');
+        const pctIn = document.getElementById('new-phase-percent');
+        const costIn = document.getElementById('modal-phase-cost');
+        
+        const name = (nameIn && nameIn.value) ? nameIn.value : 'New Phase';
+        const percent = (pctIn && pctIn.value) ? pctIn.value : '10';
+        const cost = (costIn && costIn.value) ? costIn.value : '0';
+
+        const cont = document.getElementById('phases-container');
+        if(cont) {
+            const count = cont.children.length + 1;
+            const div = document.createElement('div');
+            div.className = 'flex flex-col sm:flex-row sm:items-center gap-3 bg-surface-container-highest p-3 rounded-lg border border-dashed border-zinc-700 mt-3';
+            let html = document.getElementById('tpl-phase-item').innerHTML;
+            html = html.replace('{count}', count).replace('{name}', name).replace('{pct}', percent).replace('{cost}', cost);
+            div.innerHTML = html;
+            cont.appendChild(div);
+        }
+        
+        window.updateTotalBudget();
+        window.updateCurrency(); // Sync new phase to global currency
+        if(window.Modal) window.Modal.hide();
+        if(window.Toast) window.Toast.show('Phase added.', 'success');
+    };
+
+    window.updateBrandColor = function(val) {
+        const p = document.getElementById('brand-color-picker');
+        const t = document.getElementById('brand-color-text');
+        if(p && p.value !== val) p.value = val;
+        if(t && t.value !== val) t.value = val;
+        
+        document.querySelectorAll('.preview-color-target').forEach(el => el.style.backgroundColor = val);
+        document.querySelectorAll('.preview-color-bg-target').forEach(el => el.style.background = 'linear-gradient(to bottom right, ' + val + '33, transparent)');
+    };
+
+    window.setupBentoScroll = () => {
+        const left = document.getElementById('left-column');
+        const right = document.getElementById('right-column');
+        const grid = document.getElementById('bento-grid-container');
+        
+        if(!left || !right || !grid) return;
+
+        if(window.innerWidth < 1024) {
+            left.classList.remove('lg:overflow-hidden', 'lg:overflow-y-auto', 'overflow-hidden', 'overflow-y-auto');
+            right.classList.remove('lg:overflow-hidden', 'lg:overflow-y-auto', 'overflow-hidden', 'overflow-y-auto');
+            return;
+        }
+
+        const rect = grid.getBoundingClientRect();
+        
+        if(rect.top <= 95) {
+            left.classList.add('lg:overflow-y-auto'); 
+            left.classList.remove('lg:overflow-hidden');
+            right.classList.add('lg:overflow-y-auto'); 
+            right.classList.remove('lg:overflow-hidden');
+        } else {
+            left.classList.add('lg:overflow-hidden'); 
+            left.classList.remove('lg:overflow-y-auto');
+            right.classList.add('lg:overflow-hidden'); 
+            right.classList.remove('lg:overflow-y-auto');
+        }
+    };
+
+    window.removeEventListener('scroll', window.setupBentoScroll, true);
+    window.addEventListener('scroll', window.setupBentoScroll, true);
+    
+    if(window.bentoScrollInterval) clearInterval(window.bentoScrollInterval);
+    window.bentoScrollInterval = setInterval(window.setupBentoScroll, 200);
+    
+    // Auto-initialize currency upon mount just in case
+    setTimeout(window.updateCurrency, 100);
+
+    this.remove();
+" />

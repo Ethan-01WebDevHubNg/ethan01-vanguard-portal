@@ -1,0 +1,379 @@
+<div id="sidebar-mount"></div>
+<main class="ml-0 md:ml-64 min-h-screen bg-[#0e0e0e] overflow-x-hidden overflow-y-auto transition-all duration-300">
+
+<div id="header-mount" 
+     data-search-placeholder="SEARCH CONFIGURATIONS..." 
+     data-search-toast="Searching system settings..."
+     data-role-simulator="true"
+     data-role-options="Super Admin, Staff">
+</div>
+
+<div id="access-denied-screen" class="hidden pt-40 px-4 flex-col items-center justify-center text-center h-screen w-full">
+    <span class="material-symbols-outlined text-6xl text-error mb-4">gpp_bad</span>
+    <h2 class="text-3xl font-black text-white mb-3">ACCESS RESTRICTED</h2>
+    <p class="text-zinc-500 max-w-md mx-auto leading-relaxed">System Settings are strictly restricted to Super Admin personnel. Your current role does not possess the required clearance to view or modify global configurations.</p>
+</div>
+
+<div id="settings-content" class="pt-24 pb-32 px-4 sm:px-12 max-w-7xl mx-auto w-full">
+<div class="mb-12">
+<span class="text-[#ccff00] font-inter label-sm uppercase tracking-[0.2em] text-[10px] font-bold">Configuration</span>
+<h2 class="text-4xl sm:text-[3.5rem] font-bold tracking-tighter leading-none mt-2 font-headline text-white">Admin Settings</h2>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 w-full">
+<section class="lg:col-span-5 space-y-6 w-full">
+<div class="bg-surface-container-low rounded-xl p-6 sm:p-8 transition-all hover:bg-surface-container-low/80 w-full">
+<div class="flex items-center justify-between mb-8">
+<h3 class="text-xs font-bold uppercase tracking-[0.15em] text-zinc-400">Agency Profile</h3>
+<span class="material-symbols-outlined text-[#ccff00] text-sm">verified</span>
+</div>
+<div class="flex flex-col gap-8 w-full">
+<div class="flex flex-col sm:flex-row sm:items-center gap-6 w-full">
+<div class="relative group self-start shrink-0">
+<div class="w-24 h-24 rounded-xl overflow-hidden bg-surface-container-high flex items-center justify-center border border-outline-variant/10">
+<img alt="Ethan01 Agency Logo" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIYtqacIhJojmctTOuVxrnJXjclpj_zhGySa-t9N3lEVRa7DaQfkK3d_yDl3Sc51Dw6c3J-L_-4ggPXkJhcLdjHKFVJgWriy4Cl7W34kr35uXeGB6WGhzSZonbjvMeRR3tZ_XHhwiVsS8_88U9sGpiGnqkLYEiqU2XrqVO4nixi271ejMqK6uM483e5EcfUmb64WHsV4iWTawOYkrlmpWnVCLt4KKutrhQKYx4uGaotXN0_UsWDht6nDVMAVudHBdMkwK8YmAA4g"/>
+</div>
+<button class="absolute -bottom-2 -right-2 bg-surface-container-highest p-2 rounded-lg text-white hover:text-[#ccff00] transition-colors border border-outline-variant/20" onclick="if(window.Toast) window.Toast.show('Opening avatar selection...', 'info')">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+</div>
+<div class="flex-1 w-full min-w-0">
+<label class="block text-[10px] uppercase tracking-widest text-zinc-500 mb-1">Agency Name</label>
+<input class="w-full bg-transparent border-none text-xl font-bold p-0 focus:ring-0 text-white outline-none selection:bg-[#ccff00]/30 truncate" type="text" value="ETHAN01 DIGITAL"/>
+<div class="h-[1px] w-full bg-surface-container-high mt-1"></div>
+</div>
+</div>
+<div class="space-y-4 w-full">
+<div class="w-full">
+<label class="block text-[10px] uppercase tracking-widest text-zinc-500 mb-2">Global Headquarters</label>
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-0 top-1/2 -translate-y-1/2 text-zinc-500 text-sm">location_on</span>
+<input class="w-full bg-transparent border-none pl-6 text-sm font-medium focus:ring-0 text-zinc-200 outline-none truncate" type="text" value="Silicon Valley, CA"/>
+</div>
+</div>
+<div class="w-full">
+<label class="block text-[10px] uppercase tracking-widest text-zinc-500 mb-2">Primary Domain</label>
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-0 top-1/2 -translate-y-1/2 text-zinc-500 text-sm">language</span>
+<input class="w-full bg-transparent border-none pl-6 text-sm font-medium focus:ring-0 text-zinc-200 outline-none truncate" type="text" value="ethan01.agency"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="bg-surface-container-low rounded-xl p-6 sm:p-8 w-full">
+<div class="flex items-center justify-between mb-8">
+<h3 class="text-xs font-bold uppercase tracking-[0.15em] text-zinc-400">Integrations</h3>
+<button class="text-[10px] font-bold text-[#ccff00] hover:text-white transition-colors flex items-center gap-1 shrink-0" onclick="window.openAddIntegrationModal()">
+    <span class="material-symbols-outlined text-[14px]">add</span> NEW
+</button>
+</div>
+<div class="space-y-6 w-full" id="integrations-container">
+<div class="space-y-3 w-full">
+<div class="flex justify-between items-center w-full">
+<span class="text-xs font-semibold text-zinc-300">Squad API</span>
+<span class="text-[9px] px-1.5 py-0.5 bg-green-900/30 text-green-400 rounded uppercase font-bold tracking-tighter shrink-0">Active</span>
+</div>
+<div class="relative w-full">
+<input class="w-full bg-surface-container-high border-none rounded-lg py-3 px-4 text-xs font-mono text-[#ccff00] focus:ring-1 focus:ring-[#ccff00]/30 outline-none transition-all pr-10" type="password" value="sk_live_51M0xJkLpQ0rS9uV1" readonly/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white transition-colors" onclick="if(window.Toast) window.Toast.show('Visibility toggled.', 'info')">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+</div>
+<div class="space-y-3 w-full">
+<div class="flex justify-between items-center w-full">
+<span class="text-xs font-semibold text-zinc-300">GTCO Webhook</span>
+<span class="text-[9px] px-1.5 py-0.5 bg-zinc-800 text-zinc-500 rounded uppercase font-bold tracking-tighter shrink-0">Disconnected</span>
+</div>
+<div class="relative w-full">
+<input class="w-full bg-surface-container-high border-none rounded-lg py-3 px-4 text-xs font-mono text-[#ccff00] focus:ring-1 focus:ring-[#ccff00]/30 outline-none transition-all placeholder:text-zinc-600 pr-10 truncate" placeholder="Enter endpoint secret..." type="password" value=""/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white transition-colors" onclick="if(window.Toast) window.Toast.show('Visibility toggled.', 'info')">
+<span class="material-symbols-outlined text-[18px]">visibility_off</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="lg:col-span-7 w-full overflow-hidden">
+<div class="bg-surface-container-low rounded-xl h-full flex flex-col w-full">
+<div class="p-6 sm:p-8 flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 w-full">
+<div>
+<h3 class="text-xs font-bold uppercase tracking-[0.15em] text-zinc-400 mb-2">Staff Management</h3>
+<p class="text-[10px] text-zinc-500 font-medium">Manage access levels and portal permissions.</p>
+</div>
+<button class="text-[10px] font-bold text-[#ccff00] hover:text-white transition-colors flex items-center gap-1 self-start sm:self-auto shrink-0" onclick="window.openInviteModal()">
+<span class="material-symbols-outlined text-[14px]">person_add</span>
+    INVITE STAFF
+</button>
+</div>
+<div class="flex-1 overflow-x-auto w-full max-w-full">
+<table class="w-full text-left border-collapse min-w-[500px]">
+<thead>
+<tr class="bg-surface-container-high/30 border-b border-white/5">
+<th class="py-4 px-6 sm:px-8 text-[10px] uppercase tracking-widest text-zinc-500 font-bold">Administrator</th>
+<th class="py-4 px-6 sm:px-8 text-[10px] uppercase tracking-widest text-zinc-500 font-bold">Role</th>
+<th class="py-4 px-6 sm:px-8 text-[10px] uppercase tracking-widest text-zinc-500 font-bold text-right">Activity</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/5">
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="py-5 px-6 sm:px-8">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container-highest overflow-hidden shrink-0">
+<img alt="Marcus Chen" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgcGDjH9LUtohI3u11m-bv44YByK_qm4Ng8-qOA4iu6v-oUJ11ZaddC48jGj-xZOy0cYIok8aNYhjJGA7prW-u2hmr-J3gVWD4RzltOKfoHQJW2ixUnfH1qKA73vXr9d7zXVeIz67FNYs8asXywuVYH8daIH5dmsygAIt4p4_Ir5AcW3XXh4Tfw3KS6eN5CNafdv08tw8pGEwhvH90VOKmkh_mLtAvV5tsnO5z-e2nvJvNOHsaXPTlHnlgJTxYqSMyKDyFKcPCzQ"/>
+</div>
+<div class="min-w-0">
+<p class="text-sm font-bold text-white group-hover:text-[#ccff00] transition-colors truncate">Marcus Chen</p>
+<p class="text-[10px] text-zinc-500 truncate">m.chen@ethan01.com</p>
+</div>
+</div>
+</td>
+<td class="py-5 px-6 sm:px-8">
+<span class="text-[9px] px-2 py-0.5 border border-[#ccff00]/30 text-[#ccff00] rounded-full font-black tracking-tighter whitespace-nowrap">SUPER ADMIN</span>
+</td>
+<td class="py-5 px-6 sm:px-8 text-right text-[10px] text-zinc-400 font-mono whitespace-nowrap">2m ago</td>
+</tr>
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="py-5 px-6 sm:px-8">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container-highest overflow-hidden shrink-0">
+<img alt="Sarah Jenkins" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzZDIai3M4iktOKWXsB4BdCO-rCGI4S1t4HCxC2R_W12-p9kngBCr3wiGq-7IQg-5vSY5xr-CHaE7amPOsGM3TaRzc0Lo8Ox-bTpYwV7uJLYzhWjpRKJUsYGWTn_1q1FyRRQb0dEVDIfhbvjZXl7FEYDX7oPMTUuzNJOg3K3-TTfDpTEYxHetp7q6fS5wdHBh2ZLKn2VYZFpRAqMC2YzE0Glamk6gm2BBgoyz8f8xDyurFrjEdK5nCDBTruv4gVNUNg4xVh2Y1Kg"/>
+</div>
+<div class="min-w-0">
+<p class="text-sm font-bold text-white group-hover:text-[#ccff00] transition-colors truncate">Sarah Jenkins</p>
+<p class="text-[10px] text-zinc-500 truncate">s.jenkins@ethan01.com</p>
+</div>
+</div>
+</td>
+<td class="py-5 px-6 sm:px-8">
+<span class="text-[9px] px-2 py-0.5 border border-zinc-700 text-zinc-300 rounded-full font-black tracking-tighter uppercase whitespace-nowrap">Integrations Mgr</span>
+</td>
+<td class="py-5 px-6 sm:px-8 text-right text-[10px] text-zinc-400 font-mono whitespace-nowrap">1h ago</td>
+</tr>
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="py-5 px-6 sm:px-8">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container-highest overflow-hidden shrink-0">
+<img alt="David Kalu" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhdFJ6sGRIjbFqEz7C8f_iEh5lJe0rlRvtGTBMvVwxUpUcKFDYcq1fWdY63tYYQ0gIi_Pe-GvaWfWShhwYlEgmjXcDmN4JM6afUT6MP5JwvyYIfYKtlVEsW_ayaZW_e5YlfYIhxbSR_Aqav3eyih-l0URDP0iz4GOviHPhdGR31bPTLmEecoXy_1d1LI32HvTO8c0EbIcwDSzzDHSPbT-YU8gE5Gh1q-OYjQfEUwrFUhsmNCl1KMynFuYh2H3vKIe3_zARJ3eipw"/>
+</div>
+<div class="min-w-0">
+<p class="text-sm font-bold text-white group-hover:text-[#ccff00] transition-colors truncate">David Kalu</p>
+<p class="text-[10px] text-zinc-500 truncate">d.kalu@ethan01.com</p>
+</div>
+</div>
+</td>
+<td class="py-5 px-6 sm:px-8">
+<span class="text-[9px] px-2 py-0.5 border border-zinc-700 text-zinc-300 rounded-full font-black tracking-tighter uppercase whitespace-nowrap">Analytics Lead</span>
+</td>
+<td class="py-5 px-6 sm:px-8 text-right text-[10px] text-zinc-400 font-mono whitespace-nowrap">Yesterday</td>
+</tr>
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="py-5 px-6 sm:px-8">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container-highest overflow-hidden shrink-0">
+<img alt="Elena Rossi" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAL2b_pv_RQ5C4bBW-5eOKxShXP1r1pdnVADGxq2XwF-18Z-hxPFNnNtQtHGMLTY1wHpyWvpZuH1CK1NQDjFiEw38uny-jT6xE2tg9Xbcl1v5CCjAl-UZOfspN335ompBmXHsy9Ylh0aS1VLYBpWWnnNXwzeidvQogRVdMPc6GqsZCEpQYNlIeAIosXcmB7qewlPKMeArwlfmfE7pfyCagaJAYc6B1ZUOxbhG3zQLeI6VdSjEw4RApteqjlaTustwvjHj7l988tjg"/>
+</div>
+<div class="min-w-0">
+<p class="text-sm font-bold text-white group-hover:text-[#ccff00] transition-colors truncate">Elena Rossi</p>
+<p class="text-[10px] text-zinc-500 truncate">e.rossi@ethan01.com</p>
+</div>
+</div>
+</td>
+<td class="py-5 px-6 sm:px-8">
+<span class="text-[9px] px-2 py-0.5 border border-zinc-700 text-zinc-300 rounded-full font-black tracking-tighter uppercase whitespace-nowrap">Editor</span>
+</td>
+<td class="py-5 px-6 sm:px-8 text-right text-[10px] text-zinc-400 font-mono whitespace-nowrap">Oct 12</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-6 border-t border-white/5 flex justify-between items-center bg-surface-container-low/50 w-full">
+<p class="text-[9px] text-zinc-500 font-bold uppercase tracking-widest">Showing 4 of 12 Administrators</p>
+<div class="flex gap-2">
+<button class="p-2 rounded hover:bg-surface-container-high text-zinc-500 transition-colors">
+<span class="material-symbols-outlined text-[16px]">chevron_left</span>
+</button>
+<button class="p-2 rounded hover:bg-surface-container-high text-[#ccff00] transition-colors">
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+
+<section class="lg:col-span-12 w-full overflow-hidden">
+<div class="bg-gradient-to-r from-surface-container-low to-surface-container-lowest p-6 sm:p-8 rounded-xl flex flex-col xl:flex-row items-start xl:items-center justify-between gap-8 border border-white/5 w-full">
+<div class="flex flex-wrap gap-6 lg:gap-12 w-full">
+<div class="flex-1 min-w-[140px]">
+<label class="block text-[10px] uppercase tracking-widest text-zinc-500 mb-2">API Calls (24h)</label>
+<p class="text-3xl font-bold font-mono tracking-tighter text-white">842.1K</p>
+<div class="mt-2 w-full h-1 bg-surface-container-high rounded-full overflow-hidden">
+<div class="w-3/4 h-full bg-[#ccff00]"></div>
+</div>
+</div>
+<div class="flex-1 min-w-[140px]">
+<label class="block text-[10px] uppercase tracking-widest text-zinc-500 mb-2">Storage</label>
+<p class="text-3xl font-bold font-mono tracking-tighter text-white">1.2 TB</p>
+<div class="mt-2 w-full h-1 bg-surface-container-high rounded-full overflow-hidden">
+<div class="w-1/2 h-full bg-secondary"></div>
+</div>
+</div>
+<div class="flex-1 min-w-[140px]">
+<label class="block text-[10px] uppercase tracking-widest text-zinc-500 mb-2">Service Uptime</label>
+<p class="text-3xl font-bold font-mono tracking-tighter text-white">99.99%</p>
+<div class="mt-2 w-full h-1 bg-surface-container-high rounded-full overflow-hidden">
+<div class="w-[99%] h-full bg-green-500"></div>
+</div>
+</div>
+</div>
+<div class="hidden lg:block opacity-20 shrink-0">
+<span class="material-symbols-outlined text-[64px] text-white" style="font-variation-settings: 'FILL' 1;">monitoring</span>
+</div>
+</div>
+</section>
+</div>
+</div>
+
+<footer id="settings-footer" class="fixed bottom-0 right-0 w-full md:w-[calc(100%-16rem)] p-4 sm:p-6 bg-[#0e0e0e]/90 backdrop-blur-md border-t border-white/5 flex flex-col sm:flex-row justify-end items-center gap-4 sm:gap-6 z-30 transition-all duration-300">
+<button class="text-zinc-500 hover:text-white font-inter label-sm:uppercase label-sm:tracking-widest text-[10px] font-bold transition-colors" onclick="if(window.Toast) window.Toast.show('Changes discarded.', 'info')">
+    Discard Changes
+</button>
+<button class="w-full sm:w-auto px-10 py-3 bg-gradient-to-br from-[#f3ffca] to-[#cafd00] text-[#0a0a0a] rounded-xl font-black text-sm uppercase tracking-tighter shadow-[0_4px_24px_rgba(202,253,0,0.2)] hover:scale-[1.02] active:scale-[0.98] transition-all" onclick="if(window.Toast) window.Toast.show('System configurations synced.', 'success')">
+    Save System Changes
+</button>
+</footer>
+</main>
+
+<template id="tpl-invite-modal">
+    <div class="space-y-4 text-left">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="space-y-2">
+                <label class="text-[0.6875rem] font-bold text-zinc-400 uppercase tracking-widest">Email Address</label>
+                <input type="email" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-white focus:ring-1 focus:ring-primary outline-none" placeholder="staff@ethan01.com"/>
+            </div>
+            <div class="space-y-2">
+                <label class="text-[0.6875rem] font-bold text-zinc-400 uppercase tracking-widest">Default Password</label>
+                <input type="text" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-white focus:ring-1 focus:ring-primary outline-none" placeholder="TempPass123!"/>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="space-y-2">
+                <label class="text-[0.6875rem] font-bold text-zinc-400 uppercase tracking-widest">Department</label>
+                <select class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-white focus:ring-1 focus:ring-primary outline-none cursor-pointer">
+                    <option>Engineering</option>
+                    <option>Design</option>
+                    <option>Management</option>
+                    <option>Security</option>
+                </select>
+            </div>
+            <div class="space-y-2">
+                <label class="text-[0.6875rem] font-bold text-zinc-400 uppercase tracking-widest">Assign Role</label>
+                <select class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-white focus:ring-1 focus:ring-primary outline-none cursor-pointer">
+                    <option>Developer</option>
+                    <option>Creative Director</option>
+                    <option>Account Manager</option>
+                    <option>Super Admin</option>
+                </select>
+            </div>
+        </div>
+        <div class="space-y-2">
+            <label class="text-[0.6875rem] font-bold text-zinc-400 uppercase tracking-widest">Contact Details</label>
+            <input type="tel" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-white focus:ring-1 focus:ring-primary outline-none" placeholder="Phone or WhatsApp (e.g. +234...)"/>
+        </div>
+    </div>
+</template>
+
+<template id="tpl-invite-action">
+    <button onclick="if(window.Modal) window.Modal.hide()" class="text-zinc-400 hover:text-white font-bold text-sm px-4 transition-colors">Cancel</button>
+    <button onclick="if(window.Modal) window.Modal.hide(); if(window.Toast) window.Toast.show('Invitation sent to new staff member.', 'success')" class="bg-primary text-[#0a0a0a] px-6 py-2.5 rounded-lg font-bold text-sm transition-all">Send Invite</button>
+</template>
+
+<template id="tpl-integration-modal">
+    <div class="space-y-4 text-left">
+        <div class="space-y-2">
+            <label class="text-[0.6875rem] font-bold text-zinc-400 uppercase tracking-widest">Service Name</label>
+            <input type="text" id="new-int-name" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-white focus:ring-1 focus:ring-primary outline-none" placeholder="e.g. AWS S3 Bucket"/>
+        </div>
+        <div class="space-y-2">
+            <label class="text-[0.6875rem] font-bold text-zinc-400 uppercase tracking-widest">Secret Key / Endpoint</label>
+            <input type="password" id="new-int-key" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-white focus:ring-1 focus:ring-primary outline-none" placeholder="Enter API secret..."/>
+        </div>
+    </div>
+</template>
+
+<template id="tpl-integration-action">
+    <button onclick="if(window.Modal) window.Modal.hide()" class="text-zinc-400 hover:text-white font-bold text-sm px-4 transition-colors">Cancel</button>
+    <button onclick="window.saveIntegration()" class="bg-primary text-[#0a0a0a] px-6 py-2.5 rounded-lg font-bold text-sm transition-all">Save Credential</button>
+</template>
+
+<template id="tpl-integration-item">
+    <div class="space-y-3">
+        <div class="flex justify-between items-center">
+            <span class="text-xs font-semibold text-zinc-300">{name}</span>
+            <span class="text-[9px] px-1.5 py-0.5 bg-green-900/30 text-green-400 rounded uppercase font-bold tracking-tighter">Active</span>
+        </div>
+        <div class="relative">
+            <input class="w-full bg-surface-container-high border-none rounded-lg py-3 px-4 text-xs font-mono text-[#ccff00] focus:ring-1 focus:ring-[#ccff00]/30 outline-none transition-all" type="password" value="{key}" readonly/>
+            <button class="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white transition-colors" onclick="if(window.Toast) window.Toast.show('Visibility toggled.', 'info')">
+                <span class="material-symbols-outlined text-[18px]">visibility</span>
+            </button>
+        </div>
+    </div>
+</template>
+
+<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" style="display:none;" onload="
+    window.setRole = function(role) {
+        const content = document.getElementById('settings-content');
+        const footer = document.getElementById('settings-footer');
+        const denied = document.getElementById('access-denied-screen');
+        
+        if (role === 'Super Admin') {
+            if (content) content.style.display = 'block';
+            if (footer) footer.style.display = 'flex';
+            if (denied) denied.style.display = 'none';
+            if(window.Toast) window.Toast.show('Viewing as Super Admin (Full Access)', 'success');
+        } else {
+            if (content) content.style.display = 'none';
+            if (footer) footer.style.display = 'none';
+            if (denied) denied.style.display = 'flex';
+            if(window.Toast) window.Toast.show('Access Denied. Super Admin clearance required.', 'error');
+        }
+    };
+
+    window.openInviteModal = function() {
+        const m = document.getElementById('tpl-invite-modal').innerHTML;
+        const a = document.getElementById('tpl-invite-action').innerHTML;
+        if(window.Modal) window.Modal.show('Invite Agency Staff', m, a);
+    };
+
+    window.openAddIntegrationModal = function() {
+        const m = document.getElementById('tpl-integration-modal').innerHTML;
+        const a = document.getElementById('tpl-integration-action').innerHTML;
+        if(window.Modal) window.Modal.show('Add New Integration', m, a);
+    };
+
+    window.saveIntegration = function() {
+        const nameIn = document.getElementById('new-int-name');
+        const keyIn = document.getElementById('new-int-key');
+        
+        const name = (nameIn && nameIn.value) ? nameIn.value : 'Custom Webhook';
+        const key = (keyIn && keyIn.value) ? keyIn.value : 'sk_live_custom...';
+        
+        const cont = document.getElementById('integrations-container');
+        if(cont) {
+            let html = document.getElementById('tpl-integration-item').innerHTML;
+            html = html.replace('{name}', name).replace('{key}', key);
+            cont.insertAdjacentHTML('beforeend', html);
+        }
+        if(window.Modal) window.Modal.hide();
+        if(window.Toast) window.Toast.show('Integration credential secured.', 'success');
+    };
+
+    setTimeout(function() { 
+        window.setRole('Super Admin'); 
+    }, 100);
+    this.remove();
+" />

@@ -1,0 +1,33 @@
+/* public/assets/css/client-theme.css */
+:root {
+    --client-primary: #0055ff;
+    --client-secondary: #001133;
+    --client-bg: #f8f9fa;
+    --client-surface: #ffffff;
+    --client-text: #1a1a1a;
+}
+
+body:has(.client-header) {
+    background-color: var(--client-bg);
+    color: var(--client-text);
+}
+
+.client-header, .login-card, .file-card, .invoice-table {
+    background-color: var(--client-surface);
+    border-radius: 8px;
+}
+
+.btn-client-primary, .progress-fill, .step-circle.active, .step-circle.completed {
+    background-color: var(--client-primary);
+    color: #ffffff;
+}
+
+.step-circle {
+    border: 2px solid rgba(0,0,0,0.1);
+    background-color: var(--client-surface);
+}
+
+.btn-client-primary:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+}
