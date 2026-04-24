@@ -21,7 +21,7 @@ export function initHeaderDrops() {
                     <div class="absolute -top-1.5 right-[18px] w-3 h-3 bg-surface-container-high border border-white/5 border-b-surface-container-high border-r-surface-container-high transform rotate-45 z-20 rounded-tl-[2px]"></div>
                     
                     <div class="bg-surface-container-high border border-white/5 rounded-xl shadow-2xl overflow-hidden relative z-10 w-full">
-                        <div class="px-4 py-4 border-b border-zinc-800">
+                        <div class="px-4 py-4 border-b border-zinc-700">
                             <p class="text-sm font-bold text-white truncate">Ethan Hunt</p>
                             <p class="text-[10px] text-zinc-400 truncate mt-0.5">e.hunt@ethan01.com</p>
                             <p class="text-[9px] text-primary font-bold uppercase tracking-widest mt-2">Lead Architect</p>
