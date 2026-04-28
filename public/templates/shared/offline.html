@@ -1,6 +1,6 @@
 <div class="fixed inset-0 grain-overlay z-0 pointer-events-none"></div>
-<div class="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-error/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
-<div class="fixed bottom-[-5%] right-[-5%] w-[30%] h-[30%] bg-primary/5 rounded-full blur-[100px] pointer-events-none z-0"></div>
+<div class="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[var(--color-error-container)] rounded-full blur-[120px] pointer-events-none z-0"></div>
+<div class="fixed bottom-[-5%] right-[-5%] w-[30%] h-[30%] bg-[var(--color-primary-glow)] rounded-full blur-[100px] pointer-events-none z-0"></div>
 
 <main class="relative z-10 flex flex-col items-center justify-center min-h-screen py-12 px-6 text-center w-full">
     <div class="absolute top-8 left-8 sm:top-12 sm:left-12 flex flex-col items-start">
@@ -9,8 +9,8 @@
     </div>
 
     <div class="max-w-xl w-full flex flex-col items-center">
-        <div class="w-24 h-24 rounded-full bg-error/10 border border-error/20 flex items-center justify-center mb-8 relative">
-            <div class="absolute inset-0 rounded-full border border-error/30 animate-ping opacity-20"></div>
+        <div class="w-24 h-24 rounded-full bg-[var(--color-error-container)] border border-[var(--color-error-dim)] flex items-center justify-center mb-8 relative">
+            <div class="absolute inset-0 rounded-full border border-[var(--color-error-dim)] animate-ping opacity-20"></div>
             <span class="material-symbols-outlined text-4xl text-error">wifi_off</span>
         </div>
 
@@ -18,30 +18,30 @@
             <span class="text-[10px] sm:text-xs uppercase tracking-[0.5em] font-bold text-error">Status Code // ERR_INTERNET_DISCONNECTED</span>
         </div>
         
-        <h1 class="font-black text-5xl sm:text-6xl md:text-[5.5rem] leading-none tracking-tighter text-white mb-6 uppercase">
+        <h1 class="font-black text-5xl sm:text-6xl md:text-[5.5rem] leading-none tracking-tighter text-on-surface mb-6 uppercase">
             Offline
         </h1>
         
         <p class="text-base sm:text-lg font-medium tracking-tight text-on-surface-variant max-w-md leading-relaxed mb-10">
-            Internet connection is broken. Please check your network conncetion and try again.
+            Internet connection is broken. Please check your network connection and try again.
         </p>
 
         <div class="flex flex-col sm:flex-row items-center gap-4">
-            <button class="group relative px-10 py-4 bg-gradient-to-br from-primary to-primary-container rounded-lg transition-transform duration-150 active:scale-95 flex items-center justify-center gap-3 shadow-[0_4px_20px_rgba(204,255,0,0.15)] w-full sm:w-auto" 
+            <button class="group relative px-10 py-4 bg-gradient-to-br from-primary to-primary-container rounded-lg transition-transform duration-150 active:scale-95 flex items-center justify-center gap-3 shadow-[0_4px_20px_var(--color-primary-glow)] w-full sm:w-auto" 
                 onclick="if(navigator.onLine) { Toast.show('Connection restored. Re-establishing link...', 'success'); window.location.hash = sessionStorage.getItem('ethan01_prev_route') || '#/admin/login'; } else { Toast.show('Still offline. Check your network settings.', 'error'); }">
-                <span class="font-bold text-on-primary-container uppercase tracking-widest text-xs">Retry Connection</span>
-                <span class="material-symbols-outlined text-on-primary-container text-sm group-hover:rotate-180 transition-transform duration-500">refresh</span>
+                <span class="font-bold text-[#09090b] uppercase tracking-widest text-xs">Retry Connection</span>
+                <span class="material-symbols-outlined text-[#09090b] text-sm group-hover:rotate-180 transition-transform duration-500">refresh</span>
             </button>
         </div>
 
-        <div class="mt-12 flex flex-col sm:flex-row flex-wrap justify-center gap-4 sm:gap-x-8 sm:gap-y-2 py-4 px-8 bg-surface-container-low rounded-xl border border-white/5">
+        <div class="mt-12 flex flex-col sm:flex-row flex-wrap justify-center gap-4 sm:gap-x-8 sm:gap-y-2 py-4 px-8 bg-surface-container-low rounded-xl border border-outline-variant">
             <div class="flex items-center justify-center gap-2">
                 <span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
-                <span class="text-[10px] uppercase tracking-widest font-bold text-zinc-400">Local Uplink: Down</span>
+                <span class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Local Uplink: Down</span>
             </div>
             <div class="flex items-center justify-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-zinc-700"></span>
-                <span class="text-[10px] uppercase tracking-widest font-bold text-zinc-500">Server Ping: Unreachable</span>
+                <span class="w-2 h-2 rounded-full bg-surface-container-highest"></span>
+                <span class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Server Ping: Unreachable</span>
             </div>
         </div>
     </div>

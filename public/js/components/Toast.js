@@ -26,27 +26,27 @@ export const Toast = {
 
         const toast = document.createElement('div');
         
+        // UPGRADE: Primary accent green mapped to base 'info' toasts
         let icon = 'info';
-        let colorClass = 'border-primary/30 text-primary';
-        let bgClass = 'bg-surface-container-highest';
+        let colorClass = 'border-[var(--color-primary-alpha-30)] text-primary';
         
         if (type === 'success') {
             icon = 'check_circle';
-            colorClass = 'border-[#ccff00]/50 text-[#ccff00]';
+            colorClass = 'border-[var(--color-primary-alpha)] text-primary';
         } else if (type === 'error') {
             icon = 'error';
-            colorClass = 'border-error/50 text-error';
+            colorClass = 'border-[var(--color-error-dim)] text-error';
         } else if (type === 'warning') {
             icon = 'warning';
-            colorClass = 'border-secondary/50 text-secondary';
+            colorClass = 'border-[var(--color-outline-variant)] text-on-surface';
         }
 
-        toast.className = `flex items-center gap-3 px-4 py-3 rounded-xl border ${colorClass} ${bgClass} shadow-[0_8px_30px_rgba(0,0,0,0.5)] backdrop-blur-md transform transition-all duration-300 translate-y-4 opacity-0 pointer-events-auto`;
+        toast.className = `flex items-center gap-3 px-4 py-3 rounded-xl border ${colorClass} bg-surface-container-highest shadow-[var(--card-shadow)] backdrop-blur-md transform transition-all duration-300 translate-y-4 opacity-0 pointer-events-auto`;
         
         toast.innerHTML = `
             <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">${icon}</span>
-            <p class="text-sm font-bold text-white flex-1">${message}</p>
-            <button class="ml-2 text-zinc-500 hover:text-white transition-colors" onclick="this.parentElement.remove()">
+            <p class="text-sm font-bold text-on-surface flex-1">${message}</p>
+            <button class="ml-2 text-on-surface-variant hover:text-primary transition-colors" onclick="this.parentElement.remove()">
                 <span class="material-symbols-outlined text-sm">close</span>
             </button>
         `;

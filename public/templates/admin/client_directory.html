@@ -3,8 +3,7 @@
 <div id="header-mount" 
      data-search-placeholder="SEARCH CLIENTS..." 
      data-search-toast="Searching client directory..."
-     data-role-simulator="true"
-     data-role-options="Lead Architect, Admin">
+     data-role-simulator="false">
 </div>
 
 <main class="ml-0 md:ml-64 pt-24 px-4 sm:px-8 pb-12 min-h-screen transition-all duration-300">
@@ -12,225 +11,119 @@
 <div>
 <span class="text-primary uppercase tracking-[0.3em] font-bold text-[10px] mb-2 block">Management</span>
 <div class="flex items-center gap-4 mb-2">
-    <h2 class="text-4xl sm:text-5xl font-black tracking-tighter text-white">Client Directory</h2>
-    <select onchange="window.setRole(this.value)" class="bg-surface-container-highest border-none text-zinc-400 text-[10px] font-bold uppercase tracking-widest rounded-lg px-3 py-1.5 outline-none focus:ring-1 focus:ring-primary cursor-pointer mt-2 hidden sm:block">
-        <option value="Lead Architect">View as: Lead Architect</option>
-        <option value="Admin">View as: Standard Admin</option>
-    </select>
+    <h2 class="text-4xl sm:text-5xl font-black tracking-tighter text-on-surface">Client Directory</h2>
 </div>
 <p class="text-on-surface-variant body-md mt-4 max-w-xl">Centralized node for all global client profiles, SLA management, and real-time financial tracking across the ETHAN01 ecosystem.</p>
 </div>
 <div class="flex flex-wrap gap-3">
-<button class="px-6 py-3 bg-surface-container-high text-white rounded-xl font-bold flex items-center gap-2 hover:bg-surface-bright transition-all" onclick="window.openFilterModal()">
+<button class="px-6 py-3 bg-surface-container-high text-on-surface rounded-xl font-bold flex items-center gap-2 hover:bg-surface-container transition-all" onclick="window.openFilterModal()">
 <span class="material-symbols-outlined text-[20px]">filter_list</span>
 <span class="text-sm">Filter View</span>
 </button>
-<button class="px-6 py-3 bg-primary text-white dark:text-[#0a0a0a] rounded-xl font-bold flex items-center gap-2 hover:bg-primary-dim transition-all shadow-[0_4px_15px_rgba(204,255,0,0.15)]" onclick="if(window.Toast) window.Toast.show('Compiling CSV Data...', 'info'); setTimeout(() => { if(window.Toast) window.Toast.show('CSV Export downloaded.', 'success') }, 1500)">
+<button class="px-6 py-3 bg-primary text-[#09090b] rounded-xl font-bold flex items-center gap-2 hover:bg-primary-container transition-all shadow-[0_4px_15px_var(--color-primary-glow)]" onclick="if(window.Toast) window.Toast.show('Compiling CSV Data...', 'info'); setTimeout(() => { if(window.Toast) window.Toast.show('CSV Export downloaded.', 'success') }, 1500)">
 <span class="material-symbols-outlined text-[20px]">file_download</span>
 <span class="text-sm">Export CSV</span>
 </button>
 </div>
 </div>
-<div class="bg-surface-container-low rounded-2xl overflow-hidden shadow-2xl">
+<div class="bg-surface-container-low rounded-2xl overflow-hidden shadow-[var(--card-shadow)] border border-outline-variant">
 <div class="overflow-x-auto w-full">
 <table class="w-full text-left border-collapse whitespace-nowrap">
 <thead>
-<tr class="bg-surface-container-high border-b border-zinc-800">
-<th class="px-6 sm:px-8 py-5 text-[11px] font-black uppercase tracking-[0.15em] text-zinc-500">Client Name</th>
-<th class="px-6 sm:px-8 py-5 text-[11px] font-black uppercase tracking-[0.15em] text-zinc-500 text-center">Active Projects</th>
-<th class="px-6 sm:px-8 py-5 text-[11px] font-black uppercase tracking-[0.15em] text-zinc-500">SLA Tier</th>
-<th class="px-6 sm:px-8 py-5 text-[11px] font-black uppercase tracking-[0.15em] text-zinc-500">Monthly Burn</th>
-<th class="px-6 sm:px-8 py-5 text-[11px] font-black uppercase tracking-[0.15em] text-zinc-500 text-right">Actions</th>
+<tr class="bg-surface-container-high border-b border-outline-variant">
+<th class="px-6 sm:px-8 py-5 text-[11px] font-black uppercase tracking-[0.15em] text-on-surface-variant">Client Name</th>
+<th class="px-6 sm:px-8 py-5 text-[11px] font-black uppercase tracking-[0.15em] text-on-surface-variant text-center">Active Projects</th>
+<th class="px-6 sm:px-8 py-5 text-[11px] font-black uppercase tracking-[0.15em] text-on-surface-variant">SLA Tier</th>
+<th class="px-6 sm:px-8 py-5 text-[11px] font-black uppercase tracking-[0.15em] text-on-surface-variant">Monthly Burn</th>
+<th class="px-6 sm:px-8 py-5 text-[11px] font-black uppercase tracking-[0.15em] text-on-surface-variant text-right">Actions</th>
 </tr>
 </thead>
-<tbody class="divide-y divide-zinc-800">
-<tr class="hover:bg-surface-bright transition-colors group">
-<td class="px-6 sm:px-8 py-6">
-<div class="flex items-center gap-4">
-<div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-indigo-500/20 to-purple-500/20 flex items-center justify-center overflow-hidden border border-white/5 shrink-0">
-<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVvTejy_QtD0S4Fosz9DyXIZciFyQV9lh5n4dU5hMg1erzf6rDsch-AGSIg_5kd8GMRObgJAQMhRwq_B_Uc-qVWGEWaUh_MEYTKTnkqJm5WRpSogJsppZk-gfxRNgi_pSILgBRcK3Rj9tiWGjPnG3NBaX8ayQxtYZ-8vgZ4bRkMAAEfQ_DarJWErYMcsoKeiMy_wGUoKGFF2kHGmAm-PBH8eov5jOg1taqx0nU6S3vXzv_1Hm5OWUVOcU4tq-4CYeThYScmIeKDg"/>
-</div>
-<div>
-<div class="text-white font-bold text-sm sm:text-base tracking-tight">Nebula Quantum Labs</div>
-<div class="text-zinc-500 text-[10px] sm:text-xs">nebula.io</div>
-</div>
-</div>
-</td>
-<td class="px-6 sm:px-8 py-6 text-center">
-<div class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary font-black text-xs">12</div>
-</td>
-<td class="px-6 sm:px-8 py-6">
-<span class="px-3 py-1 rounded-full text-[9px] sm:text-[10px] font-black bg-primary text-white dark:text-[#0a0a0a] uppercase tracking-widest">Premium</span>
-</td>
-<td class="px-6 sm:px-8 py-6">
-<div class="text-white font-mono font-bold text-sm sm:text-base">$42,500.00</div>
-<div class="text-zinc-500 text-[9px] sm:text-[10px] uppercase font-bold tracking-tighter">+2.4% vs last mo</div>
-</td>
-<td class="px-6 sm:px-8 py-6 text-right">
-<div class="flex items-center justify-end gap-2 sm:opacity-0 group-hover:opacity-100 transition-opacity">
-<button class="p-2 text-zinc-400 hover:text-primary transition-colors" title="View Portal" onclick="window.open('https://nebula.io/portal', '_blank')">
-<span class="material-symbols-outlined">rocket_launch</span>
-</button>
-<button class="lead-architect-only p-2 text-zinc-400 hover:text-white transition-colors" title="Edit Profile" onclick="window.openEditClientModal('Nebula Quantum Labs')">
-<span class="material-symbols-outlined">edit_square</span>
-</button>
-</div>
-</td>
-</tr>
-
-<tr class="hover:bg-surface-bright transition-colors group">
-<td class="px-6 sm:px-8 py-6">
-<div class="flex items-center gap-4">
-<div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-orange-500/20 to-red-500/20 flex items-center justify-center overflow-hidden border border-white/5 shrink-0">
-<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfjXSiuhTNN4Xsu6N_pEvywxyJHycg__Aa_hoMGKnMILdl7REJcwfkHNNpZC-PuYB8sPZ7vVgPs5q18LUwiXjcI3LyyGbdvj60KE4RTwq_c-walXB0bQYTYrKC04-iu6NIwijLEZXxqdYzGjq5lWcA5bUhOhdHVrzsvTIPjagmD4i8dSqLOkPeajefLle_S8C1QNUDNK4Zf2I1TyYAxMsQgUUxw6OddJ6krMY46X0OFTrEM-CQ3OmzEzFhlXp0YiS0eUKDcIBQxw"/>
-</div>
-<div>
-<div class="text-white font-bold text-sm sm:text-base tracking-tight">Arcane Robotics</div>
-<div class="text-zinc-500 text-[10px] sm:text-xs">arcane.ai</div>
-</div>
-</div>
-</td>
-<td class="px-6 sm:px-8 py-6 text-center">
-<div class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/5 text-zinc-400 font-black text-xs">04</div>
-</td>
-<td class="px-6 sm:px-8 py-6">
-<span class="px-3 py-1 rounded-full text-[9px] sm:text-[10px] font-black bg-secondary-container text-on-secondary-container uppercase tracking-widest">Standard</span>
-</td>
-<td class="px-6 sm:px-8 py-6">
-<div class="text-white font-mono font-bold text-sm sm:text-base">$18,200.00</div>
-<div class="text-zinc-500 text-[9px] sm:text-[10px] uppercase font-bold tracking-tighter">Stable</div>
-</td>
-<td class="px-6 sm:px-8 py-6 text-right">
-<div class="flex items-center justify-end gap-2 sm:opacity-0 group-hover:opacity-100 transition-opacity">
-<button class="p-2 text-zinc-400 hover:text-primary transition-colors" title="View Portal" onclick="window.open('https://arcane.ai/portal', '_blank')">
-<span class="material-symbols-outlined">rocket_launch</span>
-</button>
-<button class="lead-architect-only p-2 text-zinc-400 hover:text-white transition-colors" title="Edit Profile" onclick="window.openEditClientModal('Arcane Robotics')">
-<span class="material-symbols-outlined">edit_square</span>
-</button>
-</div>
-</td>
-</tr>
-
-<tr class="hover:bg-surface-bright transition-colors group">
-<td class="px-6 sm:px-8 py-6">
-<div class="flex items-center gap-4">
-<div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-green-500/20 to-teal-500/20 flex items-center justify-center overflow-hidden border border-white/5 shrink-0">
-<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5iOl8j_aFTsITwxSksUNxvLVGXhwgOinXEMcO4s1qfEmh_Uh2J8RvzG41pIQSnHbxxVAKpouIYRSA4Gmm0mwqtFl9I0GtulTWq1jjP3CqLqEkwsEISu8u16f2-w59oSVxvxW2Y_0lBHVkYRsxcnctew6QogAXq9XCokmprfLGAAjFhH4SB1uHvFh3U1QcuGV39c8yZxm1JB79GTVHtXOBpugdd-M6xBPNxyW-tC8oEXn0QUX_H4THNEVpI7SffKrH68q3Hd_y4w"/>
-</div>
-<div>
-<div class="text-white font-bold text-sm sm:text-base tracking-tight">Veridian Systems</div>
-<div class="text-zinc-500 text-[10px] sm:text-xs">veridian.tech</div>
-</div>
-</div>
-</td>
-<td class="px-6 sm:px-8 py-6 text-center">
-<div class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/5 text-zinc-400 font-black text-xs">02</div>
-</td>
-<td class="px-6 sm:px-8 py-6">
-<span class="px-3 py-1 rounded-full text-[9px] sm:text-[10px] font-black bg-surface-container-highest text-zinc-400 uppercase tracking-widest">Basic</span>
-</td>
-<td class="px-6 sm:px-8 py-6">
-<div class="text-white font-mono font-bold text-sm sm:text-base">$4,850.00</div>
-<div class="text-zinc-500 text-[9px] sm:text-[10px] uppercase font-bold tracking-tighter">-12% vs last mo</div>
-</td>
-<td class="px-6 sm:px-8 py-6 text-right">
-<div class="flex items-center justify-end gap-2 sm:opacity-0 group-hover:opacity-100 transition-opacity">
-<button class="p-2 text-zinc-400 hover:text-primary transition-colors" title="View Portal" onclick="window.open('https://veridian.tech/portal', '_blank')">
-<span class="material-symbols-outlined">rocket_launch</span>
-</button>
-<button class="lead-architect-only p-2 text-zinc-400 hover:text-white transition-colors" title="Edit Profile" onclick="window.openEditClientModal('Veridian Systems')">
-<span class="material-symbols-outlined">edit_square</span>
-</button>
-</div>
-</td>
-</tr>
-
-<tr class="hover:bg-surface-bright transition-colors group">
-<td class="px-6 sm:px-8 py-6">
-<div class="flex items-center gap-4">
-<div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-pink-500/20 to-rose-500/20 flex items-center justify-center overflow-hidden border border-white/5 shrink-0">
-<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAxHGsuk2Z8oWfkXlu7t_mzv3I9xPGs_5dwR1U05SYL_XfLE8_W4YvRt3f0XrjtiY_NkewGrKVPRHOXbvEHZ-YVtBQUNydUuc7oVz9qCRuUoTWRGEWqKz8N-GXcgRydcGQOc0P2U8Xkd8-jtD15J5vsDb1E7D3EQDxiBxPRewN11pE1g2LSXx54XVMDur5YMzRFusK9bePIIIJPu7gAaycDp7Ayh1HrtTrDq8ge5AdVgnuNVxp6YP2N6vZN6oA6034tMNvc9KwCA"/>
-</div>
-<div>
-<div class="text-white font-bold text-sm sm:text-base tracking-tight">Onyx Creative Group</div>
-<div class="text-zinc-500 text-[10px] sm:text-xs">onyx.design</div>
-</div>
-</div>
-</td>
-<td class="px-6 sm:px-8 py-6 text-center">
-<div class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary font-black text-xs">21</div>
-</td>
-<td class="px-6 sm:px-8 py-6">
-<span class="px-3 py-1 rounded-full text-[9px] sm:text-[10px] font-black bg-primary text-white dark:text-[#0a0a0a] uppercase tracking-widest">Premium</span>
-</td>
-<td class="px-6 sm:px-8 py-6">
-<div class="text-white font-mono font-bold text-sm sm:text-base">$68,900.00</div>
-<div class="text-zinc-500 text-[9px] sm:text-[10px] uppercase font-bold tracking-tighter">Accelerating</div>
-</td>
-<td class="px-6 sm:px-8 py-6 text-right">
-<div class="flex items-center justify-end gap-2 sm:opacity-0 group-hover:opacity-100 transition-opacity">
-<button class="p-2 text-zinc-400 hover:text-primary transition-colors" title="View Portal" onclick="window.open('https://onyx.design/portal', '_blank')">
-<span class="material-symbols-outlined">rocket_launch</span>
-</button>
-<button class="lead-architect-only p-2 text-zinc-400 hover:text-white transition-colors" title="Edit Profile" onclick="window.openEditClientModal('Onyx Creative Group')">
-<span class="material-symbols-outlined">edit_square</span>
-</button>
-</div>
-</td>
-</tr>
-
-</tbody>
+<tbody id="client-directory-container" class="divide-y divide-outline-variant">
+    </tbody>
 </table>
 </div>
-<div class="px-6 sm:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 bg-surface-container-low border-t border-zinc-800">
-<div class="text-on-surface-variant text-xs font-inter font-bold">Showing 1-4 of 32 Global Clients</div>
+<div class="px-6 sm:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 bg-surface-container-low border-t border-outline-variant">
+<div class="text-on-surface-variant text-xs font-inter font-bold" id="client-pagination-info">Showing 0-0 of 0 Global Clients</div>
 <div class="flex gap-2">
-<button class="p-2 rounded-lg bg-surface-container-high text-zinc-500 hover:text-white transition-colors disabled:opacity-50" disabled="">
+<button class="p-2 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors disabled:opacity-50" disabled="">
 <span class="material-symbols-outlined">chevron_left</span>
 </button>
-<button class="px-4 py-2 rounded-lg bg-primary text-white dark:text-[#0a0a0a] font-black text-xs shadow-sm">1</button>
-<button class="px-4 py-2 rounded-lg bg-surface-container-high text-zinc-400 hover:text-white transition-colors font-black text-xs">2</button>
-<button class="px-4 py-2 rounded-lg bg-surface-container-high text-zinc-400 hover:text-white transition-colors font-black text-xs">3</button>
-<button class="p-2 rounded-lg bg-surface-container-high text-zinc-500 hover:text-white transition-colors">
+<button class="px-4 py-2 rounded-lg bg-primary text-[#09090b] font-black text-xs shadow-sm">1</button>
+<button class="p-2 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors disabled:opacity-50" disabled="">
 <span class="material-symbols-outlined">chevron_right</span>
 </button>
 </div>
 </div>
 </div>
 <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-<div class="bg-surface-container-low p-8 rounded-2xl border border-white/5">
+<div class="bg-surface-container-low p-8 rounded-2xl border border-outline-variant shadow-[var(--card-shadow)]">
 <div class="flex items-center justify-between mb-4">
 <span class="material-symbols-outlined text-primary text-3xl">trending_up</span>
-<span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-1 rounded">HEALTHY</span>
+<span class="text-[10px] font-bold text-primary bg-[var(--color-primary-glow)] px-2 py-1 rounded">HEALTHY</span>
 </div>
-<h4 class="text-3xl font-black text-white">$133.5K</h4>
+<h4 id="stat-combined-revenue" class="text-3xl font-black text-on-surface">--</h4>
 <p class="text-on-surface-variant uppercase tracking-widest text-[10px] font-bold mt-2">Combined Monthly Revenue</p>
 </div>
-<div class="bg-surface-container-low p-8 rounded-2xl border border-white/5">
+<div class="bg-surface-container-low p-8 rounded-2xl border border-outline-variant shadow-[var(--card-shadow)]">
 <div class="flex items-center justify-between mb-4">
 <span class="material-symbols-outlined text-secondary text-3xl">verified</span>
-<span class="text-[10px] font-bold text-secondary bg-secondary/10 px-2 py-1 rounded">94.2%</span>
+<span id="stat-sla-badge" class="text-[10px] font-bold text-secondary bg-[var(--color-primary-glow)] px-2 py-1 rounded" style="color: var(--color-primary); background-color: var(--color-primary-glow);">--%</span>
 </div>
-<h4 class="text-3xl font-black text-white">SLA COMPLIANT</h4>
+<h4 class="text-3xl font-black text-on-surface">SLA COMPLIANT</h4>
 <p class="text-on-surface-variant uppercase tracking-widest text-[10px] font-bold mt-2">Active Service Delivery</p>
 </div>
-<div class="bg-surface-container-low p-8 rounded-2xl border border-white/5">
+<div class="bg-surface-container-low p-8 rounded-2xl border border-outline-variant shadow-[var(--card-shadow)]">
 <div class="flex items-center justify-between mb-4">
-<span class="material-symbols-outlined text-zinc-400 text-3xl">hub</span>
-<span class="text-[10px] font-bold text-zinc-400 bg-white/5 px-2 py-1 rounded">GLOBAL</span>
+<span class="material-symbols-outlined text-on-surface-variant text-3xl">hub</span>
+<span class="text-[10px] font-bold text-on-surface-variant bg-[var(--color-surface-highest-alpha)] px-2 py-1 rounded">GLOBAL</span>
 </div>
-<h4 class="text-3xl font-black text-white">14 COUNTRIES</h4>
+<h4 id="stat-global-reach" class="text-3xl font-black text-on-surface">--</h4>
 <p class="text-on-surface-variant uppercase tracking-widest text-[10px] font-bold mt-2">Market Distribution</p>
 </div>
 </div>
 </main>
 
+<template id="tpl-client-row">
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="px-6 sm:px-8 py-6">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl {bgGradient} flex items-center justify-center overflow-hidden border border-outline-variant shrink-0">
+<img class="w-full h-full object-cover" src="{logoUrl}"/>
+</div>
+<div>
+<div class="text-on-surface font-bold text-sm sm:text-base tracking-tight">{clientName}</div>
+<div class="text-on-surface-variant text-[10px] sm:text-xs">{domain}</div>
+</div>
+</div>
+</td>
+<td class="px-6 sm:px-8 py-6 text-center">
+<div class="inline-flex items-center justify-center w-8 h-8 rounded-full {projectBadgeClass} font-black text-xs">{activeProjects}</div>
+</td>
+<td class="px-6 sm:px-8 py-6">
+<span class="px-3 py-1 rounded-full text-[9px] sm:text-[10px] font-black {slaBadgeClass} uppercase tracking-widest">{slaTier}</span>
+</td>
+<td class="px-6 sm:px-8 py-6">
+<div class="text-on-surface font-mono font-bold text-sm sm:text-base">{monthlyBurn}</div>
+<div class="text-on-surface-variant text-[9px] sm:text-[10px] uppercase font-bold tracking-tighter">{burnTrend}</div>
+</td>
+<td class="px-6 sm:px-8 py-6 text-right">
+<div class="flex items-center justify-end gap-2 sm:opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors" title="View Portal" onclick="window.open('{portalLink}', '_blank')">
+<span class="material-symbols-outlined">rocket_launch</span>
+</button>
+<button class="lead-architect-only p-2 text-on-surface-variant hover:text-on-surface transition-colors" title="Edit Profile" onclick="window.openEditClientModal('{clientNameEscaped}')">
+<span class="material-symbols-outlined">edit_square</span>
+</button>
+</div>
+</td>
+</tr>
+</template>
+
 <template id="tpl-filter-modal">
     <div class="space-y-4 text-left">
         <div class="space-y-2">
-            <label class="text-xs font-bold text-zinc-400 uppercase tracking-widest">SLA Tier</label>
-            <select class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-white focus:ring-1 focus:ring-primary outline-none">
+            <label class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">SLA Tier</label>
+            <select class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-on-surface focus:ring-1 focus:ring-primary outline-none">
                 <option>All Tiers</option>
                 <option>Premium</option>
                 <option>Standard</option>
@@ -238,8 +131,8 @@
             </select>
         </div>
         <div class="space-y-2">
-            <label class="text-xs font-bold text-zinc-400 uppercase tracking-widest">Status</label>
-            <select class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-white focus:ring-1 focus:ring-primary outline-none">
+            <label class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Status</label>
+            <select class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-on-surface focus:ring-1 focus:ring-primary outline-none">
                 <option>Active Projects Only</option>
                 <option>Archived</option>
             </select>
@@ -248,19 +141,19 @@
 </template>
 
 <template id="tpl-filter-action">
-    <button onclick="if(window.Modal) window.Modal.hide()" class="text-zinc-400 hover:text-white font-bold text-sm px-4 transition-colors">Clear</button>
-    <button onclick="if(window.Modal) window.Modal.hide(); if(window.Toast) window.Toast.show('Filters applied.', 'success')" class="bg-primary text-white dark:text-[#0a0a0a] px-6 py-2.5 rounded-lg font-bold text-sm transition-colors">Apply Filters</button>
+    <button onclick="if(window.Modal) window.Modal.hide()" class="text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors">Clear</button>
+    <button onclick="if(window.Modal) window.Modal.hide(); if(window.Toast) window.Toast.show('Filters applied.', 'success')" class="bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm transition-colors">Apply Filters</button>
 </template>
 
 <template id="tpl-edit-modal">
     <div class="space-y-4 text-left">
         <div class="space-y-2">
-            <label class="text-xs font-bold text-zinc-400 uppercase tracking-widest">Company Name</label>
-            <input type="text" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-white focus:ring-1 focus:ring-primary outline-none" value="{name}"/>
+            <label class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Company Name</label>
+            <input type="text" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-on-surface focus:ring-1 focus:ring-primary outline-none" value="{name}"/>
         </div>
         <div class="space-y-2">
-            <label class="text-xs font-bold text-zinc-400 uppercase tracking-widest">SLA Tier Update</label>
-            <select class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-white focus:ring-1 focus:ring-primary outline-none">
+            <label class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">SLA Tier Update</label>
+            <select class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-on-surface focus:ring-1 focus:ring-primary outline-none">
                 <option selected>Premium</option>
                 <option>Standard</option>
                 <option>Basic</option>
@@ -270,22 +163,11 @@
 </template>
 
 <template id="tpl-edit-action">
-    <button onclick="if(window.Modal) window.Modal.hide()" class="text-zinc-400 hover:text-white font-bold text-sm px-4 transition-colors">Cancel</button>
-    <button onclick="if(window.Modal) window.Modal.hide(); if(window.Toast) window.Toast.show('Client profile updated.', 'success')" class="bg-primary text-white dark:text-[#0a0a0a] px-6 py-2.5 rounded-lg font-bold text-sm transition-colors">Save Changes</button>
+    <button onclick="if(window.Modal) window.Modal.hide()" class="text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors">Cancel</button>
+    <button onclick="if(window.Modal) window.Modal.hide(); if(window.Toast) window.Toast.show('Client profile updated.', 'success')" class="bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm transition-colors">Save Changes</button>
 </template>
 
 <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" style="display:none;" onload="
-    window.setRole = function(role) {
-        const editBtns = document.querySelectorAll('.lead-architect-only');
-        if (role === 'Lead Architect') {
-            editBtns.forEach(function(btn) { btn.style.display = ''; });
-            if(window.Toast) window.Toast.show('Viewing as Lead Architect (Full Access)', 'success');
-        } else {
-            editBtns.forEach(function(btn) { btn.style.display = 'none'; });
-            if(window.Toast) window.Toast.show('Viewing as Standard Admin (Restricted)', 'info');
-        }
-    };
-    
     window.openFilterModal = function() {
         const m = document.getElementById('tpl-filter-modal').innerHTML;
         const a = document.getElementById('tpl-filter-action').innerHTML;
@@ -298,8 +180,64 @@
         if(window.Modal) window.Modal.show('Edit Client: ' + clientName, m, a);
     };
 
-    setTimeout(function() { 
-        window.setRole('Lead Architect'); 
-    }, 100);
+    window.handleDirectoryHydration = function(e) {
+        const payload = e.detail;
+        if(!payload) return;
+
+        const role = payload.currentUser?.role || 'Admin';
+        
+        if (payload.stats) {
+            const revEl = document.getElementById('stat-combined-revenue');
+            const slaEl = document.getElementById('stat-sla-badge');
+            const reachEl = document.getElementById('stat-global-reach');
+            if (revEl && role !== 'Admin') revEl.innerText = payload.stats.combinedRevenue || '0';
+            if (slaEl) slaEl.innerText = payload.stats.slaCompliance || '0%';
+            if (reachEl) reachEl.innerText = payload.stats.globalReach || '0 COUNTRIES';
+        }
+
+        const cont = document.getElementById('client-directory-container');
+        const tpl = document.getElementById('tpl-client-row');
+        if (cont && tpl && payload.clients) {
+            cont.innerHTML = '';
+            if (payload.clients.length === 0) {
+                cont.innerHTML = `<tr><td colspan='5' class='text-center py-12 text-on-surface-variant'>No clients registered in the directory.</td></tr>`;
+            } else {
+                payload.clients.forEach(client => {
+                    let html = tpl.innerHTML;
+                    const isPremium = client.slaTier === 'Premium';
+                    const bgGradient = isPremium ? 'bg-gradient-to-br from-[var(--color-primary-glow)] to-transparent' : 'bg-surface-container-highest';
+                    const projBadge = parseInt(client.activeProjects) > 0 ? 'bg-[var(--color-primary-glow)] text-primary' : 'bg-[var(--color-surface-highest-alpha)] text-on-surface-variant';
+                    let slaBadge = 'bg-surface-container-highest text-on-surface-variant';
+                    if (isPremium) slaBadge = 'bg-primary text-[#09090b]';
+                    else if (client.slaTier === 'Standard') slaBadge = 'bg-[var(--color-primary-glow)] text-primary';
+
+                    const escapedName = client.name.replace(/'/g, '\\\'');
+
+                    html = html.replace(/{bgGradient}/g, bgGradient)
+                               .replace(/{logoUrl}/g, client.logoUrl || '/assets/icons/ethan01logo.svg')
+                               .replace(/{clientName}/g, client.name)
+                               .replace(/{clientNameEscaped}/g, escapedName)
+                               .replace(/{domain}/g, client.domain)
+                               .replace(/{projectBadgeClass}/g, projBadge)
+                               .replace(/{activeProjects}/g, client.activeProjects)
+                               .replace(/{slaBadgeClass}/g, slaBadge)
+                               .replace(/{slaTier}/g, client.slaTier)
+                               .replace(/{monthlyBurn}/g, role === 'Admin' ? '***' : client.monthlyBurn)
+                               .replace(/{burnTrend}/g, role === 'Admin' ? 'Restricted' : client.burnTrend)
+                               .replace(/{portalLink}/g, client.portalLink || '#');
+                    
+                    cont.innerHTML += html;
+                });
+            }
+
+            if (role === 'Admin') {
+                document.querySelectorAll('.lead-architect-only').forEach(btn => btn.style.display = 'none');
+            }
+        }
+    };
+
+    window.removeEventListener('vanguard-directory-sync', window.handleDirectoryHydration);
+    window.addEventListener('vanguard-directory-sync', window.handleDirectoryHydration);
+
     this.remove();
 " />

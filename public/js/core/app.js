@@ -4,11 +4,15 @@ import { initAuthObserver } from './auth.js';
 import { initTheme } from './theme.js';
 import { initHeaderDrops } from '../components/notifications.js';
 import { renderHeader } from '../components/header.js'; 
-import { renderSidebar } from '../components/sidebar.js'; // NEW: Import sidebar
+import { renderSidebar } from '../components/sidebar.js'; 
 
 // RESTORED: Side-effect imports to prevent SyntaxError crashes
 import '../components/Toast.js'; 
 import '../components/modal.js'; 
+
+// Vanguard Engine Core Data Controllers
+import './seed.js';
+import './db.js';
 
 // --- GLOBAL UI UTILITIES ---
 
@@ -107,7 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initNetworkObserver();
     
     handleLocation().then(() => {
-        renderSidebar(); // NEW: Render sidebar on initial load
+        renderSidebar(); 
         renderHeader(); 
         initHeaderDrops(); 
         
@@ -119,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 window.addEventListener("hashchange", () => {
     handleLocation().then(() => {
-        renderSidebar(); // NEW: Re-render sidebar when URL changes
+        renderSidebar(); 
         renderHeader();
         initHeaderDrops();
     });

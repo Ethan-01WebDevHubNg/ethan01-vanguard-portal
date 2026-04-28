@@ -17,9 +17,10 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Export core services (Standard initialization, no specific DB binding)
+// Export core services
 export const auth = getAuth(app);
-export const db = getFirestore(app);
+// CRITICAL FIX: Explicitly target the named database 'eth-db' instead of '(default)'
+export const db = getFirestore(app, "eth-db"); 
 export const storage = getStorage(app);
 
-console.log("Firebase Environment Initialized.");
+console.log("Firebase Environment Initialized (Targeting eth-db).");

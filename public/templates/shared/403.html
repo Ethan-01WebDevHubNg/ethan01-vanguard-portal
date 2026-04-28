@@ -1,7 +1,7 @@
 <div class="fixed inset-0 pointer-events-none overflow-hidden">
 <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-error-container/10 rounded-full blur-[120px]"></div>
 <div class="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] bg-primary-container/5 rounded-full blur-[100px]"></div>
-<div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(#ffffff 1px, transparent 1px); background-size: 40px 40px;"></div>
+<div class="absolute inset-0 opacity-[0.05]" style="background-image: radial-gradient(var(--color-on-surface) 1px, transparent 1px); background-size: 40px 40px;"></div>
 </div>
 <main class="relative z-10 w-full max-w-4xl px-6 flex flex-col items-center justify-center min-h-screen py-12 overflow-y-auto lg:overflow-hidden mx-auto">
 <div class="mb-8 flex flex-col items-center gap-3">
@@ -12,24 +12,24 @@
 <div class="relative w-48 h-48 lg:w-64 lg:h-64 flex-shrink-0">
 <div class="absolute inset-0 bg-error-container/20 rounded-full animate-pulse"></div>
 <div class="absolute inset-4 border border-error-dim/30 rounded-full"></div>
-<div class="absolute inset-8 border border-error-dim/50 rounded-full flex items-center justify-center bg-surface-variant/60 backdrop-blur-md drop-shadow-[0_0_15px_rgba(213,61,24,0.3)]">
+<div class="absolute inset-8 border border-error-dim/50 rounded-full flex items-center justify-center bg-[var(--color-surface-highest-alpha)] backdrop-blur-md drop-shadow-[0_0_15px_rgba(239,68,68,0.3)]">
 <span class="material-symbols-outlined text-error text-6xl lg:text-8xl" style="font-variation-settings: 'FILL' 1;">security</span>
 </div>
-<div class="absolute top-1/2 left-0 w-full h-[1px] bg-error/40 shadow-[0_0_10px_#ff7351]"></div>
+<div class="absolute top-1/2 left-0 w-full h-[1px] bg-error/40 shadow-[0_0_10px_var(--color-error)]"></div>
 </div>
 <div class="flex-1 text-center lg:text-left">
 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-error-container/20 border border-error-container/30 mb-6">
 <span class="material-symbols-outlined text-error text-sm" style="font-variation-settings: 'FILL' 1;">warning</span>
 <span class="text-[10px] uppercase tracking-[0.2em] font-bold text-error">Critical Exception: 403</span>
 </div>
-<h1 class="text-5xl lg:text-7xl font-extrabold tracking-tighter mb-4 leading-tight">
+<h1 class="text-5xl lg:text-7xl font-extrabold tracking-tighter mb-4 leading-tight text-on-surface">
                     Access <span class="text-error">Denied.</span>
 </h1>
 <p class="text-on-surface-variant text-lg lg:text-xl leading-relaxed max-w-xl mb-10">
                     You do not have the required clearance to view this sector. This incident has been logged and reported to ETHAN01 Security Command.
                 </p>
 <div class="flex flex-col sm:flex-row items-center gap-4">
-<button class="w-full sm:w-auto px-8 py-4 bg-primary text-surface-container-lowest font-bold rounded-lg hover:bg-primary-container transition-all duration-300 flex items-center justify-center gap-2 group">
+<button class="w-full sm:w-auto px-8 py-4 bg-primary text-[#09090b] font-bold rounded-lg hover:bg-primary-container transition-all duration-300 flex items-center justify-center gap-2 group shadow-[0_4px_20px_var(--color-primary-glow)]">
 <span>Request Access</span>
 <span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
 </button>
@@ -42,7 +42,7 @@
 </div>
 </main>
 <div class="fixed right-8 top-1/2 -translate-y-1/2 hidden xl:block pointer-events-none">
-<span class="text-[10px] uppercase tracking-[1em] text-white/10 [writing-mode:vertical-lr] font-black">
+<span class="text-[10px] uppercase tracking-[1em] text-on-surface opacity-10 [writing-mode:vertical-lr] font-black">
             RESTRICTED ACCESS ZONE
         </span>
 </div>

@@ -1,8 +1,8 @@
 <main class="min-h-screen lg:h-screen w-full overflow-y-auto lg:overflow-hidden grid grid-cols-1 lg:grid-cols-2">
-<section class="relative hidden lg:flex flex-col justify-between p-12 overflow-hidden bg-surface-container-low">
+<section class="relative hidden lg:flex flex-col justify-between p-12 overflow-hidden bg-[#09090b] border-r border-[#27272a]">
 <div class="absolute inset-0 z-0">
 <img alt="abstract digital architectural render" class="w-full h-full object-cover opacity-40 mix-blend-luminosity" data-alt="abstract architectural rendering of floating geometric shards in deep charcoal and neon lime accents with soft volumetric lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjuNu0Xdj3qS5zLXz7UIKSXaWMvjBvGBzAkcITq1lu39hJYkcxbDm2FzAe8BDXeNagdmGzkmQjGNgfRp7En7EXjiPrk3OnNyWNWE3cnkZDBybxgOtfQslDKAdCYPbjnYl0w5j7WbB5kxRWUsdHDAteqM1KVw_I9gYAH65Q_z_uHZ41_16HVKz2qnMwP38e5XP891yI0VFYlDOSj5uN3C55ak_h-kDxbDEJEnZxCRoRRej-3gS7QWtjNWwzrnt2JckZeAvobIPliw"/>
-<div class="absolute inset-0 bg-gradient-to-tr from-surface via-transparent to-transparent"></div>
+<div class="absolute inset-0 bg-gradient-to-tr from-[#09090b] via-transparent to-[var(--color-primary-glow)]"></div>
 </div>
 <div class="relative z-10">
 <div class="flex items-center gap-3">
@@ -13,90 +13,90 @@
 <h1 class="text-[3.5rem] leading-[1.1] font-black tracking-tighter text-white mb-6">
                     PRECISION<br/>MODERNISM.
                 </h1>
-<p class="text-on-surface-variant text-lg leading-relaxed font-body">
+<p class="text-zinc-400 text-lg leading-relaxed font-body">
                     Welcome to the InfoTech Agency vanguard. A high-performance interface designed for technical authority and editorial clarity.
                 </p>
 </div>
 <div class="relative z-10 flex gap-8">
 <div>
-<div class="text-[0.6875rem] uppercase tracking-[0.05em] text-on-surface-variant mb-1">Status</div>
+<div class="text-[0.6875rem] uppercase tracking-[0.05em] text-zinc-500 mb-1">Status</div>
 <div class="text-primary font-bold flex items-center gap-2">
 <span class="h-2 w-2 rounded-full bg-primary animate-pulse"></span>
                         SYSTEMS OPERATIONAL
                     </div>
 </div>
 <div>
-<div class="text-[0.6875rem] uppercase tracking-[0.05em] text-on-surface-variant mb-1">Version</div>
+<div class="text-[0.6875rem] uppercase tracking-[0.05em] text-zinc-500 mb-1">Version</div>
 <div class="text-white font-mono">v4.0.2-STABLE</div>
 </div>
 </div>
 </section>
+
 <section class="flex items-center justify-center p-6 md:p-12 bg-surface">
 <div class="w-full max-w-md">
 <div class="lg:hidden mb-6 flex items-center gap-3">
 <img src="/assets/icons/ethan01logo.svg" alt="ETHAN01 Logo" class="h-6 w-auto object-contain">
 </div>
 <header class="mb-6">
-<div class="inline-block px-3 py-1 bg-surface-container-highest rounded-full text-[0.6875rem] font-bold tracking-[0.05em] text-primary mb-4 uppercase">
+<div class="inline-block px-3 py-1 bg-surface-container-highest rounded-full text-[0.6875rem] font-bold tracking-[0.05em] text-primary mb-4 uppercase border border-outline-variant">
                         Secure Access
                     </div>
-<h2 class="text-3xl font-black tracking-tight text-white mb-2">Welcome Back</h2>
+<h2 class="text-3xl font-black tracking-tight text-on-surface mb-2">Welcome Back</h2>
 <p class="text-on-surface-variant font-body">Enter your credentials to access your agency portal.</p>
 </header>
 <form class="space-y-4">
 <div class="space-y-2">
 <label class="text-[0.6875rem] uppercase tracking-[0.05em] text-on-surface-variant font-bold ml-1" for="email">Email Address</label>
 <div class="relative group">
-<input class="w-full bg-surface-container-high border-none rounded-xl px-4 py-3 text-white placeholder:text-outline focus:ring-2 focus:ring-primary/50 transition-all duration-200" id="email" name="email" placeholder="name@agency.com" type="email"/>
+<input class="w-full bg-surface-container-highest border-[1.5px] border-[var(--input-border)] rounded-xl px-4 py-3 text-on-surface placeholder:text-on-surface-variant focus:border-primary focus:ring-[3px] focus:ring-[var(--input-ring)] outline-none transition-all duration-200 shadow-[var(--input-shadow)]" id="email" name="email" placeholder="name@agency.com" type="email"/>
 </div>
 </div>
 <div class="space-y-2">
 <div class="flex justify-between items-end ml-1">
 <label class="text-[0.6875rem] uppercase tracking-[0.05em] text-on-surface-variant font-bold" for="password">Password</label>
-<a class="text-[0.6875rem] uppercase tracking-[0.05em] text-secondary font-bold hover:text-primary transition-colors" href="#/client/forgot-password">Forgot Password?</a>
+<a class="text-[0.6875rem] uppercase tracking-[0.05em] text-primary font-bold hover:text-primary-container transition-colors" href="#/client/forgot-password">Forgot Password?</a>
 </div>
 <div class="relative group">
-<input class="w-full bg-surface-container-high border-none rounded-xl px-4 py-3 text-white placeholder:text-outline focus:ring-2 focus:ring-primary/50 transition-all duration-200" id="password" name="password" placeholder="••••••••••••" type="password"/>
+<input class="w-full bg-surface-container-highest border-[1.5px] border-[var(--input-border)] rounded-xl px-4 py-3 text-on-surface placeholder:text-on-surface-variant focus:border-primary focus:ring-[3px] focus:ring-[var(--input-ring)] outline-none transition-all duration-200 shadow-[var(--input-shadow)]" id="password" name="password" placeholder="••••••••••••" type="password"/>
 </div>
 </div>
 <div class="flex items-center gap-3 py-2">
 <div class="relative flex items-center">
-<input class="h-5 w-5 rounded-lg border-none bg-surface-container-highest text-primary focus:ring-offset-surface focus:ring-primary" id="remember" type="checkbox"/>
+<input class="h-5 w-5 rounded-lg border border-outline-variant bg-surface-container-highest text-primary focus:ring-offset-surface focus:ring-primary cursor-pointer" id="remember" type="checkbox"/>
 </div>
-<label class="text-sm text-on-surface-variant select-none" for="remember">Remember this device for 30 days</label>
+<label class="text-sm text-on-surface-variant select-none cursor-pointer" for="remember">Remember this device for 30 days</label>
 </div>
-<button class="w-full group relative overflow-hidden bg-gradient-to-br from-primary to-primary-container text-on-primary font-black py-3 rounded-xl transition-all duration-300 hover:scale-[1.01] active:scale-[0.98] ghost-shadow" type="submit" onclick="window.processLogin(event, this.closest('form'), 'client')">
+<button class="w-full group relative overflow-hidden bg-primary text-[#09090b] font-black py-3 rounded-xl transition-all duration-300 hover:scale-[1.01] active:scale-[0.98] shadow-[0_4px_20px_var(--color-primary-glow)] hover:bg-primary-container" type="submit" onclick="window.processLogin(event, this.closest('form'), 'client')">
 <span class="relative z-10 flex items-center justify-center gap-2 uppercase tracking-wider text-sm">
                             Initialize Session
                             <span class="material-symbols-outlined text-lg">arrow_forward</span>
 </span>
-<div class="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
 </button>
 </form>
-<footer class="mt-6 pt-6 border-t border-outline-variant/10">
+<footer class="mt-6 pt-6 border-t border-outline-variant">
 <div class="flex flex-col gap-4">
 <div class="text-[0.6875rem] uppercase tracking-[0.05em] text-on-surface-variant text-center mb-2">Or continue with</div>
 <div class="grid grid-cols-2 gap-4">
-<button type="button" onclick="Toast.show('Connecting to Google...', 'info')" class="flex items-center justify-center gap-2 py-3 px-4 bg-surface-container-low rounded-xl border border-outline-variant/10 hover:bg-surface-container-highest transition-all duration-200">
+<button type="button" onclick="Toast.show('Connecting to Google...', 'info')" class="flex items-center justify-center gap-2 py-3 px-4 bg-surface-container-low rounded-xl border border-outline-variant hover:bg-surface-container-highest transition-all duration-200 shadow-sm">
 <svg class="h-4 w-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
     <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
     <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
     <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
 </svg>
-<span class="text-xs font-bold text-white uppercase tracking-tight">Google</span>
+<span class="text-xs font-bold text-on-surface uppercase tracking-tight">Google</span>
 </button>
-<button type="button" onclick="Toast.show('Connecting to Company SSO...', 'info')" class="flex items-center justify-center gap-2 py-3 px-4 bg-surface-container-low rounded-xl border border-outline-variant/10 hover:bg-surface-container-highest transition-all duration-200">
-<span class="material-symbols-outlined text-white text-lg">terminal</span>
-<span class="text-xs font-bold text-white uppercase tracking-tight">SSO</span>
+<button type="button" onclick="Toast.show('Connecting to Company SSO...', 'info')" class="flex items-center justify-center gap-2 py-3 px-4 bg-surface-container-low rounded-xl border border-outline-variant hover:bg-surface-container-highest transition-all duration-200 shadow-sm">
+<span class="material-symbols-outlined text-on-surface text-lg">terminal</span>
+<span class="text-xs font-bold text-on-surface uppercase tracking-tight">SSO</span>
 </button>
 </div>
 </div>
 </footer>
 <div class="mt-6 text-center">
-<p class="text-xs text-outline font-medium">
+<p class="text-xs text-on-surface-variant font-medium">
                         New to the platform? 
-                        <a class="text-primary hover:underline underline-offset-4 ml-1 cursor-pointer" onclick="Toast.show('Redirecting to invitation page...', 'info')">Request portal invitation</a>
+                        <a class="text-primary hover:underline underline-offset-4 ml-1 cursor-pointer font-bold" onclick="Toast.show('Redirecting to invitation page...', 'info')">Request portal invitation</a>
 </p>
 </div>
 </div>

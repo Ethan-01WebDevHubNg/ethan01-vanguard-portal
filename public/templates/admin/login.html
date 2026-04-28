@@ -1,8 +1,8 @@
 <main class="flex min-h-screen w-full overflow-y-auto lg:overflow-hidden">
-<section class="hidden lg:flex lg:w-3/5 relative overflow-hidden bg-[#0a0a0a]">
+<section class="hidden lg:flex lg:w-3/5 relative overflow-hidden bg-[#09090b]">
 <div class="absolute inset-0 z-0">
-<img alt="high-performance abstract graphic" class="w-full h-full object-cover opacity-40 grayscale hover:grayscale-0 transition-all duration-1000" data-alt="abstract high-tech architectural render with neon green light streaks and sharp geometric shapes in a dark moody atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAT6H60ONG_A1IIx7uGyXZfZfiFqGPYDD41Vr25iFFYJgosiu3f8qf9uLJsNAWNRMgs8PNJ84pARDE5FGe7o4Z1wN8auZk4opCFtNRYQAM0-u8RJN3NtOvb2ZqNnHy1lALOBgPCo1LlVcFSAV7_wUKfGgvAxGE1d5c7WQGyn0YxFTSq9HteNqldjtKzeZJAYzUM7Nu2tTi3gRDHrGUzdfJ0zny-kitdkSQKKuy_LTfMk3_lvXWc3tuhoOrkyxkE14MSim64c1V22g"/>
-<div class="absolute inset-0 bg-gradient-to-tr from-[#0a0a0a] via-transparent to-[#ccff00]/10"></div>
+<img alt="high-performance abstract graphic" class="w-full h-full object-cover opacity-40 grayscale hover:grayscale-0 transition-all duration-1000 mix-blend-luminosity" data-alt="abstract high-tech architectural render with neon green light streaks and sharp geometric shapes in a dark moody atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAT6H60ONG_A1IIx7uGyXZfZfiFqGPYDD41Vr25iFFYJgosiu3f8qf9uLJsNAWNRMgs8PNJ84pARDE5FGe7o4Z1wN8auZk4opCFtNRYQAM0-u8RJN3NtOvb2ZqNnHy1lALOBgPCo1LlVcFSAV7_wUKfGgvAxGE1d5c7WQGyn0YxFTSq9HteNqldjtKzeZJAYzUM7Nu2tTi3gRDHrGUzdfJ0zny-kitdkSQKKuy_LTfMk3_lvXWc3tuhoOrkyxkE14MSim64c1V22g"/>
+<div class="absolute inset-0 bg-gradient-to-tr from-[#09090b] via-transparent to-[var(--color-primary-glow)]"></div>
 </div>
 <div class="relative z-10 flex flex-col justify-center h-full p-16 text-white w-full">
 <div class="max-w-2xl">
@@ -12,7 +12,7 @@
 </div>
 <h1 class="text-6xl font-black tracking-tighter leading-[1.1] mb-6 uppercase text-white">
                         Engineered<br/>
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-[#739900]">Excellence.</span>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-[var(--color-primary-container)]">Excellence.</span>
 </h1>
 <p class="text-lg text-zinc-400 font-medium leading-relaxed max-w-lg">
                         Secure access to the Ethan01 Master Command Center. Manage projects, teams, and deployment metrics with absolute precision.
@@ -20,7 +20,8 @@
 </div>
 </div>
 </section>
-<section class="w-full lg:w-2/5 flex flex-col justify-center bg-surface relative z-10 px-6 sm:px-12 py-12 lg:py-0 border-l border-outline-variant shadow-2xl">
+
+<section class="w-full lg:w-2/5 flex flex-col justify-center bg-surface relative z-10 px-6 sm:px-12 py-12 lg:py-0 lg:border-l lg:border-outline-variant shadow-2xl">
 <div class="w-full max-w-sm mx-auto">
 <header class="mb-10 text-center lg:text-left">
 <img src="/assets/icons/ethan01logo.svg" alt="ETHAN01 Logo" class="h-7 w-auto mb-8 mx-auto lg:mx-0 object-contain">
@@ -33,11 +34,11 @@
 <label class="text-[0.6875rem] font-bold uppercase tracking-widest text-on-surface-variant ml-1" for="email">Staff Email</label>
 <div class="relative group">
 <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-<span class="material-symbols-outlined text-zinc-500 group-focus-within:text-on-surface transition-colors duration-300">
+<span class="material-symbols-outlined text-on-surface-variant group-focus-within:text-primary transition-colors duration-300">
                                 mail
                             </span>
 </div>
-<input class="w-full bg-surface-container border border-outline-variant rounded-lg py-3 pl-12 pr-4 text-on-surface placeholder:text-zinc-500 focus:bg-surface-container-lowest focus:text-on-surface focus:ring-2 focus:ring-primary transition-all duration-300 outline-none" id="email" placeholder="admin@ethan01.com" required="" type="email"/>
+<input class="w-full bg-surface-container border-[1.5px] border-[var(--input-border)] rounded-lg py-3 pl-12 pr-4 text-on-surface placeholder:text-on-surface-variant focus:border-primary focus:ring-[3px] focus:ring-[var(--input-ring)] transition-all duration-300 outline-none shadow-[var(--input-shadow)]" id="email" placeholder="admin@ethan01.com" required="" type="email"/>
 </div>
 </div>
 <div class="space-y-2">
@@ -47,13 +48,13 @@
 </div>
 <div class="relative group">
 <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-<span class="material-symbols-outlined text-zinc-500 group-focus-within:text-on-surface transition-colors duration-300">
+<span class="material-symbols-outlined text-on-surface-variant group-focus-within:text-primary transition-colors duration-300">
                                 lock
                             </span>
 </div>
-<input class="w-full bg-surface-container border border-outline-variant rounded-lg py-3 pl-12 pr-12 text-on-surface placeholder:text-zinc-500 focus:bg-surface-container-lowest focus:text-on-surface focus:ring-2 focus:ring-primary transition-all duration-300 outline-none" id="password" placeholder="••••••••" required="" type="password"/>
+<input class="w-full bg-surface-container border-[1.5px] border-[var(--input-border)] rounded-lg py-3 pl-12 pr-12 text-on-surface placeholder:text-on-surface-variant focus:border-primary focus:ring-[3px] focus:ring-[var(--input-ring)] transition-all duration-300 outline-none shadow-[var(--input-shadow)]" id="password" placeholder="••••••••" required="" type="password"/>
 <div class="absolute inset-y-0 right-0 flex items-center pr-3">
-    <button type="button" class="text-zinc-500 hover:text-on-surface transition-colors cursor-pointer flex items-center justify-center p-1"
+    <button type="button" class="text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer flex items-center justify-center p-1"
         onmousedown="document.getElementById('password').type='text'" 
         onmouseup="document.getElementById('password').type='password'" 
         onmouseleave="document.getElementById('password').type='password'"
@@ -70,7 +71,7 @@
 <input class="w-4 h-4 rounded-sm bg-surface-container-high border-outline-variant text-primary focus:ring-offset-surface focus:ring-primary transition-colors" id="remember" type="checkbox"/>
 <label class="ml-3 text-sm text-on-surface-variant cursor-pointer select-none" for="remember">Remember this device</label>
 </div>
-<button id="login-btn" class="w-full bg-primary text-surface-container-lowest font-black uppercase tracking-widest py-3 mt-4 rounded-lg hover:bg-primary-container transition-all duration-300 transform active:scale-[0.98] shadow-[0_4px_20px_rgba(204,255,0,0.15)] hover:shadow-[0_8px_25px_rgba(204,255,0,0.25)] flex items-center justify-center gap-3" type="submit">
+<button id="login-btn" class="w-full bg-primary text-[#09090b] font-black uppercase tracking-widest py-3 mt-4 rounded-lg hover:bg-primary-container transition-all duration-300 transform active:scale-[0.98] shadow-[0_4px_20px_var(--color-primary-glow)] flex items-center justify-center gap-3" type="submit">
 <span>Login</span>
 <span class="material-symbols-outlined text-sm">arrow_forward</span>
 </button>
@@ -80,7 +81,7 @@
     <div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
     <span class="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold">System Status: Operational</span>
 </div>
-<p class="text-[9px] text-zinc-500 uppercase tracking-widest leading-relaxed mt-2">
+<p class="text-[9px] text-on-surface-variant uppercase tracking-widest leading-relaxed mt-2">
     © 2026 ETHAN01 AGENCY PORTAL v2.4.1
 </p>
 </footer>

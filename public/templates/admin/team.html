@@ -1,38 +1,16 @@
 <div id="sidebar-mount"></div>
-<header class="fixed top-0 right-0 w-full md:w-[calc(100%-16rem)] z-40 bg-[#0e0e0e]/60 backdrop-blur-xl flex justify-between items-center px-4 sm:px-8 h-16 shadow-sm transition-all duration-300 border-b border-white/5">
-<div class="flex items-center gap-4 flex-1">
-<button onclick="window.toggleSidebar(this)" class="md:hidden relative w-8 h-8 flex items-center justify-center group z-[80] shrink-0">
-<div class="flex flex-col justify-between w-5 h-4 transform transition-all duration-300 origin-center">
-<div class="bg-white h-[2px] w-full transform transition-all duration-300 origin-left group-[.active]:rotate-[42deg] group-[.active]:w-5 group-[.active]:bg-primary"></div>
-<div class="bg-white h-[2px] w-full transform transition-all duration-300 group-[.active]:opacity-0"></div>
-<div class="bg-white h-[2px] w-full transform transition-all duration-300 origin-left group-[.active]:-rotate-[42deg] group-[.active]:w-5 group-[.active]:bg-primary"></div>
+<div id="header-mount" 
+     data-search-placeholder="SEARCH TEAM MEMBERS..." 
+     data-search-toast="Searching team directory..."
+     data-role-simulator="false">
 </div>
-</button>
-<div class="relative w-full max-w-md hidden sm:block">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 text-lg">search</span>
-<input class="bg-surface-container-high border-none rounded-lg pl-10 pr-4 py-2 text-[0.6875rem] tracking-widest w-full focus:ring-1 focus:ring-primary text-white placeholder-zinc-500 outline-none" placeholder="SEARCH TEAM MEMBERS..." type="text" onkeydown="if(event.key === 'Enter') Toast.show('Searching team directory...', 'info')"/>
-</div>
-</div>
-<div class="flex items-center gap-4 sm:gap-6">
-<div class="hidden sm:flex gap-4 border-r border-white/10 pr-6">
-<span class="material-symbols-outlined text-zinc-400 hover:text-[#f3ffca] cursor-pointer transition-colors" onclick="Toast.show('No new system alerts.', 'info')">notifications</span>
-</div>
-<div class="h-8 w-8 rounded-full overflow-hidden border border-outline-variant/30 shrink-0">
-<img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCeve8dY11GD3ZHg3UNnLMKR3jLOd7Z6AesFQARw7yF9j3X7LaXXB-Ha97EurbHheNEiCU11X3BRpqQRKxpyZR_yjSXoemFR1URz27GwKkJpJEZmews4dzmfMc1iaC3M-3L41qqJegmWwUY1ldVO-JeF7svL1q-5Vwxfjk5HFkr7yC0QBGzwZljGzBeoGbi7LD-xoYqaFaZ0FZrnZ5bnITB7B0AUl_6bujb5WJHEqzQCocPuTcwLVFkG9TkI72M3TUJR0gIvKiLtQ"/>
-</div>
-</div>
-</header>
 
 <main class="ml-0 md:ml-64 pt-24 px-4 sm:px-8 pb-12 min-h-screen bg-surface transition-all duration-300">
 <header class="mb-10">
 <div class="flex flex-col lg:flex-row lg:justify-between lg:items-end gap-6 mb-6">
 <div>
 <div class="flex items-center gap-4 mb-3">
-    <h1 class="text-4xl sm:text-[3.5rem] font-black tracking-tighter leading-none">AGENCY TEAM</h1>
-    <select onchange="window.setRole(this.value)" class="bg-surface-container-highest border-none text-zinc-400 text-[10px] font-bold uppercase tracking-widest rounded-lg px-3 py-1.5 outline-none focus:ring-1 focus:ring-primary cursor-pointer mt-2 hidden sm:block">
-        <option value="Super Admin">View as: Super Admin</option>
-        <option value="Staff">View as: Staff Member</option>
-    </select>
+    <h1 class="text-4xl sm:text-[3.5rem] font-black tracking-tighter leading-none text-on-surface">AGENCY TEAM</h1>
 </div>
 <p class="text-on-surface-variant max-w-2xl leading-relaxed text-sm sm:text-base">Manage Ethan01 staff profiles, roles, and project access permissions.</p>
 </div>
@@ -41,123 +19,50 @@
 
 </div>
 
-<div class="relative flex gap-4 sm:gap-8 border-b border-zinc-800 overflow-x-auto no-scrollbar" id="team-tabs">
+<div class="relative flex gap-4 sm:gap-8 border-b border-outline-variant overflow-x-auto no-scrollbar" id="team-tabs">
     <div id="tab-slide-indicator" class="absolute bottom-[-1px] h-[2px] bg-primary transition-all duration-300 ease-in-out w-0 left-0 z-10"></div>
     
     <button class="team-filter-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-primary whitespace-nowrap transition-colors" onclick="window.filterTeam('all', this)">All Staff</button>
-    <button class="team-filter-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-white transition-colors whitespace-nowrap" onclick="window.filterTeam('engineering', this)">Engineering</button>
-    <button class="team-filter-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-white transition-colors whitespace-nowrap" onclick="window.filterTeam('design', this)">Design</button>
-    <button class="team-filter-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-white transition-colors whitespace-nowrap" onclick="window.filterTeam('management', this)">Management</button>
-    <button class="team-filter-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-white transition-colors whitespace-nowrap" onclick="window.filterTeam('security', this)">Security</button>
+    <button class="team-filter-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" onclick="window.filterTeam('engineering', this)">Engineering</button>
+    <button class="team-filter-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" onclick="window.filterTeam('design', this)">Design</button>
+    <button class="team-filter-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" onclick="window.filterTeam('management', this)">Management</button>
+    <button class="team-filter-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" onclick="window.filterTeam('security', this)">Security</button>
 </div>
 </header>
 
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-12" id="team-grid">
-    
-    <div class="team-card bg-surface-container-low rounded-2xl p-6 border border-white/5 hover:border-primary/30 transition-all group duration-300 transform translate-y-0 opacity-100" data-department="engineering">
-        <div class="flex justify-between items-start mb-4">
-            <span class="px-2 py-1 bg-zinc-800 text-zinc-300 text-[10px] font-bold rounded uppercase tracking-wider">Engineering</span>
-            <span class="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" title="Online"></span>
-        </div>
-        <div class="flex flex-col items-center text-center mb-6">
-            <div class="w-20 h-20 rounded-full overflow-hidden border-2 border-surface-container-high mb-4">
-                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1EIoac_FEX3WLjuaDFU3kOVmxAnh3yfXYDOF7ERcNTmxoGwiIs9D3yBWCKabK4JzHv3h50BF8i1vh2GjajANLTnUMKPHn2-Toxqf2FqFJJhJ3uKSRYQI-aDSwVuQzjbYK_KY_T2py87rjMp05TU7AfJ0qywlJ4K67VZG3k6p2k9RPQX82eCYXV5rmQgU1ht7WuJYFjxaOBPV1PckHj1G1d4DJtmisEvrfEc2gJ5p472xbgXDOvV9RVlIqVn1RPmLaMLVMvbdhfw" class="w-full h-full object-cover" alt="Ethan Hunt"/>
-            </div>
-            <h3 class="text-lg font-bold text-white mb-1 group-hover:text-primary transition-colors">Ethan Hunt</h3>
-            <p class="text-xs text-primary font-bold uppercase tracking-widest">Lead Architect</p>
-            <p class="text-[11px] text-zinc-500 mt-2">e.hunt@ethan01.com</p>
-        </div>
-        <div class="flex gap-2 border-t border-white/5 pt-4">
-            <button class="flex-1 flex items-center justify-center gap-2 py-2 bg-surface-container-high hover:bg-surface-bright rounded-lg text-zinc-400 hover:text-white transition-colors text-xs font-bold" onclick="window.openContactModal('Ethan Hunt', 'e.hunt@ethan01.com', '+234 800 123 4567')">
-                <span class="material-symbols-outlined text-[16px]">contact_page</span> Contact
-            </button>
-            <template class="admin-edit-tpl">
-                <button class="flex-1 super-admin-btn flex items-center justify-center gap-2 py-2 bg-surface-container-high hover:bg-surface-bright rounded-lg text-zinc-400 hover:text-white transition-colors text-xs font-bold" onclick="if(window.Modal) window.Modal.show('Edit Member', '<p class=\\'text-sm text-zinc-400\\'>Member editing interface simulated.</p>', '<button onclick=\\'window.Modal.hide()\\' class=\\'bg-primary text-[#0a0a0a] px-6 py-2 rounded-lg text-sm font-bold\\'>Close</button>')">
-                    <span class="material-symbols-outlined text-[16px]">manage_accounts</span> Edit
-                </button>
-            </template>
-        </div>
     </div>
-
-    <div class="team-card bg-surface-container-low rounded-2xl p-6 border border-white/5 hover:border-primary/30 transition-all group duration-300 transform translate-y-0 opacity-100" data-department="management">
-        <div class="flex justify-between items-start mb-4">
-            <span class="px-2 py-1 bg-zinc-800 text-zinc-300 text-[10px] font-bold rounded uppercase tracking-wider">Management</span>
-            <span class="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" title="Online"></span>
-        </div>
-        <div class="flex flex-col items-center text-center mb-6">
-            <div class="w-20 h-20 rounded-full overflow-hidden border-2 border-surface-container-high mb-4 grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 ease-in-out">
-                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgcGDjH9LUtohI3u11m-bv44YByK_qm4Ng8-qOA4iu6v-oUJ11ZaddC48jGj-xZOy0cYIok8aNYhjJGA7prW-u2hmr-J3gVWD4RzltOKfoHQJW2ixUnfH1qKA73vXr9d7zXVeIz67FNYs8asXywuVYH8daIH5dmsygAIt4p4_Ir5AcW3XXh4Tfw3KS6eN5CNafdv08tw8pGEwhvH90VOKmkh_mLtAvV5tsnO5z-e2nvJvNOHsaXPTlHnlgJTxYqSMyKDyFKcPCzQ" class="w-full h-full object-cover" alt="Marcus Chen"/>
-            </div>
-            <h3 class="text-lg font-bold text-white mb-1 group-hover:text-primary transition-colors duration-700">Marcus Chen</h3>
-            <p class="text-xs text-primary font-bold uppercase tracking-widest">Operations Director</p>
-            <p class="text-[11px] text-zinc-500 mt-2">m.chen@ethan01.com</p>
-        </div>
-        <div class="flex gap-2 border-t border-white/5 pt-4">
-            <button class="flex-1 flex items-center justify-center gap-2 py-2 bg-surface-container-high hover:bg-surface-bright rounded-lg text-zinc-400 hover:text-white transition-colors text-xs font-bold" onclick="window.openContactModal('Marcus Chen', 'm.chen@ethan01.com', '+234 800 987 6543')">
-                <span class="material-symbols-outlined text-[16px]">contact_page</span> Contact
-            </button>
-            <template class="admin-edit-tpl">
-                <button class="flex-1 super-admin-btn flex items-center justify-center gap-2 py-2 bg-surface-container-high hover:bg-surface-bright rounded-lg text-zinc-400 hover:text-white transition-colors text-xs font-bold" onclick="if(window.Modal) window.Modal.show('Edit Member', '<p class=\\'text-sm text-zinc-400\\'>Member editing interface simulated.</p>', '<button onclick=\\'window.Modal.hide()\\' class=\\'bg-primary text-[#0a0a0a] px-6 py-2 rounded-lg text-sm font-bold\\'>Close</button>')">
-                    <span class="material-symbols-outlined text-[16px]">manage_accounts</span> Edit
-                </button>
-            </template>
-        </div>
-    </div>
-
-    <div class="team-card bg-surface-container-low rounded-2xl p-6 border border-white/5 hover:border-primary/30 transition-all group duration-300 transform translate-y-0 opacity-100" data-department="design">
-        <div class="flex justify-between items-start mb-4">
-            <span class="px-2 py-1 bg-zinc-800 text-zinc-300 text-[10px] font-bold rounded uppercase tracking-wider">Design</span>
-            <span class="w-2 h-2 rounded-full bg-zinc-600" title="Offline"></span>
-        </div>
-        <div class="flex flex-col items-center text-center mb-6">
-            <div class="w-20 h-20 rounded-full overflow-hidden border-2 border-surface-container-high mb-4 grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 ease-in-out">
-                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgJV9hwRoUt3XwdNm4dbM0vLAdqXQ7H7ATJNHVx4adgHwmOKe34ABbAj52l4FpJgG8tt-0J4y9poTysKJcGH9WzkNYQJi_MdQh8zttYsaaTy9v7aPLN3I6EpZamobF8hgA9S1lOrwL-rCdcICE9MI9Pc4J0l_u4BVRf42vE2lJGzijDf96QZ_-TLDhEKJGBhFMiOAngKqUDrcgJqOTAhzWZ5QrJgaJ8kfEIPkKflp2GZvyE53ZP-uMRr4ibtCgq7H9oH5Vvyfzxg" class="w-full h-full object-cover" alt="Lara Croft"/>
-            </div>
-            <h3 class="text-lg font-bold text-white mb-1 group-hover:text-primary transition-colors duration-700">Lara Croft</h3>
-            <p class="text-xs text-primary font-bold uppercase tracking-widest">UI/UX Lead</p>
-            <p class="text-[11px] text-zinc-500 mt-2">l.croft@ethan01.com</p>
-        </div>
-        <div class="flex gap-2 border-t border-white/5 pt-4">
-            <button class="flex-1 flex items-center justify-center gap-2 py-2 bg-surface-container-high hover:bg-surface-bright rounded-lg text-zinc-400 hover:text-white transition-colors text-xs font-bold" onclick="window.openContactModal('Lara Croft', 'l.croft@ethan01.com', '+234 800 456 7890')">
-                <span class="material-symbols-outlined text-[16px]">contact_page</span> Contact
-            </button>
-            <template class="admin-edit-tpl">
-                <button class="flex-1 super-admin-btn flex items-center justify-center gap-2 py-2 bg-surface-container-high hover:bg-surface-bright rounded-lg text-zinc-400 hover:text-white transition-colors text-xs font-bold" onclick="if(window.Modal) window.Modal.show('Edit Member', '<p class=\\'text-sm text-zinc-400\\'>Member editing interface simulated.</p>', '<button onclick=\\'window.Modal.hide()\\' class=\\'bg-primary text-[#0a0a0a] px-6 py-2 rounded-lg text-sm font-bold\\'>Close</button>')">
-                    <span class="material-symbols-outlined text-[16px]">manage_accounts</span> Edit
-                </button>
-            </template>
-        </div>
-    </div>
-
-    <div class="team-card bg-surface-container-low rounded-2xl p-6 border border-white/5 hover:border-primary/30 transition-all group duration-300 transform translate-y-0 opacity-100" data-department="security">
-        <div class="flex justify-between items-start mb-4">
-            <span class="px-2 py-1 bg-zinc-800 text-zinc-300 text-[10px] font-bold rounded uppercase tracking-wider">Security</span>
-            <span class="w-2 h-2 rounded-full bg-secondary shadow-[0_0_8px_rgba(255,165,0,0.5)]" title="Away"></span>
-        </div>
-        <div class="flex flex-col items-center text-center mb-6">
-            <div class="w-20 h-20 rounded-full overflow-hidden border-2 border-surface-container-high mb-4 grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 ease-in-out">
-                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOFkAT6sktn3RkL5BDijWn_zzdIKYUTvbaIp_hPe14z7Z5fxl8Th9T2Ay8nxHlLIumRD5EqMLvJM_GxVjwcHL-6xYmBT9Vi9gqcoSOuMTvzCddVm4AaHrnvXE800Lxp8TdF2bCuO897iTpOZFJ1HLDxioNN1Vq2DSmBmck2GQbK-oB_jSJg7eUzs--CpQMusprXPEmvpnE8aWD93vrpfXrCJH6XD47UJ2FbrGM98LKovonoyx8k4hSFAZv1R9c54zZ8UNOMUws0A" class="w-full h-full object-cover" alt="Sarah Connor"/>
-            </div>
-            <h3 class="text-lg font-bold text-white mb-1 group-hover:text-primary transition-colors duration-700">Sarah Connor</h3>
-            <p class="text-xs text-primary font-bold uppercase tracking-widest">Security Engineer</p>
-            <p class="text-[11px] text-zinc-500 mt-2">s.connor@ethan01.com</p>
-        </div>
-        <div class="flex gap-2 border-t border-white/5 pt-4">
-            <button class="flex-1 flex items-center justify-center gap-2 py-2 bg-surface-container-high hover:bg-surface-bright rounded-lg text-zinc-400 hover:text-white transition-colors text-xs font-bold" onclick="window.openContactModal('Sarah Connor', 's.connor@ethan01.com', '+234 800 555 1212')">
-                <span class="material-symbols-outlined text-[16px]">contact_page</span> Contact
-            </button>
-            <template class="admin-edit-tpl">
-                <button class="flex-1 super-admin-btn flex items-center justify-center gap-2 py-2 bg-surface-container-high hover:bg-surface-bright rounded-lg text-zinc-400 hover:text-white transition-colors text-xs font-bold" onclick="if(window.Modal) window.Modal.show('Edit Member', '<p class=\\'text-sm text-zinc-400\\'>Member editing interface simulated.</p>', '<button onclick=\\'window.Modal.hide()\\' class=\\'bg-primary text-[#0a0a0a] px-6 py-2 rounded-lg text-sm font-bold\\'>Close</button>')">
-                    <span class="material-symbols-outlined text-[16px]">manage_accounts</span> Edit
-                </button>
-            </template>
-        </div>
-    </div>
-</div>
 </main>
 
+<template id="tpl-team-card">
+    <div class="team-card bg-surface-container-low rounded-2xl p-6 border border-outline-variant hover:border-[var(--color-primary-alpha-30)] shadow-[var(--card-shadow)] transition-all group duration-300 transform translate-y-0 opacity-100" data-department="{department}">
+        <div class="flex justify-between items-start mb-4">
+            <span class="px-2 py-1 bg-surface-container-highest text-on-surface-variant text-[10px] font-bold rounded uppercase tracking-wider">{departmentLabel}</span>
+            <span class="w-2 h-2 rounded-full {statusColor} shadow-[0_0_8px_{statusShadow}]" title="{statusTitle}"></span>
+        </div>
+        <div class="flex flex-col items-center text-center mb-6">
+            <div class="w-20 h-20 rounded-full overflow-hidden border-2 border-surface-container-high mb-4 group-hover:opacity-100 transition-all duration-700 ease-in-out">
+                <img src="{avatarUrl}" class="w-full h-full object-cover" alt="{nameEscaped}"/>
+            </div>
+            <h3 class="text-lg font-bold text-on-surface mb-1 group-hover:text-primary transition-colors duration-700">{name}</h3>
+            <p class="text-xs text-primary font-bold uppercase tracking-widest">{role}</p>
+            <p class="text-[11px] text-on-surface-variant mt-2">{email}</p>
+        </div>
+        <div class="flex gap-2 border-t border-outline-variant pt-4">
+            <button class="flex-1 flex items-center justify-center gap-2 py-2 bg-surface-container-high hover:bg-surface-container-highest rounded-lg text-on-surface-variant hover:text-on-surface transition-colors text-xs font-bold" onclick="window.openContactModal('{nameEscaped}', '{email}', '{phone}')">
+                <span class="material-symbols-outlined text-[16px]">contact_page</span> Contact
+            </button>
+            <template class="admin-edit-tpl">
+                <button class="flex-1 super-admin-btn flex items-center justify-center gap-2 py-2 bg-surface-container-high hover:bg-surface-container-highest rounded-lg text-on-surface-variant hover:text-on-surface transition-colors text-xs font-bold" onclick="if(window.Modal) window.Modal.show('Edit Member', '<p class=\\'text-sm text-on-surface-variant\\'>Member editing interface simulated.</p>', '<button onclick=\\'window.Modal.hide()\\' class=\\'bg-primary text-[#09090b] px-6 py-2 rounded-lg text-sm font-bold\\'>Close</button>')">
+                    <span class="material-symbols-outlined text-[16px]">manage_accounts</span> Edit
+                </button>
+            </template>
+        </div>
+    </div>
+</template>
+
 <template id="tpl-invite-btn">
-    <button class="bg-primary text-[#0a0a0a] px-6 py-3 rounded-xl text-sm font-bold hover:bg-primary-dim transition-all w-full sm:w-auto flex items-center justify-center gap-2 shadow-[0_4px_20px_rgba(204,255,0,0.15)]" onclick="window.openInviteModal()">
+    <button class="bg-primary text-[#09090b] px-6 py-3 rounded-xl text-sm font-bold hover:bg-primary-container transition-all w-full sm:w-auto flex items-center justify-center gap-2 shadow-[0_4px_20px_var(--color-primary-glow)]" onclick="window.openInviteModal()">
         <span class="material-symbols-outlined text-[18px]">person_add</span> Invite Member
     </button>
 </template>
@@ -166,18 +71,18 @@
     <div class="space-y-4 text-left">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div class="space-y-2">
-                <label class="text-[0.6875rem] font-bold text-zinc-400 uppercase tracking-widest">Email Address</label>
-                <input type="email" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-white focus:ring-1 focus:ring-primary outline-none" placeholder="staff@ethan01.com"/>
+                <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Email Address</label>
+                <input type="email" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-on-surface focus:ring-1 focus:ring-primary outline-none" placeholder="staff@ethan01.com"/>
             </div>
             <div class="space-y-2">
-                <label class="text-[0.6875rem] font-bold text-zinc-400 uppercase tracking-widest">Default Password</label>
-                <input type="text" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-white focus:ring-1 focus:ring-primary outline-none" placeholder="TempPass123!"/>
+                <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Default Password</label>
+                <input type="text" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-on-surface focus:ring-1 focus:ring-primary outline-none" placeholder="TempPass123!"/>
             </div>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div class="space-y-2">
-                <label class="text-[0.6875rem] font-bold text-zinc-400 uppercase tracking-widest">Department</label>
-                <select class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-white focus:ring-1 focus:ring-primary outline-none cursor-pointer">
+                <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Department</label>
+                <select class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-on-surface focus:ring-1 focus:ring-primary outline-none cursor-pointer">
                     <option>Engineering</option>
                     <option>Design</option>
                     <option>Management</option>
@@ -185,8 +90,8 @@
                 </select>
             </div>
             <div class="space-y-2">
-                <label class="text-[0.6875rem] font-bold text-zinc-400 uppercase tracking-widest">Assign Role</label>
-                <select class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-white focus:ring-1 focus:ring-primary outline-none cursor-pointer">
+                <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Assign Role</label>
+                <select class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-on-surface focus:ring-1 focus:ring-primary outline-none cursor-pointer">
                     <option>Developer</option>
                     <option>Creative Director</option>
                     <option>Account Manager</option>
@@ -195,40 +100,40 @@
             </div>
         </div>
         <div class="space-y-2">
-            <label class="text-[0.6875rem] font-bold text-zinc-400 uppercase tracking-widest">Contact Details</label>
-            <input type="tel" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-white focus:ring-1 focus:ring-primary outline-none" placeholder="Phone or WhatsApp (e.g. +234...)"/>
+            <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Contact Details</label>
+            <input type="tel" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-on-surface focus:ring-1 focus:ring-primary outline-none" placeholder="Phone or WhatsApp (e.g. +234...)"/>
         </div>
     </div>
 </template>
 
 <template id="tpl-invite-action">
-    <button onclick="if(window.Modal) window.Modal.hide()" class="text-zinc-400 hover:text-white font-bold text-sm px-4 transition-colors">Cancel</button>
-    <button onclick="if(window.Modal) window.Modal.hide(); if(window.Toast) window.Toast.show('Invitation sent to new staff member.', 'success')" class="bg-primary text-[#0a0a0a] px-6 py-2.5 rounded-lg font-bold text-sm transition-all">Send Invite</button>
+    <button onclick="if(window.Modal) window.Modal.hide()" class="text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors">Cancel</button>
+    <button onclick="if(window.Modal) window.Modal.hide(); if(window.Toast) window.Toast.show('Invitation sent to new staff member.', 'success')" class="bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm transition-all">Send Invite</button>
 </template>
 
 <template id="tpl-contact-modal">
     <div class="space-y-4 text-left pt-2">
-        <div class="flex items-center gap-4 p-4 bg-surface-container-highest rounded-xl border border-white/5">
-            <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
+        <div class="flex items-center gap-4 p-4 bg-surface-container-highest rounded-xl border border-outline-variant">
+            <div class="w-10 h-10 rounded-full bg-[var(--color-primary-alpha-30)] flex items-center justify-center text-primary shrink-0">
                 <span class="material-symbols-outlined text-[18px]">mail</span>
             </div>
             <div class="flex-1">
-                <p class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-0.5">Email Address</p>
-                <p class="text-sm font-bold text-white">{email}</p>
+                <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-0.5">Email Address</p>
+                <p class="text-sm font-bold text-on-surface">{email}</p>
             </div>
-            <button class="text-zinc-500 hover:text-white transition-colors" title="Copy Email" onclick="if(window.Toast) window.Toast.show('Email copied to clipboard', 'info')">
+            <button class="text-on-surface-variant hover:text-on-surface transition-colors" title="Copy Email" onclick="if(window.Toast) window.Toast.show('Email copied to clipboard', 'info')">
                 <span class="material-symbols-outlined text-[18px]">content_copy</span>
             </button>
         </div>
-        <div class="flex items-center gap-4 p-4 bg-surface-container-highest rounded-xl border border-white/5">
-            <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
+        <div class="flex items-center gap-4 p-4 bg-surface-container-highest rounded-xl border border-outline-variant">
+            <div class="w-10 h-10 rounded-full bg-[var(--color-primary-alpha-30)] flex items-center justify-center text-primary shrink-0">
                 <span class="material-symbols-outlined text-[18px]">call</span>
             </div>
             <div class="flex-1">
-                <p class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-0.5">Direct Line / WhatsApp</p>
-                <p class="text-sm font-bold text-white">{phone}</p>
+                <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-0.5">Direct Line / WhatsApp</p>
+                <p class="text-sm font-bold text-on-surface">{phone}</p>
             </div>
-            <button class="text-zinc-500 hover:text-white transition-colors" title="Copy Number" onclick="if(window.Toast) window.Toast.show('Phone number copied to clipboard', 'info')">
+            <button class="text-on-surface-variant hover:text-on-surface transition-colors" title="Copy Number" onclick="if(window.Toast) window.Toast.show('Phone number copied to clipboard', 'info')">
                 <span class="material-symbols-outlined text-[18px]">content_copy</span>
             </button>
         </div>
@@ -236,7 +141,7 @@
 </template>
 
 <template id="tpl-contact-action">
-    <button onclick="if(window.Modal) window.Modal.hide()" class="w-full bg-surface-container-highest text-white px-6 py-3 rounded-lg font-bold text-sm transition-all hover:bg-surface-bright">Close</button>
+    <button onclick="if(window.Modal) window.Modal.hide()" class="w-full bg-surface-container-highest text-on-surface px-6 py-3 rounded-lg font-bold text-sm transition-all hover:bg-surface-container">Close</button>
 </template>
 
 <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" style="display:none;" onload="
@@ -244,7 +149,7 @@
         const inviteTpl = document.getElementById('tpl-invite-btn');
         const inviteContainer = document.getElementById('invite-btn-container');
 
-        if (role === 'Super Admin') {
+        if (role === 'Super Admin' || role === 'Supreme Admin') {
             document.querySelectorAll('.admin-edit-tpl').forEach(function(tpl) {
                 if (!tpl.nextElementSibling || !tpl.nextElementSibling.classList.contains('super-admin-btn')) {
                     const clone = tpl.content.cloneNode(true);
@@ -254,11 +159,9 @@
             if (inviteTpl && inviteContainer && inviteContainer.children.length === 0) {
                 inviteContainer.appendChild(inviteTpl.content.cloneNode(true));
             }
-            if(window.Toast) window.Toast.show('Viewing as Super Admin (Full Access)', 'success');
         } else {
             document.querySelectorAll('.super-admin-btn').forEach(function(btn) { btn.remove(); });
             if (inviteContainer) inviteContainer.innerHTML = '';
-            if(window.Toast) window.Toast.show('Viewing as Staff Member (Restricted)', 'info');
         }
     };
 
@@ -337,11 +240,41 @@
         if(window.Modal) window.Modal.show('Contact: ' + name, m, a);
     };
 
-    setTimeout(function() {
-        window.setRole('Super Admin');
-        const activeBtn = document.querySelector('.team-filter-btn.text-primary') || document.querySelector('.team-filter-btn');
-        if (activeBtn) window.filterTeam('all', activeBtn, true);
-    }, 100);
+    window.handleTeamHydration = function(e) {
+        const payload = e.detail;
+        if(!payload) return;
+        const cont = document.getElementById('team-grid');
+        const tpl = document.getElementById('tpl-team-card');
+        if(cont && tpl && payload.team) {
+            cont.innerHTML = '';
+            payload.team.forEach(member => {
+                let html = tpl.innerHTML;
+                const nameEscaped = member.name.replace(/'/g, '\\\'');
+                html = html.replace(/{department}/g, member.department)
+                           .replace(/{departmentLabel}/g, member.departmentLabel)
+                           .replace(/{statusColor}/g, member.statusColor)
+                           .replace(/{statusShadow}/g, member.statusShadow)
+                           .replace(/{statusTitle}/g, member.statusTitle)
+                           .replace(/{avatarUrl}/g, member.avatarUrl || '/assets/icons/ethan01logo.svg')
+                           .replace(/{name}/g, member.name)
+                           .replace(/{nameEscaped}/g, nameEscaped)
+                           .replace(/{role}/g, member.role)
+                           .replace(/{email}/g, member.email)
+                           .replace(/{phone}/g, member.phone || '');
+                cont.innerHTML += html;
+            });
+
+            if (window.ethan01_currentUser) {
+                window.setRole(window.ethan01_currentUser.role);
+            }
+            
+            const activeBtn = document.querySelector('.team-filter-btn.text-primary') || document.querySelector('.team-filter-btn');
+            if (activeBtn) window.filterTeam('all', activeBtn, true);
+        }
+    };
+
+    window.removeEventListener('vanguard-team-sync', window.handleTeamHydration);
+    window.addEventListener('vanguard-team-sync', window.handleTeamHydration);
 
     this.remove();
 " />

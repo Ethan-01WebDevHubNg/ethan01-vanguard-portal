@@ -7,255 +7,152 @@
 </div>
 <div class="pt-24 px-4 sm:px-8 pb-12">
 <div class="mb-10">
-<p class="text-[0.6875rem] text-primary uppercase tracking-[0.2em] font-bold mb-2">Systems Operational</p>
-<h2 class="text-4xl sm:text-5xl font-black tracking-tighter text-white">Dashboard Overview</h2>
+<p class="text-[0.6875rem] text-primary uppercase tracking-[0.2em] font-bold mb-2" id="system-status-indicator">Systems Operational</p>
+<h2 class="text-4xl sm:text-5xl font-black tracking-tighter text-on-surface">Dashboard Overview</h2>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-<div class="bg-surface-container-high p-6 rounded-xl relative overflow-hidden group border border-white/5">
+<div class="bg-surface-container-high p-6 rounded-xl relative overflow-hidden group">
 <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-<span class="material-symbols-outlined text-6xl">account_tree</span>
+<span class="material-symbols-outlined text-6xl text-on-surface">account_tree</span>
 </div>
 <p class="text-[0.6875rem] uppercase tracking-widest text-on-surface-variant font-bold mb-1">Active Projects</p>
-<h3 class="text-4xl font-bold tracking-tight text-white mb-4">24</h3>
-<div class="flex items-center gap-2">
-<span class="text-primary text-xs font-bold">+12%</span>
-<span class="text-on-surface-variant text-[0.65rem]">vs last month</span>
+<h3 id="stat-projects" class="text-4xl font-bold tracking-tight text-on-surface mb-2">--</h3>
+<div id="stat-projects-trend" class="flex items-center gap-2 mt-3">
+    <div class="px-2 py-[2px] rounded flex items-center gap-1 bg-surface-container-highest border border-[var(--color-outline-variant)] text-on-surface-variant">
+        <span class="material-symbols-outlined text-[10px]">horizontal_rule</span>
+        <span class="text-[0.65rem] font-bold tracking-wider">0%</span>
+    </div>
+    <span class="text-[0.55rem] uppercase tracking-widest text-on-surface-variant font-bold">vs last month</span>
 </div>
 </div>
-<div class="bg-surface-container-high p-6 rounded-xl relative overflow-hidden group border border-white/5">
+<div class="bg-surface-container-high p-6 rounded-xl relative overflow-hidden group">
 <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-<span class="material-symbols-outlined text-6xl">group</span>
+<span class="material-symbols-outlined text-6xl text-on-surface">group</span>
 </div>
 <p class="text-[0.6875rem] uppercase tracking-widest text-on-surface-variant font-bold mb-1">Total Clients</p>
-<h3 class="text-4xl font-bold tracking-tight text-white mb-4">158</h3>
-<div class="flex items-center gap-2">
-<span class="text-primary text-xs font-bold">+4</span>
-<span class="text-on-surface-variant text-[0.65rem]">new this week</span>
+<h3 id="stat-clients" class="text-4xl font-bold tracking-tight text-on-surface mb-2">--</h3>
+<div id="stat-clients-trend" class="flex items-center gap-2 mt-3">
+    <div class="px-2 py-[2px] rounded flex items-center gap-1 bg-surface-container-highest border border-[var(--color-outline-variant)] text-on-surface-variant">
+        <span class="material-symbols-outlined text-[10px]">horizontal_rule</span>
+        <span class="text-[0.65rem] font-bold tracking-wider">0%</span>
+    </div>
+    <span class="text-[0.55rem] uppercase tracking-widest text-on-surface-variant font-bold">vs last month</span>
 </div>
 </div>
-<div class="bg-surface-container-high p-6 rounded-xl relative overflow-hidden group border border-white/5">
+<div id="card-revenue" class="bg-surface-container-high p-6 rounded-xl relative overflow-hidden group transition-all">
 <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-<span class="material-symbols-outlined text-6xl">payments</span>
+<span class="material-symbols-outlined text-6xl text-on-surface">payments</span>
 </div>
 <p class="text-[0.6875rem] uppercase tracking-widest text-on-surface-variant font-bold mb-1">Monthly Revenue</p>
-<h3 class="text-4xl font-bold tracking-tight text-white mb-4">$84.2k</h3>
-<div class="flex items-center gap-2">
-<span class="text-primary text-xs font-bold">+18.4%</span>
-<span class="text-on-surface-variant text-[0.65rem]">above target</span>
+<h3 id="stat-revenue" class="text-4xl font-bold tracking-tight text-on-surface mb-2">--</h3>
+<div id="stat-revenue-trend" class="flex items-center gap-2 mt-3">
+    <div class="px-2 py-[2px] rounded flex items-center gap-1 bg-surface-container-highest border border-[var(--color-outline-variant)] text-on-surface-variant">
+        <span class="material-symbols-outlined text-[10px]">horizontal_rule</span>
+        <span class="text-[0.65rem] font-bold tracking-wider">0.0%</span>
+    </div>
+    <span class="text-[0.55rem] uppercase tracking-widest text-on-surface-variant font-bold">vs last month</span>
 </div>
 </div>
-<div class="bg-surface-container-high p-6 rounded-xl relative overflow-hidden group border border-white/5">
+<div id="card-invoices" class="bg-surface-container-high p-6 rounded-xl relative overflow-hidden group transition-all">
 <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-<span class="material-symbols-outlined text-6xl">description</span>
+<span class="material-symbols-outlined text-6xl text-on-surface">description</span>
 </div>
 <p class="text-[0.6875rem] uppercase tracking-widest text-on-surface-variant font-bold mb-1">Pending Invoices</p>
-<h3 class="text-4xl font-bold tracking-tight text-white mb-4">09</h3>
-<div class="flex items-center gap-2 text-error">
-<span class="text-xs font-bold">Action Required</span>
+<h3 id="stat-invoices" class="text-4xl font-bold tracking-tight text-on-surface mb-2">--</h3>
+<div id="stat-invoices-trend" class="flex items-center gap-2 mt-3">
+    <div class="px-2 py-[2px] rounded flex items-center gap-1 bg-surface-container-highest border border-[var(--color-outline-variant)] text-on-surface-variant">
+        <span class="material-symbols-outlined text-[10px]">schedule</span>
+        <span class="text-[0.65rem] font-bold tracking-wider">0 Pending</span>
+    </div>
 </div>
 </div>
 </div>
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 <div class="lg:col-span-2 space-y-6">
 <div class="flex justify-between items-end mb-6">
-<h4 class="text-lg font-bold text-white tracking-tight">Active Deliverables</h4>
+<h4 class="text-lg font-bold text-on-surface tracking-tight">Active Deliverables</h4>
 <a href="#/admin/project/view" class="text-primary text-[0.6875rem] font-bold uppercase tracking-widest hover:underline underline-offset-4">View All Pipeline</a>
 </div>
 
-<div class="bg-surface-container-low p-6 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between group hover:bg-surface-container hover:border-primary/30 border border-white/5 transition-all gap-4 cursor-pointer shadow-sm" onclick="window.location.hash='#/admin/project/view'">
-<div class="flex items-center gap-6">
-<div class="relative w-16 h-16 shrink-0">
-<svg class="w-full h-full transform -rotate-90">
-<circle class="text-zinc-800" cx="32" cy="32" fill="transparent" r="28" stroke="currentColor" stroke-width="4"></circle>
-<circle class="text-primary progress-ring transition-all duration-[1500ms] ease-out" cx="32" cy="32" fill="transparent" r="28" stroke="currentColor" stroke-dasharray="175.9" stroke-dashoffset="175.9" data-target="44" stroke-width="4"></circle>
-</svg>
-<div class="absolute inset-0 flex items-center justify-center">
-<span class="text-[10px] font-bold text-white">75%</span>
-</div>
-</div>
-<div>
-<h5 class="text-white font-bold text-lg leading-tight group-hover:text-primary transition-colors">Nebula Labs / Quantum: Infrastructure Overhaul</h5>
-<p class="text-zinc-500 text-xs mt-1">Lead Architect: Sarah Chen • Due in 4 days</p>
-<div class="flex gap-2 mt-3">
-<span class="bg-zinc-800 text-[9px] uppercase tracking-tighter px-2 py-0.5 rounded text-zinc-300">Development</span>
-<span class="bg-zinc-800 text-[9px] uppercase tracking-tighter px-2 py-0.5 rounded text-zinc-300">High Priority</span>
-</div>
-</div>
-</div>
-<div class="flex -space-x-3 self-start sm:self-center">
-<img class="w-8 h-8 rounded-full border-2 border-surface-container-low" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdnloQ4jaEjE-gq2UFXusiLHruzlSz9PvgZIOflIy5kUMKTnzEQj6cFMgDKQZKVJM5egLZvLYeBAE9cDOTV4nJzADThdWcdi4JWN6O4U89YH-rZjw_VNRJgX1S622YyX-CbLX_2CkKycskwKihKYHRlGXIN5B_NLoFGHGizOgWSyfQfNwWLd98tHHphL5VIEi_Tf9DOB8sH-w7Rw9c0Oq9QEMzi5Dulzr7pK2GyqDeXwNywmQwaoa6JRaTTGWGOnS2QehoCu0x6w"/>
-<img class="w-8 h-8 rounded-full border-2 border-surface-container-low" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAY7Z4yiw1BSwsw3W9vyiiiYT07Z9gTuWDbyXGdWVINRtCkhrWLoTpgdLqzsA3pdtb8qon7ik1I5OQQA39woV5nVsmUIjbQuWj-0VSVhi-dcR9jWOmCuCX3ZQ-GbNSH1_GcV9pn8Lu0sVhHoOP6cHJtfNXQqRPpRyQbHaViSKFtz__iS1HwVgCA2SwfRBB3LQ1VUM-x01XabMdLeZ_rZXGxO9aOC26WLla5-1INRCmrmFAsrqdPU0BTheH3w1yrKs4838c9dYL47Q"/>
-<div class="w-8 h-8 rounded-full bg-zinc-800 border-2 border-surface-container-low flex items-center justify-center text-[10px] text-zinc-400 font-bold">+2</div>
-</div>
-</div>
-
-<div class="bg-surface-container-low p-6 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between group hover:bg-surface-container hover:border-primary/30 border border-white/5 transition-all gap-4 cursor-pointer shadow-sm" onclick="window.location.hash='#/admin/project/view'">
-<div class="flex items-center gap-6">
-<div class="relative w-16 h-16 shrink-0">
-<svg class="w-full h-full transform -rotate-90">
-<circle class="text-zinc-800" cx="32" cy="32" fill="transparent" r="28" stroke="currentColor" stroke-width="4"></circle>
-<circle class="text-primary progress-ring transition-all duration-[1500ms] ease-out" cx="32" cy="32" fill="transparent" r="28" stroke="currentColor" stroke-dasharray="175.9" stroke-dashoffset="175.9" data-target="120" stroke-width="4"></circle>
-</svg>
-<div class="absolute inset-0 flex items-center justify-center">
-<span class="text-[10px] font-bold text-white">32%</span>
-</div>
-</div>
-<div>
-<h5 class="text-white font-bold text-lg leading-tight group-hover:text-primary transition-colors">Arcane Robotics / Cloud: API Integration</h5>
-<p class="text-zinc-500 text-xs mt-1">Lead Architect: Marcus Thorne • On Schedule</p>
-<div class="flex gap-2 mt-3">
-<span class="bg-zinc-800 text-[9px] uppercase tracking-tighter px-2 py-0.5 rounded text-zinc-300">Cloud</span>
-<span class="bg-zinc-800 text-[9px] uppercase tracking-tighter px-2 py-0.5 rounded text-zinc-300">Internal</span>
-</div>
-</div>
-</div>
-<div class="flex -space-x-3 self-start sm:self-center">
-<img class="w-8 h-8 rounded-full border-2 border-surface-container-low" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiDTvPrMikmWy5As-Q5LS_BtgbdVpoh21nbDQiYmCniLejBSodIH0DDJeMLg5GburFUphZoIscs1sA2RbZ3ZqVWZe6g0BIL_-V7GHtIB8BZZhJOMPUv2NTsezwR0jWRt3tECYdaqCRtZ-ZPO2ijeFw1qQpiX-RufGpEd6SvGICDDevsSaWVRH4AVSFVbBjFCvVcRrbCUNomynEKt3elSRmNndMAALULTEY9AbYUI1o14krwysSCLJCcF1itxjg3gLl7dkwX-6azg"/>
-<div class="w-8 h-8 rounded-full bg-zinc-800 border-2 border-surface-container-low flex items-center justify-center text-[10px] text-zinc-400 font-bold">+5</div>
-</div>
-</div>
-
-<div class="bg-surface-container-low p-6 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between group hover:bg-surface-container hover:border-primary/30 border border-white/5 transition-all gap-4 cursor-pointer shadow-sm" onclick="window.location.hash='#/admin/project/view'">
-<div class="flex items-center gap-6">
-<div class="relative w-16 h-16 shrink-0">
-<svg class="w-full h-full transform -rotate-90">
-<circle class="text-zinc-800" cx="32" cy="32" fill="transparent" r="28" stroke="currentColor" stroke-width="4"></circle>
-<circle class="text-primary progress-ring transition-all duration-[1500ms] ease-out" cx="32" cy="32" fill="transparent" r="28" stroke="currentColor" stroke-dasharray="175.9" stroke-dashoffset="175.9" data-target="15" stroke-width="4"></circle>
-</svg>
-<div class="absolute inset-0 flex items-center justify-center">
-<span class="text-[10px] font-bold text-white">92%</span>
-</div>
-</div>
-<div>
-<h5 class="text-white font-bold text-lg leading-tight group-hover:text-primary transition-colors">Apex Corp / Security: System Audit</h5>
-<p class="text-zinc-500 text-xs mt-1">Lead Architect: Alex Rivera • Final Review</p>
-<div class="flex gap-2 mt-3">
-<span class="bg-zinc-800 text-[9px] uppercase tracking-tighter px-2 py-0.5 rounded text-zinc-300">Security</span>
-<span class="bg-zinc-800 text-[9px] uppercase tracking-tighter px-2 py-0.5 rounded text-zinc-300">Urgent</span>
-</div>
-</div>
-</div>
-<div class="flex -space-x-3 self-start sm:self-center">
-<img class="w-8 h-8 rounded-full border-2 border-surface-container-low" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzYav_bX7RjBH9StPS3lMVVArfGTNyBvhWUBci83DkY7nK5Q4lzjC3OvkKPkE5HHD3zgJASiAY6pz_8XTRTsAPRuiT_rFlUIOXV_0clPjGxzHdsbe96mVB_0FAopVFDdQU0uo2Vg4fIfUpMV6fPlLa_uIQKhJSRj6SV8HbA1-5noIsLsSRnRhWPZyjQFZArL_zjWuF-IuYQ4JxOCGhdHxWkKlZyMICG6h7Os6zsywHNRBHpnjT5P2_NJTHTSwYE5z8REaRqKY2vg"/>
-</div>
-</div>
+<div id="deliverables-container" class="space-y-6"></div>
 
 </div>
-<div class="bg-surface-container-low rounded-xl p-8 border border-white/5">
-<h4 class="text-lg font-bold text-white tracking-tight mb-10">System Activity</h4>
-<div class="relative space-y-8">
-<div class="absolute left-[7px] top-2 bottom-2 w-px bg-outline-variant/30"></div>
+<div class="bg-surface-container-low rounded-xl p-8">
+<h4 class="text-lg font-bold text-on-surface tracking-tight mb-10">System Activity</h4>
 
-<div class="relative pl-8">
-<div class="absolute left-0 top-1.5 w-[15px] h-[15px] rounded-full bg-primary border-[3px] border-surface-container-low shadow-[0_0_10px_rgba(204,255,0,0.3)]"></div>
-<div>
-<p class="text-[0.6875rem] uppercase tracking-widest text-primary font-bold mb-1">09:12 AM</p>
-<h6 class="text-white font-bold text-sm">Deployment Success</h6>
-<p class="text-zinc-400 text-xs mt-1 leading-relaxed">Ethan01 v4.2 stable build pushed to production environment.</p>
-<p class="text-[9px] text-zinc-500 font-mono uppercase tracking-widest mt-2 border-t border-white/5 pt-2 inline-block">Initiator: <span class="text-zinc-300">System Auto</span></p>
-</div>
+<div id="activity-container" class="relative space-y-8">
+<div class="absolute left-[7px] top-2 bottom-2 w-px bg-surface-container-highest"></div>
 </div>
 
-<div class="relative pl-8">
-<div class="absolute left-0 top-1.5 w-[15px] h-[15px] rounded-full bg-zinc-700 border-[3px] border-surface-container-low"></div>
-<div>
-<p class="text-[0.6875rem] uppercase tracking-widest text-zinc-500 font-bold mb-1">Yesterday</p>
-<h6 class="text-white font-bold text-sm">New Client Onboarding</h6>
-<p class="text-zinc-400 text-xs mt-1 leading-relaxed">Horizon Venture Labs added to agency portfolio.</p>
-<p class="text-[9px] text-zinc-500 font-mono uppercase tracking-widest mt-2 border-t border-white/5 pt-2 inline-block">Initiator: <span class="text-zinc-300">Marcus Chen</span></p>
-</div>
-</div>
-
-<div class="relative pl-8">
-<div class="absolute left-0 top-1.5 w-[15px] h-[15px] rounded-full bg-zinc-700 border-[3px] border-surface-container-low"></div>
-<div>
-<p class="text-[0.6875rem] uppercase tracking-widest text-zinc-500 font-bold mb-1">Aug 14</p>
-<h6 class="text-white font-bold text-sm">Financial Report Generated</h6>
-<p class="text-zinc-400 text-xs mt-1 leading-relaxed">Q3 forecast suggests a 22% increase in billable hours.</p>
-<p class="text-[9px] text-zinc-500 font-mono uppercase tracking-widest mt-2 border-t border-white/5 pt-2 inline-block">Initiator: <span class="text-zinc-300">David Kalu</span></p>
-</div>
-</div>
-
-<div class="relative pl-8">
-<div class="absolute left-0 top-1.5 w-[15px] h-[15px] rounded-full bg-error border-[3px] border-surface-container-low"></div>
-<div>
-<p class="text-[0.6875rem] uppercase tracking-widest text-error font-bold mb-1">Aug 12</p>
-<h6 class="text-white font-bold text-sm">Invoice Overdue</h6>
-<p class="text-zinc-400 text-xs mt-1 leading-relaxed">Spectral Arts payment #082 has exceeded the 30-day window.</p>
-<p class="text-[9px] text-zinc-500 font-mono uppercase tracking-widest mt-2 border-t border-white/5 pt-2 inline-block">Initiator: <span class="text-error">Billing Engine</span></p>
-</div>
-</div>
-
-</div>
-<button class="w-full mt-10 py-3 border border-outline-variant/20 rounded-lg text-zinc-400 text-[0.6875rem] font-bold uppercase tracking-widest hover:text-white hover:border-primary/50 transition-all bg-surface-container-highest/30" onclick="window.openFullLogModal()">
+<button class="w-full mt-10 py-3 border border-outline-variant rounded-lg text-on-surface-variant text-[0.6875rem] font-bold uppercase tracking-widest hover:text-on-surface hover:border-[var(--color-primary-alpha)] transition-all bg-[var(--color-surface-highest-alpha)]" onclick="window.openFullLogModal()">
     Load Full Log
 </button>
 </div>
 </div>
-<div class="mt-8 p-8 bg-surface-container-high rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between border-l-4 border-primary gap-6 shadow-sm border border-white/5">
+<div class="mt-8 p-8 bg-surface-container-high rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between border-l-4 border-primary gap-6">
 <div>
-<h5 class="text-white font-bold">System Status: Optimal</h5>
-<p class="text-zinc-500 text-xs mt-1">All agency servers are operational. Next backup in 4h 12m.</p>
+<h5 class="text-on-surface font-bold" id="server-status-title">System Status: Checking...</h5>
+<p class="text-on-surface-variant text-xs mt-1" id="server-status-desc">Awaiting network diagnostics.</p>
 </div>
 <div class="flex gap-8">
 <div class="text-center">
-<p class="text-zinc-500 text-[0.6rem] uppercase tracking-tighter">Latency</p>
-<p class="text-primary font-bold">12ms</p>
+<p class="text-on-surface-variant text-[0.6rem] uppercase tracking-tighter">Latency</p>
+<p class="text-primary font-bold" id="server-latency">12ms</p>
 </div>
 <div class="text-center">
-<p class="text-zinc-500 text-[0.6rem] uppercase tracking-tighter">Uptime</p>
-<p class="text-primary font-bold">99.9%</p>
+<p class="text-on-surface-variant text-[0.6rem] uppercase tracking-tighter">Uptime</p>
+<p class="text-primary font-bold" id="server-uptime">99.9%</p>
 </div>
 </div>
 </div>
 </div>
 </main>
 
+<template id="tpl-deliverable-card">
+<div class="bg-surface-container-low p-6 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between group hover:bg-surface-container hover:border-[var(--color-primary-alpha-30)] transition-all gap-4 cursor-pointer" onclick="window.location.hash='#/admin/project/view'">
+<div class="flex items-center gap-6">
+<div class="relative w-16 h-16 shrink-0">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-surface-container-highest" cx="32" cy="32" fill="transparent" r="28" stroke="currentColor" stroke-width="4"></circle>
+<circle class="text-primary progress-ring transition-all duration-[1500ms] ease-out" cx="32" cy="32" fill="transparent" r="28" stroke="currentColor" stroke-dasharray="175.9" stroke-dashoffset="175.9" data-target="{progressTarget}" stroke-width="4"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="text-[10px] font-bold text-on-surface">{progressText}</span>
+</div>
+</div>
+<div>
+<h5 class="text-on-surface font-bold text-lg leading-tight group-hover:text-primary transition-colors">{projectName}</h5>
+<p class="text-on-surface-variant text-xs mt-1">Lead Architect: {leadName} • {statusText}</p>
+</div>
+</div>
+</div>
+</template>
+
+<template id="tpl-activity-item">
+<div class="relative pl-8">
+<div class="absolute left-0 top-1.5 w-[15px] h-[15px] rounded-full {dotColor} border-[3px] border-surface-container shadow-[0_0_10px_var(--color-primary-glow)]"></div>
+<div>
+<p class="text-[0.6875rem] uppercase tracking-widest {textColor} font-bold mb-1">{timestamp}</p>
+<h6 class="text-on-surface font-bold text-sm">{logTitle}</h6>
+<p class="text-on-surface-variant text-xs mt-1 leading-relaxed">{logDesc}</p>
+<p class="text-[9px] text-on-surface-variant font-mono uppercase tracking-widest mt-2 border-t border-outline-variant pt-2 inline-block">Initiator: <span class="{initiatorColor}">{initiatorName}</span></p>
+</div>
+</div>
+</template>
+
 <template id="tpl-log-modal">
-    <div class='flex items-center justify-between bg-surface-container-highest p-3 rounded-lg mb-6 border border-white/5'>
-        <button class='text-zinc-400 hover:text-white transition-colors p-1 flex items-center justify-center' onclick='if(window.Toast) window.Toast.show("Previous day loaded.", "info")'>
-            <span class='material-symbols-outlined text-lg'>chevron_left</span>
-        </button>
-        <button class='flex items-center gap-2 text-xs font-bold text-white hover:text-primary transition-colors' onclick='if(window.Toast) window.Toast.show("Calendar picker opened.", "info")'>
-            <span class='material-symbols-outlined text-primary text-sm'>calendar_month</span>
-            Today: Aug 15, 2024
-        </button>
-        <button class='text-zinc-600 transition-colors p-1 flex items-center justify-center cursor-not-allowed' disabled>
-            <span class='material-symbols-outlined text-lg'>chevron_right</span>
-        </button>
+    <div class='flex items-center justify-between bg-surface-container-highest p-3 rounded-lg mb-6 border border-outline-variant'>
+        <button class='text-on-surface-variant hover:text-on-surface transition-colors p-1 flex items-center justify-center'><span class='material-symbols-outlined text-lg'>chevron_left</span></button>
+        <button class='flex items-center gap-2 text-xs font-bold text-on-surface hover:text-primary transition-colors'><span class='material-symbols-outlined text-primary text-sm'>calendar_month</span> Today</button>
+        <button class='text-on-surface-variant transition-colors p-1 flex items-center justify-center cursor-not-allowed' disabled><span class='material-symbols-outlined text-lg'>chevron_right</span></button>
     </div>
-    
-    <div class='space-y-6 relative text-left'>
-        <div class='absolute left-[7px] top-2 bottom-2 w-px bg-outline-variant/30'></div>
-        
-        <div class='relative pl-8'>
-            <div class='absolute left-0 top-1.5 w-[15px] h-[15px] rounded-full bg-primary border-[3px] border-surface-container-low shadow-[0_0_10px_rgba(204,255,0,0.3)]'></div>
-            <p class='text-[0.6875rem] uppercase tracking-widest text-primary font-bold mb-1'>09:12 AM</p>
-            <h6 class='text-white font-bold text-sm'>Deployment Success</h6>
-            <p class='text-zinc-400 text-xs mt-1 leading-relaxed'>Ethan01 v4.2 stable build pushed to production environment.</p>
-            <p class='text-[9px] text-zinc-500 font-mono uppercase tracking-widest mt-2 border-t border-white/5 pt-2 inline-block'>Initiator: <span class='text-zinc-300'>System Auto</span></p>
-        </div>
-
-        <div class='relative pl-8'>
-            <div class='absolute left-0 top-1.5 w-[15px] h-[15px] rounded-full bg-secondary border-[3px] border-surface-container-low'></div>
-            <p class='text-[0.6875rem] uppercase tracking-widest text-secondary font-bold mb-1'>08:45 AM</p>
-            <h6 class='text-white font-bold text-sm'>API Key Rotated</h6>
-            <p class='text-zinc-400 text-xs mt-1 leading-relaxed'>Stripe production key successfully rotated.</p>
-            <p class='text-[9px] text-zinc-500 font-mono uppercase tracking-widest mt-2 border-t border-white/5 pt-2 inline-block'>Initiator: <span class='text-zinc-300'>Sarah Connor</span></p>
-        </div>
-
-        <div class='relative pl-8'>
-            <div class='absolute left-0 top-1.5 w-[15px] h-[15px] rounded-full bg-zinc-700 border-[3px] border-surface-container-low'></div>
-            <p class='text-[0.6875rem] uppercase tracking-widest text-zinc-500 font-bold mb-1'>07:30 AM</p>
-            <h6 class='text-white font-bold text-sm'>Server Backup Complete</h6>
-            <p class='text-zinc-400 text-xs mt-1 leading-relaxed'>Daily automated snapshot saved to AWS S3 storage.</p>
-            <p class='text-[9px] text-zinc-500 font-mono uppercase tracking-widest mt-2 border-t border-white/5 pt-2 inline-block'>Initiator: <span class='text-zinc-300'>System Auto</span></p>
-        </div>
+    <div class='space-y-6 relative text-left' id="modal-activity-container">
+        <div class='absolute left-[7px] top-2 bottom-2 w-px bg-surface-container-highest'></div>
     </div>
 </template>
 
 <template id="tpl-log-action">
-    <button onclick='if(window.Modal) window.Modal.hide()' class='w-full bg-surface-container-highest text-white px-6 py-3 rounded-lg font-bold text-sm transition-all hover:bg-surface-bright'>Close Log Explorer</button>
+    <button onclick='if(window.Modal) window.Modal.hide()' class='w-full bg-surface-container-highest text-on-surface px-6 py-3 rounded-lg font-bold text-sm transition-all hover:bg-surface-container'>Close Log Explorer</button>
 </template>
 
 <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" style="display:none;" onload="
@@ -265,26 +162,131 @@
         if(window.Modal) window.Modal.show('Daily Activity Log', m, a);
     };
 
-    // UPGRADED: Progress Ring Intersection Observer
-    setTimeout(() => {
+    window.initProgressRings = function() {
         const rings = document.querySelectorAll('.progress-ring');
         if('IntersectionObserver' in window && rings.length > 0) {
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         const target = entry.target.getAttribute('data-target');
-                        entry.target.style.strokeDashoffset = target;
+                        if(target) entry.target.style.strokeDashoffset = target;
                         observer.unobserve(entry.target);
                     }
                 });
             }, { threshold: 0.1, rootMargin: '0px 0px -10% 0px' });
-            
             rings.forEach(r => observer.observe(r));
         } else {
-            // Failsafe for older browsers
             rings.forEach(r => r.style.strokeDashoffset = r.getAttribute('data-target'));
         }
-    }, 300);
+    };
+
+    // HYDRATION ENGINE: Upgraded to calculate dynamic semantic trend badges
+    window.handleDashboardHydration = function(e) {
+        const payload = e.detail;
+        if(!payload) return;
+
+        const role = payload.currentUser?.role || 'Admin';
+        if(role === 'Admin') {
+            const revCard = document.getElementById('card-revenue');
+            const invCard = document.getElementById('card-invoices');
+            if(revCard) { revCard.style.filter = 'blur(6px)'; revCard.title = 'Restricted'; }
+            if(invCard) { invCard.style.filter = 'blur(6px)'; invCard.title = 'Restricted'; }
+        }
+
+        const buildTrendBadge = (trendValue, defaultLabel = 'vs last month') => {
+            if (!trendValue || trendValue === 0 || trendValue === '0' || trendValue === '0%') {
+                return `<div class='px-2 py-[2px] rounded flex items-center gap-1 bg-surface-container-highest border border-[var(--color-outline-variant)] text-on-surface-variant'>
+                            <span class='material-symbols-outlined text-[10px]'>horizontal_rule</span>
+                            <span class='text-[0.65rem] font-bold tracking-wider'>0%</span>
+                        </div>
+                        <span class='text-[0.55rem] uppercase tracking-widest text-on-surface-variant font-bold'>${defaultLabel}</span>`;
+            }
+            const isPositive = String(trendValue).includes('+') || parseFloat(trendValue) > 0;
+            const formatted = String(trendValue).includes('%') ? trendValue : (trendValue > 0 ? '+' : '') + trendValue + '%';
+
+            if (isPositive) {
+                return `<div class='px-2 py-[2px] rounded flex items-center gap-1 bg-[var(--color-primary-glow)] border border-[var(--color-primary-alpha-30)] text-primary'>
+                            <span class='material-symbols-outlined text-[10px]'>arrow_upward</span>
+                            <span class='text-[0.65rem] font-bold tracking-wider'>${formatted}</span>
+                        </div>
+                        <span class='text-[0.55rem] uppercase tracking-widest text-on-surface-variant font-bold'>${defaultLabel}</span>`;
+            } else {
+                return `<div class='px-2 py-[2px] rounded flex items-center gap-1 bg-error-container border border-[var(--color-error-dim)] text-error'>
+                            <span class='material-symbols-outlined text-[10px]'>arrow_downward</span>
+                            <span class='text-[0.65rem] font-bold tracking-wider'>${formatted}</span>
+                        </div>
+                        <span class='text-[0.55rem] uppercase tracking-widest text-on-surface-variant font-bold'>${defaultLabel}</span>`;
+            }
+        };
+
+        if(payload.stats) {
+            const elProj = document.getElementById('stat-projects');
+            const elCli = document.getElementById('stat-clients');
+            const elRev = document.getElementById('stat-revenue');
+            const elInv = document.getElementById('stat-invoices');
+            
+            const elProjTrend = document.getElementById('stat-projects-trend');
+            const elCliTrend = document.getElementById('stat-clients-trend');
+            const elRevTrend = document.getElementById('stat-revenue-trend');
+            
+            if(elProj) elProj.innerText = payload.stats.projects || '0';
+            if(elProjTrend && payload.stats.projectsTrend !== undefined) elProjTrend.innerHTML = buildTrendBadge(payload.stats.projectsTrend);
+            
+            if(elCli) elCli.innerText = payload.stats.clients || '0';
+            if(elCliTrend && payload.stats.clientsTrend !== undefined) elCliTrend.innerHTML = buildTrendBadge(payload.stats.clientsTrend);
+            
+            if(elRev && role !== 'Admin') elRev.innerText = payload.stats.revenue || '0.00';
+            if(elRevTrend && role !== 'Admin' && payload.stats.revenueTrend !== undefined) elRevTrend.innerHTML = buildTrendBadge(payload.stats.revenueTrend);
+            
+            if(elInv && role !== 'Admin') elInv.innerText = payload.stats.invoices || '0';
+        }
+
+        const devCont = document.getElementById('deliverables-container');
+        const devTpl = document.getElementById('tpl-deliverable-card');
+        if(devCont && devTpl) {
+            if(payload.deliverables && payload.deliverables.length > 0) {
+                devCont.innerHTML = ''; 
+                payload.deliverables.forEach(item => {
+                    let html = devTpl.innerHTML;
+                    html = html.replace(/{progressTarget}/g, item.target)
+                               .replace(/{progressText}/g, item.progress)
+                               .replace(/{projectName}/g, item.projectName)
+                               .replace(/{leadName}/g, item.leadName)
+                               .replace(/{statusText}/g, item.status)
+                               .replace(/{projectId}/g, item.id);
+                    devCont.innerHTML += html;
+                });
+                setTimeout(window.initProgressRings, 300);
+            } else {
+                devCont.innerHTML = `
+                <div class='flex flex-col items-center justify-center p-12 bg-surface-container-low rounded-xl border border-dashed border-outline-variant text-center'>
+                    <span class='material-symbols-outlined text-4xl text-on-surface-variant mb-4'>inbox</span>
+                    <h5 class='text-on-surface font-bold text-lg mb-1'>No Active Pipeline</h5>
+                    <p class='text-on-surface-variant text-xs'>No project deliverables available.</p>
+                </div>`;
+            }
+        }
+
+        const logCont = document.getElementById('activity-container');
+        const logTpl = document.getElementById('tpl-activity-item');
+        if(logCont && logTpl && payload.logs) {
+            logCont.innerHTML = '<div class=\'absolute left-[7px] top-2 bottom-2 w-px bg-surface-container-highest\'></div>';
+            payload.logs.forEach(log => {
+                let html = logTpl.innerHTML;
+                html = html.replace(/{dotColor}/g, log.dotColor)
+                           .replace(/{textColor}/g, log.textColor)
+                           .replace(/{timestamp}/g, log.time)
+                           .replace(/{logTitle}/g, log.title)
+                           .replace(/{logDesc}/g, log.desc)
+                           .replace(/{initiatorColor}/g, log.initiatorColor)
+                           .replace(/{initiatorName}/g, log.initiator);
+                logCont.innerHTML += html;
+            });
+        }
+    };
+
+    window.removeEventListener('vanguard-dashboard-sync', window.handleDashboardHydration);
+    window.addEventListener('vanguard-dashboard-sync', window.handleDashboardHydration);
 
     this.remove();
 " />

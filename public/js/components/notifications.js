@@ -14,6 +14,13 @@ export function initHeaderDrops() {
             clearTimeout(profileTimeout); 
             let dropCard = document.getElementById('profile-drop-card');
             if(!dropCard) {
+                // Fetch the live contextual data from the Vanguard Engine Cache
+                const user = window.ethan01_currentUser || { 
+                    fullName: 'Authorized User', 
+                    email: '--', 
+                    role: 'Staff' 
+                };
+
                 dropCard = document.createElement('div');
                 dropCard.id = 'profile-drop-card';
                 dropCard.className = 'absolute top-12 right-[-10px] w-[260px] sm:w-60 transform scale-95 opacity-0 origin-top-right transition-all duration-200 z-[100] cursor-default';
@@ -21,13 +28,13 @@ export function initHeaderDrops() {
                     <div class="absolute -top-1.5 right-[18px] w-3 h-3 bg-surface-container-high border border-white/5 border-b-surface-container-high border-r-surface-container-high transform rotate-45 z-20 rounded-tl-[2px]"></div>
                     
                     <div class="bg-surface-container-high border border-white/5 rounded-xl shadow-2xl overflow-hidden relative z-10 w-full">
-                        <div class="px-4 py-4 border-b border-zinc-800">
-                            <p class="text-sm font-bold text-white truncate">Ethan Hunt</p>
-                            <p class="text-[10px] text-zinc-400 truncate mt-0.5">e.hunt@ethan01.com</p>
-                            <p class="text-[9px] text-primary font-bold uppercase tracking-widest mt-2">Lead Architect</p>
+                        <div class="px-4 py-4 border-b border-zinc-700">
+                            <p class="text-sm font-bold text-white truncate">${user.fullName}</p>
+                            <p class="text-[10px] text-zinc-400 truncate mt-0.5">${user.email}</p>
+                            <p class="text-[9px] text-primary font-bold uppercase tracking-widest mt-2">${user.role}</p>
                         </div>
                         <div class="p-1.5">
-                            <a href="#/admin/login" onclick="if(window.Toast) window.Toast.show('Logging out...', 'info')" class="block px-3 py-2.5 text-xs font-bold text-error hover:bg-error/10 transition-colors rounded-lg flex items-center gap-2">
+                            <a href="#/admin/auth" onclick="if(window.Toast) window.Toast.show('Disconnecting session...', 'info'); if(window.processLogout) window.processLogout();" class="block px-3 py-2.5 text-xs font-bold text-error hover:bg-error/10 transition-colors rounded-lg flex items-center gap-2">
                                 <span class="material-symbols-outlined text-[16px]">logout</span> Disconnect
                             </a>
                         </div>

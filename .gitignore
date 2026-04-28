@@ -73,3 +73,7 @@ key.json
 
 # seed file content lock
 seed.js
+
+# Google secrets
+firebase-dev.js
+firebase-prod.js
