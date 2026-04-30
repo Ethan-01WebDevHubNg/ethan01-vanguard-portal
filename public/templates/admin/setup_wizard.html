@@ -17,14 +17,14 @@
 
 <div id="left-column" class="lg:col-span-8 space-y-8 lg:h-full lg:max-h-[calc(100vh-88px)] lg:overflow-hidden no-scrollbar lg:pb-12 lg:sticky lg:top-[88px]">
     
-<section class="bg-surface-container-high rounded-xl p-6 sm:p-8 transition-all border border-primary shadow-[0_0_15px_var(--color-primary-glow)] relative">
-<div class="absolute top-4 right-4 flex items-center gap-2">
+<section id="wizard-step-1" class="bg-surface-container-high rounded-xl p-6 sm:p-8 transition-all border border-primary shadow-[0_0_15px_var(--color-primary-glow)] relative scroll-mt-24">
+<div class="absolute top-4 right-4 flex items-center gap-2" id="step-1-badge">
     <span class="text-[10px] font-bold text-primary uppercase tracking-widest">Active Step</span>
     <div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
 </div>
 <div class="flex items-center gap-4 mb-8">
-<div class="w-10 h-10 rounded-lg bg-[var(--color-primary-alpha-30)] flex items-center justify-center shrink-0 border border-outline-variant">
-<span class="material-symbols-outlined text-primary">business</span>
+<div class="w-10 h-10 rounded-lg bg-[var(--color-primary-alpha-30)] flex items-center justify-center shrink-0 border border-outline-variant transition-colors" id="step-1-icon-container">
+<span class="material-symbols-outlined text-primary" id="step-1-icon">business</span>
 </div>
 <div>
 <h3 class="text-lg font-bold text-on-surface">1. Client Details</h3>
@@ -32,7 +32,7 @@
 </div>
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-<div class="sm:col-span-2 flex items-center gap-6 p-4 bg-surface-container-highest rounded-xl border border-outline-variant">
+<div class="sm:col-span-2 flex items-center gap-6 p-4 bg-surface-container-highest rounded-xl border border-[var(--input-border)]">
     <div id="client-logo-upload" class="w-16 h-16 rounded-full border border-dashed border-outline-variant flex flex-col items-center justify-center cursor-pointer hover:border-primary transition-colors text-on-surface-variant hover:text-primary">
         <span class="material-symbols-outlined text-xl transition-transform">upload</span>
     </div>
@@ -44,20 +44,27 @@
 
 <div class="space-y-2">
 <label for="in-company-name" class="text-[0.6875rem] uppercase tracking-wider text-on-surface-variant font-bold ml-1">Company Name</label>
-<input id="in-company-name" name="company_name" class="w-full bg-surface-container-highest border-none rounded-lg p-4 text-on-surface placeholder-on-surface-variant focus:ring-2 focus:ring-[var(--color-primary-alpha-30)] transition-all outline-none" placeholder="e.g. Acme Corp" type="text"/>
+<input id="in-company-name" name="company_name" onchange="window.saveWizardState()" class="w-full bg-surface-container-highest border-[1.5px] border-transparent focus:border-[var(--color-primary-alpha-30)] rounded-lg p-4 text-on-surface placeholder-on-surface-variant focus:ring-0 transition-all outline-none" placeholder="e.g. Acme Corp" type="text"/>
 </div>
 <div class="space-y-2">
 <label for="in-domain" class="text-[0.6875rem] uppercase tracking-wider text-on-surface-variant font-bold ml-1">Website Domain</label>
-<input id="in-domain" name="domain_name" class="w-full bg-surface-container-highest border-none rounded-lg p-4 text-on-surface placeholder-on-surface-variant focus:ring-2 focus:ring-[var(--color-primary-alpha-30)] transition-all outline-none" placeholder="acme.co" type="text"/>
+<input id="in-domain" name="domain_name" onchange="window.saveWizardState()" class="w-full bg-surface-container-highest border-[1.5px] border-transparent focus:border-[var(--color-primary-alpha-30)] rounded-lg p-4 text-on-surface placeholder-on-surface-variant focus:ring-0 transition-all outline-none" placeholder="acme.co" type="text"/>
 </div>
+</div>
+<div class="mt-6 text-right">
+    <button type="button" class="bg-surface-container-highest border border-[var(--input-border)] text-on-surface hover:text-primary px-6 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-colors" onclick="window.advanceStep(1)">Confirm & Next</button>
 </div>
 </section>
 
-<section class="bg-surface-container-high rounded-xl p-6 sm:p-8 transition-all border border-outline-variant relative overflow-hidden opacity-60 hover:opacity-100 focus-within:opacity-100">
-<div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+<section id="wizard-step-2" class="bg-surface-container-high rounded-xl p-6 sm:p-8 transition-all border border-[var(--input-border)] relative overflow-hidden opacity-60 focus-within:opacity-100 scroll-mt-24">
+<div class="absolute top-0 left-0 w-1 h-full bg-transparent transition-colors" id="step-2-border"></div>
+<div class="absolute top-4 right-4 flex items-center gap-2 hidden" id="step-2-badge">
+    <span class="text-[10px] font-bold text-primary uppercase tracking-widest">Active Step</span>
+    <div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+</div>
 <div class="flex items-center gap-4 mb-8">
-<div class="w-10 h-10 rounded-lg bg-[var(--color-primary-glow)] flex items-center justify-center shrink-0 border border-outline-variant">
-<span class="material-symbols-outlined text-primary">timeline</span>
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0 border border-outline-variant transition-colors" id="step-2-icon-container">
+<span class="material-symbols-outlined text-on-surface-variant" id="step-2-icon">timeline</span>
 </div>
 <div class="flex-1">
 <h3 class="text-lg font-bold text-on-surface">2. Project Phases & Timeline</h3>
@@ -69,18 +76,26 @@
 </div>
 </div>
 
-<div class="space-y-3 mb-6" id="phases-container">
-    </div>
+<div class="space-y-3 mb-6" id="phases-container"></div>
 
 <button class="flex items-center gap-2 text-xs font-bold text-on-surface-variant hover:text-on-surface transition-colors" onclick="window.openPhaseModal()">
     <span class="material-symbols-outlined text-sm">add_circle</span> Add New Phase
 </button>
+
+<div class="mt-8 text-right border-t border-[var(--input-border)] pt-6">
+    <button type="button" class="bg-surface-container-highest border border-[var(--input-border)] text-on-surface hover:text-primary px-6 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-colors" onclick="window.advanceStep(2)">Confirm & Next</button>
+</div>
 </section>
 
-<section class="bg-surface-container-high rounded-xl p-6 sm:p-8 transition-all border border-outline-variant opacity-60 hover:opacity-100 focus-within:opacity-100">
+<section id="wizard-step-3" class="bg-surface-container-high rounded-xl p-6 sm:p-8 transition-all border border-[var(--input-border)] opacity-60 focus-within:opacity-100 scroll-mt-24 relative">
+<div class="absolute top-0 left-0 w-1 h-full bg-transparent transition-colors" id="step-3-border"></div>
+<div class="absolute top-4 right-4 flex items-center gap-2 hidden" id="step-3-badge">
+    <span class="text-[10px] font-bold text-primary uppercase tracking-widest">Active Step</span>
+    <div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+</div>
 <div class="flex items-center gap-4 mb-8">
-<div class="w-10 h-10 rounded-lg bg-[var(--color-primary-glow)] flex items-center justify-center shrink-0 border border-outline-variant">
-<span class="material-symbols-outlined text-primary">palette</span>
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0 border border-outline-variant transition-colors" id="step-3-icon-container">
+<span class="material-symbols-outlined text-on-surface-variant" id="step-3-icon">palette</span>
 </div>
 <div>
 <h3 class="text-lg font-bold text-on-surface">3. Brand Colors</h3>
@@ -99,19 +114,19 @@
     
     <div class="relative w-8 h-8 rounded-full border-2 border-dashed border-outline-variant hover:border-on-surface transition-colors flex items-center justify-center cursor-pointer overflow-hidden group bg-surface-container-highest">
         <span class="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-on-surface pointer-events-none">add</span>
-        <input type="color" id="brand-color-picker" name="brand_color_picker" class="absolute inset-0 w-[200%] h-[200%] -top-[50%] -left-[50%] opacity-0 cursor-pointer" value="#CCFF00" oninput="window.updateBrandColor(this.value)" onchange="window.updateBrandColor(this.value)"/>
+        <input type="color" id="brand-color-picker" name="brand_color_picker" class="absolute inset-0 w-[200%] h-[200%] -top-[50%] -left-[50%] opacity-0 cursor-pointer" value="#CCFF00" oninput="window.updateBrandColor(this.value)" onchange="window.updateBrandColor(this.value); window.saveWizardState();"/>
     </div>
 </div>
 
-<div class="flex items-center gap-4 bg-surface-container-highest rounded-xl p-3 border border-transparent focus-within:border-[var(--color-primary-alpha-30)] transition-colors max-w-[200px]">
+<div class="flex items-center gap-4 bg-surface-container-highest rounded-xl p-3 border-[1.5px] border-[var(--input-border)] focus-within:border-[var(--color-primary-alpha-30)] transition-colors max-w-[200px]">
     <label for="brand-color-text" class="text-on-surface-variant font-mono text-sm font-bold pl-2">HEX</label>
-    <input type="text" id="brand-color-text" name="brand_color_text" class="bg-transparent border-none focus:ring-0 text-on-surface font-mono text-sm flex-1 w-full uppercase outline-none" value="#CCFF00" oninput="window.updateBrandColor(this.value)"/>
+    <input type="text" id="brand-color-text" name="brand_color_text" class="bg-transparent border-none focus:ring-0 text-on-surface font-mono text-sm flex-1 w-full uppercase outline-none" value="#CCFF00" oninput="window.updateBrandColor(this.value)" onchange="window.saveWizardState()"/>
 </div>
 </div>
 </div>
 <div class="w-full sm:w-64">
 <label class="text-[0.6875rem] uppercase tracking-wider text-on-surface-variant font-bold block mb-4">PORTAL PREVIEW</label>
-<div class="aspect-square bg-surface-container-lowest rounded-xl border border-[var(--color-outline-variant)] p-4 flex flex-col justify-between overflow-hidden relative group shadow-sm">
+<div class="aspect-square bg-surface-container-lowest rounded-xl border border-[var(--color-outline-variant)] p-4 flex flex-col justify-between overflow-hidden relative group shadow-[0_8px_30px_rgba(0,0,0,0.12)] dark:shadow-sm">
 <div class="absolute inset-0 opacity-50 preview-color-bg-target" style="background: linear-gradient(to bottom right, #ccff0033, transparent);"></div>
 <div class="relative z-10 flex justify-between">
 <div class="w-8 h-2 bg-[#ccff00] rounded-full preview-color-target" style="background-color: #ccff00;"></div>
@@ -127,15 +142,22 @@
 </div>
 </div>
 </div>
+<div class="mt-8 text-right border-t border-[var(--input-border)] pt-6">
+    <button type="button" class="bg-surface-container-highest border border-[var(--input-border)] text-on-surface hover:text-primary px-6 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-colors" onclick="window.advanceStep(3)">Confirm & Proceed to Billing</button>
+</div>
 </section>
 
 </div>
 
 <div id="right-column" class="lg:col-span-4 space-y-8 lg:h-full lg:max-h-[calc(100vh-88px)] lg:overflow-hidden no-scrollbar lg:pb-12 lg:sticky lg:top-[88px]">
-<section class="bg-surface-container-high rounded-xl p-6 sm:p-8 border border-outline-variant shadow-sm">
+<section id="wizard-step-4" class="bg-surface-container-high rounded-xl p-6 sm:p-8 border border-[var(--input-border)] shadow-sm opacity-60 focus-within:opacity-100 transition-all relative">
+<div class="absolute top-4 right-4 flex items-center gap-2 hidden" id="step-4-badge">
+    <span class="text-[10px] font-bold text-primary uppercase tracking-widest">Active Step</span>
+    <div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+</div>
 <div class="flex items-center gap-4 mb-8">
-<div class="w-10 h-10 rounded-lg bg-[var(--color-primary-glow)] flex items-center justify-center shrink-0 border border-outline-variant">
-<span class="material-symbols-outlined text-primary">payments</span>
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0 border border-outline-variant transition-colors" id="step-4-icon-container">
+<span class="material-symbols-outlined text-on-surface-variant" id="step-4-icon">payments</span>
 </div>
 <div>
 <h3 class="text-lg font-bold text-on-surface">4. Budget & Billing</h3>
@@ -146,8 +168,8 @@
 
 <div class="space-y-2">
 <label for="display-total-budget" class="text-[0.6875rem] uppercase tracking-wider text-on-surface-variant font-bold ml-1">Total Project Budget</label>
-<div class="relative flex items-center bg-surface-container-highest rounded-lg px-4 focus-within:ring-2 focus-within:ring-[var(--color-primary-alpha-30)] transition-all">
-    <select id="currency-selector" name="currency_selector" aria-label="Select Currency" class="bg-transparent border-none text-primary font-bold focus:ring-0 cursor-pointer w-auto py-4 pl-0 pr-2 outline-none" onchange="window.updateTotalBudget(); window.updateCurrency();">
+<div class="relative flex items-center bg-surface-container-highest rounded-lg px-4 border-[1.5px] border-[var(--input-border)] focus-within:border-[var(--color-primary-alpha-30)] transition-all">
+    <select id="currency-selector" name="currency_selector" aria-label="Select Currency" class="bg-transparent border-none text-primary font-bold focus:ring-0 cursor-pointer w-auto py-4 pl-0 pr-2 outline-none" onchange="window.updateTotalBudget(); window.updateCurrency(); window.saveWizardState();">
         <option value="₦" class="bg-surface-container-high text-on-surface" selected>₦</option>
         <option value="$" class="bg-surface-container-high text-on-surface">$</option>
         <option value="£" class="bg-surface-container-high text-on-surface">£</option>
@@ -167,7 +189,7 @@
 <div class="space-y-2">
 <label for="in-sla-tier" class="text-[0.6875rem] uppercase tracking-wider text-on-surface-variant font-bold">Support Level (SLA)</label>
 <div class="relative">
-<select id="in-sla-tier" name="sla_tier" class="w-full bg-surface-container-highest border-none rounded-lg p-4 text-sm text-on-surface appearance-none focus:ring-2 focus:ring-[var(--color-primary-alpha-30)] transition-all cursor-pointer outline-none" onchange="if(window.Toast) window.Toast.show('SLA Tier updated.', 'info')">
+<select id="in-sla-tier" name="sla_tier" class="w-full bg-surface-container-highest border-[1.5px] border-[var(--input-border)] rounded-lg p-4 text-sm text-on-surface appearance-none focus:border-[var(--color-primary-alpha-30)] transition-all cursor-pointer outline-none" onchange="window.saveWizardState(); if(window.Toast) window.Toast.show('SLA Tier updated.', 'info')">
 <option value="Enterprise">Enterprise (24/7 Priority Support)</option>
 <option value="Professional">Professional (Standard Business Hours)</option>
 <option value="Basic">Basic (Email Support Only)</option>
@@ -176,18 +198,18 @@
 </div>
 </div>
 
-<div class="pt-6 space-y-3 border-t border-outline-variant">
+<div class="pt-6 space-y-3 border-t border-[var(--input-border)]">
 <button class="w-full bg-primary text-[#09090b] font-black uppercase tracking-widest py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-primary-container transition-all shadow-[0_4px_20px_var(--color-primary-glow)]" onclick="window.dispatchProjectCreation()">
     Create Workspace
 </button>
-<button class="w-full text-on-surface-variant text-xs font-bold uppercase tracking-widest py-3 hover:text-on-surface transition-colors border border-transparent hover:border-outline-variant rounded-xl" onclick="window.dispatchDraftSave()">
+<button class="w-full text-on-surface-variant text-xs font-bold uppercase tracking-widest py-3 hover:text-on-surface transition-colors border border-[var(--input-border)] dark:border-transparent hover:border-[var(--color-outline-variant)] rounded-xl" onclick="window.dispatchDraftSave()">
     Save as Draft
 </button>
 </div>
 </div>
 </section>
 
-<section class="bg-surface-container-high rounded-xl p-6 sm:p-8 border border-outline-variant shadow-sm">
+<section class="bg-surface-container-high rounded-xl p-6 sm:p-8 border border-[var(--input-border)] shadow-sm">
     <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-4 flex items-center gap-2">
         <span class="material-symbols-outlined text-[16px]">save</span> Saved Drafts
     </h3>
@@ -201,7 +223,7 @@
 </main>
 
 <template id="tpl-saved-draft">
-<div class="p-3 bg-surface-container-highest rounded-lg flex justify-between items-center group cursor-pointer hover:border-[var(--color-primary-alpha-30)] border border-transparent transition-colors">
+<div class="p-3 bg-surface-container-highest rounded-lg flex justify-between items-center group cursor-pointer hover:border-[var(--color-primary-alpha-30)] border border-[var(--input-border)] transition-colors">
     <div>
         <p class="text-xs font-bold text-on-surface mb-0.5">Draft: {draftName}</p>
         <p class="text-[10px] text-on-surface-variant font-mono">Saved {timeAgo}</p>
@@ -214,12 +236,12 @@
     <div class='space-y-4 text-left'>
         <div class='space-y-2'>
             <label for='new-phase-name' class='text-xs font-bold text-on-surface-variant uppercase tracking-widest'>Phase Name</label>
-            <input type='text' id='new-phase-name' name='new_phase_name' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-on-surface focus:ring-1 focus:ring-primary outline-none' placeholder='e.g. Server Migration'/>
+            <input type='text' id='new-phase-name' name='new_phase_name' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none' placeholder='e.g. Server Migration'/>
         </div>
         <div class='grid grid-cols-2 gap-4'>
             <div class='space-y-2'>
                 <label for='new-phase-percent' class='text-xs font-bold text-on-surface-variant uppercase tracking-widest'>Completion %</label>
-                <input type='number' id='new-phase-percent' name='new_phase_percent' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-on-surface focus:ring-1 focus:ring-primary outline-none' placeholder='10'/>
+                <input type='number' id='new-phase-percent' name='new_phase_percent' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none' placeholder='10'/>
             </div>
             <div class='space-y-2'>
                 <label for='modal-phase-cost' class='text-xs font-bold text-on-surface-variant uppercase tracking-widest flex items-center gap-1'>
@@ -227,7 +249,7 @@
                 </label>
                 <div class='relative'>
                     <span class='absolute left-3 top-1/2 -translate-y-1/2 text-sm text-on-surface-variant font-bold dynamic-currency-symbol'>₦</span>
-                    <input type='number' id='modal-phase-cost' name='new_phase_cost' class='w-full bg-surface-container-highest rounded-lg p-3 pl-7 text-sm border-none text-on-surface focus:ring-1 focus:ring-primary outline-none' placeholder='0.00'/>
+                    <input type='number' id='modal-phase-cost' name='new_phase_cost' class='w-full bg-surface-container-highest rounded-lg p-3 pl-7 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none' placeholder='0.00'/>
                 </div>
             </div>
         </div>
@@ -240,31 +262,31 @@
 </template>
 
 <template id="tpl-extra-billing">
-    <input type='text' name='extra_item_name' aria-label='Item Name' placeholder='Item Name' class='flex-1 bg-surface-container-highest border-none rounded-lg px-3 py-3 text-xs text-on-surface focus:ring-1 focus:ring-primary outline-none'/>
+    <input type='text' name='extra_item_name' aria-label='Item Name' placeholder='Item Name' class='flex-1 bg-surface-container-highest border-[1.5px] border-[var(--input-border)] rounded-lg px-3 py-3 text-xs text-on-surface focus:border-primary outline-none' onchange='window.saveWizardState()'/>
     <div class='w-1/3 relative shrink-0'>
         <span class='absolute left-3 top-1/2 -translate-y-1/2 text-xs text-on-surface-variant font-bold dynamic-currency-symbol'>₦</span>
-        <input type='number' name='extra_item_cost' aria-label='Item Cost' placeholder='Cost' class='w-full extra-cost-input bg-surface-container-highest border-none rounded-lg px-3 py-3 pl-7 text-xs text-on-surface focus:ring-1 focus:ring-primary outline-none' oninput='window.updateTotalBudget()'/>
+        <input type='number' name='extra_item_cost' aria-label='Item Cost' placeholder='Cost' class='w-full extra-cost-input bg-surface-container-highest border-[1.5px] border-[var(--input-border)] rounded-lg px-3 py-3 pl-7 text-xs text-on-surface focus:border-primary outline-none' oninput='window.updateTotalBudget()' onchange='window.saveWizardState()'/>
     </div>
-    <button class='text-on-surface-variant hover:text-error transition-colors px-2' onclick='this.parentElement.remove(); window.updateTotalBudget();'><span class='material-symbols-outlined text-sm'>close</span></button>
+    <button class='text-on-surface-variant hover:text-error transition-colors px-2' onclick='this.parentElement.remove(); window.updateTotalBudget(); window.saveWizardState();'><span class='material-symbols-outlined text-sm'>close</span></button>
 </template>
 
 <template id="tpl-phase-item">
     <div class='flex items-center gap-3 flex-1 w-full'>
         <div class='w-8 h-8 rounded bg-surface-container-highest border border-outline-variant flex items-center justify-center text-xs font-bold text-on-surface-variant shrink-0'>{count}</div>
-        <input class='flex-1 w-full min-w-0 bg-transparent border-none focus:ring-0 text-sm text-on-surface placeholder-on-surface-variant outline-none phase-name-val' name='phase_name_{count}' aria-label='Phase Name' type='text' value='{name}'/>
+        <input class='flex-1 w-full min-w-0 bg-transparent border-none focus:ring-0 text-sm text-on-surface placeholder-on-surface-variant outline-none phase-name-val' name='phase_name_{count}' aria-label='Phase Name' type='text' value='{name}' onchange='window.saveWizardState()'/>
     </div>
     <div class='flex items-center justify-start gap-3 w-full sm:w-auto pl-11 sm:pl-0 overflow-x-auto no-scrollbar scroll-smooth pb-1 sm:pb-0'>
         <div class='w-16 relative shrink-0'>
-            <input class='w-full phase-pct-input bg-surface-container-highest border border-transparent focus:border-outline-variant rounded p-2 text-sm text-center text-on-surface focus:ring-1 focus:ring-primary outline-none transition-colors' name='phase_pct_{count}' aria-label='Phase Percentage' type='number' value='{pct}' oninput='window.updateTotalScope()'/>
+            <input class='w-full phase-pct-input bg-surface-container-highest border border-[1.5px] border-[var(--input-border)] focus:border-outline-variant rounded p-2 text-sm text-center text-on-surface focus:border-primary outline-none transition-colors' name='phase_pct_{count}' aria-label='Phase Percentage' type='number' value='{pct}' oninput='window.updateTotalScope()' onchange='window.saveWizardState()'/>
             <span class='absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-on-surface-variant font-bold'>%</span>
         </div>
         <div class='w-28 relative shrink-0'>
             <span class='absolute left-3 top-1/2 -translate-y-1/2 text-sm text-on-surface-variant font-bold dynamic-currency-symbol'>₦</span>
-            <input class='phase-cost-input w-full bg-surface-container-highest border border-transparent focus:border-outline-variant rounded p-2 pl-7 text-sm text-right text-primary font-bold focus:ring-1 focus:ring-primary outline-none transition-colors' name='phase_cost_{count}' aria-label='Phase Cost' type='number' value='{cost}' oninput='window.updateTotalBudget()'/>
+            <input class='phase-cost-input w-full bg-surface-container-highest border border-[1.5px] border-[var(--input-border)] focus:border-outline-variant rounded p-2 pl-7 text-sm text-right text-primary font-bold focus:border-primary outline-none transition-colors' name='phase_cost_{count}' aria-label='Phase Cost' type='number' value='{cost}' oninput='window.updateTotalBudget()' onchange='window.saveWizardState()'/>
         </div>
         <div class='flex items-center gap-1 shrink-0'>
             <button class='text-on-surface-variant hover:text-primary transition-colors p-1' onclick='this.closest(".p-3").querySelector("input[type=text]").focus()' title='Edit Phase'><span class='material-symbols-outlined text-sm'>edit</span></button>
-            <button class='text-on-surface-variant hover:text-error transition-colors p-1' onclick='this.closest(".p-3").remove(); window.updateTotalBudget(); window.updateTotalScope(); if(window.Toast) window.Toast.show("Phase removed.", "info");' title='Delete Phase'><span class='material-symbols-outlined text-sm'>delete</span></button>
+            <button class='text-on-surface-variant hover:text-error transition-colors p-1' onclick='this.closest(".p-3").remove(); window.updateTotalBudget(); window.updateTotalScope(); window.saveWizardState(); if(window.Toast) window.Toast.show("Phase removed.", "info");' title='Delete Phase'><span class='material-symbols-outlined text-sm'>delete</span></button>
         </div>
     </div>
 </template>
@@ -290,6 +312,70 @@
         document.querySelectorAll('.phase-pct-input').forEach(i => total += parseFloat(i.value) || 0);
         const display = document.getElementById('display-total-scope');
         if(display) display.innerText = total + '%';
+    };
+
+    // UX GUIDE ENGINE: Step Solidification & Auto-Scroll
+    window.advanceStep = function(currentStepNum) {
+        const currentSection = document.getElementById('wizard-step-' + currentStepNum);
+        const currentBadge = document.getElementById('step-' + currentStepNum + '-badge');
+        const currentBorder = document.getElementById('step-' + currentStepNum + '-border');
+        const currentIcon = document.getElementById('step-' + currentStepNum + '-icon');
+        const currentIconCont = document.getElementById('step-' + currentStepNum + '-icon-container');
+        
+        // 1. Solidify Current Step
+        if(currentSection) {
+            currentSection.classList.remove('border-[var(--input-border)]', 'border-primary', 'shadow-[0_0_15px_var(--color-primary-glow)]');
+            currentSection.classList.add('border-[var(--color-outline-variant)]', 'opacity-100');
+            if(currentBadge) currentBadge.classList.add('hidden');
+            if(currentBorder) {
+                currentBorder.classList.remove('bg-primary', 'bg-transparent');
+                currentBorder.classList.add('bg-[var(--color-outline-variant)]');
+            }
+            if(currentIcon) currentIcon.innerHTML = 'check_circle';
+            if(currentIconCont) {
+                currentIconCont.classList.remove('bg-[var(--color-primary-alpha-30)]', 'bg-surface-container-highest');
+                currentIconCont.classList.add('bg-surface-container-high', 'border-[var(--color-outline-variant)]');
+                currentIcon.classList.remove('text-primary', 'text-on-surface-variant');
+                currentIcon.classList.add('text-on-surface-variant');
+            }
+        }
+
+        // 2. Activate & Scroll to Next Step
+        const nextStepNum = currentStepNum + 1;
+        const nextSection = document.getElementById('wizard-step-' + nextStepNum);
+        if(nextSection) {
+            nextSection.classList.remove('opacity-60', 'border-[var(--input-border)]');
+            nextSection.classList.add('opacity-100', 'border-primary', 'shadow-[0_0_15px_var(--color-primary-glow)]');
+            
+            const nextBadge = document.getElementById('step-' + nextStepNum + '-badge');
+            if(nextBadge) nextBadge.classList.remove('hidden');
+            
+            const nextBorder = document.getElementById('step-' + nextStepNum + '-border');
+            if(nextBorder) {
+                nextBorder.classList.remove('bg-transparent', 'bg-[var(--color-outline-variant)]');
+                nextBorder.classList.add('bg-primary');
+            }
+
+            const nextIconCont = document.getElementById('step-' + nextStepNum + '-icon-container');
+            const nextIcon = document.getElementById('step-' + nextStepNum + '-icon');
+            if(nextIconCont) {
+                nextIconCont.classList.remove('bg-surface-container-highest');
+                nextIconCont.classList.add('bg-[var(--color-primary-alpha-30)]');
+            }
+            if(nextIcon) {
+                nextIcon.classList.remove('text-on-surface-variant');
+                nextIcon.classList.add('text-primary');
+            }
+
+            // Smooth Scroll into view
+            nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            
+            // Focus first input of the new section
+            setTimeout(() => {
+                const firstInput = nextSection.querySelector('input, select');
+                if(firstInput) firstInput.focus();
+            }, 600);
+        }
     };
 
     window.addExtraBillingItem = function() {
@@ -322,7 +408,7 @@
         if(cont) {
             const count = cont.children.length + 1;
             const div = document.createElement('div');
-            div.className = 'flex flex-col sm:flex-row sm:items-center gap-3 bg-surface-container-highest p-3 rounded-lg border border-dashed border-outline-variant mt-3 transition-colors hover:border-solid';
+            div.className = 'flex flex-col sm:flex-row sm:items-center gap-3 bg-surface-container-highest p-3 rounded-lg border-[1.5px] border-[var(--input-border)] border-dashed mt-3 transition-colors hover:border-solid focus-within:border-primary';
             let html = document.getElementById('tpl-phase-item').innerHTML;
             html = html.replace(/{count}/g, count).replace('{name}', name).replace('{pct}', percent).replace('{cost}', cost);
             div.innerHTML = html;
@@ -332,6 +418,7 @@
         window.updateTotalBudget();
         window.updateTotalScope();
         window.updateCurrency(); 
+        window.saveWizardState();
         if(window.Modal) window.Modal.hide();
         if(window.Toast) window.Toast.show('Phase added.', 'success');
     };
@@ -344,6 +431,21 @@
         
         document.querySelectorAll('.preview-color-target').forEach(el => el.style.backgroundColor = val);
         document.querySelectorAll('.preview-color-bg-target').forEach(el => el.style.background = 'linear-gradient(to bottom right, ' + val + '33, transparent)');
+    };
+
+    // LIVE DB AUTO-SAVE HOOK
+    window.saveWizardState = function() {
+        const payload = {
+            companyName: document.getElementById('in-company-name')?.value || '',
+            domain: document.getElementById('in-domain')?.value || '',
+            brandColor: document.getElementById('brand-color-text')?.value || '#CCFF00',
+            sla: document.getElementById('in-sla-tier')?.value || 'Professional',
+            totalBudgetRaw: document.getElementById('display-total-budget')?.value || '0',
+            currency: document.getElementById('currency-selector')?.value || '₦',
+            timestamp: Date.now()
+        };
+        // Dispatch to global hydrate.js / db.js listener
+        window.dispatchEvent(new CustomEvent('vanguard-wizard-autosave', { detail: payload }));
     };
 
     window.setupBentoScroll = () => {
@@ -369,20 +471,17 @@
     };
 
     window.dispatchProjectCreation = function() {
+        window.saveWizardState(); // Ensure last typing is caught
         const payload = {
-            companyName: document.getElementById('in-company-name')?.value || '',
-            domain: document.getElementById('in-domain')?.value || '',
-            brandColor: document.getElementById('brand-color-text')?.value || '#CCFF00',
-            sla: document.getElementById('in-sla-tier')?.value || 'Professional',
-            totalBudgetRaw: document.getElementById('display-total-budget')?.value || '0',
-            currency: document.getElementById('currency-selector')?.value || '₦'
+            action: 'CREATE_WORKSPACE'
         };
         window.dispatchEvent(new CustomEvent('vanguard-create-workspace', { detail: payload }));
-        if(window.Toast) window.Toast.show('Project workspace creation initiated.', 'info');
+        if(window.Toast) window.Toast.show('Project workspace creation initialized.', 'info');
     };
 
     window.dispatchDraftSave = function() {
-        if(window.Toast) window.Toast.show('Draft saved to local index.', 'info');
+        window.saveWizardState();
+        if(window.Toast) window.Toast.show('Draft solidified to global DB.', 'info');
     };
 
     window.handleWizardHydration = (e) => {

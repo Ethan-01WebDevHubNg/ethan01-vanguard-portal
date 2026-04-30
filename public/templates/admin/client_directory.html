@@ -1,11 +1,9 @@
 <div id="sidebar-mount"></div>
-
-<div id="header-mount" 
-     data-search-placeholder="SEARCH CLIENTS..." 
-     data-search-toast="Searching client directory..."
+<div id="header-mount"
+      data-search-placeholder="SEARCH CLIENTS..."
+      data-search-toast="Searching client directory..."
      data-role-simulator="false">
 </div>
-
 <main class="ml-0 md:ml-64 pt-24 px-4 sm:px-8 pb-12 min-h-screen transition-all duration-300">
 <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
 <div>
@@ -16,21 +14,21 @@
 <p class="text-on-surface-variant body-md mt-4 max-w-xl">Centralized node for all global client profiles, SLA management, and real-time financial tracking across the ETHAN01 ecosystem.</p>
 </div>
 <div class="flex flex-wrap gap-3">
-<button class="px-6 py-3 bg-surface-container-high text-on-surface rounded-xl font-bold flex items-center gap-2 hover:bg-surface-container transition-all" onclick="window.openFilterModal()">
+<button class="px-6 py-3 bg-surface-container-high text-on-surface rounded-xl font-bold flex items-center gap-2 hover:bg-surface-container transition-all shadow-[var(--input-shadow)] border-[1.5px] border-[var(--input-border)]" onclick="window.openFilterModal()">
 <span class="material-symbols-outlined text-[20px]">filter_list</span>
 <span class="text-sm">Filter View</span>
 </button>
-<button class="px-6 py-3 bg-primary text-[#09090b] rounded-xl font-bold flex items-center gap-2 hover:bg-primary-container transition-all shadow-[0_4px_15px_var(--color-primary-glow)]" onclick="if(window.Toast) window.Toast.show('Compiling CSV Data...', 'info'); setTimeout(() => { if(window.Toast) window.Toast.show('CSV Export downloaded.', 'success') }, 1500)">
-<span class="material-symbols-outlined text-[20px]">file_download</span>
-<span class="text-sm">Export CSV</span>
+<button class="px-6 py-3 bg-primary text-[#09090b] rounded-xl font-bold flex items-center gap-2 hover:bg-primary-container transition-all shadow-[0_4px_15px_var(--color-primary-glow)]" onclick="window.exportToExcel()">
+<span class="material-symbols-outlined text-[20px]">table_view</span>
+<span class="text-sm">Export Excel</span>
 </button>
 </div>
 </div>
 <div class="bg-surface-container-low rounded-2xl overflow-hidden shadow-[var(--card-shadow)] border border-outline-variant">
 <div class="overflow-x-auto w-full">
-<table class="w-full text-left border-collapse whitespace-nowrap">
+<table class="w-full text-left border-collapse whitespace-nowrap" id="client-data-table">
 <thead>
-<tr class="bg-surface-container-high border-b border-outline-variant">
+<tr class="bg-surface-container-high border-b border-[var(--input-border)]">
 <th class="px-6 sm:px-8 py-5 text-[11px] font-black uppercase tracking-[0.15em] text-on-surface-variant">Client Name</th>
 <th class="px-6 sm:px-8 py-5 text-[11px] font-black uppercase tracking-[0.15em] text-on-surface-variant text-center">Active Projects</th>
 <th class="px-6 sm:px-8 py-5 text-[11px] font-black uppercase tracking-[0.15em] text-on-surface-variant">SLA Tier</th>
@@ -38,25 +36,33 @@
 <th class="px-6 sm:px-8 py-5 text-[11px] font-black uppercase tracking-[0.15em] text-on-surface-variant text-right">Actions</th>
 </tr>
 </thead>
-<tbody id="client-directory-container" class="divide-y divide-outline-variant">
-    </tbody>
+<tbody id="client-directory-container" class="divide-y divide-[var(--input-border)]">
+    <!-- Shimmering Loaders -->
+    <tr class="animate-pulse">
+        <td class="px-6 sm:px-8 py-6 flex items-center gap-4"><div class="w-10 h-10 rounded-xl bg-surface-container-highest shrink-0"></div><div class="space-y-2"><div class="h-4 w-32 bg-surface-container-highest rounded"></div><div class="h-2 w-20 bg-surface-container-highest rounded"></div></div></td>
+        <td class="px-6 sm:px-8 py-6 text-center"><div class="w-8 h-8 rounded-full bg-surface-container-highest mx-auto"></div></td>
+        <td class="px-6 sm:px-8 py-6"><div class="w-16 h-4 bg-surface-container-highest rounded-full"></div></td>
+        <td class="px-6 sm:px-8 py-6"><div class="h-4 w-20 bg-surface-container-highest rounded mb-1"></div><div class="h-2 w-12 bg-surface-container-highest rounded"></div></td>
+        <td class="px-6 sm:px-8 py-6 text-right"><div class="w-16 h-8 bg-surface-container-highest rounded ml-auto"></div></td>
+    </tr>
+</tbody>
 </table>
 </div>
-<div class="px-6 sm:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 bg-surface-container-low border-t border-outline-variant">
-<div class="text-on-surface-variant text-xs font-inter font-bold" id="client-pagination-info">Showing 0-0 of 0 Global Clients</div>
+<div class="px-6 sm:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 bg-surface-container-low border-t border-[var(--input-border)]">
+<div class="text-on-surface-variant text-xs font-inter font-bold" id="client-pagination-info">Fetching Global Clients...</div>
 <div class="flex gap-2">
-<button class="p-2 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors disabled:opacity-50" disabled="">
+<button class="p-2 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors disabled:opacity-50 border-[1.5px] border-[var(--input-border)]" disabled="">
 <span class="material-symbols-outlined">chevron_left</span>
 </button>
 <button class="px-4 py-2 rounded-lg bg-primary text-[#09090b] font-black text-xs shadow-sm">1</button>
-<button class="p-2 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors disabled:opacity-50" disabled="">
+<button class="p-2 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors disabled:opacity-50 border-[1.5px] border-[var(--input-border)]" disabled="">
 <span class="material-symbols-outlined">chevron_right</span>
 </button>
 </div>
 </div>
 </div>
 <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-<div class="bg-surface-container-low p-8 rounded-2xl border border-outline-variant shadow-[var(--card-shadow)]">
+<div class="bg-surface-container-low p-8 rounded-2xl border border-[var(--input-border)] shadow-[var(--card-shadow)]">
 <div class="flex items-center justify-between mb-4">
 <span class="material-symbols-outlined text-primary text-3xl">trending_up</span>
 <span class="text-[10px] font-bold text-primary bg-[var(--color-primary-glow)] px-2 py-1 rounded">HEALTHY</span>
@@ -64,7 +70,7 @@
 <h4 id="stat-combined-revenue" class="text-3xl font-black text-on-surface">--</h4>
 <p class="text-on-surface-variant uppercase tracking-widest text-[10px] font-bold mt-2">Combined Monthly Revenue</p>
 </div>
-<div class="bg-surface-container-low p-8 rounded-2xl border border-outline-variant shadow-[var(--card-shadow)]">
+<div class="bg-surface-container-low p-8 rounded-2xl border border-[var(--input-border)] shadow-[var(--card-shadow)]">
 <div class="flex items-center justify-between mb-4">
 <span class="material-symbols-outlined text-secondary text-3xl">verified</span>
 <span id="stat-sla-badge" class="text-[10px] font-bold text-secondary bg-[var(--color-primary-glow)] px-2 py-1 rounded" style="color: var(--color-primary); background-color: var(--color-primary-glow);">--%</span>
@@ -72,7 +78,7 @@
 <h4 class="text-3xl font-black text-on-surface">SLA COMPLIANT</h4>
 <p class="text-on-surface-variant uppercase tracking-widest text-[10px] font-bold mt-2">Active Service Delivery</p>
 </div>
-<div class="bg-surface-container-low p-8 rounded-2xl border border-outline-variant shadow-[var(--card-shadow)]">
+<div class="bg-surface-container-low p-8 rounded-2xl border border-[var(--input-border)] shadow-[var(--card-shadow)]">
 <div class="flex items-center justify-between mb-4">
 <span class="material-symbols-outlined text-on-surface-variant text-3xl">hub</span>
 <span class="text-[10px] font-bold text-on-surface-variant bg-[var(--color-surface-highest-alpha)] px-2 py-1 rounded">GLOBAL</span>
@@ -100,7 +106,7 @@
 <div class="inline-flex items-center justify-center w-8 h-8 rounded-full {projectBadgeClass} font-black text-xs">{activeProjects}</div>
 </td>
 <td class="px-6 sm:px-8 py-6">
-<span class="px-3 py-1 rounded-full text-[9px] sm:text-[10px] font-black {slaBadgeClass} uppercase tracking-widest">{slaTier}</span>
+<span class="px-3 py-1 rounded-full text-[9px] sm:text-[10px] font-black {slaBadgeClass} uppercase tracking-widest client-sla-tier">{slaTier}</span>
 </td>
 <td class="px-6 sm:px-8 py-6">
 <div class="text-on-surface font-mono font-bold text-sm sm:text-base">{monthlyBurn}</div>
@@ -123,37 +129,37 @@
     <div class="space-y-4 text-left">
         <div class="space-y-2">
             <label class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">SLA Tier</label>
-            <select class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-on-surface focus:ring-1 focus:ring-primary outline-none">
+            <select id="filter-tier" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none">
                 <option>All Tiers</option>
-                <option>Premium</option>
-                <option>Standard</option>
-                <option>Basic</option>
+                <option>PREMIUM</option>
+                <option>STANDARD</option>
+                <option>BASIC</option>
             </select>
         </div>
         <div class="space-y-2">
             <label class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Status</label>
-            <select class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-on-surface focus:ring-1 focus:ring-primary outline-none">
+            <select id="filter-status" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none">
+                <option>All Projects</option>
                 <option>Active Projects Only</option>
-                <option>Archived</option>
             </select>
         </div>
     </div>
 </template>
 
 <template id="tpl-filter-action">
-    <button onclick="if(window.Modal) window.Modal.hide()" class="text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors">Clear</button>
-    <button onclick="if(window.Modal) window.Modal.hide(); if(window.Toast) window.Toast.show('Filters applied.', 'success')" class="bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm transition-colors">Apply Filters</button>
+    <button onclick="if(window.Modal) window.Modal.hide()" class="text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors">Cancel</button>
+    <button onclick="window.applyFilters()" class="bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm transition-colors">Apply Filters</button>
 </template>
 
 <template id="tpl-edit-modal">
     <div class="space-y-4 text-left">
         <div class="space-y-2">
             <label class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Company Name</label>
-            <input type="text" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-on-surface focus:ring-1 focus:ring-primary outline-none" value="{name}"/>
+            <input type="text" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none" value="{name}"/>
         </div>
         <div class="space-y-2">
             <label class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">SLA Tier Update</label>
-            <select class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-on-surface focus:ring-1 focus:ring-primary outline-none">
+            <select class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none">
                 <option selected>Premium</option>
                 <option>Standard</option>
                 <option>Basic</option>
@@ -174,6 +180,56 @@
         if(window.Modal) window.Modal.show('Filter Directory', m, a);
     };
 
+    window.applyFilters = function() {
+        const tier = document.getElementById('filter-tier').value;
+        const status = document.getElementById('filter-status').value;
+        
+        const rows = document.querySelectorAll('#client-directory-container tr');
+        let visibleCount = 0;
+        
+        rows.forEach(row => {
+            if (row.children.length === 1) return; // Skip Empty state row
+            
+            const rowTierEl = row.querySelector('.client-sla-tier');
+            if(!rowTierEl) return;
+            const rowTier = rowTierEl.innerText;
+            const rowProjects = parseInt(row.querySelector('td:nth-child(2) div').innerText);
+            
+            let show = true;
+            if (tier !== 'All Tiers' && rowTier !== tier) show = false;
+            if (status === 'Active Projects Only' && rowProjects === 0) show = false;
+            
+            row.style.display = show ? '' : 'none';
+            if (show) visibleCount++;
+        });
+        
+        const info = document.getElementById('client-pagination-info');
+        if (info) info.innerText = 'Showing filtered results (' + visibleCount + ')';
+        
+        if(window.Modal) window.Modal.hide();
+        if(window.Toast) window.Toast.show('Filters applied successfully.', 'success');
+    };
+
+    window.exportToExcel = function() {
+        if(window.Toast) window.Toast.show('Compiling Excel Data...', 'info');
+        setTimeout(() => {
+            const table = document.getElementById('client-data-table');
+            // Clone table to strip out buttons and icons for raw data export
+            const clone = table.cloneNode(true);
+            clone.querySelectorAll('.material-symbols-outlined, button').forEach(el => el.remove());
+            
+            const html = clone.outerHTML;
+            const blob = new Blob([html], {type: 'application/vnd.ms-excel'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Ethan01_Client_Directory.xls';
+            a.click();
+            URL.revokeObjectURL(url);
+            if(window.Toast) window.Toast.show('Excel Export downloaded.', 'success');
+        }, 1000);
+    };
+
     window.openEditClientModal = function(clientName) {
         const m = document.getElementById('tpl-edit-modal').innerHTML.replace('{name}', clientName);
         const a = document.getElementById('tpl-edit-action').innerHTML;
@@ -183,9 +239,8 @@
     window.handleDirectoryHydration = function(e) {
         const payload = e.detail;
         if(!payload) return;
-
         const role = payload.currentUser?.role || 'Admin';
-        
+                 
         if (payload.stats) {
             const revEl = document.getElementById('stat-combined-revenue');
             const slaEl = document.getElementById('stat-sla-badge');
@@ -194,13 +249,13 @@
             if (slaEl) slaEl.innerText = payload.stats.slaCompliance || '0%';
             if (reachEl) reachEl.innerText = payload.stats.globalReach || '0 COUNTRIES';
         }
-
+        
         const cont = document.getElementById('client-directory-container');
         const tpl = document.getElementById('tpl-client-row');
         if (cont && tpl && payload.clients) {
             cont.innerHTML = '';
             if (payload.clients.length === 0) {
-                cont.innerHTML = `<tr><td colspan='5' class='text-center py-12 text-on-surface-variant'>No clients registered in the directory.</td></tr>`;
+                cont.innerHTML = '<tr><td colspan=&quot;5&quot; class=&quot;text-center py-12 text-on-surface-variant&quot;>No clients registered in the directory.</td></tr>';
             } else {
                 payload.clients.forEach(client => {
                     let html = tpl.innerHTML;
@@ -210,9 +265,8 @@
                     let slaBadge = 'bg-surface-container-highest text-on-surface-variant';
                     if (isPremium) slaBadge = 'bg-primary text-[#09090b]';
                     else if (client.slaTier === 'Standard') slaBadge = 'bg-[var(--color-primary-glow)] text-primary';
-
                     const escapedName = client.name.replace(/'/g, '\\\'');
-
+                    
                     html = html.replace(/{bgGradient}/g, bgGradient)
                                .replace(/{logoUrl}/g, client.logoUrl || '/assets/icons/ethan01logo.svg')
                                .replace(/{clientName}/g, client.name)
@@ -225,14 +279,16 @@
                                .replace(/{monthlyBurn}/g, role === 'Admin' ? '***' : client.monthlyBurn)
                                .replace(/{burnTrend}/g, role === 'Admin' ? 'Restricted' : client.burnTrend)
                                .replace(/{portalLink}/g, client.portalLink || '#');
-                    
+                                         
                     cont.innerHTML += html;
                 });
             }
-
             if (role === 'Admin') {
                 document.querySelectorAll('.lead-architect-only').forEach(btn => btn.style.display = 'none');
             }
+            
+            const info = document.getElementById('client-pagination-info');
+            if (info) info.innerText = 'Showing 1-' + payload.clients.length + ' of ' + payload.clients.length + ' Global Clients';
         }
     };
 

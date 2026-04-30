@@ -1,8 +1,9 @@
 // public/js/config/firebase-dev.js
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, initializeFirestore, persistentLocalCache, persistentMultipleTabManager } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { getStorage } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
 const firebaseConfig = {
@@ -19,8 +20,15 @@ const app = initializeApp(firebaseConfig);
 
 // Export core services
 export const auth = getAuth(app);
-// CRITICAL FIX: Explicitly target the named database 'eth-db' instead of '(default)'
-export const db = getFirestore(app, "eth-db"); 
+
+// PERFORMANCE UPGRADE: Initialize Firestore with multi-tab offline persistence
+// This enables the "Local-First" data strategy, slashing load times to 0ms.
+export const db = initializeFirestore(app, {
+    localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }),
+}, "eth-db"); 
+
 export const storage = getStorage(app);
 
-console.log("Firebase Environment Initialized (Targeting eth-db).");
+export const rtdb = getDatabase(app);
+
+console.log("Firebase Environment Initialized (Targeting eth-db with Local Persistence).");

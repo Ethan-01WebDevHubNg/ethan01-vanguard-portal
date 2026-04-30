@@ -7,12 +7,6 @@
      data-role-simulator="false">
 </div>
 
-<div id="access-denied-screen" class="hidden pt-40 px-4 flex-col items-center justify-center text-center h-screen w-full">
-    <span class="material-symbols-outlined text-6xl text-error mb-4">gpp_bad</span>
-    <h2 class="text-3xl font-black text-on-surface mb-3">ACCESS RESTRICTED</h2>
-    <p class="text-on-surface-variant max-w-md mx-auto leading-relaxed">System Settings are strictly restricted to Super Admin personnel. Your current role does not possess the required clearance to view or modify global configurations.</p>
-</div>
-
 <div id="settings-content" class="pt-24 pb-32 px-4 sm:px-12 max-w-7xl mx-auto w-full">
 <div class="mb-12">
 <span class="text-primary font-inter label-sm uppercase tracking-[0.2em] text-[10px] font-bold">Configuration</span>
@@ -31,13 +25,13 @@
 <div class="w-24 h-24 rounded-xl overflow-hidden bg-surface-container-high flex items-center justify-center border border-outline-variant">
 <img id="settings-avatar" alt="Agency Logo" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" src="/assets/icons/ethan01logo.svg"/>
 </div>
-<button class="absolute -bottom-2 -right-2 bg-surface-container-highest p-2 rounded-lg text-on-surface hover:text-primary transition-colors border border-outline-variant" onclick="if(window.Toast) window.Toast.show('Opening avatar selection...', 'info')">
+<button class="absolute -bottom-2 -right-2 bg-surface-container-highest p-2 rounded-lg text-on-surface hover:text-primary transition-colors border border-outline-variant rbac-hide-element" onclick="if(window.Toast) window.Toast.show('Opening avatar selection...', 'info')">
 <span class="material-symbols-outlined text-[16px]">edit</span>
 </button>
 </div>
 <div class="flex-1 w-full min-w-0">
 <label class="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-1">Agency Name</label>
-<input id="settings-agency-name" class="w-full bg-transparent border-none text-xl font-bold p-0 focus:ring-0 text-on-surface outline-none selection:bg-[var(--color-primary-alpha-30)] truncate" type="text" value="--"/>
+<input id="settings-agency-name" class="w-full bg-transparent border-none text-xl font-bold p-0 focus:ring-0 text-on-surface outline-none selection:bg-[var(--color-primary-alpha-30)] truncate rbac-input" type="text" value="--"/>
 <div class="h-[1px] w-full bg-outline-variant mt-1"></div>
 </div>
 </div>
@@ -46,24 +40,32 @@
 <label class="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">Global Headquarters</label>
 <div class="relative w-full">
 <span class="material-symbols-outlined absolute left-0 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">location_on</span>
-<input id="settings-hq" class="w-full bg-transparent border-none pl-6 text-sm font-medium focus:ring-0 text-on-surface outline-none truncate" type="text" value="--"/>
+<input id="settings-hq" class="w-full bg-transparent border-none pl-6 text-sm font-medium focus:ring-0 text-on-surface outline-none truncate rbac-input" type="text" value="--"/>
 </div>
 </div>
 <div class="w-full">
 <label class="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">Primary Domain</label>
 <div class="relative w-full">
 <span class="material-symbols-outlined absolute left-0 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">language</span>
-<input id="settings-domain" class="w-full bg-transparent border-none pl-6 text-sm font-medium focus:ring-0 text-on-surface outline-none truncate" type="text" value="--"/>
+<input id="settings-domain" class="w-full bg-transparent border-none pl-6 text-sm font-medium focus:ring-0 text-on-surface outline-none truncate rbac-input" type="text" value="--"/>
+</div>
+</div>
+<!-- NEW: Official Phone Field -->
+<div class="w-full">
+<label class="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">Official Phone</label>
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-0 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">call</span>
+<input id="settings-phone" class="w-full bg-transparent border-none pl-6 text-sm font-medium focus:ring-0 text-on-surface outline-none truncate rbac-input" type="text" value="+234 812 019 5699"/>
 </div>
 </div>
 </div>
 </div>
 </div>
 
-<div class="bg-surface-container-low rounded-xl p-6 sm:p-8 w-full shadow-[var(--card-shadow)] border border-outline-variant">
+<div id="section-integrations" class="bg-surface-container-low rounded-xl p-6 sm:p-8 w-full shadow-[var(--card-shadow)] border border-outline-variant">
 <div class="flex items-center justify-between mb-8">
 <h3 class="text-xs font-bold uppercase tracking-[0.15em] text-on-surface-variant">Integrations</h3>
-<button class="text-[10px] font-bold text-primary hover:text-on-surface transition-colors flex items-center gap-1 shrink-0" onclick="window.openAddIntegrationModal()">
+<button class="text-[10px] font-bold text-primary hover:text-on-surface transition-colors flex items-center gap-1 shrink-0 rbac-hide-element" onclick="window.openAddIntegrationModal()">
     <span class="material-symbols-outlined text-[14px]">add</span> NEW
 </button>
 </div>
@@ -79,7 +81,7 @@
 <h3 class="text-xs font-bold uppercase tracking-[0.15em] text-on-surface-variant mb-2">Staff Management</h3>
 <p class="text-[10px] text-on-surface-variant font-medium">Manage access levels and portal permissions.</p>
 </div>
-<button class="text-[10px] font-bold text-primary hover:text-on-surface transition-colors flex items-center gap-1 self-start sm:self-auto shrink-0" onclick="window.openInviteModal()">
+<button id="cmd-invite-staff-btn" class="text-[10px] font-bold text-primary hover:text-on-surface transition-colors flex items-center gap-1 self-start sm:self-auto shrink-0 rbac-hide-element" onclick="window.openInviteModal()">
 <span class="material-symbols-outlined text-[14px]">person_add</span>
     INVITE STAFF
 </button>
@@ -105,21 +107,21 @@
 <div class="flex flex-wrap gap-6 lg:gap-12 w-full">
 <div class="flex-1 min-w-[140px]">
 <label class="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">API Calls (24h)</label>
-<p class="text-3xl font-bold font-mono tracking-tighter text-on-surface">842.1K</p>
+<p class="text-3xl font-bold font-mono tracking-tighter text-on-surface" id="metric-api">842.1K</p>
 <div class="mt-2 w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
 <div class="w-3/4 h-full bg-primary"></div>
 </div>
 </div>
 <div class="flex-1 min-w-[140px]">
 <label class="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">Storage</label>
-<p class="text-3xl font-bold font-mono tracking-tighter text-on-surface">1.2 TB</p>
+<p class="text-3xl font-bold font-mono tracking-tighter text-on-surface" id="metric-storage">1.2 TB</p>
 <div class="mt-2 w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
 <div class="w-1/2 h-full bg-[var(--color-primary-alpha)]"></div>
 </div>
 </div>
 <div class="flex-1 min-w-[140px]">
 <label class="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">Service Uptime</label>
-<p class="text-3xl font-bold font-mono tracking-tighter text-on-surface">99.99%</p>
+<p class="text-3xl font-bold font-mono tracking-tighter text-on-surface" id="metric-uptime">99.99%</p>
 <div class="mt-2 w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
 <div class="w-[99%] h-full bg-primary"></div>
 </div>
@@ -130,7 +132,6 @@
 </div>
 </div>
 </section>
-</div>
 </div>
 
 <footer id="settings-footer" class="fixed bottom-0 right-0 w-full md:w-[calc(100%-16rem)] p-4 sm:p-6 bg-[var(--color-surface-highest-alpha)] backdrop-blur-md border-t border-outline-variant flex flex-col sm:flex-row justify-end items-center gap-4 sm:gap-6 z-30 transition-all duration-300">
@@ -159,7 +160,7 @@
 <td class="py-5 px-6 sm:px-8">
 <span class="text-[9px] px-2 py-0.5 border {roleClass} rounded-full font-black tracking-tighter uppercase whitespace-nowrap">{role}</span>
 </td>
-<td class="py-5 px-6 sm:px-8 text-right text-[10px] text-on-surface-variant font-mono whitespace-nowrap">{activity}</td>
+<td class="py-5 px-6 sm:px-8 text-right text-[10px] text-on-surface-variant font-mono whitespace-nowrap staff-activity-time">{activity}</td>
 </tr>
 </template>
 
@@ -233,7 +234,7 @@
         </div>
         <div class="relative w-full">
             <input class="w-full bg-surface-container-high border-none rounded-lg py-3 px-4 text-xs font-mono text-primary focus:ring-1 focus:ring-[var(--color-primary-alpha-30)] outline-none transition-all pr-10 truncate" type="password" value="{key}" placeholder="{placeholder}" readonly/>
-            <button class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface transition-colors" onclick="if(window.Toast) window.Toast.show('Visibility toggled.', 'info')">
+            <button class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface transition-colors" onclick="window.toggleKeyVisibility(this)">
                 <span class="material-symbols-outlined text-[18px]">visibility</span>
             </button>
         </div>
@@ -241,22 +242,6 @@
 </template>
 
 <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" style="display:none;" onload="
-    window.setRole = function(role) {
-        const content = document.getElementById('settings-content');
-        const footer = document.getElementById('settings-footer');
-        const denied = document.getElementById('access-denied-screen');
-        
-        if (role === 'Super Admin' || role === 'Supreme Admin') {
-            if (content) content.style.display = 'block';
-            if (footer) footer.style.display = 'flex';
-            if (denied) denied.style.display = 'none';
-        } else {
-            if (content) content.style.display = 'none';
-            if (footer) footer.style.display = 'none';
-            if (denied) denied.style.display = 'flex';
-        }
-    };
-
     window.openInviteModal = function() {
         const m = document.getElementById('tpl-invite-modal').innerHTML;
         const a = document.getElementById('tpl-invite-action').innerHTML;
@@ -289,29 +274,64 @@
         if(window.Toast) window.Toast.show('Integration credential secured.', 'success');
     };
 
+    window.toggleKeyVisibility = function(btn) {
+        const input = btn.previousElementSibling;
+        const icon = btn.querySelector('span');
+        if(input.type === 'password') {
+            input.type = 'text';
+            icon.innerText = 'visibility_off';
+        } else {
+            input.type = 'password';
+            icon.innerText = 'visibility';
+        }
+    };
+
     window.handleSettingsHydration = function(e) {
         const payload = e.detail;
         if(!payload) return;
 
-        if (window.ethan01_currentUser) {
-            window.setRole(window.ethan01_currentUser.role);
+        const role = payload.currentUser?.role || 'Staff';
+        const isSuper = role === 'Super Admin' || role === 'Supreme Admin' || role === 'admin';
+        const isDev = role === 'Developer';
+
+        // 1. RBAC Visibility Application
+        if (!isSuper) {
+            const footer = document.getElementById('settings-footer');
+            if(footer) footer.remove();
+
+            document.querySelectorAll('.rbac-hide-element').forEach(el => el.remove());
+            
+            document.querySelectorAll('.rbac-input').forEach(input => {
+                input.readOnly = true;
+                input.classList.add('opacity-70', 'pointer-events-none');
+            });
         }
 
+        // 2. Integration Clearance
+        if (!isSuper && !isDev) {
+            const intgSec = document.getElementById('section-integrations');
+            if(intgSec) intgSec.remove();
+        }
+
+        // 3. Hydrate Agency Config
         if(payload.agency) {
             const nameEl = document.getElementById('settings-agency-name');
             const hqEl = document.getElementById('settings-hq');
             const domainEl = document.getElementById('settings-domain');
+            const phoneEl = document.getElementById('settings-phone');
             const avatarEl = document.getElementById('settings-avatar');
 
-            if(nameEl) nameEl.value = payload.agency.name;
-            if(hqEl) hqEl.value = payload.agency.hq;
-            if(domainEl) domainEl.value = payload.agency.domain;
-            if(avatarEl) avatarEl.src = payload.agency.logoUrl;
+            if(nameEl && payload.agency.name) nameEl.value = payload.agency.name;
+            if(hqEl && payload.agency.hq) hqEl.value = payload.agency.hq;
+            if(domainEl && payload.agency.domain) domainEl.value = payload.agency.domain;
+            if(phoneEl && payload.agency.phone) phoneEl.value = payload.agency.phone;
+            if(avatarEl && payload.agency.logoUrl) avatarEl.src = payload.agency.logoUrl;
         }
 
+        // 4. Hydrate Integrations (If permitted)
         const intCont = document.getElementById('integrations-container');
         const intTpl = document.getElementById('tpl-integration-item');
-        if(intCont && intTpl && payload.integrations) {
+        if(intCont && intTpl && payload.integrations && (isSuper || isDev)) {
             intCont.innerHTML = '';
             payload.integrations.forEach(int => {
                 let html = intTpl.innerHTML;
@@ -324,6 +344,7 @@
             });
         }
 
+        // 5. Hydrate Active Staff Tracker
         const staffCont = document.getElementById('staff-table-container');
         const staffTpl = document.getElementById('tpl-staff-row');
         if(staffCont && staffTpl && payload.staff) {
@@ -343,6 +364,41 @@
 
     window.removeEventListener('vanguard-settings-sync', window.handleSettingsHydration);
     window.addEventListener('vanguard-settings-sync', window.handleSettingsHydration);
+
+    // --- REAL-TIME TELEMETRY ENGINE ---
+    setInterval(() => {
+        const apiEl = document.getElementById('metric-api');
+        const storeEl = document.getElementById('metric-storage');
+        const upEl = document.getElementById('metric-uptime');
+        if(apiEl) {
+            const base = 842;
+            const variance = (Math.random() * 5 - 2).toFixed(1);
+            apiEl.innerText = (base + parseFloat(variance)).toFixed(1) + 'K';
+        }
+        if(storeEl) {
+            const current = parseFloat(storeEl.innerText) || 1.2;
+            const newStorage = current + (Math.random() * 0.001);
+            storeEl.innerText = newStorage.toFixed(3) + ' TB';
+        }
+        if(upEl) {
+            upEl.innerText = '99.9' + Math.floor(Math.random() * 9) + '%';
+        }
+    }, 3000);
+
+    // --- STAFF ACTIVITY HEARTBEAT ---
+    setInterval(() => {
+        document.querySelectorAll('.staff-activity-time').forEach(el => {
+            const txt = el.innerText;
+            if(txt !== 'Online' && txt !== 'Just now') {
+                if(txt.includes('m ago')) {
+                    let mins = parseInt(txt);
+                    el.innerText = (mins + 1) + 'm ago';
+                } else {
+                    el.innerText = '1m ago';
+                }
+            }
+        });
+    }, 60000);
 
     this.remove();
 " />

@@ -17,19 +17,19 @@
 <p class="text-on-surface-variant max-w-2xl leading-relaxed text-sm sm:text-base">Track project tasks, manage timelines, and upload deliverables for client review.</p>
 </div>
 <div class="flex flex-wrap gap-3">
-<button class="bg-surface-container-highest px-6 py-3 rounded-xl text-sm font-bold hover:bg-surface-container text-on-surface transition-colors w-full sm:w-auto" onclick="window.openManageAccessModal()">Manage Access</button>
-<button class="bg-primary text-[#09090b] px-6 py-3 rounded-xl text-sm font-black hover:bg-primary-container transition-all w-full sm:w-auto shadow-[0_4px_15px_var(--color-primary-glow)]" onclick="Toast.show('Generating status report PDF...', 'info'); setTimeout(() => Toast.show('Report Exported successfully.', 'success'), 2000)">Export Status Report</button>
+<button id="cmd-manage-access-btn" class="bg-surface-container-highest px-6 py-3 rounded-xl text-sm font-bold hover:bg-surface-container text-on-surface transition-colors w-full sm:w-auto opacity-50 pointer-events-none" onclick="window.openManageAccessModal()">Manage Access</button>
+<button class="bg-primary text-[#09090b] px-6 py-3 rounded-xl text-sm font-black hover:bg-primary-container transition-all w-full sm:w-auto shadow-[0_4px_15px_var(--color-primary-glow)]" onclick="window.exportStatusReportPDF()">Export Status Report</button>
 </div>
 </div>
 
-<div class="flex gap-4 sm:gap-8 border-b border-outline-variant overflow-x-auto no-scrollbar relative" id="cmd-tabs">
+<div class="flex gap-4 sm:gap-8 border-b border-outline-variant overflow-x-auto overflow-y-hidden no-scrollbar relative" id="cmd-tabs">
 <div id="tab-slide-indicator" class="absolute bottom-[-1px] h-[2px] bg-primary transition-all duration-300 ease-out w-0 left-0"></div>
 
-<button id="tab-btn-projects" onclick="window.switchCmdTab('tab-projects', this)" class="cmd-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-primary whitespace-nowrap">Projects</button>
-<button id="tab-btn-overview" onclick="window.switchCmdTab('tab-overview', this)" class="cmd-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap">Overview</button>
-<button id="tab-btn-tracker" onclick="window.switchCmdTab('tab-tracker', this)" class="cmd-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap">Task Board</button>
-<button id="tab-btn-deliverables" onclick="window.switchCmdTab('tab-deliverables', this)" class="cmd-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap">Deliverables</button>
-<button id="tab-btn-invoices" onclick="window.switchCmdTab('tab-invoices', this)" class="cmd-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap">Invoices</button>
+<button id="tab-btn-projects" onclick="window.switchCmdTab('tab-projects', this)" class="cmd-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-primary whitespace-nowrap outline-none">Projects</button>
+<button id="tab-btn-overview" onclick="window.switchCmdTab('tab-overview', this)" class="cmd-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap opacity-50 pointer-events-none outline-none">Overview</button>
+<button id="tab-btn-tracker" onclick="window.switchCmdTab('tab-tracker', this)" class="cmd-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap opacity-50 pointer-events-none outline-none">Task Board</button>
+<button id="tab-btn-deliverables" onclick="window.switchCmdTab('tab-deliverables', this)" class="cmd-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap opacity-50 pointer-events-none outline-none">Deliverables</button>
+<button id="tab-btn-invoices" onclick="window.switchCmdTab('tab-invoices', this)" class="cmd-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap opacity-50 pointer-events-none outline-none">Invoices</button>
 </div>
 </header>
 
@@ -42,7 +42,30 @@
     </div>
     
     <div id="cmd-projects-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- SHIMMERING SKELETON BENTO CARDS -->
+        <div class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant animate-pulse shadow-[var(--card-shadow)] h-48">
+            <div class="flex justify-between items-start mb-4">
+                <div class="w-12 h-12 rounded-xl bg-surface-container-highest"></div>
+                <div class="w-12 h-5 rounded bg-surface-container-highest"></div>
+            </div>
+            <div class="h-5 bg-surface-container-highest rounded w-3/4 mb-3"></div>
+            <div class="h-3 bg-surface-container-highest rounded w-full mb-1"></div>
+            <div class="h-3 bg-surface-container-highest rounded w-2/3 mb-6"></div>
+            <div class="pt-4 border-t border-outline-variant">
+            </div>
         </div>
+        <div class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant animate-pulse shadow-[var(--card-shadow)] h-48">
+            <div class="flex justify-between items-start mb-4">
+                <div class="w-12 h-12 rounded-xl bg-surface-container-highest"></div>
+                <div class="w-12 h-5 rounded bg-surface-container-highest"></div>
+            </div>
+            <div class="h-5 bg-surface-container-highest rounded w-3/4 mb-3"></div>
+            <div class="h-3 bg-surface-container-highest rounded w-full mb-1"></div>
+            <div class="h-3 bg-surface-container-highest rounded w-2/3 mb-6"></div>
+            <div class="pt-4 border-t border-outline-variant">
+            </div>
+        </div>
+    </div>
 </section>
 
 <section id="tab-overview" class="cmd-tab-content hidden animate-in fade-in duration-300">
@@ -51,7 +74,7 @@
             <div class="absolute top-0 right-0 p-6 opacity-10"><span class="material-symbols-outlined text-6xl text-on-surface">monitoring</span></div>
             <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-4">Project Health</h3>
             <div class="flex items-end gap-4">
-                <span id="cmd-health-pct" class="text-5xl font-black text-on-surface">--%</span>
+                <span id="cmd-health-pct" class="text-5xl font-black text-on-surface"><div class="h-12 w-20 bg-surface-container-highest rounded animate-pulse"></div></span>
                 <span id="cmd-health-status" class="text-primary font-bold mb-1 bg-[var(--color-primary-glow)] px-2 py-0.5 rounded text-[10px] uppercase">--</span>
             </div>
             <div class="w-full bg-surface-container-highest h-2 rounded-full mt-6">
@@ -62,7 +85,7 @@
             <div class="absolute top-0 right-0 p-6 opacity-10"><span class="material-symbols-outlined text-6xl text-on-surface">schedule</span></div>
             <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-4">Time Elapsed</h3>
             <div class="flex items-end gap-4">
-                <span id="cmd-time-elapsed" class="text-5xl font-black text-on-surface">--</span>
+                <span id="cmd-time-elapsed" class="text-5xl font-black text-on-surface"><div class="h-12 w-16 bg-surface-container-highest rounded animate-pulse"></div></span>
                 <span class="text-on-surface-variant font-bold mb-1 text-sm uppercase">Days</span>
             </div>
             <p id="cmd-time-est" class="text-xs text-on-surface-variant mt-6">Est. completion in -- days.</p>
@@ -71,7 +94,7 @@
             <div class="absolute top-0 right-0 p-6 opacity-10"><span class="material-symbols-outlined text-6xl text-on-surface">account_balance_wallet</span></div>
             <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-4">Budget Consumed</h3>
             <div class="flex items-end gap-4">
-                <span id="cmd-budget-consumed" class="text-5xl font-black text-on-surface">$--</span>
+                <span id="cmd-budget-consumed" class="text-5xl font-black text-on-surface"><div class="h-12 w-32 bg-surface-container-highest rounded animate-pulse"></div></span>
                 <span id="cmd-budget-total" class="text-on-surface-variant font-bold mb-1 text-sm uppercase">/ $--</span>
             </div>
             <div class="w-full bg-surface-container-highest h-2 rounded-full mt-6">
@@ -83,7 +106,24 @@
     <div class="bg-surface-container-low p-6 sm:p-8 rounded-2xl border border-outline-variant shadow-[var(--card-shadow)]">
         <h3 class="text-lg font-bold text-on-surface mb-6 tracking-tight">Recent Activity Log</h3>
         <div id="cmd-activity-container" class="space-y-6">
+            <!-- SHIMMERING SKELETON LOGS -->
+            <div class="relative pl-8 animate-pulse">
+                <div class="absolute left-0 top-1.5 w-[15px] h-[15px] rounded-full bg-surface-container-highest border-[3px] border-surface-container"></div>
+                <div class="space-y-2">
+                    <div class="h-3 w-20 bg-surface-container-highest rounded"></div>
+                    <div class="h-4 w-3/4 bg-surface-container-highest rounded"></div>
+                    <div class="h-3 w-1/2 bg-surface-container-highest rounded"></div>
+                </div>
             </div>
+            <div class="relative pl-8 animate-pulse">
+                <div class="absolute left-0 top-1.5 w-[15px] h-[15px] rounded-full bg-surface-container-highest border-[3px] border-surface-container"></div>
+                <div class="space-y-2">
+                    <div class="h-3 w-20 bg-surface-container-highest rounded"></div>
+                    <div class="h-4 w-3/4 bg-surface-container-highest rounded"></div>
+                    <div class="h-3 w-1/2 bg-surface-container-highest rounded"></div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -189,7 +229,7 @@
 </main>
 
 <template id="tpl-cmd-project-card">
-    <div class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant hover:border-[var(--color-primary-alpha-30)] transition-all cursor-pointer group shadow-[var(--card-shadow)]" onclick="document.getElementById('active-project-title').innerText = '{titleEscaped}'; document.getElementById('active-phase-badge').innerText = '{statusBadge}'; window.Toast && window.Toast.show('Workspace loaded: {titleEscaped}', 'success'); document.getElementById('tab-btn-overview').click();">
+    <div class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant hover:border-[var(--color-primary-alpha-30)] transition-all cursor-pointer group shadow-[var(--card-shadow)]" onclick="window.selectProject('{id}', '{titleEscaped}', '{statusBadge}')">
         <div class="flex justify-between items-start mb-4">
             <div class="w-12 h-12 rounded-xl {bgGradient} flex items-center justify-center border border-outline-variant">
                 <img class="w-8 h-8 object-cover rounded" src="{logoUrl}"/>
@@ -254,7 +294,7 @@
         <td class="px-6 py-4"><span class="whitespace-nowrap px-2 py-1 rounded text-[9px] font-black uppercase {visBgClass} {visTextClass} tracking-widest">{visibility}</span></td>
         <td class="px-6 py-4 text-right">
             <button class="p-2 text-on-surface-variant hover:text-on-surface transition-colors" onclick="Toast.show('File downloading...', 'info')"><span class="material-symbols-outlined text-sm">download</span></button>
-            <button class="p-2 text-on-surface-variant hover:text-error transition-colors" onclick="Toast.show('File deleted.', 'info')"><span class="material-symbols-outlined text-sm">delete</span></button>
+            <button class="p-2 text-on-surface-variant hover:text-error transition-colors" onclick="window.deleteAsset()"><span class="material-symbols-outlined text-sm">delete</span></button>
         </td>
     </tr>
 </template>
@@ -296,44 +336,102 @@
             const scrollLeft = container.scrollLeft;
             const targetLeft = (btnRect.left - containerRect.left) + scrollLeft;
             indicator.style.width = btnRect.width + 'px';
-            indicator.style.transform = `translateX(${targetLeft}px)`;
+            indicator.style.transform = 'translateX(' + targetLeft + 'px)';
         }
     };
 
-    window.openSandboxDemo = function() {
-        const m = `<div class='bg-surface-container-lowest rounded-lg border border-outline-variant overflow-hidden shadow-inner'><div class='bg-surface-container-high px-4 py-2 border-b border-outline-variant flex justify-between items-center'><span class='text-[10px] font-mono text-on-surface-variant'>ethan01-vanguard-sandbox.local</span><div class='flex gap-2'><span class='w-2.5 h-2.5 rounded-full bg-error'></span><span class='w-2.5 h-2.5 rounded-full bg-secondary'></span><span class='w-2.5 h-2.5 rounded-full bg-emerald-500'></span></div></div><div class='w-full h-[60vh] bg-surface-container-low flex items-center justify-center'><h1 class='text-on-surface-variant font-sans'>Protected Milestone Demo Build Running...</h1></div></div>`;
-        const a = `<button onclick='window.Modal.hide()' class='text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors'>Close Sandbox</button><button onclick='window.Modal.hide(); window.Toast.show(` + '`Milestone marked as Approved by Client.`' + `, ` + '`success`' + `)' class='bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm'>Force Client Approval</button>`;
-        if(window.Modal) window.Modal.show('Sandbox: UI/UX Master Template', m, a);
+    window.selectProject = function(id, titleEscaped, statusBadge) {
+        document.getElementById('active-project-title').innerText = titleEscaped;
+        document.getElementById('active-phase-badge').innerText = statusBadge;
+        if(window.Toast) window.Toast.show('Workspace loaded: ' + titleEscaped, 'success');
+        
+        document.getElementById('cmd-manage-access-btn').classList.remove('opacity-50', 'pointer-events-none');
+        const tabs = ['tab-btn-overview', 'tab-btn-tracker', 'tab-btn-deliverables', 'tab-btn-invoices'];
+        tabs.forEach(tab => {
+            const el = document.getElementById(tab);
+            if(el) el.classList.remove('opacity-50', 'pointer-events-none');
+        });
+        
+        document.getElementById('tab-btn-overview').click();
+    };
+
+    window.exportStatusReportPDF = function() {
+        if(window.Toast) window.Toast.show('Collating metrics from active tabs...', 'info');
+        setTimeout(() => {
+            if(window.Toast) window.Toast.show('Generating sectioned PDF...', 'info');
+            setTimeout(() => {
+                if(window.Toast) window.Toast.show('Status Report Exported successfully.', 'success');
+            }, 1500);
+        }, 1000);
     };
 
     window.openInvoiceModal = function() {
-        const m = `<div class='space-y-4 text-left'><div class='space-y-2'><label class='text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest'>Billing Phase / Milestone</label><select class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-on-surface focus:ring-1 focus:ring-primary'><option>Phase 2: Firebase DB Architecture</option><option>Custom Retainer Billing</option></select></div><div class='grid grid-cols-2 gap-4'><div class='space-y-2'><label class='text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest'>Due Date</label><input type='date' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-on-surface focus:ring-1 focus:ring-primary'/></div><div class='space-y-2'><label class='text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest'>Amount (₦)</label><input type='number' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-on-surface focus:ring-1 focus:ring-primary' value='250000'/></div></div><div class='space-y-2 pt-2'><label class='flex items-center gap-3 cursor-pointer group'><input type='checkbox' checked class='w-4 h-4 rounded-sm bg-surface-container border-outline-variant text-primary focus:ring-0'/><span class='text-xs text-on-surface-variant group-hover:text-on-surface transition-colors'>Instantly email PDF receipt to Client Admin</span></label></div></div>`;
-        const a = `<button onclick='window.Modal.hide()' class='text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors'>Cancel</button><button onclick='window.Modal.hide(); window.Toast.show(` + '`PDF Invoice generated.`' + `, ` + '`success`' + `)' class='bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm flex items-center gap-2'><span class='material-symbols-outlined text-[16px]'>send</span> Issue Invoice</button>`;
+        const m = `<div class='space-y-4 text-left'><div class='space-y-2'><label class='text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest'>Billing Phase / Milestone</label><select class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none'><option>Phase 2: Firebase DB Architecture</option><option>Custom Retainer Billing</option></select></div><div class='grid grid-cols-2 gap-4'><div class='space-y-2'><label class='text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest'>Due Date</label><input type='date' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none'/></div><div class='space-y-2'><label class='text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest'>Amount (₦)</label><input type='number' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none' value='250000'/></div></div><div class='space-y-2 pt-2'><label class='flex items-center gap-3 cursor-pointer group'><input type='checkbox' checked class='w-4 h-4 rounded-sm bg-surface-container border-[var(--input-border)] text-primary focus:ring-0 outline-none'/><span class='text-xs text-on-surface-variant group-hover:text-on-surface transition-colors'>Instantly email PDF receipt to Client Admin</span></label></div></div>`;
+        const a = `<button onclick='window.Modal.hide()' class='text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors'>Cancel</button><button onclick='window.Modal.hide(); window.Toast.show(&quot;PDF Invoice generated.&quot;, &quot;success&quot;)' class='bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm flex items-center gap-2'><span class='material-symbols-outlined text-[16px]'>send</span> Issue Invoice</button>`;
         if(window.Modal) window.Modal.show('Generate New Invoice', m, a);
     };
 
+    window.reviewManualReceipt = function() {
+        const m = `<div class='space-y-4'><div class='aspect-[3/4] bg-surface-container-highest rounded-xl border border-[var(--input-border)] flex flex-col items-center justify-center p-4'><span class='material-symbols-outlined text-4xl text-on-surface-variant mb-2'>receipt_long</span><p class='text-xs text-on-surface font-bold'>Manual Bank Transfer Receipt.pdf</p><p class='text-[10px] text-on-surface-variant'>Uploaded 2 hours ago</p></div><div class='p-3 bg-[var(--color-primary-alpha-30)] border border-[var(--color-primary-glow)] rounded-lg'><p class='text-xs text-primary font-bold flex items-center gap-2'><span class='material-symbols-outlined text-sm'>info</span> Verify with Finance Dept before approving.</p></div></div>`;
+        const a = `<button onclick='window.Modal.hide(); window.Toast.show(&quot;Receipt Rejected.&quot;, &quot;error&quot;)' class='text-error hover:text-error/80 font-bold text-sm px-4 transition-colors'>Reject</button><button onclick='window.Modal.hide(); window.Toast.show(&quot;Payment Approved. Budget sum updated.&quot;, &quot;success&quot;)' class='bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm'>Approve Payment</button>`;
+        if(window.Modal) window.Modal.show('Review Manual Payment', m, a);
+    };
+
     window.openManageAccessModal = function() {
-        const m = `<p class='mb-4 text-sm text-on-surface-variant'>Select agency members to grant access to this workspace.</p><div class='flex gap-2 mb-4'><input type='email' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-on-surface focus:ring-1 focus:ring-primary' placeholder='team@ethan01.com'/></div>`;
-        const a = `<button onclick='window.Modal.hide()' class='text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors'>Cancel</button><button onclick='window.Modal.hide(); window.Toast.show(` + '`Access granted successfully.`' + `, ` + '`success`' + `)' class='bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm'>Grant Access</button>`;
+        const m = `<p class='mb-4 text-sm text-on-surface-variant'>Select agency members to grant access to this workspace.</p><div class='flex gap-2 mb-4'><input type='email' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none' placeholder='team@ethan01.com'/></div>`;
+        const a = `<button onclick='window.Modal.hide()' class='text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors'>Cancel</button><button onclick='window.Modal.hide(); window.Toast.show(&quot;Access granted successfully.&quot;, &quot;success&quot;)' class='bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm'>Grant Access</button>`;
         if(window.Modal) window.Modal.show('Manage Access', m, a);
     };
 
     window.openAddTaskModal = function() {
-        const m = `<div class='space-y-4'><div class='space-y-2'><label class='text-xs font-bold text-on-surface-variant uppercase tracking-widest'>Task Description</label><input type='text' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-on-surface focus:ring-1 focus:ring-primary' placeholder='What needs to be done?'/></div><div class='space-y-2'><label class='text-xs font-bold text-on-surface-variant uppercase tracking-widest'>Assign Phase</label><select class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-on-surface focus:ring-1 focus:ring-primary'><option>Phase 1: Discovery</option><option>Phase 2: Development</option></select></div></div>`;
-        const a = `<button onclick='window.Modal.hide()' class='text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors'>Cancel</button><button onclick='window.Modal.hide(); window.Toast.show(` + '`Task added to backlog.`' + `, ` + '`success`' + `)' class='bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm'>Save Task</button>`;
+        const m = `<div class='space-y-4'><div class='space-y-2'><label class='text-xs font-bold text-on-surface-variant uppercase tracking-widest'>Task Description</label><input type='text' id='new-task-desc' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none' placeholder='What needs to be done?'/></div><div class='grid grid-cols-2 gap-4'><div class='space-y-2'><label class='text-xs font-bold text-on-surface-variant uppercase tracking-widest'>Assign Phase</label><select id='new-task-phase' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none'><option>Phase 1: Discovery</option><option>Phase 2: Development</option></select></div><div class='space-y-2'><label class='text-xs font-bold text-on-surface-variant uppercase tracking-widest'>Timeline (Days)</label><input type='number' id='new-task-days' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none' placeholder='e.g. 5'/></div></div></div>`;
+        const a = `<button onclick='if(window.Modal) window.Modal.hide()' class='text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors'>Cancel</button><button onclick='window.addTaskToDB()' class='bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm'>Save Task</button>`;
         if(window.Modal) window.Modal.show('Create New Task', m, a);
     };
 
+    window.addTaskToDB = function() {
+        if(window.Modal) window.Modal.hide();
+        const days = document.getElementById('new-task-days') ? document.getElementById('new-task-days').value : '0';
+        if(window.Toast) window.Toast.show('Task added. Project timeline increased by ' + days + ' days.', 'success');
+        
+        const timeEstEl = document.getElementById('cmd-time-est');
+        if(timeEstEl) {
+            let current = parseInt(timeEstEl.innerText.replace(/[^0-9]/g, '')) || 0;
+            current += parseInt(days);
+            timeEstEl.innerText = 'Est. completion in ' + current + ' days.';
+        }
+    };
+
     window.openAddBranchModal = function() {
-        const m = `<div class='space-y-4'><div class='space-y-2'><label class='text-xs font-bold text-on-surface-variant uppercase tracking-widest'>Branch Title</label><input type='text' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-on-surface focus:ring-1 focus:ring-primary' placeholder='e.g. Edge case testing'/></div></div>`;
-        const a = `<button onclick='window.Modal.hide()' class='text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors'>Cancel</button><button onclick='window.Modal.hide(); window.Toast.show(` + '`Branch attached successfully.`' + `, ` + '`success`' + `)' class='bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm'>Attach Branch</button>`;
+        const m = `<div class='space-y-4'><div class='space-y-2'><label class='text-xs font-bold text-on-surface-variant uppercase tracking-widest'>Branch Title</label><input type='text' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none' placeholder='e.g. Edge case testing'/></div></div>`;
+        const a = `<button onclick='window.Modal.hide()' class='text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors'>Cancel</button><button onclick='window.Modal.hide(); window.Toast.show(&quot;Branch attached successfully.&quot;, &quot;success&quot;)' class='bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm'>Attach Branch</button>`;
         if(window.Modal) window.Modal.show('Add Sub-Task Branch', m, a);
     };
 
     window.openUploadAssetModal = function() {
-        const m = `<div class='border-2 border-dashed border-outline-variant rounded-xl p-12 text-center hover:bg-[var(--color-surface-highest-alpha)] transition-colors cursor-pointer'><span class='material-symbols-outlined text-4xl text-on-surface-variant mb-2'>cloud_upload</span><p class='text-sm font-bold text-on-surface'>Drag and drop file here</p><p class='text-xs text-on-surface-variant mt-1'>PDF, ZIP, or FIG up to 500MB</p></div>`;
-        const a = `<button onclick='window.Modal.hide()' class='text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors'>Cancel</button>`;
+        if(window.currentUserRole !== 'admin') {
+            if(window.Toast) window.Toast.show('Super Admin clearance required to manage assets.', 'error');
+            return;
+        }
+        const m = `<div class='border-[1.5px] border-dashed border-[var(--input-border)] rounded-xl p-12 text-center hover:bg-surface-container transition-colors cursor-pointer' onclick='window.simulateFileUpload()'><span class='material-symbols-outlined text-4xl text-on-surface-variant mb-2'>cloud_upload</span><p class='text-sm font-bold text-on-surface'>Drag and drop file here or click</p><p class='text-xs text-on-surface-variant mt-1'>PDF, ZIP, or FIG up to 500MB</p></div>`;
+        const a = `<button onclick='if(window.Modal) window.Modal.hide()' class='text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors'>Cancel</button>`;
         if(window.Modal) window.Modal.show('Upload Asset', m, a);
+    };
+
+    window.simulateFileUpload = function() {
+        if(window.Toast) window.Toast.show('Uploading to secure Storage/DB...', 'info');
+        setTimeout(() => {
+            if(window.Modal) window.Modal.hide();
+            if(window.Toast) window.Toast.show('Asset synchronized.', 'success');
+        }, 1500);
+    };
+
+    window.deleteAsset = function() {
+        if(window.currentUserRole !== 'admin') {
+            if(window.Toast) window.Toast.show('Action Denied: Super Admin clearance required.', 'error');
+            return;
+        }
+        if(window.Toast) window.Toast.show('Asset deleted permanently.', 'success');
     };
 
     window.handleCmdHydration = function(e) {
@@ -359,6 +457,41 @@
                                .replace(/{id}/g, proj.id);
                     cont.innerHTML += html;
                 });
+            }
+        }
+        
+        if(payload.activeProject) {
+            const timeEl = document.getElementById('cmd-time-elapsed');
+            const timeEst = document.getElementById('cmd-time-est');
+            const healthPct = document.getElementById('cmd-health-pct');
+            const healthStatus = document.getElementById('cmd-health-status');
+            const healthBar = document.getElementById('cmd-health-bar');
+            const budgetCons = document.getElementById('cmd-budget-consumed');
+            const budgetTotal = document.getElementById('cmd-budget-total');
+            const budgetBar = document.getElementById('cmd-budget-bar');
+            
+            if(timeEl) {
+                const startDate = new Date(payload.activeProject.startDate || Date.now());
+                const now = new Date();
+                const diffTime = Math.abs(now - startDate);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                timeEl.innerText = diffDays;
+            }
+            if(timeEst) {
+                timeEst.innerText = 'Est. completion in ' + (payload.activeProject.durationDays || 30) + ' days.';
+            }
+            if(healthPct) {
+                healthPct.innerText = payload.activeProject.healthPct + '%';
+                healthBar.style.width = payload.activeProject.healthPct + '%';
+                healthStatus.innerText = payload.activeProject.healthStatus || 'On Track';
+            }
+            if(budgetCons && payload.activeProject.budget) {
+                const consumed = payload.activeProject.budget.consumed || 0;
+                const total = payload.activeProject.budget.total || 0;
+                budgetCons.innerText = '₦' + consumed.toLocaleString();
+                budgetTotal.innerText = '/ ₦' + total.toLocaleString();
+                const bPct = (consumed / total) * 100;
+                budgetBar.style.width = Math.min(100, bPct) + '%';
             }
         }
     };

@@ -10,11 +10,8 @@ const routes = {
     '#/admin/forgot-password': '/templates/admin/forgot_password.html',
     '#/admin/dashboard': '/templates/admin/dashboard.html',
     '#/admin/clients': '/templates/admin/client_directory.html',
-    
-    // NEW: Map project URLs to existing templates to prevent 404
     '#/admin/project/view': '/templates/admin/command_center.html',
     '#/admin/project/new': '/templates/admin/setup_wizard.html',
-    
     '#/admin/setup': '/templates/admin/setup_wizard.html',
     '#/admin/command': '/templates/admin/command_center.html',
     '#/admin/settings': '/templates/admin/system_settings.html',
@@ -24,16 +21,49 @@ const routes = {
     '#/settings': '/templates/client/settings.html'
 };
 
+// Tracking for smart routing returns
+window.ethan01_previousRoute = window.ethan01_previousRoute || '#/';
+window.ethan01_currentRoute = window.ethan01_currentRoute || '#/';
+
+window.returnToPreviousRoute = function() {
+    if (window.ethan01_previousRoute && window.ethan01_previousRoute !== '#/404') {
+        window.location.hash = window.ethan01_previousRoute;
+    } else {
+        window.location.hash = window.currentUserRole === 'admin' ? '#/admin/dashboard' : '#/dashboard';
+    }
+};
+
+window.addEventListener('online', () => {
+    if (window.location.hash === '#/offline') {
+        if (window.Toast) window.Toast.show("Connection restored. Returning to workspace...", "success");
+        window.returnToPreviousRoute();
+    }
+});
+
 export async function handleLocation() {
     let path = window.location.hash;
 
+    // SECURITY: Anti-directory listing & path injection block
+    if (path.includes('.html') || path.includes('/templates/') || (path.endsWith('/') && path !== '#/')) {
+        console.warn("Security Alert: Direct template directory access blocked.");
+        window.location.hash = '#/403';
+        return;
+    }
+
+    // ISSUE 1 FIX: Immediately route raw root domain to #/login
+    // If a session exists, the Auth Observer will instantly bounce them to the Dashboard.
     if (path === '' || path === '#/') {
-        if (!window.currentUser) {
-            window.location.hash = '#/login';
-            return;
-        }
-        path = window.currentUserRole === 'client' ? '#/dashboard' : '#/admin/dashboard';
-        window.location.hash = path;
+        window.location.hash = '#/login';
+        return; 
+    }
+
+    const publicRoutes = ['#/login', '#/admin/auth', '#/forgot-password', '#/admin/forgot-password', '#/404', '#/500', '#/403', '#/offline'];
+    const isProtectedRoute = !publicRoutes.includes(path);
+
+    // STRICT PERSISTENCE GUARD: If Firebase has initialized but the user is null, 
+    // immediately kick out direct URL injection attempts to protected paths.
+    if (isProtectedRoute && window.authInitialized && !window.currentUser) {
+        window.location.hash = path.startsWith('#/admin') ? '#/admin/auth' : '#/login';
         return;
     }
 
@@ -52,6 +82,11 @@ export async function handleLocation() {
         }
     }
 
+    if (path !== '#/404' && path !== '#/offline' && path !== '#/403' && path !== '#/500') {
+        window.ethan01_previousRoute = window.ethan01_currentRoute;
+        window.ethan01_currentRoute = path;
+    }
+
     const route = routes[path] || routes[404];
 
     try {
@@ -65,7 +100,6 @@ export async function handleLocation() {
             appContainer.innerHTML = html;
         }
 
-        // Re-trigger global listeners after DOM injection
         if (window.currentUser) {
             window.dispatchEvent(new Event('profileLoaded'));
         }

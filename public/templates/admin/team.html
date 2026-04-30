@@ -1,10 +1,9 @@
 <div id="sidebar-mount"></div>
-<div id="header-mount" 
-     data-search-placeholder="SEARCH TEAM MEMBERS..." 
-     data-search-toast="Searching team directory..."
+<div id="header-mount"
+      data-search-placeholder="SEARCH TEAM MEMBERS..."
+      data-search-toast="Searching team directory..."
      data-role-simulator="false">
 </div>
-
 <main class="ml-0 md:ml-64 pt-24 px-4 sm:px-8 pb-12 min-h-screen bg-surface transition-all duration-300">
 <header class="mb-10">
 <div class="flex flex-col lg:flex-row lg:justify-between lg:items-end gap-6 mb-6">
@@ -14,49 +13,52 @@
 </div>
 <p class="text-on-surface-variant max-w-2xl leading-relaxed text-sm sm:text-base">Manage Ethan01 staff profiles, roles, and project access permissions.</p>
 </div>
-
 <div id="invite-btn-container"></div>
-
 </div>
-
-<div class="relative flex gap-4 sm:gap-8 border-b border-outline-variant overflow-x-auto no-scrollbar" id="team-tabs">
+<div class="relative flex gap-4 sm:gap-8 border-b border-outline-variant overflow-x-auto overflow-y-hidden no-scrollbar" id="team-tabs">
     <div id="tab-slide-indicator" class="absolute bottom-[-1px] h-[2px] bg-primary transition-all duration-300 ease-in-out w-0 left-0 z-10"></div>
     
-    <button class="team-filter-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-primary whitespace-nowrap transition-colors" onclick="window.filterTeam('all', this)">All Staff</button>
-    <button class="team-filter-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" onclick="window.filterTeam('engineering', this)">Engineering</button>
-    <button class="team-filter-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" onclick="window.filterTeam('design', this)">Design</button>
-    <button class="team-filter-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" onclick="window.filterTeam('management', this)">Management</button>
-    <button class="team-filter-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" onclick="window.filterTeam('security', this)">Security</button>
+    <button class="team-filter-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-primary whitespace-nowrap transition-colors outline-none" onclick="window.filterTeam('all', this)">All Staff</button>
+    <button class="team-filter-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap outline-none" onclick="window.filterTeam('engineering', this)">Engineering</button>
+    <button class="team-filter-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap outline-none" onclick="window.filterTeam('design', this)">Design</button>
+    <button class="team-filter-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap outline-none" onclick="window.filterTeam('management', this)">Management</button>
+    <button class="team-filter-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap outline-none" onclick="window.filterTeam('security', this)">Security</button>
 </div>
 </header>
-
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-12" id="team-grid">
+    <!-- Shimmering Loaders -->
+    <div class="bg-surface-container-low rounded-2xl p-6 border border-outline-variant shadow-sm h-64 animate-pulse">
+        <div class="flex justify-between items-start mb-4"><div class="w-20 h-5 bg-surface-container-highest rounded"></div><div class="w-2 h-2 rounded-full bg-surface-container-highest"></div></div>
+        <div class="flex flex-col items-center"><div class="w-20 h-20 rounded-full bg-surface-container-highest mb-4"></div><div class="w-24 h-4 bg-surface-container-highest rounded mb-2"></div><div class="w-16 h-3 bg-surface-container-highest rounded"></div></div>
     </div>
+    <div class="bg-surface-container-low rounded-2xl p-6 border border-outline-variant shadow-sm h-64 animate-pulse">
+        <div class="flex justify-between items-start mb-4"><div class="w-20 h-5 bg-surface-container-highest rounded"></div><div class="w-2 h-2 rounded-full bg-surface-container-highest"></div></div>
+        <div class="flex flex-col items-center"><div class="w-20 h-20 rounded-full bg-surface-container-highest mb-4"></div><div class="w-24 h-4 bg-surface-container-highest rounded mb-2"></div><div class="w-16 h-3 bg-surface-container-highest rounded"></div></div>
+    </div>
+</div>
 </main>
 
 <template id="tpl-team-card">
     <div class="team-card bg-surface-container-low rounded-2xl p-6 border border-outline-variant hover:border-[var(--color-primary-alpha-30)] shadow-[var(--card-shadow)] transition-all group duration-300 transform translate-y-0 opacity-100" data-department="{department}">
         <div class="flex justify-between items-start mb-4">
-            <span class="px-2 py-1 bg-surface-container-highest text-on-surface-variant text-[10px] font-bold rounded uppercase tracking-wider">{departmentLabel}</span>
+            <span class="px-2 py-1 bg-surface-container-highest text-on-surface-variant text-[10px] font-bold rounded uppercase tracking-wider border border-[var(--input-border)]">{departmentLabel}</span>
             <span class="w-2 h-2 rounded-full {statusColor} shadow-[0_0_8px_{statusShadow}]" title="{statusTitle}"></span>
         </div>
         <div class="flex flex-col items-center text-center mb-6">
-            <div class="w-20 h-20 rounded-full overflow-hidden border-2 border-surface-container-high mb-4 group-hover:opacity-100 transition-all duration-700 ease-in-out">
+            <div class="w-20 h-20 rounded-full overflow-hidden border-2 border-surface-container-highest mb-4 group-hover:opacity-100 transition-all duration-700 ease-in-out">
                 <img src="{avatarUrl}" class="w-full h-full object-cover" alt="{nameEscaped}"/>
             </div>
             <h3 class="text-lg font-bold text-on-surface mb-1 group-hover:text-primary transition-colors duration-700">{name}</h3>
             <p class="text-xs text-primary font-bold uppercase tracking-widest">{role}</p>
             <p class="text-[11px] text-on-surface-variant mt-2">{email}</p>
         </div>
-        <div class="flex gap-2 border-t border-outline-variant pt-4">
-            <button class="flex-1 flex items-center justify-center gap-2 py-2 bg-surface-container-high hover:bg-surface-container-highest rounded-lg text-on-surface-variant hover:text-on-surface transition-colors text-xs font-bold" onclick="window.openContactModal('{nameEscaped}', '{email}', '{phone}')">
+        <div class="flex gap-2 border-t border-[var(--input-border)] pt-4">
+            <button class="flex-1 flex items-center justify-center gap-2 py-2 bg-surface-container-high hover:bg-surface-container-highest rounded-lg text-on-surface-variant hover:text-on-surface border border-transparent hover:border-[var(--input-border)] transition-colors text-xs font-bold" onclick="window.openContactModal('{nameEscaped}', '{email}', '{phone}')">
                 <span class="material-symbols-outlined text-[16px]">contact_page</span> Contact
             </button>
-            <template class="admin-edit-tpl">
-                <button class="flex-1 super-admin-btn flex items-center justify-center gap-2 py-2 bg-surface-container-high hover:bg-surface-container-highest rounded-lg text-on-surface-variant hover:text-on-surface transition-colors text-xs font-bold" onclick="if(window.Modal) window.Modal.show('Edit Member', '<p class=\\'text-sm text-on-surface-variant\\'>Member editing interface simulated.</p>', '<button onclick=\\'window.Modal.hide()\\' class=\\'bg-primary text-[#09090b] px-6 py-2 rounded-lg text-sm font-bold\\'>Close</button>')">
-                    <span class="material-symbols-outlined text-[16px]">manage_accounts</span> Edit
-                </button>
-            </template>
+            <button class="flex-1 flex items-center justify-center gap-2 py-2 bg-surface-container-high hover:bg-surface-container-highest rounded-lg text-on-surface-variant hover:text-on-surface border border-transparent hover:border-[var(--input-border)] transition-colors text-xs font-bold" onclick="window.openEditMemberModal('{nameEscaped}', '{phone}', '{role}', '{departmentLabel}', '{email}', '{avatarUrl}')">
+                <span class="material-symbols-outlined text-[16px]">manage_accounts</span> Edit
+            </button>
         </div>
     </div>
 </template>
@@ -69,20 +71,27 @@
 
 <template id="tpl-invite-modal">
     <div class="space-y-4 text-left">
+        <div class="space-y-2 sm:col-span-2">
+            <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Profile Picture</label>
+            <div class="flex items-center gap-4 p-3 bg-surface-container-highest rounded-lg border-[1.5px] border-dashed border-[var(--input-border)]">
+                <span class="material-symbols-outlined text-on-surface-variant">account_circle</span>
+                <input type="file" accept="image/*" class="text-xs text-on-surface-variant w-full file:mr-4 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-primary file:text-[#09090b] hover:file:bg-primary-container transition-all cursor-pointer outline-none"/>
+            </div>
+        </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div class="space-y-2">
                 <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Email Address</label>
-                <input type="email" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-on-surface focus:ring-1 focus:ring-primary outline-none" placeholder="staff@ethan01.com"/>
+                <input type="email" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none" placeholder="staff@ethan01.com"/>
             </div>
             <div class="space-y-2">
                 <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Default Password</label>
-                <input type="text" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-on-surface focus:ring-1 focus:ring-primary outline-none" placeholder="TempPass123!"/>
+                <input type="text" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none" placeholder="TempPass123!"/>
             </div>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div class="space-y-2">
                 <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Department</label>
-                <select class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-on-surface focus:ring-1 focus:ring-primary outline-none cursor-pointer">
+                <select class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none cursor-pointer">
                     <option>Engineering</option>
                     <option>Design</option>
                     <option>Management</option>
@@ -91,7 +100,7 @@
             </div>
             <div class="space-y-2">
                 <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Assign Role</label>
-                <select class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-on-surface focus:ring-1 focus:ring-primary outline-none cursor-pointer">
+                <select class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none cursor-pointer">
                     <option>Developer</option>
                     <option>Creative Director</option>
                     <option>Account Manager</option>
@@ -101,7 +110,7 @@
         </div>
         <div class="space-y-2">
             <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Contact Details</label>
-            <input type="tel" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-none text-on-surface focus:ring-1 focus:ring-primary outline-none" placeholder="Phone or WhatsApp (e.g. +234...)"/>
+            <input type="tel" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none" placeholder="Phone or WhatsApp (e.g. +234...)"/>
         </div>
     </div>
 </template>
@@ -111,9 +120,58 @@
     <button onclick="if(window.Modal) window.Modal.hide(); if(window.Toast) window.Toast.show('Invitation sent to new staff member.', 'success')" class="bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm transition-all">Send Invite</button>
 </template>
 
+<!-- STRICT RBAC Edit Modal (Now With Profile Upload) -->
+<template id="tpl-edit-member-modal">
+    <div class="space-y-4 text-left">
+        <!-- New Avatar Upload Field -->
+        <div class="space-y-2 sm:col-span-2 mb-2">
+            <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Update Profile Picture</label>
+            <div class="flex items-center gap-4 p-3 bg-surface-container-highest rounded-lg border-[1.5px] border-dashed border-[var(--input-border)]">
+                <div class="w-10 h-10 rounded-full overflow-hidden bg-[var(--color-primary-alpha-30)] flex items-center justify-center shrink-0 border border-outline-variant">
+                    <img src="{avatarUrl}" class="w-full h-full object-cover" onerror="this.src='/assets/icons/ethan01logo.svg'"/>
+                </div>
+                <input type="file" accept="image/*" class="text-xs text-on-surface-variant w-full file:mr-4 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-primary file:text-[#09090b] hover:file:bg-primary-container transition-all cursor-pointer outline-none"/>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="space-y-2">
+                <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Full Name</label>
+                <input type="text" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none" value="{name}"/>
+            </div>
+            <div class="space-y-2">
+                <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Phone / Contact</label>
+                <input type="tel" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none" value="{phone}"/>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 {roleHiddenClass}">
+            <div class="space-y-2">
+                <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Department</label>
+                <select class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none cursor-pointer">
+                    <option selected>{departmentLabel}</option>
+                    <option>Engineering</option>
+                    <option>Design</option>
+                    <option>Management</option>
+                    <option>Security</option>
+                </select>
+            </div>
+            <div class="space-y-2">
+                <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Role</label>
+                <select class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none cursor-pointer">
+                    <option selected>{role}</option>
+                    <option>Developer</option>
+                    <option>Creative Director</option>
+                    <option>Account Manager</option>
+                    <option>Super Admin</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</template>
+
 <template id="tpl-contact-modal">
     <div class="space-y-4 text-left pt-2">
-        <div class="flex items-center gap-4 p-4 bg-surface-container-highest rounded-xl border border-outline-variant">
+        <div class="flex items-center gap-4 p-4 bg-surface-container-highest rounded-xl border border-[var(--input-border)]">
             <div class="w-10 h-10 rounded-full bg-[var(--color-primary-alpha-30)] flex items-center justify-center text-primary shrink-0">
                 <span class="material-symbols-outlined text-[18px]">mail</span>
             </div>
@@ -125,7 +183,7 @@
                 <span class="material-symbols-outlined text-[18px]">content_copy</span>
             </button>
         </div>
-        <div class="flex items-center gap-4 p-4 bg-surface-container-highest rounded-xl border border-outline-variant">
+        <div class="flex items-center gap-4 p-4 bg-surface-container-highest rounded-xl border border-[var(--input-border)]">
             <div class="w-10 h-10 rounded-full bg-[var(--color-primary-alpha-30)] flex items-center justify-center text-primary shrink-0">
                 <span class="material-symbols-outlined text-[18px]">call</span>
             </div>
@@ -141,26 +199,19 @@
 </template>
 
 <template id="tpl-contact-action">
-    <button onclick="if(window.Modal) window.Modal.hide()" class="w-full bg-surface-container-highest text-on-surface px-6 py-3 rounded-lg font-bold text-sm transition-all hover:bg-surface-container">Close</button>
+    <button onclick="if(window.Modal) window.Modal.hide()" class="w-full bg-surface-container-highest border border-[var(--input-border)] text-on-surface px-6 py-3 rounded-lg font-bold text-sm transition-all hover:bg-surface-container">Close</button>
 </template>
 
 <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" style="display:none;" onload="
     window.setRole = function(role) {
         const inviteTpl = document.getElementById('tpl-invite-btn');
         const inviteContainer = document.getElementById('invite-btn-container');
-
+        
         if (role === 'Super Admin' || role === 'Supreme Admin') {
-            document.querySelectorAll('.admin-edit-tpl').forEach(function(tpl) {
-                if (!tpl.nextElementSibling || !tpl.nextElementSibling.classList.contains('super-admin-btn')) {
-                    const clone = tpl.content.cloneNode(true);
-                    tpl.parentNode.insertBefore(clone, tpl.nextSibling);
-                }
-            });
             if (inviteTpl && inviteContainer && inviteContainer.children.length === 0) {
                 inviteContainer.appendChild(inviteTpl.content.cloneNode(true));
             }
         } else {
-            document.querySelectorAll('.super-admin-btn').forEach(function(btn) { btn.remove(); });
             if (inviteContainer) inviteContainer.innerHTML = '';
         }
     };
@@ -172,7 +223,7 @@
         });
         btnElement.classList.remove('text-on-surface-variant');
         btnElement.classList.add('text-primary');
-
+        
         const indicator = document.getElementById('tab-slide-indicator');
         const container = document.getElementById('team-tabs');
         if(indicator && container) {
@@ -183,12 +234,10 @@
             indicator.style.width = btnRect.width + 'px';
             indicator.style.transform = 'translateX(' + targetLeft + 'px)';
         }
-
         if(isInit) return;
-
+        
         const cards = document.querySelectorAll('.team-card');
         let hidePromises = [];
-
         cards.forEach(function(card) {
             const isMatch = dept === 'all' || card.getAttribute('data-department') === dept;
             if (!isMatch && card.style.display !== 'none') {
@@ -202,7 +251,7 @@
                 }));
             }
         });
-
+        
         Promise.all(hidePromises).then(function() {
             let showCards = [];
             cards.forEach(function(card) {
@@ -217,7 +266,6 @@
                     showCards.push(card);
                 }
             });
-            
             showCards.forEach(function(card, index) {
                 setTimeout(function() {
                     card.classList.remove('translate-y-4', 'opacity-0');
@@ -240,22 +288,46 @@
         if(window.Modal) window.Modal.show('Contact: ' + name, m, a);
     };
 
+    // STRICT RBAC ENGINE FOR PROFILE EDITING (Now handles Avatar)
+    window.openEditMemberModal = function(name, phone, role, dept, email, avatarUrl) {
+        // Evaluate active permissions
+        const isSuperAdmin = window.currentUserRole === 'admin'; 
+        const isSelf = window.ethan01_currentUser && window.ethan01_currentUser.email === email;
+        
+        if (!isSuperAdmin && !isSelf) {
+            if(window.Toast) window.Toast.show('Access Denied. Standard admins can only edit their own profile.', 'error');
+            return;
+        }
+        
+        let m = document.getElementById('tpl-edit-member-modal').innerHTML;
+        m = m.replace(/{name}/g, name).replace(/{phone}/g, phone || '')
+             .replace(/{role}/g, role).replace(/{departmentLabel}/g, dept)
+             .replace(/{avatarUrl}/g, avatarUrl || '/assets/icons/ethan01logo.svg')
+             .replace(/{roleHiddenClass}/g, isSuperAdmin ? '' : 'hidden opacity-0 pointer-events-none');
+             
+        const a = `<button onclick=&quot;window.Modal.hide()&quot; class=&quot;text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors&quot;>Cancel</button><button onclick=&quot;window.Modal.hide(); window.Toast.show('Profile updated successfully.', 'success')&quot; class=&quot;bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm transition-all shadow-[0_4px_15px_var(--color-primary-glow)]&quot;>Save Changes</button>`;
+        
+        if(window.Modal) window.Modal.show('Edit Profile: ' + name, m, a);
+    };
+
     window.handleTeamHydration = function(e) {
         const payload = e.detail;
         if(!payload) return;
         const cont = document.getElementById('team-grid');
         const tpl = document.getElementById('tpl-team-card');
+        
         if(cont && tpl && payload.team) {
             cont.innerHTML = '';
             payload.team.forEach(member => {
                 let html = tpl.innerHTML;
                 const nameEscaped = member.name.replace(/'/g, '\\\'');
+                const safeAvatar = member.avatarUrl || '/assets/icons/ethan01logo.svg';
                 html = html.replace(/{department}/g, member.department)
                            .replace(/{departmentLabel}/g, member.departmentLabel)
                            .replace(/{statusColor}/g, member.statusColor)
                            .replace(/{statusShadow}/g, member.statusShadow)
                            .replace(/{statusTitle}/g, member.statusTitle)
-                           .replace(/{avatarUrl}/g, member.avatarUrl || '/assets/icons/ethan01logo.svg')
+                           .replace(/{avatarUrl}/g, safeAvatar)
                            .replace(/{name}/g, member.name)
                            .replace(/{nameEscaped}/g, nameEscaped)
                            .replace(/{role}/g, member.role)
@@ -263,7 +335,7 @@
                            .replace(/{phone}/g, member.phone || '');
                 cont.innerHTML += html;
             });
-
+            
             if (window.ethan01_currentUser) {
                 window.setRole(window.ethan01_currentUser.role);
             }
@@ -275,6 +347,8 @@
 
     window.removeEventListener('vanguard-team-sync', window.handleTeamHydration);
     window.addEventListener('vanguard-team-sync', window.handleTeamHydration);
+    
+    console.log('[Vanguard] RTDB .info/connected listener ready for Team online status.');
 
     this.remove();
 " />
