@@ -1,5 +1,5 @@
 // public/sw.js
-const CACHE_NAME = 'ethan01-vanguard-v3';
+const CACHE_NAME = 'ethan01-vanguard-v4'; // Cache busted to purge old router logic
 
 // The critical assets needed to boot the app and show the offline page
 const ASSETS_TO_CACHE = [
@@ -21,7 +21,7 @@ const ASSETS_TO_CACHE = [
 
 // 1. Install Event: Cache the core shell
 self.addEventListener('install', event => {
-    console.log('[Service Worker] Installing Cache...');
+    console.log('[Service Worker] Installing Cache v4...');
     event.waitUntil(
         caches.open(CACHE_NAME)
         .then(cache => {

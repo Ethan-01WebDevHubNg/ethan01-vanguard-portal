@@ -1,5 +1,4 @@
 // public/js/core/router.js
-
 const routes = {
     404: '/templates/shared/404.html',
     403: '/templates/shared/403.html',
@@ -21,16 +20,19 @@ const routes = {
     '#/settings': '/templates/client/settings.html'
 };
 
-// Tracking for smart routing returns
 window.ethan01_previousRoute = window.ethan01_previousRoute || '#/';
 window.ethan01_currentRoute = window.ethan01_currentRoute || '#/';
 
 window.returnToPreviousRoute = function() {
-    if (window.ethan01_previousRoute && window.ethan01_previousRoute !== '#/404') {
-        window.location.hash = window.ethan01_previousRoute;
-    } else {
-        window.location.hash = window.currentUserRole === 'admin' ? '#/admin/dashboard' : '#/dashboard';
+    const publicRoutes = ['#/login', '#/admin/auth', '#/forgot-password', '#/admin/forgot-password', '#/404', '#/offline'];
+    let targetRoute = window.ethan01_previousRoute;
+    
+    // GRACEFUL OFFLINE FALLBACK: Prevent infinite loops into auth pages upon network restoration
+    if (publicRoutes.includes(targetRoute) || !targetRoute) {
+        targetRoute = window.currentUserRole === 'admin' ? '#/admin/dashboard' : '#/dashboard';
     }
+    
+    window.location.hash = targetRoute;
 };
 
 window.addEventListener('online', () => {
@@ -41,6 +43,13 @@ window.addEventListener('online', () => {
 });
 
 export async function handleLocation() {
+    // CORE FIX: Halt execution until the auth state is absolutely resolved
+    if (!window.authInitialized) {
+        await new Promise(resolve => {
+            window.addEventListener('authResolved', resolve, { once: true });
+        });
+    }
+
     let path = window.location.hash;
 
     // SECURITY: Anti-directory listing & path injection block
@@ -50,8 +59,6 @@ export async function handleLocation() {
         return;
     }
 
-    // ISSUE 1 FIX: Immediately route raw root domain to #/login
-    // If a session exists, the Auth Observer will instantly bounce them to the Dashboard.
     if (path === '' || path === '#/') {
         window.location.hash = '#/login';
         return; 
@@ -60,22 +67,22 @@ export async function handleLocation() {
     const publicRoutes = ['#/login', '#/admin/auth', '#/forgot-password', '#/admin/forgot-password', '#/404', '#/500', '#/403', '#/offline'];
     const isProtectedRoute = !publicRoutes.includes(path);
 
-    // STRICT PERSISTENCE GUARD: If Firebase has initialized but the user is null, 
-    // immediately kick out direct URL injection attempts to protected paths.
-    if (isProtectedRoute && window.authInitialized && !window.currentUser) {
+    // STRICT PERSISTENCE GUARD
+    if (isProtectedRoute && !window.currentUser) {
         window.location.hash = path.startsWith('#/admin') ? '#/admin/auth' : '#/login';
         return;
     }
 
     // Strict FSD RBAC Protection
     if (window.currentUser) {
-        const isAdminRoute = path.startsWith('#/admin') && !path.includes('auth') && !path.includes('forgot');
-        const isClientRoute = path.startsWith('#/') && !path.startsWith('#/admin') && !path.includes('login') && !path.includes('forgot');
+        const isAdminRoute = path.startsWith('#/admin') && !publicRoutes.includes(path);
+        const isClientRoute = path.startsWith('#/') && !path.startsWith('#/admin') && !publicRoutes.includes(path);
 
         if (isAdminRoute && window.currentUserRole === 'client') {
             window.location.hash = '#/403';
             return;
         }
+
         if (isClientRoute && window.currentUserRole !== 'client' && window.currentUserRole !== null) {
             window.location.hash = '#/admin/dashboard';
             return;
@@ -103,7 +110,6 @@ export async function handleLocation() {
         if (window.currentUser) {
             window.dispatchEvent(new Event('profileLoaded'));
         }
-
     } catch (error) {
         console.error("Router Error:", error);
         window.location.hash = '#/404';
