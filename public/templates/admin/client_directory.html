@@ -1,128 +1,139 @@
 <div id="sidebar-mount"></div>
-<div id="header-mount"
-      data-search-placeholder="SEARCH CLIENTS..."
+<div id="header-mount" 
+      data-search-placeholder="SEARCH CLIENTS..." 
       data-search-toast="Searching client directory..."
      data-role-simulator="false">
 </div>
+
 <main class="ml-0 md:ml-64 pt-24 px-4 sm:px-8 pb-12 min-h-screen transition-all duration-300">
-<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-<div>
-<span class="text-primary uppercase tracking-[0.3em] font-bold text-[10px] mb-2 block">Management</span>
-<div class="flex items-center gap-4 mb-2">
-    <h2 class="text-4xl sm:text-5xl font-black tracking-tighter text-on-surface">Client Directory</h2>
-</div>
-<p class="text-on-surface-variant body-md mt-4 max-w-xl">Centralized node for all global client profiles, SLA management, and real-time financial tracking across the ETHAN01 ecosystem.</p>
-</div>
-<div class="flex flex-wrap gap-3">
-<button class="px-6 py-3 bg-surface-container-high text-on-surface rounded-xl font-bold flex items-center gap-2 hover:bg-surface-container transition-all shadow-[var(--input-shadow)] border-[1.5px] border-[var(--input-border)]" onclick="window.openFilterModal()">
-<span class="material-symbols-outlined text-[20px]">filter_list</span>
-<span class="text-sm">Filter View</span>
-</button>
-<button class="px-6 py-3 bg-primary text-[#09090b] rounded-xl font-bold flex items-center gap-2 hover:bg-primary-container transition-all shadow-[0_4px_15px_var(--color-primary-glow)]" onclick="window.exportToExcel()">
-<span class="material-symbols-outlined text-[20px]">table_view</span>
-<span class="text-sm">Export Excel</span>
-</button>
-</div>
-</div>
-<div class="bg-surface-container-low rounded-2xl overflow-hidden shadow-[var(--card-shadow)] border border-outline-variant">
-<div class="overflow-x-auto w-full">
-<table class="w-full text-left border-collapse whitespace-nowrap" id="client-data-table">
-<thead>
-<tr class="bg-surface-container-high border-b border-[var(--input-border)]">
-<th class="px-6 sm:px-8 py-5 text-[11px] font-black uppercase tracking-[0.15em] text-on-surface-variant">Client Name</th>
-<th class="px-6 sm:px-8 py-5 text-[11px] font-black uppercase tracking-[0.15em] text-on-surface-variant text-center">Active Projects</th>
-<th class="px-6 sm:px-8 py-5 text-[11px] font-black uppercase tracking-[0.15em] text-on-surface-variant">SLA Tier</th>
-<th class="px-6 sm:px-8 py-5 text-[11px] font-black uppercase tracking-[0.15em] text-on-surface-variant">Monthly Burn</th>
-<th class="px-6 sm:px-8 py-5 text-[11px] font-black uppercase tracking-[0.15em] text-on-surface-variant text-right">Actions</th>
-</tr>
-</thead>
-<tbody id="client-directory-container" class="divide-y divide-[var(--input-border)]">
-    <!-- Shimmering Loaders -->
-    <tr class="animate-pulse">
-        <td class="px-6 sm:px-8 py-6 flex items-center gap-4"><div class="w-10 h-10 rounded-xl bg-surface-container-highest shrink-0"></div><div class="space-y-2"><div class="h-4 w-32 bg-surface-container-highest rounded"></div><div class="h-2 w-20 bg-surface-container-highest rounded"></div></div></td>
-        <td class="px-6 sm:px-8 py-6 text-center"><div class="w-8 h-8 rounded-full bg-surface-container-highest mx-auto"></div></td>
-        <td class="px-6 sm:px-8 py-6"><div class="w-16 h-4 bg-surface-container-highest rounded-full"></div></td>
-        <td class="px-6 sm:px-8 py-6"><div class="h-4 w-20 bg-surface-container-highest rounded mb-1"></div><div class="h-2 w-12 bg-surface-container-highest rounded"></div></td>
-        <td class="px-6 sm:px-8 py-6 text-right"><div class="w-16 h-8 bg-surface-container-highest rounded ml-auto"></div></td>
-    </tr>
-</tbody>
-</table>
-</div>
-<div class="px-6 sm:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 bg-surface-container-low border-t border-[var(--input-border)]">
-<div class="text-on-surface-variant text-xs font-inter font-bold" id="client-pagination-info">Fetching Global Clients...</div>
-<div class="flex gap-2">
-<button class="p-2 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors disabled:opacity-50 border-[1.5px] border-[var(--input-border)]" disabled="">
-<span class="material-symbols-outlined">chevron_left</span>
-</button>
-<button class="px-4 py-2 rounded-lg bg-primary text-[#09090b] font-black text-xs shadow-sm">1</button>
-<button class="p-2 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors disabled:opacity-50 border-[1.5px] border-[var(--input-border)]" disabled="">
-<span class="material-symbols-outlined">chevron_right</span>
-</button>
-</div>
-</div>
-</div>
-<div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-<div class="bg-surface-container-low p-8 rounded-2xl border border-[var(--input-border)] shadow-[var(--card-shadow)]">
-<div class="flex items-center justify-between mb-4">
-<span class="material-symbols-outlined text-primary text-3xl">trending_up</span>
-<span class="text-[10px] font-bold text-primary bg-[var(--color-primary-glow)] px-2 py-1 rounded">HEALTHY</span>
-</div>
-<h4 id="stat-combined-revenue" class="text-3xl font-black text-on-surface">--</h4>
-<p class="text-on-surface-variant uppercase tracking-widest text-[10px] font-bold mt-2">Combined Monthly Revenue</p>
-</div>
-<div class="bg-surface-container-low p-8 rounded-2xl border border-[var(--input-border)] shadow-[var(--card-shadow)]">
-<div class="flex items-center justify-between mb-4">
-<span class="material-symbols-outlined text-secondary text-3xl">verified</span>
-<span id="stat-sla-badge" class="text-[10px] font-bold text-secondary bg-[var(--color-primary-glow)] px-2 py-1 rounded" style="color: var(--color-primary); background-color: var(--color-primary-glow);">--%</span>
-</div>
-<h4 class="text-3xl font-black text-on-surface">SLA COMPLIANT</h4>
-<p class="text-on-surface-variant uppercase tracking-widest text-[10px] font-bold mt-2">Active Service Delivery</p>
-</div>
-<div class="bg-surface-container-low p-8 rounded-2xl border border-[var(--input-border)] shadow-[var(--card-shadow)]">
-<div class="flex items-center justify-between mb-4">
-<span class="material-symbols-outlined text-on-surface-variant text-3xl">hub</span>
-<span class="text-[10px] font-bold text-on-surface-variant bg-[var(--color-surface-highest-alpha)] px-2 py-1 rounded">GLOBAL</span>
-</div>
-<h4 id="stat-global-reach" class="text-3xl font-black text-on-surface">--</h4>
-<p class="text-on-surface-variant uppercase tracking-widest text-[10px] font-bold mt-2">Market Distribution</p>
-</div>
-</div>
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div>
+            <span class="text-primary uppercase tracking-[0.3em] font-bold text-[10px] mb-2 block">Management</span>
+            <div class="flex items-center gap-4 mb-2">
+                <h2 class="text-4xl sm:text-5xl font-black tracking-tighter text-on-surface">Client Directory</h2>
+            </div>
+            <p class="text-on-surface-variant body-md mt-4 max-w-xl">Centralized node for all global client profiles, SLA management, and real-time financial tracking across the ecosystem.</p>
+        </div>
+        <div class="flex flex-wrap gap-3">
+            <button class="px-6 py-3 bg-surface-container-high text-on-surface rounded-xl font-bold flex items-center gap-2 hover:bg-surface-container transition-all shadow-[var(--input-shadow)] border-[1.5px] border-[var(--input-border)]" onclick="window.openFilterModal()">
+                <span class="material-symbols-outlined text-[20px]">filter_list</span>
+                <span class="text-sm">Filter View</span>
+            </button>
+            <button class="px-6 py-3 bg-primary text-[#09090b] rounded-xl font-black flex items-center gap-2 hover:bg-primary-container transition-all shadow-[0_4px_15px_var(--color-primary-glow)]" onclick="window.exportToExcel()">
+                <span class="material-symbols-outlined text-[20px]">table_view</span>
+                <span class="text-sm">Export Excel</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="bg-surface-container-low rounded-2xl overflow-hidden shadow-[var(--card-shadow)] border border-outline-variant">
+        <div class="overflow-x-auto w-full">
+            <table class="w-full text-left border-collapse whitespace-nowrap" id="client-data-table">
+                <thead>
+                    <tr class="bg-surface-container-high border-b border-[var(--input-border)]">
+                        <th class="px-6 sm:px-8 py-5 text-[11px] font-black uppercase tracking-[0.15em] text-on-surface-variant">Client Name</th>
+                        <th class="px-6 sm:px-8 py-5 text-[11px] font-black uppercase tracking-[0.15em] text-on-surface-variant text-center">Active Projects</th>
+                        <th class="px-6 sm:px-8 py-5 text-[11px] font-black uppercase tracking-[0.15em] text-on-surface-variant">SLA Tier</th>
+                        <th class="px-6 sm:px-8 py-5 text-[11px] font-black uppercase tracking-[0.15em] text-on-surface-variant">Total Pipeline Value</th>
+                        <th class="px-6 sm:px-8 py-5 text-[11px] font-black uppercase tracking-[0.15em] text-on-surface-variant text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="client-directory-container" class="divide-y divide-[var(--input-border)]">
+                    <tr class="animate-pulse">
+                        <td class="px-6 sm:px-8 py-6 flex items-center gap-4"><div class="w-10 h-10 rounded-xl bg-surface-container-highest shrink-0"></div><div class="space-y-2"><div class="h-4 w-32 bg-surface-container-highest rounded"></div><div class="h-2 w-20 bg-surface-container-highest rounded"></div></div></td>
+                        <td class="px-6 sm:px-8 py-6 text-center"><div class="w-8 h-8 rounded-full bg-surface-container-highest mx-auto"></div></td>
+                        <td class="px-6 sm:px-8 py-6"><div class="w-16 h-4 bg-surface-container-highest rounded-full"></div></td>
+                        <td class="px-6 sm:px-8 py-6"><div class="h-4 w-20 bg-surface-container-highest rounded mb-1"></div><div class="h-2 w-12 bg-surface-container-highest rounded"></div></td>
+                        <td class="px-6 sm:px-8 py-6 text-right"><div class="w-16 h-8 bg-surface-container-highest rounded ml-auto"></div></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="px-6 sm:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 bg-surface-container-low border-t border-[var(--input-border)]">
+            <div class="text-on-surface-variant text-xs font-inter font-bold" id="client-pagination-info">Fetching Global Clients...</div>
+            <div class="flex gap-2">
+                <button class="p-2 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors disabled:opacity-50 border-[1.5px] border-[var(--input-border)]" disabled>
+                    <span class="material-symbols-outlined">chevron_left</span>
+                </button>
+                <button class="px-4 py-2 rounded-lg bg-primary text-[#09090b] font-black text-xs shadow-sm">1</button>
+                <button class="p-2 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors disabled:opacity-50 border-[1.5px] border-[var(--input-border)]" disabled>
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-surface-container-low p-8 rounded-2xl border border-[var(--input-border)] shadow-[var(--card-shadow)]">
+            <div class="flex items-center justify-between mb-4">
+                <span class="material-symbols-outlined text-primary text-3xl">trending_up</span>
+                <span class="text-[10px] font-bold text-primary bg-[var(--color-primary-glow)] px-2 py-1 rounded">HEALTHY</span>
+            </div>
+            <h4 id="stat-combined-revenue" class="text-3xl font-black text-on-surface break-all">--</h4>
+            <p class="text-on-surface-variant uppercase tracking-widest text-[10px] font-bold mt-2">Combined Pipeline Revenue</p>
+        </div>
+        
+        <div class="bg-surface-container-low p-8 rounded-2xl border border-[var(--input-border)] shadow-[var(--card-shadow)]">
+            <div class="flex items-center justify-between mb-4">
+                <span class="material-symbols-outlined text-secondary text-3xl">verified</span>
+                <span id="stat-sla-badge" class="text-[10px] font-bold text-secondary bg-[var(--color-primary-glow)] px-2 py-1 rounded" style="color: var(--color-primary); background-color: var(--color-primary-glow);">--%</span>
+            </div>
+            <h4 class="text-3xl font-black text-on-surface">SLA COMPLIANT</h4>
+            <p class="text-on-surface-variant uppercase tracking-widest text-[10px] font-bold mt-2">Active Service Delivery</p>
+        </div>
+        
+        <div class="bg-surface-container-low p-8 rounded-2xl border border-[var(--input-border)] shadow-[var(--card-shadow)]">
+            <div class="flex items-center justify-between mb-4">
+                <span class="material-symbols-outlined text-on-surface-variant text-3xl">hub</span>
+                <span class="text-[10px] font-bold text-on-surface-variant bg-[var(--color-surface-highest-alpha)] px-2 py-1 rounded">GLOBAL</span>
+            </div>
+            <h4 id="stat-global-reach" class="text-3xl font-black text-on-surface">Global</h4>
+            <p class="text-on-surface-variant uppercase tracking-widest text-[10px] font-bold mt-2">Market Distribution</p>
+        </div>
+    </div>
 </main>
 
 <template id="tpl-client-row">
-<tr class="hover:bg-surface-container transition-colors group">
-<td class="px-6 sm:px-8 py-6">
-<div class="flex items-center gap-4">
-<div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl {bgGradient} flex items-center justify-center overflow-hidden border border-outline-variant shrink-0">
-<img class="w-full h-full object-cover" src="{logoUrl}"/>
-</div>
-<div>
-<div class="text-on-surface font-bold text-sm sm:text-base tracking-tight">{clientName}</div>
-<div class="text-on-surface-variant text-[10px] sm:text-xs">{domain}</div>
-</div>
-</div>
-</td>
-<td class="px-6 sm:px-8 py-6 text-center">
-<div class="inline-flex items-center justify-center w-8 h-8 rounded-full {projectBadgeClass} font-black text-xs">{activeProjects}</div>
-</td>
-<td class="px-6 sm:px-8 py-6">
-<span class="px-3 py-1 rounded-full text-[9px] sm:text-[10px] font-black {slaBadgeClass} uppercase tracking-widest client-sla-tier">{slaTier}</span>
-</td>
-<td class="px-6 sm:px-8 py-6">
-<div class="text-on-surface font-mono font-bold text-sm sm:text-base">{monthlyBurn}</div>
-<div class="text-on-surface-variant text-[9px] sm:text-[10px] uppercase font-bold tracking-tighter">{burnTrend}</div>
-</td>
-<td class="px-6 sm:px-8 py-6 text-right">
-<div class="flex items-center justify-end gap-2 sm:opacity-0 group-hover:opacity-100 transition-opacity">
-<button class="p-2 text-on-surface-variant hover:text-primary transition-colors" title="View Portal" onclick="window.open('{portalLink}', '_blank')">
-<span class="material-symbols-outlined">rocket_launch</span>
-</button>
-<button class="lead-architect-only p-2 text-on-surface-variant hover:text-on-surface transition-colors" title="Edit Profile" onclick="window.openEditClientModal('{clientNameEscaped}')">
-<span class="material-symbols-outlined">edit_square</span>
-</button>
-</div>
-</td>
-</tr>
+    <tr class="hover:bg-surface-container transition-colors group">
+        <td class="px-6 sm:px-8 py-6">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl {bgGradient} flex items-center justify-center overflow-hidden border border-outline-variant shrink-0">
+                    <img class="w-full h-full object-cover" src="{logoUrl}"/>
+                </div>
+                <div>
+                    <div class="text-on-surface font-bold text-sm sm:text-base tracking-tight">{clientName}</div>
+                    <div class="text-on-surface-variant text-[10px] sm:text-xs">{domain}</div>
+                </div>
+            </div>
+        </td>
+        <td class="px-6 sm:px-8 py-6 text-center">
+            <div class="inline-flex items-center justify-center w-8 h-8 rounded-full {projectBadgeClass} font-black text-xs">{activeProjects}</div>
+        </td>
+        <td class="px-6 sm:px-8 py-6">
+            <span class="px-3 py-1 rounded-full text-[9px] sm:text-[10px] font-black {slaBadgeClass} uppercase tracking-widest client-sla-tier">{slaTier}</span>
+        </td>
+        <td class="px-6 sm:px-8 py-6">
+            <div class="text-on-surface font-mono font-bold text-sm sm:text-base">{pipelineValue}</div>
+            <div class="text-on-surface-variant text-[9px] sm:text-[10px] uppercase font-bold tracking-tighter text-primary">Active Revenue</div>
+        </td>
+        <td class="px-6 sm:px-8 py-6 text-right">
+            <div class="flex items-center justify-end gap-2 sm:opacity-0 group-hover:opacity-100 transition-opacity">
+                <button class="lead-architect-only p-2 text-on-surface-variant hover:text-primary transition-colors" title="Create New Project" onclick="window.createNewProjectForClient('{clientId}')">
+                    <span class="material-symbols-outlined">add_box</span>
+                </button>
+                <button class="p-2 text-on-surface-variant hover:text-primary transition-colors" title="Visit Client External Site" onclick="window.open('{portalLink}', '_blank')">
+                    <span class="material-symbols-outlined">rocket_launch</span>
+                </button>
+                <button class="lead-architect-only p-2 text-on-surface-variant hover:text-on-surface transition-colors" title="Edit Profile" onclick="window.openEditClientModal('{clientNameEscaped}')">
+                    <span class="material-symbols-outlined">edit_square</span>
+                </button>
+                <button class="lead-architect-only p-2 text-on-surface-variant hover:text-error transition-colors" title="Delete Client Workspace" onclick="window.executeAtomicClientDelete('{clientId}')">
+                    <span class="material-symbols-outlined">delete</span>
+                </button>
+            </div>
+        </td>
+    </tr>
 </template>
 
 <template id="tpl-filter-modal">
@@ -131,15 +142,15 @@
             <label class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">SLA Tier</label>
             <select id="filter-tier" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none">
                 <option>All Tiers</option>
-                <option>PREMIUM</option>
-                <option>STANDARD</option>
-                <option>BASIC</option>
+                <option>Enterprise</option>
+                <option>Professional</option>
+                <option>Basic</option>
             </select>
         </div>
         <div class="space-y-2">
             <label class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Status</label>
             <select id="filter-status" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none">
-                <option>All Projects</option>
+                <option>All Clients</option>
                 <option>Active Projects Only</option>
             </select>
         </div>
@@ -160,8 +171,8 @@
         <div class="space-y-2">
             <label class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">SLA Tier Update</label>
             <select class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none">
-                <option selected>Premium</option>
-                <option>Standard</option>
+                <option selected>Enterprise</option>
+                <option>Professional</option>
                 <option>Basic</option>
             </select>
         </div>
@@ -173,7 +184,189 @@
     <button onclick="if(window.Modal) window.Modal.hide(); if(window.Toast) window.Toast.show('Client profile updated.', 'success')" class="bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm transition-colors">Save Changes</button>
 </template>
 
-<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" style="display:none;" onload="
+<script type="text/plain" id="dir-data-script">
+    if (!window.XLSX) {
+        const script = document.createElement('script');
+        script.src = 'https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js';
+        document.head.appendChild(script);
+    }
+
+    window.globalClients = [];
+    window.globalProjects = [];
+
+    window.createNewProjectForClient = function(clientId) {
+        sessionStorage.setItem('vanguard_prefill_client', clientId);
+        window.location.hash = '#/admin/project/new';
+    };
+
+    window.executeAtomicClientDelete = async function(clientId) {
+        const role = window.currentUserRole;
+        if (role !== 'Super Admin' && role !== 'admin' && role !== 'SuperAdmin') {
+            if(window.Toast) window.Toast.show('Super Admin clearance required for deletion.', 'error');
+            return;
+        }
+
+        const confirmed = confirm("CRITICAL WARNING: You are about to permanently delete this client and EVERY project, task, and invoice associated with them. This action cannot be undone. Proceed?");
+        if(!confirmed) return;
+
+        if(window.Toast) window.Toast.show('Initiating atomic deletion cascade...', 'info');
+
+        try {
+            const { collection, query, where, getDocs, doc, writeBatch } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+            const { db } = await import('/js/config/firebase-dev.js');
+
+            const batch = writeBatch(db);
+            batch.delete(doc(db, 'clients', clientId));
+
+            const qProj = query(collection(db, 'projects'), where('clientId', '==', clientId));
+            const projSnap = await getDocs(qProj);
+
+            for (const pDoc of projSnap.docs) {
+                const projectId = pDoc.id;
+                batch.delete(doc(db, 'projects', projectId)); 
+
+                const tasks = await getDocs(collection(db, 'projects', projectId, 'tasks'));
+                tasks.forEach(t => batch.delete(t.ref));
+
+                const invoices = await getDocs(collection(db, 'projects', projectId, 'invoices'));
+                invoices.forEach(i => batch.delete(i.ref));
+
+                const deliverables = await getDocs(collection(db, 'projects', projectId, 'deliverables'));
+                deliverables.forEach(d => batch.delete(d.ref));
+            }
+
+            await batch.commit();
+            if(window.Toast) window.Toast.show('Client and all associated data completely annihilated.', 'success');
+
+        } catch (error) {
+            console.error('Atomic Delete Failed:', error);
+            if(window.Toast) window.Toast.show('Database cascade failed. Check console.', 'error');
+        }
+    };
+
+    // CURRENCY CONVERSION ENGINE
+    window.convertToNaira = function(amount, currency) {
+        if (!amount) return 0;
+        if (currency === '$') return amount * 1500; 
+        if (currency === '£') return amount * 1900; 
+        return amount;
+    };
+
+    window.initializeLiveDirectory = async function() {
+        try {
+            const { collection, onSnapshot } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+            const { db } = await import('/js/config/firebase-dev.js');
+
+            if(window.dirProjUnsub) window.dirProjUnsub();
+            window.dirProjUnsub = onSnapshot(collection(db, 'projects'), (snap) => {
+                window.globalProjects = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                window.renderClientDirectory();
+            });
+
+            if(window.dirClientUnsub) window.dirClientUnsub();
+            window.dirClientUnsub = onSnapshot(collection(db, 'clients'), (snap) => {
+                window.globalClients = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                window.renderClientDirectory();
+            });
+
+        } catch (e) {
+            console.error("Directory Init Error", e);
+        }
+    };
+
+    window.renderClientDirectory = function() {
+        if (!window.globalClients || !window.globalProjects) return;
+
+        const cont = document.getElementById('client-directory-container');
+        const tpl = document.getElementById('tpl-client-row')?.innerHTML;
+        const role = window.currentUserRole;
+        const isSuperAdmin = (role === 'Super Admin' || role === 'admin' || role === 'SuperAdmin');
+
+        if (!cont || !tpl) return;
+
+        let globalRevenue = 0;
+        let totalProjects = 0;
+        let compliantProjects = 0;
+        let htmlBuffer = '';
+
+        if (window.globalClients.length === 0) {
+            cont.innerHTML = '<tr><td colspan="5" class="text-center py-12 text-on-surface-variant">No clients registered in the directory.</td></tr>';
+            document.getElementById('stat-combined-revenue').innerText = '₦ 0.00';
+            document.getElementById('stat-sla-badge').innerText = '0%';
+            document.getElementById('client-pagination-info').innerText = 'Showing 0 Global Clients';
+            return;
+        }
+
+        window.globalClients.forEach(client => {
+            const clientProjects = window.globalProjects.filter(p => p.clientId === (client.clientId || client.id) && p.status !== 'Archived');
+            const activeProjectCount = clientProjects.length;
+            totalProjects += activeProjectCount;
+
+            let clientPipelineValue = 0;
+            
+            clientProjects.forEach(proj => {
+                // CONVERT TO NAIRA FOR AGGREGATION
+                clientPipelineValue += window.convertToNaira(proj.totalBudget, proj.currency);
+                
+                const startDate = proj.createdAt?.toDate() || new Date();
+                const now = new Date();
+                const diffDays = Math.max(0, Math.ceil((now - startDate) / (1000 * 60 * 60 * 24)));
+                const durationDays = proj.durationDays && proj.durationDays > 0 ? proj.durationDays : 1;
+                const timeElapsedPct = Math.min(100, (diffDays / durationDays) * 100);
+                
+                let trueScopePct = 0;
+                if(proj.phases) proj.phases.forEach(p => { if(p.status === 'Approved') trueScopePct += (p.scopePct || 0); });
+                
+                const variance = trueScopePct - timeElapsedPct;
+                if (variance >= -5) compliantProjects++;
+            });
+
+            globalRevenue += clientPipelineValue;
+
+            const isEnterprise = client.slaTier === 'Enterprise';
+            const bgGradient = isEnterprise ? 'bg-gradient-to-br from-[var(--color-primary-glow)] to-transparent' : 'bg-surface-container-highest';
+            const projBadge = activeProjectCount > 0 ? 'bg-[var(--color-primary-glow)] text-primary' : 'bg-[var(--color-surface-highest-alpha)] text-on-surface-variant';
+            
+            let slaBadge = 'bg-surface-container-highest text-on-surface-variant';
+            if (isEnterprise) slaBadge = 'bg-primary text-[#09090b]';
+            else if (client.slaTier === 'Professional') slaBadge = 'bg-[var(--color-primary-glow)] text-primary';
+            
+            const escapedName = (client.companyName || 'Unnamed').replace(/'/g, '\\\'');
+            const formattedPipeline = isSuperAdmin ? '₦ ' + clientPipelineValue.toLocaleString() : 'RESTRICTED';
+            
+            let externalLink = client.domain || '#';
+            if (externalLink !== '#' && !externalLink.startsWith('http://') && !externalLink.startsWith('https://')) {
+                externalLink = 'https://' + externalLink;
+            }
+            
+            htmlBuffer += tpl.replace(/{bgGradient}/g, bgGradient)
+                             .replace(/{logoUrl}/g, client.logoUrl || '/assets/icons/ethan01logo.svg')
+                             .replace(/{clientName}/g, client.companyName || 'Unnamed Client')
+                             .replace(/{clientNameEscaped}/g, escapedName)
+                             .replace(/{domain}/g, client.domain || 'N/A')
+                             .replace(/{projectBadgeClass}/g, projBadge)
+                             .replace(/{activeProjects}/g, activeProjectCount)
+                             .replace(/{slaBadgeClass}/g, slaBadge)
+                             .replace(/{slaTier}/g, client.slaTier || 'Basic')
+                             .replace(/{pipelineValue}/g, formattedPipeline)
+                             .replace(/{clientId}/g, client.id || client.clientId)
+                             .replace(/{portalLink}/g, externalLink); 
+        });
+
+        cont.innerHTML = htmlBuffer;
+
+        if (!isSuperAdmin) {
+            document.querySelectorAll('.lead-architect-only').forEach(btn => btn.style.display = 'none');
+            document.getElementById('stat-combined-revenue').innerText = 'RESTRICTED';
+        } else {
+            document.getElementById('stat-combined-revenue').innerText = '₦ ' + globalRevenue.toLocaleString();
+        }
+
+        const slaPercentage = totalProjects > 0 ? ((compliantProjects / totalProjects) * 100).toFixed(0) : 100;
+        document.getElementById('stat-sla-badge').innerText = `${slaPercentage}%`;
+        document.getElementById('client-pagination-info').innerText = `Showing 1-${window.globalClients.length} of ${window.globalClients.length} Global Clients`;
+    };
+
     window.openFilterModal = function() {
         const m = document.getElementById('tpl-filter-modal').innerHTML;
         const a = document.getElementById('tpl-filter-action').innerHTML;
@@ -188,7 +381,7 @@
         let visibleCount = 0;
         
         rows.forEach(row => {
-            if (row.children.length === 1) return; // Skip Empty state row
+            if (row.children.length === 1) return;
             
             const rowTierEl = row.querySelector('.client-sla-tier');
             if(!rowTierEl) return;
@@ -196,7 +389,7 @@
             const rowProjects = parseInt(row.querySelector('td:nth-child(2) div').innerText);
             
             let show = true;
-            if (tier !== 'All Tiers' && rowTier !== tier) show = false;
+            if (tier !== 'All Tiers' && rowTier.toLowerCase() !== tier.toLowerCase()) show = false;
             if (status === 'Active Projects Only' && rowProjects === 0) show = false;
             
             row.style.display = show ? '' : 'none';
@@ -207,27 +400,26 @@
         if (info) info.innerText = 'Showing filtered results (' + visibleCount + ')';
         
         if(window.Modal) window.Modal.hide();
-        if(window.Toast) window.Toast.show('Filters applied successfully.', 'success');
+        if(window.Toast) window.Toast.show('Filters applied.', 'success');
     };
 
     window.exportToExcel = function() {
+        if (!window.XLSX) {
+            if(window.Toast) window.Toast.show('Loading Excel Engine...', 'info');
+            setTimeout(window.exportToExcel, 1000);
+            return;
+        }
         if(window.Toast) window.Toast.show('Compiling Excel Data...', 'info');
         setTimeout(() => {
             const table = document.getElementById('client-data-table');
-            // Clone table to strip out buttons and icons for raw data export
             const clone = table.cloneNode(true);
-            clone.querySelectorAll('.material-symbols-outlined, button').forEach(el => el.remove());
+            clone.querySelectorAll('.material-symbols-outlined, button, .lead-architect-only').forEach(el => el.remove());
             
-            const html = clone.outerHTML;
-            const blob = new Blob([html], {type: 'application/vnd.ms-excel'});
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'Ethan01_Client_Directory.xls';
-            a.click();
-            URL.revokeObjectURL(url);
+            const wb = XLSX.utils.table_to_book(clone, {sheet: 'Client Directory'});
+            XLSX.writeFile(wb, 'Vanguard_Client_Directory.xlsx');
+            
             if(window.Toast) window.Toast.show('Excel Export downloaded.', 'success');
-        }, 1000);
+        }, 800);
     };
 
     window.openEditClientModal = function(clientName) {
@@ -236,64 +428,6 @@
         if(window.Modal) window.Modal.show('Edit Client: ' + clientName, m, a);
     };
 
-    window.handleDirectoryHydration = function(e) {
-        const payload = e.detail;
-        if(!payload) return;
-        const role = payload.currentUser?.role || 'Admin';
-                 
-        if (payload.stats) {
-            const revEl = document.getElementById('stat-combined-revenue');
-            const slaEl = document.getElementById('stat-sla-badge');
-            const reachEl = document.getElementById('stat-global-reach');
-            if (revEl && role !== 'Admin') revEl.innerText = payload.stats.combinedRevenue || '0';
-            if (slaEl) slaEl.innerText = payload.stats.slaCompliance || '0%';
-            if (reachEl) reachEl.innerText = payload.stats.globalReach || '0 COUNTRIES';
-        }
-        
-        const cont = document.getElementById('client-directory-container');
-        const tpl = document.getElementById('tpl-client-row');
-        if (cont && tpl && payload.clients) {
-            cont.innerHTML = '';
-            if (payload.clients.length === 0) {
-                cont.innerHTML = '<tr><td colspan=&quot;5&quot; class=&quot;text-center py-12 text-on-surface-variant&quot;>No clients registered in the directory.</td></tr>';
-            } else {
-                payload.clients.forEach(client => {
-                    let html = tpl.innerHTML;
-                    const isPremium = client.slaTier === 'Premium';
-                    const bgGradient = isPremium ? 'bg-gradient-to-br from-[var(--color-primary-glow)] to-transparent' : 'bg-surface-container-highest';
-                    const projBadge = parseInt(client.activeProjects) > 0 ? 'bg-[var(--color-primary-glow)] text-primary' : 'bg-[var(--color-surface-highest-alpha)] text-on-surface-variant';
-                    let slaBadge = 'bg-surface-container-highest text-on-surface-variant';
-                    if (isPremium) slaBadge = 'bg-primary text-[#09090b]';
-                    else if (client.slaTier === 'Standard') slaBadge = 'bg-[var(--color-primary-glow)] text-primary';
-                    const escapedName = client.name.replace(/'/g, '\\\'');
-                    
-                    html = html.replace(/{bgGradient}/g, bgGradient)
-                               .replace(/{logoUrl}/g, client.logoUrl || '/assets/icons/ethan01logo.svg')
-                               .replace(/{clientName}/g, client.name)
-                               .replace(/{clientNameEscaped}/g, escapedName)
-                               .replace(/{domain}/g, client.domain)
-                               .replace(/{projectBadgeClass}/g, projBadge)
-                               .replace(/{activeProjects}/g, client.activeProjects)
-                               .replace(/{slaBadgeClass}/g, slaBadge)
-                               .replace(/{slaTier}/g, client.slaTier)
-                               .replace(/{monthlyBurn}/g, role === 'Admin' ? '***' : client.monthlyBurn)
-                               .replace(/{burnTrend}/g, role === 'Admin' ? 'Restricted' : client.burnTrend)
-                               .replace(/{portalLink}/g, client.portalLink || '#');
-                                         
-                    cont.innerHTML += html;
-                });
-            }
-            if (role === 'Admin') {
-                document.querySelectorAll('.lead-architect-only').forEach(btn => btn.style.display = 'none');
-            }
-            
-            const info = document.getElementById('client-pagination-info');
-            if (info) info.innerText = 'Showing 1-' + payload.clients.length + ' of ' + payload.clients.length + ' Global Clients';
-        }
-    };
-
-    window.removeEventListener('vanguard-directory-sync', window.handleDirectoryHydration);
-    window.addEventListener('vanguard-directory-sync', window.handleDirectoryHydration);
-
-    this.remove();
-" />
+    window.initializeLiveDirectory();
+</script>
+<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" style="display:none;" onload="const s=document.createElement('script');s.textContent=document.getElementById('dir-data-script').textContent;document.body.appendChild(s);this.remove();" />

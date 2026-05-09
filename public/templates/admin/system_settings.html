@@ -1,167 +1,169 @@
 <div id="sidebar-mount"></div>
 <main class="ml-0 md:ml-64 min-h-screen bg-surface overflow-x-hidden overflow-y-auto transition-all duration-300">
-
-<div id="header-mount" 
-     data-search-placeholder="SEARCH CONFIGURATIONS..." 
-     data-search-toast="Searching system settings..."
-     data-role-simulator="false">
-</div>
-
-<div id="settings-content" class="pt-24 pb-32 px-4 sm:px-12 max-w-7xl mx-auto w-full">
-<div class="mb-12">
-<span class="text-primary font-inter label-sm uppercase tracking-[0.2em] text-[10px] font-bold">Configuration</span>
-<h2 class="text-4xl sm:text-[3.5rem] font-bold tracking-tighter leading-none mt-2 font-headline text-on-surface">Admin Settings</h2>
-</div>
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 w-full">
-<section class="lg:col-span-5 space-y-6 w-full">
-<div class="bg-surface-container-low rounded-xl p-6 sm:p-8 transition-all hover:bg-surface-container w-full shadow-[var(--card-shadow)] border border-outline-variant">
-<div class="flex items-center justify-between mb-8">
-<h3 class="text-xs font-bold uppercase tracking-[0.15em] text-on-surface-variant">Agency Profile</h3>
-<span class="material-symbols-outlined text-primary text-sm">verified</span>
-</div>
-<div class="flex flex-col gap-8 w-full">
-<div class="flex flex-col sm:flex-row sm:items-center gap-6 w-full">
-<div class="relative group self-start shrink-0">
-<div class="w-24 h-24 rounded-xl overflow-hidden bg-surface-container-high flex items-center justify-center border border-outline-variant">
-<img id="settings-avatar" alt="Agency Logo" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" src="/assets/icons/ethan01logo.svg"/>
-</div>
-<button class="absolute -bottom-2 -right-2 bg-surface-container-highest p-2 rounded-lg text-on-surface hover:text-primary transition-colors border border-outline-variant rbac-hide-element" onclick="if(window.Toast) window.Toast.show('Opening avatar selection...', 'info')">
-<span class="material-symbols-outlined text-[16px]">edit</span>
-</button>
-</div>
-<div class="flex-1 w-full min-w-0">
-<label class="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-1">Agency Name</label>
-<input id="settings-agency-name" class="w-full bg-transparent border-none text-xl font-bold p-0 focus:ring-0 text-on-surface outline-none selection:bg-[var(--color-primary-alpha-30)] truncate rbac-input" type="text" value="--"/>
-<div class="h-[1px] w-full bg-outline-variant mt-1"></div>
-</div>
-</div>
-<div class="space-y-4 w-full">
-<div class="w-full">
-<label class="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">Global Headquarters</label>
-<div class="relative w-full">
-<span class="material-symbols-outlined absolute left-0 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">location_on</span>
-<input id="settings-hq" class="w-full bg-transparent border-none pl-6 text-sm font-medium focus:ring-0 text-on-surface outline-none truncate rbac-input" type="text" value="--"/>
-</div>
-</div>
-<div class="w-full">
-<label class="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">Primary Domain</label>
-<div class="relative w-full">
-<span class="material-symbols-outlined absolute left-0 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">language</span>
-<input id="settings-domain" class="w-full bg-transparent border-none pl-6 text-sm font-medium focus:ring-0 text-on-surface outline-none truncate rbac-input" type="text" value="--"/>
-</div>
-</div>
-<!-- NEW: Official Phone Field -->
-<div class="w-full">
-<label class="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">Official Phone</label>
-<div class="relative w-full">
-<span class="material-symbols-outlined absolute left-0 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">call</span>
-<input id="settings-phone" class="w-full bg-transparent border-none pl-6 text-sm font-medium focus:ring-0 text-on-surface outline-none truncate rbac-input" type="text" value="+234 812 019 5699"/>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-<div id="section-integrations" class="bg-surface-container-low rounded-xl p-6 sm:p-8 w-full shadow-[var(--card-shadow)] border border-outline-variant">
-<div class="flex items-center justify-between mb-8">
-<h3 class="text-xs font-bold uppercase tracking-[0.15em] text-on-surface-variant">Integrations</h3>
-<button class="text-[10px] font-bold text-primary hover:text-on-surface transition-colors flex items-center gap-1 shrink-0 rbac-hide-element" onclick="window.openAddIntegrationModal()">
-    <span class="material-symbols-outlined text-[14px]">add</span> NEW
-</button>
-</div>
-<div class="space-y-6 w-full" id="integrations-container">
+    <div id="header-mount" 
+         data-search-placeholder="SEARCH CONFIGURATIONS..." 
+         data-search-toast="Searching system settings..."
+         data-role-simulator="false">
     </div>
-</div>
-</section>
+    
+    <div id="settings-content" class="pt-24 pb-32 px-4 sm:px-12 max-w-7xl mx-auto w-full">
+        <div class="mb-12">
+            <span class="text-primary font-inter label-sm uppercase tracking-[0.2em] text-[10px] font-bold">Configuration</span>
+            <h2 class="text-4xl sm:text-[3.5rem] font-bold tracking-tighter leading-none mt-2 font-headline text-on-surface">Admin Settings</h2>
+        </div>
 
-<section class="lg:col-span-7 w-full overflow-hidden">
-<div class="bg-surface-container-low rounded-xl h-full flex flex-col w-full shadow-[var(--card-shadow)] border border-outline-variant">
-<div class="p-6 sm:p-8 flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 w-full">
-<div>
-<h3 class="text-xs font-bold uppercase tracking-[0.15em] text-on-surface-variant mb-2">Staff Management</h3>
-<p class="text-[10px] text-on-surface-variant font-medium">Manage access levels and portal permissions.</p>
-</div>
-<button id="cmd-invite-staff-btn" class="text-[10px] font-bold text-primary hover:text-on-surface transition-colors flex items-center gap-1 self-start sm:self-auto shrink-0 rbac-hide-element" onclick="window.openInviteModal()">
-<span class="material-symbols-outlined text-[14px]">person_add</span>
-    INVITE STAFF
-</button>
-</div>
-<div class="flex-1 overflow-x-auto w-full max-w-full">
-<table class="w-full text-left border-collapse min-w-[500px]">
-<thead>
-<tr class="bg-[var(--color-surface-highest-alpha)] border-b border-outline-variant">
-<th class="py-4 px-6 sm:px-8 text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Administrator</th>
-<th class="py-4 px-6 sm:px-8 text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Role</th>
-<th class="py-4 px-6 sm:px-8 text-[10px] uppercase tracking-widest text-on-surface-variant font-bold text-right">Activity</th>
-</tr>
-</thead>
-<tbody id="staff-table-container" class="divide-y divide-outline-variant">
-    </tbody>
-</table>
-</div>
-</div>
-</section>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 w-full">
+            <section class="lg:col-span-5 space-y-6 w-full">
+                <div class="bg-surface-container-low rounded-xl p-6 sm:p-8 transition-all hover:bg-surface-container w-full shadow-[var(--card-shadow)] border border-outline-variant">
+                    <div class="flex items-center justify-between mb-8">
+                        <h3 class="text-xs font-bold uppercase tracking-[0.15em] text-on-surface-variant">Agency Profile</h3>
+                        <span class="material-symbols-outlined text-primary text-sm">verified</span>
+                    </div>
+                    
+                    <div class="flex flex-col gap-8 w-full">
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-6 w-full">
+                            <div class="relative group self-start shrink-0">
+                                <div class="w-24 h-24 rounded-xl overflow-hidden bg-surface-container-high flex items-center justify-center border border-outline-variant">
+                                    <img id="settings-avatar" alt="Agency Logo" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" src="/assets/icons/ethan01logo.svg"/>
+                                </div>
+                                <button class="absolute -bottom-2 -right-2 bg-surface-container-highest p-2 rounded-lg text-on-surface hover:text-primary transition-colors border border-outline-variant rbac-hide-element" onclick="if(window.Toast) window.Toast.show('Opening avatar selection...', 'info')">
+                                    <span class="material-symbols-outlined text-[16px]">edit</span>
+                                </button>
+                            </div>
+                            <div class="flex-1 w-full min-w-0">
+                                <label class="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-1">Agency Name</label>
+                                <input id="settings-agency-name" class="w-full bg-transparent border-none text-xl font-bold p-0 focus:ring-0 text-on-surface outline-none selection:bg-[var(--color-primary-alpha-30)] truncate rbac-input" type="text" value="--"/>
+                                <div class="h-[1px] w-full bg-outline-variant mt-1"></div>
+                            </div>
+                        </div>
 
-<section class="lg:col-span-12 w-full overflow-hidden">
-<div class="bg-surface-container-low p-6 sm:p-8 rounded-xl flex flex-col xl:flex-row items-start xl:items-center justify-between gap-8 border border-outline-variant shadow-[var(--card-shadow)] w-full">
-<div class="flex flex-wrap gap-6 lg:gap-12 w-full">
-<div class="flex-1 min-w-[140px]">
-<label class="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">API Calls (24h)</label>
-<p class="text-3xl font-bold font-mono tracking-tighter text-on-surface" id="metric-api">842.1K</p>
-<div class="mt-2 w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
-<div class="w-3/4 h-full bg-primary"></div>
-</div>
-</div>
-<div class="flex-1 min-w-[140px]">
-<label class="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">Storage</label>
-<p class="text-3xl font-bold font-mono tracking-tighter text-on-surface" id="metric-storage">1.2 TB</p>
-<div class="mt-2 w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
-<div class="w-1/2 h-full bg-[var(--color-primary-alpha)]"></div>
-</div>
-</div>
-<div class="flex-1 min-w-[140px]">
-<label class="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">Service Uptime</label>
-<p class="text-3xl font-bold font-mono tracking-tighter text-on-surface" id="metric-uptime">99.99%</p>
-<div class="mt-2 w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
-<div class="w-[99%] h-full bg-primary"></div>
-</div>
-</div>
-</div>
-<div class="hidden lg:block opacity-20 shrink-0">
-<span class="material-symbols-outlined text-[64px] text-on-surface" style="font-variation-settings: 'FILL' 1;">monitoring</span>
-</div>
-</div>
-</section>
-</div>
+                        <div class="space-y-4 w-full">
+                            <div class="w-full">
+                                <label class="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">Global Headquarters</label>
+                                <div class="relative w-full">
+                                    <span class="material-symbols-outlined absolute left-0 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">location_on</span>
+                                    <input id="settings-hq" class="w-full bg-transparent border-none pl-6 text-sm font-medium focus:ring-0 text-on-surface outline-none truncate rbac-input" type="text" value="--"/>
+                                </div>
+                            </div>
+                            <div class="w-full">
+                                <label class="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">Primary Domain</label>
+                                <div class="relative w-full">
+                                    <span class="material-symbols-outlined absolute left-0 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">language</span>
+                                    <input id="settings-domain" class="w-full bg-transparent border-none pl-6 text-sm font-medium focus:ring-0 text-on-surface outline-none truncate rbac-input" type="text" value="--"/>
+                                </div>
+                            </div>
+                            <div class="w-full">
+                                <label class="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">Official Phone</label>
+                                <div class="relative w-full">
+                                    <span class="material-symbols-outlined absolute left-0 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">call</span>
+                                    <input id="settings-phone" class="w-full bg-transparent border-none pl-6 text-sm font-medium focus:ring-0 text-on-surface outline-none truncate rbac-input" type="text" value="+234 812 019 5699"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-<footer id="settings-footer" class="fixed bottom-0 right-0 w-full md:w-[calc(100%-16rem)] p-4 sm:p-6 bg-[var(--color-surface-highest-alpha)] backdrop-blur-md border-t border-outline-variant flex flex-col sm:flex-row justify-end items-center gap-4 sm:gap-6 z-30 transition-all duration-300">
-<button class="text-on-surface-variant hover:text-on-surface font-inter label-sm:uppercase label-sm:tracking-widest text-[10px] font-bold transition-colors" onclick="if(window.Toast) window.Toast.show('Changes discarded.', 'info')">
-    Discard Changes
-</button>
-<button class="w-full sm:w-auto px-10 py-3 bg-primary text-[#09090b] rounded-xl font-black text-sm uppercase tracking-tighter shadow-[0_4px_24px_var(--color-primary-glow)] hover:scale-[1.02] active:scale-[0.98] transition-all" onclick="if(window.Toast) window.Toast.show('System configurations synced.', 'success')">
-    Save System Changes
-</button>
-</footer>
+                <div id="section-integrations" class="bg-surface-container-low rounded-xl p-6 sm:p-8 w-full shadow-[var(--card-shadow)] border border-outline-variant">
+                    <div class="flex items-center justify-between mb-8">
+                        <h3 class="text-xs font-bold uppercase tracking-[0.15em] text-on-surface-variant">Integrations</h3>
+                        <button class="text-[10px] font-bold text-primary hover:text-on-surface transition-colors flex items-center gap-1 shrink-0 rbac-hide-element" onclick="window.openAddIntegrationModal()">
+                            <span class="material-symbols-outlined text-[14px]">add</span> NEW
+                        </button>
+                    </div>
+                    <div class="space-y-6 w-full" id="integrations-container">
+                    </div>
+                </div>
+            </section>
+
+            <section class="lg:col-span-7 w-full overflow-hidden">
+                <div class="bg-surface-container-low rounded-xl h-full flex flex-col w-full shadow-[var(--card-shadow)] border border-outline-variant">
+                    <div class="p-6 sm:p-8 flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 w-full">
+                        <div>
+                            <h3 class="text-xs font-bold uppercase tracking-[0.15em] text-on-surface-variant mb-2">Staff Management</h3>
+                            <p class="text-[10px] text-on-surface-variant font-medium">Manage access levels and portal permissions.</p>
+                        </div>
+                        <button id="cmd-invite-staff-btn" class="text-[10px] font-bold text-primary hover:text-on-surface transition-colors flex items-center gap-1 self-start sm:self-auto shrink-0 rbac-hide-element" onclick="window.openInviteModal()">
+                            <span class="material-symbols-outlined text-[14px]">person_add</span> INVITE STAFF
+                        </button>
+                    </div>
+                    
+                    <div class="flex-1 overflow-x-auto w-full max-w-full">
+                        <table class="w-full text-left border-collapse min-w-[500px]">
+                            <thead>
+                                <tr class="bg-[var(--color-surface-highest-alpha)] border-b border-outline-variant">
+                                    <th class="py-4 px-6 sm:px-8 text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Administrator</th>
+                                    <th class="py-4 px-6 sm:px-8 text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Role</th>
+                                    <th class="py-4 px-6 sm:px-8 text-[10px] uppercase tracking-widest text-on-surface-variant font-bold text-right">Activity</th>
+                                </tr>
+                            </thead>
+                            <tbody id="staff-table-container" class="divide-y divide-outline-variant">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lg:col-span-12 w-full overflow-hidden">
+                <div class="bg-surface-container-low p-6 sm:p-8 rounded-xl flex flex-col xl:flex-row items-start xl:items-center justify-between gap-8 border border-outline-variant shadow-[var(--card-shadow)] w-full">
+                    <div class="flex flex-wrap gap-6 lg:gap-12 w-full">
+                        <div class="flex-1 min-w-[140px]">
+                            <label class="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">API Calls (24h)</label>
+                            <p class="text-3xl font-bold font-mono tracking-tighter text-on-surface" id="metric-api">842.1K</p>
+                            <div class="mt-2 w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
+                                <div class="w-3/4 h-full bg-primary"></div>
+                            </div>
+                        </div>
+                        <div class="flex-1 min-w-[140px]">
+                            <label class="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">Storage</label>
+                            <p class="text-3xl font-bold font-mono tracking-tighter text-on-surface" id="metric-storage">1.2 TB</p>
+                            <div class="mt-2 w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
+                                <div class="w-1/2 h-full bg-[var(--color-primary-alpha)]"></div>
+                            </div>
+                        </div>
+                        <div class="flex-1 min-w-[140px]">
+                            <label class="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">Service Uptime</label>
+                            <p class="text-3xl font-bold font-mono tracking-tighter text-on-surface" id="metric-uptime">99.99%</p>
+                            <div class="mt-2 w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
+                                <div class="w-[99%] h-full bg-primary"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hidden lg:block opacity-20 shrink-0">
+                        <span class="material-symbols-outlined text-[64px] text-on-surface" style="font-variation-settings: 'FILL' 1;">monitoring</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <footer id="settings-footer" class="fixed bottom-0 right-0 w-full md:w-[calc(100%-16rem)] p-4 sm:p-6 bg-[var(--color-surface-highest-alpha)] backdrop-blur-md border-t border-outline-variant flex flex-col sm:flex-row justify-end items-center gap-4 sm:gap-6 z-30 transition-all duration-300">
+            <button class="text-on-surface-variant hover:text-on-surface font-inter label-sm:uppercase label-sm:tracking-widest text-[10px] font-bold transition-colors" onclick="if(window.Toast) window.Toast.show('Changes discarded.', 'info')">
+                Discard Changes
+            </button>
+            <button class="w-full sm:w-auto px-10 py-3 bg-primary text-[#09090b] rounded-xl font-black text-sm uppercase tracking-tighter shadow-[0_4px_24px_var(--color-primary-glow)] hover:scale-[1.02] active:scale-[0.98] transition-all" onclick="window.saveSystemChanges(this)">
+                Save System Changes
+            </button>
+        </footer>
+    </div>
 </main>
 
 <template id="tpl-staff-row">
-<tr class="hover:bg-surface-container-highest transition-colors group">
-<td class="py-5 px-6 sm:px-8">
-<div class="flex items-center gap-3">
-<div class="w-9 h-9 rounded-lg bg-surface-container-highest overflow-hidden shrink-0 border border-outline-variant">
-<img alt="{name}" class="w-full h-full object-cover" src="{avatarUrl}"/>
-</div>
-<div class="min-w-0">
-<p class="text-sm font-bold text-on-surface group-hover:text-primary transition-colors truncate">{name}</p>
-<p class="text-[10px] text-on-surface-variant truncate">{email}</p>
-</div>
-</div>
-</td>
-<td class="py-5 px-6 sm:px-8">
-<span class="text-[9px] px-2 py-0.5 border {roleClass} rounded-full font-black tracking-tighter uppercase whitespace-nowrap">{role}</span>
-</td>
-<td class="py-5 px-6 sm:px-8 text-right text-[10px] text-on-surface-variant font-mono whitespace-nowrap staff-activity-time">{activity}</td>
-</tr>
+    <tr class="hover:bg-surface-container-highest transition-colors group">
+        <td class="py-5 px-6 sm:px-8">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-lg bg-surface-container-highest overflow-hidden shrink-0 border border-outline-variant">
+                    <img alt="{name}" class="w-full h-full object-cover" src="{avatarUrl}"/>
+                </div>
+                <div class="min-w-0">
+                    <p class="text-sm font-bold text-on-surface group-hover:text-primary transition-colors truncate">{name}</p>
+                    <p class="text-[10px] text-on-surface-variant truncate">{email}</p>
+                </div>
+            </div>
+        </td>
+        <td class="py-5 px-6 sm:px-8">
+            <span class="text-[9px] px-2 py-0.5 border {roleClass} rounded-full font-black tracking-tighter uppercase whitespace-nowrap">{role}</span>
+        </td>
+        <td class="py-5 px-6 sm:px-8 text-right text-[10px] text-on-surface-variant font-mono whitespace-nowrap staff-activity-time">{activity}</td>
+    </tr>
 </template>
 
 <template id="tpl-invite-modal">
@@ -254,24 +256,38 @@
         if(window.Modal) window.Modal.show('Add New Integration', m, a);
     };
 
-    window.saveIntegration = function() {
+    // OVERHAUL: Integrations Database Sync
+    window.saveIntegration = async function() {
         const nameIn = document.getElementById('new-int-name');
         const keyIn = document.getElementById('new-int-key');
         const name = (nameIn && nameIn.value) ? nameIn.value : 'Custom Webhook';
         const key = (keyIn && keyIn.value) ? keyIn.value : 'sk_live_custom...';
         
-        const cont = document.getElementById('integrations-container');
-        if(cont) {
-            let html = document.getElementById('tpl-integration-item').innerHTML;
-            html = html.replace(/{name}/g, name)
-                       .replace(/{statusClass}/g, 'bg-[var(--color-primary-glow)] text-primary')
-                       .replace(/{statusText}/g, 'Active')
-                       .replace(/{key}/g, key)
-                       .replace(/{placeholder}/g, '');
-            cont.insertAdjacentHTML('beforeend', html);
+        try {
+            const { doc, updateDoc, arrayUnion } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+            const { db } = await import('/js/config/firebase-dev.js');
+            
+            const configRef = doc(db, 'metadata', 'agency_config');
+            await updateDoc(configRef, {
+                integrations: arrayUnion({ name: name, key: key, active: true })
+            });
+
+            const cont = document.getElementById('integrations-container');
+            if(cont) {
+                let html = document.getElementById('tpl-integration-item').innerHTML;
+                html = html.replace(/{name}/g, name)
+                           .replace(/{statusClass}/g, 'bg-[var(--color-primary-glow)] text-primary')
+                           .replace(/{statusText}/g, 'Active')
+                           .replace(/{key}/g, key)
+                           .replace(/{placeholder}/g, '');
+                cont.insertAdjacentHTML('beforeend', html);
+            }
+            if(window.Modal) window.Modal.hide();
+            if(window.Toast) window.Toast.show('Integration credential secured and saved to DB.', 'success');
+        } catch (e) {
+            console.error('Integration Save Error:', e);
+            if(window.Toast) window.Toast.show('Failed to save integration. Check permissions.', 'error');
         }
-        if(window.Modal) window.Modal.hide();
-        if(window.Toast) window.Toast.show('Integration credential secured.', 'success');
     };
 
     window.toggleKeyVisibility = function(btn) {
@@ -286,19 +302,44 @@
         }
     };
 
+    window.saveSystemChanges = async function(btnElement) {
+        const originalText = btnElement.innerHTML;
+        btnElement.innerHTML = '<span class=&quot;material-symbols-outlined animate-spin text-sm&quot;>sync</span> SYNCING...';
+        btnElement.classList.add('opacity-80', 'pointer-events-none');
+
+        try {
+            const { doc, updateDoc } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+            const { db } = await import('/js/config/firebase-dev.js');
+            
+            const configRef = doc(db, 'metadata', 'agency_config');
+            await updateDoc(configRef, {
+                agencyName: document.getElementById('settings-agency-name').value,
+                headquarters: document.getElementById('settings-hq').value,
+                primaryDomain: document.getElementById('settings-domain').value,
+                phone: document.getElementById('settings-phone').value
+            });
+            
+            if(window.Toast) window.Toast.show('System configurations synced securely.', 'success');
+        } catch (e) {
+            console.error('Settings Sync Error:', e);
+            if(window.Toast) window.Toast.show('Failed to sync settings. Check permissions.', 'error');
+        } finally {
+            btnElement.innerHTML = originalText;
+            btnElement.classList.remove('opacity-80', 'pointer-events-none');
+        }
+    };
+
     window.handleSettingsHydration = function(e) {
         const payload = e.detail;
         if(!payload) return;
-
+        
         const role = payload.currentUser?.role || 'Staff';
         const isSuper = role === 'Super Admin' || role === 'Supreme Admin' || role === 'admin';
         const isDev = role === 'Developer';
-
-        // 1. RBAC Visibility Application
+        
         if (!isSuper) {
             const footer = document.getElementById('settings-footer');
             if(footer) footer.remove();
-
             document.querySelectorAll('.rbac-hide-element').forEach(el => el.remove());
             
             document.querySelectorAll('.rbac-input').forEach(input => {
@@ -306,29 +347,26 @@
                 input.classList.add('opacity-70', 'pointer-events-none');
             });
         }
-
-        // 2. Integration Clearance
+        
         if (!isSuper && !isDev) {
             const intgSec = document.getElementById('section-integrations');
             if(intgSec) intgSec.remove();
         }
-
-        // 3. Hydrate Agency Config
+        
         if(payload.agency) {
             const nameEl = document.getElementById('settings-agency-name');
             const hqEl = document.getElementById('settings-hq');
             const domainEl = document.getElementById('settings-domain');
             const phoneEl = document.getElementById('settings-phone');
             const avatarEl = document.getElementById('settings-avatar');
-
+            
             if(nameEl && payload.agency.name) nameEl.value = payload.agency.name;
             if(hqEl && payload.agency.hq) hqEl.value = payload.agency.hq;
             if(domainEl && payload.agency.domain) domainEl.value = payload.agency.domain;
             if(phoneEl && payload.agency.phone) phoneEl.value = payload.agency.phone;
             if(avatarEl && payload.agency.logoUrl) avatarEl.src = payload.agency.logoUrl;
         }
-
-        // 4. Hydrate Integrations (If permitted)
+        
         const intCont = document.getElementById('integrations-container');
         const intTpl = document.getElementById('tpl-integration-item');
         if(intCont && intTpl && payload.integrations && (isSuper || isDev)) {
@@ -343,8 +381,7 @@
                 intCont.innerHTML += html;
             });
         }
-
-        // 5. Hydrate Active Staff Tracker
+        
         const staffCont = document.getElementById('staff-table-container');
         const staffTpl = document.getElementById('tpl-staff-row');
         if(staffCont && staffTpl && payload.staff) {
@@ -365,7 +402,6 @@
     window.removeEventListener('vanguard-settings-sync', window.handleSettingsHydration);
     window.addEventListener('vanguard-settings-sync', window.handleSettingsHydration);
 
-    // --- REAL-TIME TELEMETRY ENGINE ---
     setInterval(() => {
         const apiEl = document.getElementById('metric-api');
         const storeEl = document.getElementById('metric-storage');
@@ -385,7 +421,6 @@
         }
     }, 3000);
 
-    // --- STAFF ACTIVITY HEARTBEAT ---
     setInterval(() => {
         document.querySelectorAll('.staff-activity-time').forEach(el => {
             const txt = el.innerText;

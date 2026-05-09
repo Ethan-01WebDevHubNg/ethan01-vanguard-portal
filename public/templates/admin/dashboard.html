@@ -1,279 +1,195 @@
 <div id="sidebar-mount"></div>
 <main class="ml-0 md:ml-64 min-h-screen transition-all duration-300">
-<div id="header-mount" 
-     data-search-placeholder="SEARCH PROJECTS OR CLIENTS..." 
-     data-search-toast="Searching global index..."
-     data-role-simulator="false">
-</div>
-<div class="pt-24 px-4 sm:px-8 pb-12">
-<div class="mb-10">
-<p class="text-[0.6875rem] text-primary uppercase tracking-[0.2em] font-bold mb-2" id="system-status-indicator">Systems Operational</p>
-<h2 class="text-4xl sm:text-5xl font-black tracking-tighter text-on-surface">Dashboard Overview</h2>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-<div class="bg-surface-container-high p-6 rounded-xl relative overflow-hidden group cursor-pointer hover:bg-surface-container transition-all shadow-[var(--input-shadow)]" onclick="window.location.hash='#/admin/project/view'">
-<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-<span class="material-symbols-outlined text-6xl text-on-surface">account_tree</span>
-</div>
-<p class="text-[0.6875rem] uppercase tracking-widest text-on-surface-variant font-bold mb-1">Active Projects</p>
-<h3 id="stat-projects" class="text-4xl font-bold tracking-tight text-on-surface mb-2">
-    <div class="h-10 w-16 bg-surface-container-highest rounded animate-pulse mt-1"></div>
-</h3>
-<div id="stat-projects-trend" class="flex items-center gap-2 mt-3">
-    <div class="h-4 w-12 bg-surface-container-highest rounded animate-pulse"></div>
-</div>
-</div>
-<div class="bg-surface-container-high p-6 rounded-xl relative overflow-hidden group cursor-pointer hover:bg-surface-container transition-all shadow-[var(--input-shadow)]" onclick="window.location.hash='#/admin/clients'">
-<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-<span class="material-symbols-outlined text-6xl text-on-surface">group</span>
-</div>
-<p class="text-[0.6875rem] uppercase tracking-widest text-on-surface-variant font-bold mb-1">Total Clients</p>
-<h3 id="stat-clients" class="text-4xl font-bold tracking-tight text-on-surface mb-2">
-    <div class="h-10 w-16 bg-surface-container-highest rounded animate-pulse mt-1"></div>
-</h3>
-<div id="stat-clients-trend" class="flex items-center gap-2 mt-3">
-    <div class="h-4 w-12 bg-surface-container-highest rounded animate-pulse"></div>
-</div>
-</div>
-<div id="card-revenue" class="bg-surface-container-high p-6 rounded-xl relative overflow-hidden group transition-all shadow-[var(--input-shadow)]">
-<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-<span class="material-symbols-outlined text-6xl text-on-surface">payments</span>
-</div>
-<p class="text-[0.6875rem] uppercase tracking-widest text-on-surface-variant font-bold mb-1">Monthly Revenue</p>
-<h3 id="stat-revenue" class="text-4xl font-bold tracking-tight text-on-surface mb-2">
-    <div class="h-10 w-32 bg-surface-container-highest rounded animate-pulse mt-1"></div>
-</h3>
-<div id="stat-revenue-trend" class="flex items-center gap-2 mt-3">
-    <div class="h-4 w-12 bg-surface-container-highest rounded animate-pulse"></div>
-</div>
-</div>
-<div id="card-invoices" class="bg-surface-container-high p-6 rounded-xl relative overflow-hidden group transition-all cursor-pointer hover:bg-surface-container shadow-[var(--input-shadow)]" onclick="window.openPendingInvoicesModal()">
-<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-<span class="material-symbols-outlined text-6xl text-on-surface">description</span>
-</div>
-<p class="text-[0.6875rem] uppercase tracking-widest text-on-surface-variant font-bold mb-1">Pending Invoices</p>
-<h3 id="stat-invoices" class="text-4xl font-bold tracking-tight text-on-surface mb-2">
-    <div class="h-10 w-16 bg-surface-container-highest rounded animate-pulse mt-1"></div>
-</h3>
-<div id="stat-invoices-trend" class="flex items-center gap-2 mt-3">
-    <div class="h-4 w-20 bg-surface-container-highest rounded animate-pulse"></div>
-</div>
-</div>
-</div>
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-<div class="lg:col-span-2 space-y-6">
-<div class="flex justify-between items-end mb-6">
-<h4 class="text-lg font-bold text-on-surface tracking-tight">Active Deliverables</h4>
-<a href="#/admin/project/view" class="text-primary text-[0.6875rem] font-bold uppercase tracking-widest hover:underline underline-offset-4">View All Pipeline</a>
-</div>
+    <div id="header-mount" 
+         data-search-placeholder="SEARCH PROJECTS OR CLIENTS..." 
+         data-search-toast="Searching global index..."
+         data-role-simulator="false">
+    </div>
+    
+    <div class="pt-24 px-4 sm:px-8 pb-12">
+        <div class="mb-10">
+            <p class="text-[0.6875rem] text-primary uppercase tracking-[0.2em] font-bold mb-2" id="system-status-indicator">Systems Operational</p>
+            <h2 class="text-4xl sm:text-5xl font-black tracking-tighter text-on-surface">Dashboard Overview</h2>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <div class="bg-surface-container-high p-6 rounded-xl relative overflow-hidden group cursor-pointer hover:bg-surface-container transition-all shadow-[var(--input-shadow)]" onclick="window.location.hash='#/admin/project/view'">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <span class="material-symbols-outlined text-6xl text-on-surface">account_tree</span>
+                </div>
+                <p class="text-[0.6875rem] uppercase tracking-widest text-on-surface-variant font-bold mb-1">Active Projects</p>
+                <h3 id="stat-projects" class="text-4xl font-bold tracking-tight text-on-surface mb-0">
+                    <div class="h-10 w-16 bg-surface-container-highest rounded animate-pulse mt-1"></div>
+                </h3>
+                <div class="mt-3 flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
+                    <span class="material-symbols-outlined text-[12px] text-primary">trending_up</span>
+                    <span id="trend-projects" class="text-primary">-- this month</span>
+                </div>
+            </div>
+            
+            <div class="bg-surface-container-high p-6 rounded-xl relative overflow-hidden group cursor-pointer hover:bg-surface-container transition-all shadow-[var(--input-shadow)]" onclick="window.location.hash='#/admin/clients'">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <span class="material-symbols-outlined text-6xl text-on-surface">group</span>
+                </div>
+                <p class="text-[0.6875rem] uppercase tracking-widest text-on-surface-variant font-bold mb-1">Total Clients</p>
+                <h3 id="stat-clients" class="text-4xl font-bold tracking-tight text-on-surface mb-0">
+                    <div class="h-10 w-16 bg-surface-container-highest rounded animate-pulse mt-1"></div>
+                </h3>
+                <div class="mt-3 flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
+                    <span class="material-symbols-outlined text-[12px] text-primary">trending_up</span>
+                    <span id="trend-clients" class="text-primary">-- this month</span>
+                </div>
+            </div>
+            
+            <div id="card-revenue" class="bg-surface-container-high p-6 rounded-xl relative overflow-hidden group transition-all shadow-[var(--input-shadow)]">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <span class="material-symbols-outlined text-6xl text-on-surface">payments</span>
+                </div>
+                <p class="text-[0.6875rem] uppercase tracking-widest text-on-surface-variant font-bold mb-1">Global Budget Pipeline</p>
+                <h3 id="stat-revenue" class="text-3xl lg:text-4xl font-bold tracking-tight text-on-surface mb-0 break-all">
+                    <div class="h-10 w-32 bg-surface-container-highest rounded animate-pulse mt-1"></div>
+                </h3>
+                <div class="mt-3 flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
+                    <span class="material-symbols-outlined text-[12px] text-primary">account_balance</span>
+                    <span class="text-primary">Secured</span>
+                </div>
+            </div>
+            
+            <div id="card-invoices" class="bg-surface-container-high p-6 rounded-xl relative overflow-hidden group transition-all cursor-pointer hover:bg-surface-container shadow-[var(--input-shadow)]" onclick="window.location.hash='#/admin/project/view'">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <span class="material-symbols-outlined text-6xl text-on-surface">description</span>
+                </div>
+                <p class="text-[0.6875rem] uppercase tracking-widest text-on-surface-variant font-bold mb-1">Pending Invoices</p>
+                <h3 id="stat-invoices" class="text-4xl font-bold tracking-tight text-on-surface mb-0">
+                    <div class="h-10 w-16 bg-surface-container-highest rounded animate-pulse mt-1"></div>
+                </h3>
+                <div class="mt-3 flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
+                    <span class="material-symbols-outlined text-[12px] text-error">warning</span>
+                    <span class="text-error">Awaiting Collection</span>
+                </div>
+            </div>
+        </div>
 
-<div id="deliverables-container" class="space-y-6">
-    <!-- SHIMMERING SKELETON LOADERS -->
-    <div class="bg-surface-container-low p-6 rounded-xl flex items-center justify-between gap-4 animate-pulse border border-outline-variant shadow-sm">
-        <div class="flex items-center gap-6 w-full">
-            <div class="w-16 h-16 rounded-full bg-surface-container-highest shrink-0"></div>
-            <div class="space-y-3 w-1/2">
-                <div class="h-5 bg-surface-container-highest rounded w-3/4"></div>
-                <div class="h-3 bg-surface-container-highest rounded w-1/2"></div>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 space-y-6">
+                <div class="flex justify-between items-end mb-6">
+                    <h4 class="text-lg font-bold text-on-surface tracking-tight">Active Pipeline</h4>
+                    <a href="#/admin/project/view" class="text-primary text-[0.6875rem] font-bold uppercase tracking-widest hover:underline underline-offset-4">View All</a>
+                </div>
+                
+                <div id="deliverables-container" class="space-y-6">
+                    <div class="bg-surface-container-low p-6 rounded-xl flex items-center justify-between gap-4 animate-pulse border border-outline-variant shadow-sm">
+                        <div class="flex items-center gap-6 w-full">
+                            <div class="w-16 h-16 rounded-full bg-surface-container-highest shrink-0"></div>
+                            <div class="space-y-3 w-1/2">
+                                <div class="h-5 bg-surface-container-highest rounded w-3/4"></div>
+                                <div class="h-3 bg-surface-container-highest rounded w-1/2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-surface-container-low rounded-xl p-8 border-[1.5px] border-[var(--input-border)]">
+                <h4 class="text-lg font-bold text-on-surface tracking-tight mb-10">System Activity</h4>
+                <div id="activity-container" class="relative space-y-8">
+                    <div class="absolute left-[7px] top-2 bottom-2 w-px bg-surface-container-highest border-l border-dashed border-[var(--input-border)]"></div>
+                    
+                    <div class="relative pl-8">
+                        <div class="absolute left-0 top-1.5 w-[15px] h-[15px] rounded-full bg-[var(--color-primary-alpha)] border-[3px] border-surface-container"></div>
+                        <div>
+                            <p class="text-[0.6875rem] uppercase tracking-widest text-primary font-bold mb-1">System Live</p>
+                            <h6 class="text-on-surface font-bold text-sm">Vanguard Engine Online</h6>
+                            <p class="text-on-surface-variant text-xs mt-1 leading-relaxed">Telemetry engines connected to eth-db.</p>
+                            <p class="text-[9px] text-on-surface-variant font-mono uppercase tracking-widest mt-2 border-t border-outline-variant pt-2 inline-block">Initiator: <span class="text-primary">System</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 p-8 bg-surface-container-high rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between border-l-4 border-primary gap-6 shadow-sm">
+            <div>
+                <h5 class="text-on-surface font-bold" id="server-status-title">System Status: Online</h5>
+                <p class="text-on-surface-variant text-xs mt-1" id="server-status-desc">Database securely connected.</p>
+            </div>
+            <div class="flex gap-8">
+                <div class="text-center">
+                    <p class="text-on-surface-variant text-[0.6rem] uppercase tracking-tighter">Latency</p>
+                    <p class="text-primary font-bold" id="server-latency">24ms</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-on-surface-variant text-[0.6rem] uppercase tracking-tighter">Uptime</p>
+                    <p class="text-primary font-bold" id="server-uptime">100%</p>
+                </div>
             </div>
         </div>
     </div>
-    <div class="bg-surface-container-low p-6 rounded-xl flex items-center justify-between gap-4 animate-pulse border border-outline-variant shadow-sm">
-        <div class="flex items-center gap-6 w-full">
-            <div class="w-16 h-16 rounded-full bg-surface-container-highest shrink-0"></div>
-            <div class="space-y-3 w-1/2">
-                <div class="h-5 bg-surface-container-highest rounded w-3/4"></div>
-                <div class="h-3 bg-surface-container-highest rounded w-1/2"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-</div>
-<div class="bg-surface-container-low rounded-xl p-8 border-[1.5px] border-[var(--input-border)]">
-<h4 class="text-lg font-bold text-on-surface tracking-tight mb-10">System Activity</h4>
-
-<div id="activity-container" class="relative space-y-8">
-    <div class="absolute left-[7px] top-2 bottom-2 w-px bg-surface-container-highest border-l border-dashed border-[var(--input-border)]"></div>
-    <!-- SHIMMERING SKELETON LOGS -->
-    <div class="relative pl-8 animate-pulse">
-        <div class="absolute left-0 top-1.5 w-[15px] h-[15px] rounded-full bg-surface-container-highest border-[3px] border-surface-container"></div>
-        <div class="space-y-2">
-            <div class="h-3 w-20 bg-surface-container-highest rounded"></div>
-            <div class="h-4 w-3/4 bg-surface-container-highest rounded"></div>
-            <div class="h-3 w-1/2 bg-surface-container-highest rounded"></div>
-        </div>
-    </div>
-    <div class="relative pl-8 animate-pulse">
-        <div class="absolute left-0 top-1.5 w-[15px] h-[15px] rounded-full bg-surface-container-highest border-[3px] border-surface-container"></div>
-        <div class="space-y-2">
-            <div class="h-3 w-20 bg-surface-container-highest rounded"></div>
-            <div class="h-4 w-3/4 bg-surface-container-highest rounded"></div>
-            <div class="h-3 w-1/2 bg-surface-container-highest rounded"></div>
-        </div>
-    </div>
-</div>
-
-<button class="w-full mt-10 py-3 border border-outline-variant rounded-lg text-on-surface-variant text-[0.6875rem] font-bold uppercase tracking-widest hover:text-on-surface hover:border-[var(--color-primary-alpha)] transition-all bg-[var(--color-surface-highest-alpha)]" onclick="window.openFullLogModal()">
-    Load Full Log
-</button>
-</div>
-</div>
-<div class="mt-8 p-8 bg-surface-container-high rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between border-l-4 border-primary gap-6 shadow-sm">
-<div>
-<h5 class="text-on-surface font-bold" id="server-status-title">System Status: Checking...</h5>
-<p class="text-on-surface-variant text-xs mt-1" id="server-status-desc">Awaiting network diagnostics.</p>
-</div>
-<div class="flex gap-8">
-<div class="text-center">
-<p class="text-on-surface-variant text-[0.6rem] uppercase tracking-tighter">Latency</p>
-<p class="text-primary font-bold" id="server-latency">--</p>
-</div>
-<div class="text-center">
-<p class="text-on-surface-variant text-[0.6rem] uppercase tracking-tighter">Uptime</p>
-<p class="text-primary font-bold" id="server-uptime">--</p>
-</div>
-</div>
-</div>
-</div>
 </main>
 
-<template id="tpl-deliverable-card">
-<div class="bg-surface-container-low p-6 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between group hover:bg-surface-container border border-transparent hover:border-[var(--color-primary-alpha-30)] transition-all gap-4 cursor-pointer shadow-[var(--input-shadow)]" onclick="window.location.hash='#/admin/project/view'">
-<div class="flex items-center gap-6">
-<div class="relative w-16 h-16 shrink-0">
-<svg class="w-full h-full transform -rotate-90">
-<circle class="text-surface-container-highest border-[var(--input-border)]" cx="32" cy="32" fill="transparent" r="28" stroke="currentColor" stroke-width="4"></circle>
-<circle class="text-primary progress-ring transition-all duration-[1500ms] ease-out" cx="32" cy="32" fill="transparent" r="28" stroke="currentColor" stroke-dasharray="175.9" stroke-dashoffset="175.9" data-target="{progressTarget}" stroke-width="4"></circle>
-</svg>
-<div class="absolute inset-0 flex items-center justify-center">
-<span class="text-[10px] font-bold text-on-surface">{progressText}</span>
-</div>
-</div>
-<div>
-<h5 class="text-on-surface font-bold text-lg leading-tight group-hover:text-primary transition-colors">{projectName}</h5>
-<p class="text-on-surface-variant text-xs mt-1">Lead Architect: {leadName} • {statusText}</p>
-</div>
-</div>
-</div>
+<template id="tpl-pipeline-card">
+    <div class="bg-surface-container-low p-6 rounded-xl flex flex-col lg:flex-row lg:items-center justify-between group hover:bg-surface-container border border-transparent hover:border-[var(--color-primary-alpha-30)] transition-all gap-6 cursor-pointer shadow-[var(--input-shadow)]" onclick="window.selectAndRouteToProject('{projectId}')">
+        
+        <div class="flex items-center gap-6 flex-1 min-w-0">
+            <div class="relative w-16 h-16 shrink-0">
+                <svg class="w-full h-full transform -rotate-90">
+                    <circle class="text-surface-container-highest border-[var(--input-border)]" cx="32" cy="32" fill="transparent" r="28" stroke="currentColor" stroke-width="4"></circle>
+                    <circle class="text-primary progress-ring transition-all duration-[1500ms] ease-out" cx="32" cy="32" fill="transparent" r="28" stroke="currentColor" stroke-dasharray="175.9" stroke-dashoffset="175.9" data-target="{progressTarget}" stroke-width="4"></circle>
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <span class="text-[10px] font-bold text-on-surface">{progressText}</span>
+                </div>
+            </div>
+            <div class="flex-1 min-w-0 pr-4">
+                <h5 class="text-on-surface font-bold text-lg leading-tight group-hover:text-primary transition-colors truncate">{projectName}</h5>
+                <p class="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold mt-2 truncate">
+                    <span class="{varianceColorClass}">{varianceBadge}</span> &bull; {statusText}
+                </p>
+            </div>
+        </div>
+        
+        <div class="flex flex-col sm:flex-row w-full lg:w-auto lg:border-l border-t lg:border-t-0 border-outline-variant pt-4 lg:pt-0 lg:pl-6 shrink-0 gap-4 sm:gap-8 justify-center">
+            
+            <div class="w-full sm:w-32 flex flex-col justify-center">
+                <div class="flex justify-between items-end mb-1.5">
+                    <p class="text-[9px] uppercase tracking-widest text-on-surface-variant font-bold">Time Elapsed</p>
+                    <p class="text-[10px] font-bold text-on-surface font-mono">{timeElapsed}%</p>
+                </div>
+                <div class="w-full bg-surface-container-highest h-1.5 rounded-full overflow-hidden">
+                    <div class="bg-primary h-full rounded-full transition-all duration-1000" style="width: {timeElapsed}%;"></div>
+                </div>
+            </div>
+
+            <div class="w-full sm:w-32 flex flex-col justify-center">
+                <div class="flex justify-between items-end mb-1.5">
+                    <p class="text-[9px] uppercase tracking-widest text-on-surface-variant font-bold">Budget Burn</p>
+                    <p class="text-[10px] font-bold text-on-surface font-mono">{budgetConsumed}%</p>
+                </div>
+                <div class="w-full bg-surface-container-highest h-1.5 rounded-full overflow-hidden">
+                    <div class="bg-[var(--color-primary-alpha)] h-full rounded-full transition-all duration-1000" style="width: {budgetConsumed}%;"></div>
+                </div>
+            </div>
+            
+            <div class="hidden sm:flex items-center justify-center shrink-0 w-8">
+                <span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors opacity-50 group-hover:opacity-100">arrow_forward</span>
+            </div>
+        </div>
+    </div>
 </template>
 
 <template id="tpl-activity-item">
-<div class="relative pl-8">
-<div class="absolute left-0 top-1.5 w-[15px] h-[15px] rounded-full {dotColor} border-[3px] border-surface-container shadow-[0_0_10px_var(--color-primary-glow)]"></div>
-<div>
-<p class="text-[0.6875rem] uppercase tracking-widest {textColor} font-bold mb-1">{timestamp}</p>
-<h6 class="text-on-surface font-bold text-sm">{logTitle}</h6>
-<p class="text-on-surface-variant text-xs mt-1 leading-relaxed">{logDesc}</p>
-<p class="text-[9px] text-on-surface-variant font-mono uppercase tracking-widest mt-2 border-t border-outline-variant pt-2 inline-block">Initiator: <span class="{initiatorColor}">{initiatorName}</span></p>
-</div>
-</div>
-</template>
-
-<template id="tpl-invoices-modal">
-    <div class="space-y-4" id="modal-invoices-list">
-        <div class="text-center p-6 bg-surface-container-highest rounded-xl">
-            <span class="material-symbols-outlined text-primary text-3xl mb-2 animate-spin">progress_activity</span>
-            <p class="text-xs text-on-surface-variant font-bold uppercase tracking-widest">Compiling Invoices...</p>
+    <div class="relative pl-8 mb-8">
+        <div class="absolute left-0 top-1.5 w-[15px] h-[15px] rounded-full {dotColor} border-[3px] border-surface-container"></div>
+        <div>
+            <p class="text-[0.6875rem] uppercase tracking-widest {textColor} font-bold mb-1">{timestamp}</p>
+            <h6 class="text-on-surface font-bold text-sm">{logTitle}</h6>
+            <p class="text-on-surface-variant text-xs mt-1 leading-relaxed">{logDesc}</p>
+            <p class="text-[9px] text-on-surface-variant font-mono uppercase tracking-widest mt-2 border-t border-outline-variant pt-2 inline-block">Initiator: <span class="{initiatorColor}">{initiatorName}</span></p>
         </div>
     </div>
 </template>
 
-<template id="tpl-invoices-action">
-    <button onclick='if(window.Modal) window.Modal.hide()' class='w-full bg-surface-container-highest text-on-surface px-6 py-3 rounded-lg font-bold text-sm transition-all hover:bg-surface-container'>Close Viewer</button>
-</template>
-
-<template id="tpl-log-modal">
-    <div class='flex items-center justify-between bg-surface-container-highest p-3 rounded-lg mb-6 border border-[var(--input-border)]'>
-        <button class='text-on-surface-variant hover:text-on-surface transition-colors p-1 flex items-center justify-center'><span class='material-symbols-outlined text-lg'>chevron_left</span></button>
-        <button class='flex items-center gap-2 text-xs font-bold text-on-surface hover:text-primary transition-colors'><span class='material-symbols-outlined text-primary text-sm'>calendar_month</span> Today</button>
-        <button class='text-on-surface-variant transition-colors p-1 flex items-center justify-center cursor-not-allowed' disabled><span class='material-symbols-outlined text-lg'>chevron_right</span></button>
-    </div>
-    <div class='space-y-6 relative text-left' id="modal-activity-container">
-        <div class='absolute left-[7px] top-2 bottom-2 w-px bg-surface-container-highest'></div>
-    </div>
-</template>
-
-<template id="tpl-log-action">
-    <button onclick='if(window.Modal) window.Modal.hide()' class='w-full bg-surface-container-highest text-on-surface px-6 py-3 rounded-lg font-bold text-sm transition-all hover:bg-surface-container'>Close Log Explorer</button>
-</template>
-
-<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" style="display:none;" onload="
-    window.openFullLogModal = function() {
-        const m = document.getElementById('tpl-log-modal').innerHTML;
-        const a = document.getElementById('tpl-log-action').innerHTML;
-        if(window.Modal) window.Modal.show('Daily Activity Log', m, a);
-    };
-
-    window.openPendingInvoicesModal = function() {
-        const m = document.getElementById('tpl-invoices-modal').innerHTML;
-        const a = document.getElementById('tpl-invoices-action').innerHTML;
-        if(window.Modal) window.Modal.show('Pending Invoices Overview', m, a);
-        
-        // Simulate DB Fetch for Pending Invoices
-        setTimeout(() => {
-            const list = document.getElementById('modal-invoices-list');
-            if(list) {
-                list.innerHTML = `
-                    <div class='flex items-center justify-between p-4 bg-surface-container-highest rounded-xl border border-[var(--input-border)]'>
-                        <div>
-                            <p class='text-sm font-bold text-on-surface mb-0.5'>Acme Corp Overhaul</p>
-                            <p class='text-[10px] text-on-surface-variant font-mono uppercase tracking-widest'>INV-2026-04A • Due: 2 Days</p>
-                        </div>
-                        <div class='text-right'>
-                            <p class='text-sm font-black text-primary'>₦450,000</p>
-                            <a href='#/admin/project/view' onclick='if(window.Modal) window.Modal.hide()' class='text-[10px] text-on-surface hover:underline font-bold uppercase tracking-widest mt-1 inline-block'>View Project &rarr;</a>
-                        </div>
-                    </div>
-                    <div class='flex items-center justify-between p-4 bg-surface-container-highest rounded-xl border border-[var(--input-border)]'>
-                        <div>
-                            <p class='text-sm font-bold text-on-surface mb-0.5'>King David Academy</p>
-                            <p class='text-[10px] text-error font-mono uppercase tracking-widest'>INV-2026-03B • Overdue</p>
-                        </div>
-                        <div class='text-right'>
-                            <p class='text-sm font-black text-primary'>₦120,500</p>
-                            <a href='#/admin/project/view' onclick='if(window.Modal) window.Modal.hide()' class='text-[10px] text-on-surface hover:underline font-bold uppercase tracking-widest mt-1 inline-block'>View Project &rarr;</a>
-                        </div>
-                    </div>
-                `;
-            }
-        }, 800);
-    };
-
-    window.runNetworkDiagnostics = function() {
-        const title = document.getElementById('server-status-title');
-        const desc = document.getElementById('server-status-desc');
-        const latency = document.getElementById('server-latency');
-        const uptime = document.getElementById('server-uptime');
-        if (!title) return;
-
-        const start = performance.now();
-        fetch(window.location.href, { method: 'HEAD', cache: 'no-store' })
-            .then(() => {
-                const end = performance.now();
-                let ping = Math.round(end - start);
-                if (ping < 5) ping = Math.floor(Math.random() * (20 - 8 + 1) + 8); 
-                latency.innerText = ping + 'ms';
-                uptime.innerText = '99.99%';
-                title.innerText = 'Systems Operational';
-                title.className = 'text-primary font-bold';
-                desc.innerText = 'Connected to Vanguard Mainnet. Latency optimal.';
-            })
-            .catch(() => {
-                title.innerText = 'System Offline';
-                title.className = 'text-error font-bold';
-                desc.innerText = 'Connection to Vanguard Servers lost.';
-                latency.innerText = '--';
-                uptime.innerText = '--';
-            })
-            .finally(() => {
-                setTimeout(window.runNetworkDiagnostics, 45000); // Re-check every 45s
-            });
-    };
-    
-    // Kickstart Diagnostics
-    setTimeout(window.runNetworkDiagnostics, 1000);
-
+<script type="text/plain" id="dash-data-script">
     window.initProgressRings = function() {
         const rings = document.querySelectorAll('.progress-ring');
         if('IntersectionObserver' in window && rings.length > 0) {
@@ -292,116 +208,150 @@
         }
     };
 
-    window.handleDashboardHydration = function(e) {
-        const payload = e.detail;
-        if(!payload) return;
+    window.selectAndRouteToProject = function(id) {
+        if(window.Toast) window.Toast.show('Loading Workspace...', 'info');
+        window.activeProjectId = id;
+        setTimeout(() => { window.location.hash = '#/admin/project/view'; }, 400);
+    };
 
-        const role = payload.currentUser?.role || 'Admin';
-        if(role === 'Admin') {
-            const revCard = document.getElementById('card-revenue');
-            const invCard = document.getElementById('card-invoices');
-            if(revCard) { revCard.style.filter = 'blur(6px)'; revCard.title = 'Restricted'; }
-            if(invCard) { invCard.style.filter = 'blur(6px)'; invCard.title = 'Restricted'; }
-        }
+    // CURRENCY CONVERSION ENGINE
+    window.convertToNaira = function(amount, currency) {
+        if (!amount) return 0;
+        if (currency === '$') return amount * 1500; 
+        if (currency === '£') return amount * 1900; 
+        return amount;
+    };
 
-        const buildTrendBadge = (trendValue, defaultLabel = 'vs last month') => {
-            if (!trendValue || trendValue === 0 || trendValue === '0' || trendValue === '0%') {
-                return `<div class='px-2 py-[2px] rounded flex items-center gap-1 bg-surface-container-highest border border-[var(--color-outline-variant)] text-on-surface-variant'>
-                            <span class='material-symbols-outlined text-[10px]'>horizontal_rule</span>
-                            <span class='text-[0.65rem] font-bold tracking-wider'>0%</span>
-                        </div>
-                        <span class='text-[0.55rem] uppercase tracking-widest text-on-surface-variant font-bold'>${defaultLabel}</span>`;
-            }
-            const isPositive = String(trendValue).includes('+') || parseFloat(trendValue) > 0;
-            const formatted = String(trendValue).includes('%') ? trendValue : (trendValue > 0 ? '+' : '') + trendValue + '%';
+    window.initializeLiveDashboard = async function() {
+        try {
+            const { collection, getDocs, onSnapshot, query, where } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+            const { db } = await import('/js/config/firebase-dev.js');
 
-            if (isPositive) {
-                return `<div class='px-2 py-[2px] rounded flex items-center gap-1 bg-[var(--color-primary-glow)] border border-[var(--color-primary-alpha-30)] text-primary'>
-                            <span class='material-symbols-outlined text-[10px]'>arrow_upward</span>
-                            <span class='text-[0.65rem] font-bold tracking-wider'>${formatted}</span>
-                        </div>
-                        <span class='text-[0.55rem] uppercase tracking-widest text-on-surface-variant font-bold'>${defaultLabel}</span>`;
-            } else {
-                return `<div class='px-2 py-[2px] rounded flex items-center gap-1 bg-error-container border border-[var(--color-error-dim)] text-error'>
-                            <span class='material-symbols-outlined text-[10px]'>arrow_downward</span>
-                            <span class='text-[0.65rem] font-bold tracking-wider'>${formatted}</span>
-                        </div>
-                        <span class='text-[0.55rem] uppercase tracking-widest text-on-surface-variant font-bold'>${defaultLabel}</span>`;
-            }
-        };
+            const thirtyDaysAgo = new Date();
+            thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-        if(payload.stats) {
-            const elProj = document.getElementById('stat-projects');
-            const elCli = document.getElementById('stat-clients');
-            const elRev = document.getElementById('stat-revenue');
-            const elInv = document.getElementById('stat-invoices');
-            const elInvText = document.getElementById('stat-invoices-text');
-            
-            const elProjTrend = document.getElementById('stat-projects-trend');
-            const elCliTrend = document.getElementById('stat-clients-trend');
-            const elRevTrend = document.getElementById('stat-revenue-trend');
-            
-            if(elProj) elProj.innerText = payload.stats.projects || '0';
-            if(elProjTrend && payload.stats.projectsTrend !== undefined) elProjTrend.innerHTML = buildTrendBadge(payload.stats.projectsTrend);
-            
-            if(elCli) elCli.innerText = payload.stats.clients || '0';
-            if(elCliTrend && payload.stats.clientsTrend !== undefined) elCliTrend.innerHTML = buildTrendBadge(payload.stats.clientsTrend);
-            
-            if(elRev && role !== 'Admin') elRev.innerText = payload.stats.revenue || '0.00';
-            if(elRevTrend && role !== 'Admin' && payload.stats.revenueTrend !== undefined) elRevTrend.innerHTML = buildTrendBadge(payload.stats.revenueTrend);
-            
-            if(elInv && role !== 'Admin') {
-                elInv.innerText = payload.stats.invoices || '0';
-                if(elInvText) elInvText.innerText = (payload.stats.invoices || '0') + ' Pending';
-            }
-        }
-
-        const devCont = document.getElementById('deliverables-container');
-        const devTpl = document.getElementById('tpl-deliverable-card');
-        if(devCont && devTpl) {
-            if(payload.deliverables && payload.deliverables.length > 0) {
-                devCont.innerHTML = ''; 
-                payload.deliverables.forEach(item => {
-                    let html = devTpl.innerHTML;
-                    html = html.replace(/{progressTarget}/g, item.target)
-                               .replace(/{progressText}/g, item.progress)
-                               .replace(/{projectName}/g, item.projectName)
-                               .replace(/{leadName}/g, item.leadName)
-                               .replace(/{statusText}/g, item.status)
-                               .replace(/{projectId}/g, item.id);
-                    devCont.innerHTML += html;
+            try {
+                const cSnap = await getDocs(collection(db, 'clients'));
+                document.getElementById('stat-clients').innerHTML = cSnap.size || '0';
+                
+                let recentClients = 0;
+                cSnap.forEach(doc => {
+                    const data = doc.data();
+                    if(data.createdAt && data.createdAt.toDate() > thirtyDaysAgo) recentClients++;
                 });
-                setTimeout(window.initProgressRings, 300);
-            } else {
-                devCont.innerHTML = `
-                <div class='flex flex-col items-center justify-center p-12 bg-surface-container-low rounded-xl border border-dashed border-outline-variant text-center'>
-                    <span class='material-symbols-outlined text-4xl text-on-surface-variant mb-4'>inbox</span>
-                    <h5 class='text-on-surface font-bold text-lg mb-1'>No Active Pipeline</h5>
-                    <p class='text-on-surface-variant text-xs'>No project deliverables available.</p>
-                </div>`;
+                document.getElementById('trend-clients').innerText = `+${recentClients} this month`;
+            } catch(e) {
+                document.getElementById('stat-clients').innerHTML = '0';
             }
-        }
 
-        const logCont = document.getElementById('activity-container');
-        const logTpl = document.getElementById('tpl-activity-item');
-        if(logCont && logTpl && payload.logs) {
-            logCont.innerHTML = '<div class=\'absolute left-[7px] top-2 bottom-2 w-px bg-surface-container-highest border-l border-dashed border-[var(--input-border)]\'></div>';
-            payload.logs.forEach(log => {
-                let html = logTpl.innerHTML;
-                html = html.replace(/{dotColor}/g, log.dotColor)
-                           .replace(/{textColor}/g, log.textColor)
-                           .replace(/{timestamp}/g, log.time)
-                           .replace(/{logTitle}/g, log.title)
-                           .replace(/{logDesc}/g, log.desc)
-                           .replace(/{initiatorColor}/g, log.initiatorColor)
-                           .replace(/{initiatorName}/g, log.initiator);
-                logCont.innerHTML += html;
+            const qProj = query(collection(db, 'projects'), where('status', '!=', 'Archived'));
+            
+            if(window.dashStatsUnsub) window.dashStatsUnsub();
+            window.dashStatsUnsub = onSnapshot(qProj, async (snap) => {
+                document.getElementById('stat-projects').innerHTML = snap.size || '0';
+                
+                let recentProjects = 0;
+                let globalBudget = 0;
+                let globalPendingInvoices = 0;
+                let pipelineHtml = '';
+                const tpl = document.getElementById('tpl-pipeline-card')?.innerHTML || '';
+
+                if (snap.empty) {
+                     document.getElementById('stat-revenue').innerHTML = '₦ 0.00';
+                     document.getElementById('stat-invoices').innerHTML = '0';
+                     document.getElementById('trend-projects').innerText = `+0 this month`;
+                     document.getElementById('deliverables-container').innerHTML = `
+                        <div class='flex flex-col items-center justify-center p-12 bg-surface-container-low rounded-xl border border-dashed border-outline-variant text-center'>
+                            <span class='material-symbols-outlined text-4xl text-on-surface-variant mb-4'>inbox</span>
+                            <h5 class='text-on-surface font-bold text-lg mb-1'>No Active Pipeline</h5>
+                            <p class='text-on-surface-variant text-xs'>Create a workspace to begin tracking.</p>
+                        </div>`;
+                     return;
+                }
+
+                for (const docSnap of snap.docs) {
+                    const proj = docSnap.data();
+                    const pId = docSnap.id;
+                    
+                    if(proj.createdAt && proj.createdAt.toDate() > thirtyDaysAgo) recentProjects++;
+                    
+                    // CONVERT BUDGET TO GLOBAL NAIRA STANDARD
+                    globalBudget += window.convertToNaira(proj.totalBudget, proj.currency);
+
+                    try {
+                        const invSnap = await getDocs(query(collection(db, 'projects', pId, 'invoices'), where('status', '==', 'Pending Payment')));
+                        globalPendingInvoices += invSnap.size;
+                    } catch(e) {}
+
+                    const startDate = proj.createdAt?.toDate() || new Date();
+                    const now = new Date();
+                    const diffDays = Math.max(0, Math.ceil((now - startDate) / (1000 * 60 * 60 * 24)));
+                    const durationDays = proj.durationDays && proj.durationDays > 0 ? proj.durationDays : 1;
+                    const timeElapsedPct = Math.min(100, (diffDays / durationDays) * 100);
+                    
+                    let trueScopePct = 0;
+                    if(proj.phases) {
+                        proj.phases.forEach(p => { if(p.status === 'Approved') trueScopePct += (p.scopePct || 0); });
+                    }
+
+                    const consumed = proj.budgetConsumed || 0;
+                    const total = proj.totalBudget || 0;
+                    const budgetPct = total > 0 ? (consumed / total) * 100 : 0;
+
+                    const variance = trueScopePct - timeElapsedPct;
+                    let varianceBadge = 'ON TRACK';
+                    let varianceColor = 'text-primary';
+                    
+                    if (variance < -5) {
+                        varianceBadge = 'BEHIND SCHEDULE';
+                        varianceColor = 'text-error';
+                    } else if (variance > 5) {
+                        varianceBadge = 'AHEAD OF SCHEDULE';
+                        varianceColor = 'text-primary';
+                    }
+
+                    const validScope = Math.min(100, Math.max(0, trueScopePct));
+                    const targetOffset = 175.9 - ((validScope / 100) * 175.9);
+
+                    pipelineHtml += tpl.replace(/{projectName}/g, proj.projectName || 'Unnamed Project')
+                                       .replace(/{progressTarget}/g, targetOffset)
+                                       .replace(/{progressText}/g, `${validScope.toFixed(0)}%`)
+                                       .replace(/{timeElapsed}/g, timeElapsedPct.toFixed(0))
+                                       .replace(/{budgetConsumed}/g, budgetPct.toFixed(0))
+                                       .replace(/{varianceBadge}/g, varianceBadge)
+                                       .replace(/{varianceColorClass}/g, varianceColor)
+                                       .replace(/{statusText}/g, proj.status || 'Active')
+                                       .replace(/{projectId}/g, pId);
+                }
+
+                document.getElementById('trend-projects').innerText = `+${recentProjects} this month`;
+
+                const userRole = window.currentUserRole;
+                if (userRole === 'Super Admin' || userRole === 'admin' || userRole === 'SuperAdmin') {
+                    document.getElementById('stat-revenue').innerHTML = '₦ ' + globalBudget.toLocaleString('en-US');
+                    document.getElementById('stat-invoices').innerHTML = globalPendingInvoices || '0';
+                } else {
+                    document.getElementById('card-revenue').style.filter = 'blur(6px)';
+                    document.getElementById('card-invoices').style.filter = 'blur(6px)';
+                }
+
+                if (pipelineHtml !== '') {
+                    document.getElementById('deliverables-container').innerHTML = pipelineHtml;
+                    setTimeout(window.initProgressRings, 100);
+                }
             });
+
+        } catch(e) {
+            console.error("Dashboard Init Error", e);
+            ['stat-projects', 'stat-clients', 'stat-invoices'].forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.innerHTML = '0';
+            });
+            const revEl = document.getElementById('stat-revenue');
+            if(revEl) revEl.innerHTML = '₦ 0.00';
         }
     };
 
-    window.removeEventListener('vanguard-dashboard-sync', window.handleDashboardHydration);
-    window.addEventListener('vanguard-dashboard-sync', window.handleDashboardHydration);
-
-    this.remove();
-" />
+    window.initializeLiveDashboard();
+</script>
+<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" style="display:none;" onload="const s=document.createElement('script');s.textContent=document.getElementById('dash-data-script').textContent;document.body.appendChild(s);this.remove();" />

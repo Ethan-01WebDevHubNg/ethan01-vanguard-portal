@@ -1,235 +1,219 @@
 <div id="sidebar-mount"></div>
-<div id="header-mount"
-    data-search-placeholder="SEARCH PROJECT ASSETS..."
+<div id="header-mount" 
+    data-search-placeholder="SEARCH PROJECT ASSETS..." 
     data-search-toast="Searching project database..."
     data-role-simulator="false">
 </div>
 
+<div id="project-context-menu" class="hidden fixed bg-surface-container-highest border border-[var(--input-border)] shadow-[0_8px_30px_rgba(0,0,0,0.6)] rounded-xl py-2 w-48 z-[9999] transition-opacity duration-150 opacity-0 overflow-hidden">
+    <div class="px-3 pb-2 mb-2 border-b border-outline-variant">
+        <p class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Project Actions</p>
+    </div>
+    <button class="w-full text-left px-4 py-2.5 text-xs font-bold text-on-surface hover:bg-surface-container hover:text-primary transition-colors flex items-center gap-3" onclick="window.executeProjectAction('archive')">
+        <span class="material-symbols-outlined text-[16px]">inventory_2</span> Archive Workspace
+    </button>
+    <button class="w-full text-left px-4 py-2.5 text-xs font-bold text-error hover:bg-error-container transition-colors flex items-center gap-3" onclick="window.executeProjectAction('delete')">
+        <span class="material-symbols-outlined text-[16px]">delete_forever</span> Permanently Delete
+    </button>
+</div>
+
 <main class="ml-0 md:ml-64 min-h-screen p-4 sm:p-8 bg-surface transition-all duration-300" style="padding-top: 6rem;">
-<header class="mb-10">
-<div class="flex flex-col lg:flex-row lg:justify-between lg:items-end gap-6 mb-6">
-<div>
-<div class="flex items-center gap-4 mb-2">
-<span class="text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-primary" id="active-project-title">Select a Project</span>
-<span class="px-2 py-0.5 rounded text-[0.6rem] font-black uppercase bg-[var(--color-primary-glow)] text-primary" id="active-phase-badge">Status: Pending</span>
-</div>
-<h1 class="text-4xl sm:text-[3.5rem] font-black tracking-tighter leading-none mb-4 text-on-surface">PROJECT WORKSPACE</h1>
-<p class="text-on-surface-variant max-w-2xl leading-relaxed text-sm sm:text-base">Track project tasks, manage timelines, and upload deliverables for client review.</p>
-</div>
-<div class="flex flex-wrap gap-3">
-<button id="cmd-manage-access-btn" class="bg-surface-container-highest px-6 py-3 rounded-xl text-sm font-bold hover:bg-surface-container text-on-surface transition-colors w-full sm:w-auto opacity-50 pointer-events-none" onclick="window.openManageAccessModal()">Manage Access</button>
-<button class="bg-primary text-[#09090b] px-6 py-3 rounded-xl text-sm font-black hover:bg-primary-container transition-all w-full sm:w-auto shadow-[0_4px_15px_var(--color-primary-glow)]" onclick="window.exportStatusReportPDF()">Export Status Report</button>
-</div>
-</div>
-
-<div class="flex gap-4 sm:gap-8 border-b border-outline-variant overflow-x-auto overflow-y-hidden no-scrollbar relative" id="cmd-tabs">
-<div id="tab-slide-indicator" class="absolute bottom-[-1px] h-[2px] bg-primary transition-all duration-300 ease-out w-0 left-0"></div>
-
-<button id="tab-btn-projects" onclick="window.switchCmdTab('tab-projects', this)" class="cmd-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-primary whitespace-nowrap outline-none">Projects</button>
-<button id="tab-btn-overview" onclick="window.switchCmdTab('tab-overview', this)" class="cmd-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap opacity-50 pointer-events-none outline-none">Overview</button>
-<button id="tab-btn-tracker" onclick="window.switchCmdTab('tab-tracker', this)" class="cmd-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap opacity-50 pointer-events-none outline-none">Task Board</button>
-<button id="tab-btn-deliverables" onclick="window.switchCmdTab('tab-deliverables', this)" class="cmd-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap opacity-50 pointer-events-none outline-none">Deliverables</button>
-<button id="tab-btn-invoices" onclick="window.switchCmdTab('tab-invoices', this)" class="cmd-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap opacity-50 pointer-events-none outline-none">Invoices</button>
-</div>
-</header>
-
-<section id="tab-projects" class="cmd-tab-content animate-in fade-in duration-300">
-    <div class="flex justify-between items-center mb-6">
-        <h3 class="text-lg font-bold text-on-surface tracking-tight">Active Commissioned Projects</h3>
-        <button class="bg-surface-container-highest hover:bg-surface-container text-on-surface px-4 py-2 rounded-lg text-xs font-bold transition-colors flex items-center gap-2 border border-outline-variant" onclick="window.location.hash='#/admin/project/new'">
-            <span class="material-symbols-outlined text-[16px]">add</span> New Project
-        </button>
-    </div>
-    
-    <div id="cmd-projects-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- SHIMMERING SKELETON BENTO CARDS -->
-        <div class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant animate-pulse shadow-[var(--card-shadow)] h-48">
-            <div class="flex justify-between items-start mb-4">
-                <div class="w-12 h-12 rounded-xl bg-surface-container-highest"></div>
-                <div class="w-12 h-5 rounded bg-surface-container-highest"></div>
-            </div>
-            <div class="h-5 bg-surface-container-highest rounded w-3/4 mb-3"></div>
-            <div class="h-3 bg-surface-container-highest rounded w-full mb-1"></div>
-            <div class="h-3 bg-surface-container-highest rounded w-2/3 mb-6"></div>
-            <div class="pt-4 border-t border-outline-variant">
-            </div>
-        </div>
-        <div class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant animate-pulse shadow-[var(--card-shadow)] h-48">
-            <div class="flex justify-between items-start mb-4">
-                <div class="w-12 h-12 rounded-xl bg-surface-container-highest"></div>
-                <div class="w-12 h-5 rounded bg-surface-container-highest"></div>
-            </div>
-            <div class="h-5 bg-surface-container-highest rounded w-3/4 mb-3"></div>
-            <div class="h-3 bg-surface-container-highest rounded w-full mb-1"></div>
-            <div class="h-3 bg-surface-container-highest rounded w-2/3 mb-6"></div>
-            <div class="pt-4 border-t border-outline-variant">
-            </div>
-        </div>
-    </div>
-</section>
-
-<section id="tab-overview" class="cmd-tab-content hidden animate-in fade-in duration-300">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-        <div class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant relative overflow-hidden shadow-[var(--card-shadow)]">
-            <div class="absolute top-0 right-0 p-6 opacity-10"><span class="material-symbols-outlined text-6xl text-on-surface">monitoring</span></div>
-            <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-4">Project Health</h3>
-            <div class="flex items-end gap-4">
-                <span id="cmd-health-pct" class="text-5xl font-black text-on-surface"><div class="h-12 w-20 bg-surface-container-highest rounded animate-pulse"></div></span>
-                <span id="cmd-health-status" class="text-primary font-bold mb-1 bg-[var(--color-primary-glow)] px-2 py-0.5 rounded text-[10px] uppercase">--</span>
-            </div>
-            <div class="w-full bg-surface-container-highest h-2 rounded-full mt-6">
-                <div id="cmd-health-bar" class="bg-primary h-full rounded-full w-0 transition-all duration-1000"></div>
-            </div>
-        </div>
-        <div class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant relative overflow-hidden shadow-[var(--card-shadow)]">
-            <div class="absolute top-0 right-0 p-6 opacity-10"><span class="material-symbols-outlined text-6xl text-on-surface">schedule</span></div>
-            <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-4">Time Elapsed</h3>
-            <div class="flex items-end gap-4">
-                <span id="cmd-time-elapsed" class="text-5xl font-black text-on-surface"><div class="h-12 w-16 bg-surface-container-highest rounded animate-pulse"></div></span>
-                <span class="text-on-surface-variant font-bold mb-1 text-sm uppercase">Days</span>
-            </div>
-            <p id="cmd-time-est" class="text-xs text-on-surface-variant mt-6">Est. completion in -- days.</p>
-        </div>
-        <div class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant relative overflow-hidden shadow-[var(--card-shadow)]">
-            <div class="absolute top-0 right-0 p-6 opacity-10"><span class="material-symbols-outlined text-6xl text-on-surface">account_balance_wallet</span></div>
-            <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-4">Budget Consumed</h3>
-            <div class="flex items-end gap-4">
-                <span id="cmd-budget-consumed" class="text-5xl font-black text-on-surface"><div class="h-12 w-32 bg-surface-container-highest rounded animate-pulse"></div></span>
-                <span id="cmd-budget-total" class="text-on-surface-variant font-bold mb-1 text-sm uppercase">/ $--</span>
-            </div>
-            <div class="w-full bg-surface-container-highest h-2 rounded-full mt-6">
-                <div id="cmd-budget-bar" class="bg-[var(--color-primary-alpha)] h-full rounded-full w-0 transition-all duration-1000"></div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="bg-surface-container-low p-6 sm:p-8 rounded-2xl border border-outline-variant shadow-[var(--card-shadow)]">
-        <h3 class="text-lg font-bold text-on-surface mb-6 tracking-tight">Recent Activity Log</h3>
-        <div id="cmd-activity-container" class="space-y-6">
-            <!-- SHIMMERING SKELETON LOGS -->
-            <div class="relative pl-8 animate-pulse">
-                <div class="absolute left-0 top-1.5 w-[15px] h-[15px] rounded-full bg-surface-container-highest border-[3px] border-surface-container"></div>
-                <div class="space-y-2">
-                    <div class="h-3 w-20 bg-surface-container-highest rounded"></div>
-                    <div class="h-4 w-3/4 bg-surface-container-highest rounded"></div>
-                    <div class="h-3 w-1/2 bg-surface-container-highest rounded"></div>
+    <header class="mb-10">
+        <div class="flex flex-col lg:flex-row lg:justify-between lg:items-end gap-6 mb-6">
+            <div>
+                <div class="flex items-center gap-4 mb-2">
+                    <span class="text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-primary" id="active-project-title">Select a Project</span>
+                    <span class="px-2 py-0.5 rounded text-[0.6rem] font-black uppercase bg-[var(--color-primary-glow)] text-primary" id="active-phase-badge">Status: Pending</span>
                 </div>
+                <h1 class="text-4xl sm:text-[3.5rem] font-black tracking-tighter leading-none mb-4 text-on-surface">PROJECT WORKSPACE</h1>
+                <p class="text-on-surface-variant max-w-2xl leading-relaxed text-sm sm:text-base">Track project tasks, manage timelines, and upload deliverables for client review.</p>
             </div>
-            <div class="relative pl-8 animate-pulse">
-                <div class="absolute left-0 top-1.5 w-[15px] h-[15px] rounded-full bg-surface-container-highest border-[3px] border-surface-container"></div>
-                <div class="space-y-2">
-                    <div class="h-3 w-20 bg-surface-container-highest rounded"></div>
-                    <div class="h-4 w-3/4 bg-surface-container-highest rounded"></div>
-                    <div class="h-3 w-1/2 bg-surface-container-highest rounded"></div>
-                </div>
+            <div class="flex flex-wrap gap-3">
+                <button id="cmd-manage-access-btn" class="bg-surface-container-highest px-6 py-3 rounded-xl text-sm font-bold hover:bg-surface-container text-on-surface transition-colors w-full sm:w-auto opacity-50 pointer-events-none" onclick="window.openManageAccessModal()">Manage Access</button>
+                <button class="bg-primary text-[#09090b] px-6 py-3 rounded-xl text-sm font-black hover:bg-primary-container transition-all w-full sm:w-auto shadow-[0_4px_15px_var(--color-primary-glow)]" onclick="window.exportStatusReportPDF()">Export Status Report</button>
             </div>
         </div>
-    </div>
-</section>
 
-<section id="tab-tracker" class="cmd-tab-content hidden animate-in fade-in duration-300">
-<div class="flex flex-col lg:grid lg:grid-cols-3 gap-8 mb-16 h-full lg:min-h-[600px]">
-    <div class="flex flex-col gap-4">
-        <div class="flex justify-between items-center px-2">
-            <h3 class="text-sm font-bold text-on-surface">To Do <span id="count-todo" class="ml-2 text-on-surface-variant font-normal text-xs">(0)</span></h3>
-        </div>
-        <div class="bg-surface-container-low p-4 rounded-3xl flex flex-col gap-4 flex-1 border border-outline-variant shadow-[var(--card-shadow)]">
-            <div id="todo-container" class="flex flex-col gap-4 min-h-[50px]"></div>
+        <div class="flex gap-4 sm:gap-8 border-b border-outline-variant overflow-x-auto overflow-y-hidden no-scrollbar relative" id="cmd-tabs">
+            <div id="tab-slide-indicator" class="absolute bottom-[-1px] h-[2px] bg-primary transition-all duration-300 ease-out w-0 left-0"></div>
             
-            <button class="border border-dashed border-outline-variant py-4 rounded-xl flex items-center justify-center gap-2 text-on-surface-variant hover:text-on-surface hover:bg-[var(--color-surface-highest-alpha)] transition-all" onclick="window.openAddTaskModal()">
-                <span class="material-symbols-outlined text-sm">add</span>
-                <span class="text-xs font-bold uppercase tracking-widest">Add Task</span>
+            <button id="tab-btn-projects" onclick="window.switchCmdTab('tab-projects', this)" class="cmd-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-primary whitespace-nowrap outline-none">Projects</button>
+            <button id="tab-btn-overview" onclick="window.switchCmdTab('tab-overview', this)" class="cmd-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap opacity-50 pointer-events-none outline-none">Overview</button>
+            <button id="tab-btn-tracker" onclick="window.switchCmdTab('tab-tracker', this)" class="cmd-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap opacity-50 pointer-events-none outline-none">Task Board</button>
+            <button id="tab-btn-deliverables" onclick="window.switchCmdTab('tab-deliverables', this)" class="cmd-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap opacity-50 pointer-events-none outline-none">Deliverables</button>
+            <button id="tab-btn-invoices" onclick="window.switchCmdTab('tab-invoices', this)" class="cmd-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap opacity-50 pointer-events-none outline-none">Invoices</button>
+        </div>
+    </header>
+
+    <section id="tab-projects" class="cmd-tab-content animate-in fade-in duration-300">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-lg font-bold text-on-surface tracking-tight">Active Commissioned Projects</h3>
+            <button class="bg-surface-container-highest hover:bg-surface-container text-on-surface px-4 py-2 rounded-lg text-xs font-bold transition-colors flex items-center gap-2 border border-outline-variant" onclick="window.location.hash='#/admin/project/new'">
+                <span class="material-symbols-outlined text-[16px]">add</span> New Project
             </button>
         </div>
-    </div>
-    
-    <div class="flex flex-col gap-4">
-        <div class="flex justify-between items-center px-2">
-            <h3 class="text-sm font-bold text-primary">In Progress <span id="count-inprogress" class="ml-2 opacity-50 text-primary font-normal text-xs">(0)</span></h3>
+        
+        <div id="cmd-projects-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            <div class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant animate-pulse shadow-[var(--card-shadow)] h-48 w-full flex items-center justify-center">
+                <span class="material-symbols-outlined animate-spin text-primary text-3xl">sync</span>
+            </div>
         </div>
-        <div class="bg-surface-container-low p-4 rounded-3xl flex flex-col gap-4 flex-1 border border-outline-variant shadow-[var(--card-shadow)]">
-            <div id="in-progress-container" class="flex flex-col gap-4 min-h-[50px]"></div>
-        </div>
-    </div>
-    
-    <div class="flex flex-col gap-4">
-        <div class="flex justify-between items-center px-2">
-            <h3 class="text-sm font-bold text-on-surface">Under Review <span id="count-review" class="ml-2 text-on-surface-variant font-normal text-xs">(0)</span></h3>
-        </div>
-        <div class="bg-surface-container-low p-4 rounded-3xl flex flex-col gap-4 flex-1 border border-outline-variant shadow-[var(--card-shadow)]">
-            <div id="review-container" class="flex flex-col gap-4 min-h-[50px]"></div>
-        </div>
-    </div>
-</div>
-</section>
 
-<section id="tab-deliverables" class="cmd-tab-content hidden animate-in fade-in duration-300">
-    <div class="flex justify-between items-center mb-6">
-        <h3 class="text-lg font-bold text-on-surface tracking-tight">Project Assets & Deliverables</h3>
-        <button class="bg-surface-container-highest hover:bg-surface-container text-on-surface px-4 py-2 rounded-lg text-xs font-bold transition-colors flex items-center gap-2 border border-outline-variant" onclick="window.openUploadAssetModal()">
-            <span class="material-symbols-outlined text-[16px]">upload</span> Upload Asset
-        </button>
-    </div>
-    <div class="bg-surface-container-low rounded-xl overflow-x-auto border border-outline-variant shadow-sm">
-        <table class="w-full text-left border-collapse min-w-[600px]">
-            <thead>
-                <tr class="border-b border-outline-variant bg-[var(--color-surface-highest-alpha)]">
-                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant">File Name</th>
-                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant">Uploaded By</th>
-                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant">Visibility</th>
-                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant text-right">Actions</th>
-                </tr>
-            </thead>
-            <tbody id="cmd-deliverables-container" class="divide-y divide-outline-variant">
+        <div class="mb-6 border-t border-outline-variant pt-8">
+            <h3 class="text-sm font-bold text-on-surface-variant tracking-widest uppercase mb-6 flex items-center gap-2">
+                <span class="material-symbols-outlined text-[18px]">inventory_2</span> Archived Workspaces
+            </h3>
+        </div>
+        <div id="cmd-archived-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 opacity-60 hover:opacity-100 transition-opacity">
+        </div>
+    </section>
+
+    <section id="tab-overview" class="cmd-tab-content hidden animate-in fade-in duration-300">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <div class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant relative overflow-hidden shadow-[var(--card-shadow)]">
+                <div class="absolute top-0 right-0 p-6 opacity-10"><span class="material-symbols-outlined text-6xl text-on-surface">monitoring</span></div>
+                <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-4">True Scope Complete</h3>
+                <div class="flex items-end gap-4">
+                    <span id="cmd-health-pct" class="text-5xl font-black text-on-surface"><div class="h-12 w-20 bg-surface-container-highest rounded animate-pulse"></div></span>
+                    <span id="cmd-health-status" class="font-bold mb-1 px-2 py-0.5 rounded text-[10px] uppercase bg-surface-container-highest text-on-surface-variant">--</span>
+                </div>
+                <div class="w-full bg-surface-container-highest h-2 rounded-full mt-6">
+                    <div id="cmd-health-bar" class="bg-primary h-full rounded-full w-0 transition-all duration-1000"></div>
+                </div>
+            </div>
+            
+            <div class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant relative overflow-hidden shadow-[var(--card-shadow)]">
+                <div class="absolute top-0 right-0 p-6 opacity-10"><span class="material-symbols-outlined text-6xl text-on-surface">schedule</span></div>
+                <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-4">Time Elapsed</h3>
+                <div class="flex items-end gap-4">
+                    <span id="cmd-time-elapsed" class="text-5xl font-black text-on-surface"><div class="h-12 w-16 bg-surface-container-highest rounded animate-pulse"></div></span>
+                    <span class="text-on-surface-variant font-bold mb-1 text-sm uppercase">Days</span>
+                </div>
+                <p id="cmd-time-est" class="text-xs text-on-surface-variant mt-6">Est. completion in -- days.</p>
+            </div>
+            
+            <div class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant relative overflow-hidden shadow-[var(--card-shadow)]">
+                <div class="absolute top-0 right-0 p-6 opacity-10"><span class="material-symbols-outlined text-6xl text-on-surface">account_balance_wallet</span></div>
+                <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-4">Budget Consumed</h3>
+                <div class="flex items-end gap-4">
+                    <span id="cmd-budget-consumed" class="text-5xl font-black text-on-surface"><div class="h-12 w-32 bg-surface-container-highest rounded animate-pulse"></div></span>
+                    <span id="cmd-budget-total" class="text-on-surface-variant font-bold mb-1 text-sm uppercase">/ --</span>
+                </div>
+                <div class="w-full bg-surface-container-highest h-2 rounded-full mt-6">
+                    <div id="cmd-budget-bar" class="bg-[var(--color-primary-alpha)] h-full rounded-full w-0 transition-all duration-1000"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-surface-container-low p-6 sm:p-8 rounded-2xl border border-outline-variant shadow-[var(--card-shadow)] mb-8">
+            <h3 class="text-lg font-bold text-on-surface mb-2 tracking-tight">Project QA Milestones</h3>
+            <p class="text-xs text-on-surface-variant mb-6">Phases must be submitted for review after client sign-off. Only a Super Admin can finalize phase approval to trigger system progression.</p>
+            <div id="cmd-qa-checklist-container" class="space-y-3">
+                <div class="flex items-center gap-3 p-4 bg-surface-container-highest rounded-xl animate-pulse">
+                    <div class="h-4 w-4 rounded bg-outline-variant"></div><div class="h-4 w-1/3 bg-outline-variant rounded"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tab-tracker" class="cmd-tab-content hidden animate-in fade-in duration-300">
+        <div class="flex flex-col lg:grid lg:grid-cols-3 gap-8 mb-16 h-full lg:min-h-[600px]">
+            <div class="flex flex-col gap-4">
+                <div class="flex justify-between items-center px-2">
+                    <h3 class="text-sm font-bold text-on-surface">To Do <span id="count-todo" class="ml-2 text-on-surface-variant font-normal text-xs">(0)</span></h3>
+                </div>
+                <div class="bg-surface-container-low p-4 rounded-3xl flex flex-col gap-4 flex-1 border border-outline-variant shadow-[var(--card-shadow)]">
+                    <div id="todo-container" class="flex flex-col gap-4 min-h-[50px]"></div>
+                </div>
+            </div>
+            
+            <div class="flex flex-col gap-4">
+                <div class="flex justify-between items-center px-2">
+                    <h3 class="text-sm font-bold text-primary">In Progress <span id="count-inprogress" class="ml-2 opacity-50 text-primary font-normal text-xs">(0)</span></h3>
+                </div>
+                <div class="bg-surface-container-low p-4 rounded-3xl flex flex-col gap-4 flex-1 border border-outline-variant shadow-[var(--card-shadow)]">
+                    <div id="in-progress-container" class="flex flex-col gap-4 min-h-[50px]"></div>
+                </div>
+            </div>
+            
+            <div class="flex flex-col gap-4">
+                <div class="flex justify-between items-center px-2">
+                    <h3 class="text-sm font-bold text-on-surface">Under Review <span id="count-review" class="ml-2 text-on-surface-variant font-normal text-xs">(0)</span></h3>
+                </div>
+                <div class="bg-surface-container-low p-4 rounded-3xl flex flex-col gap-4 flex-1 border border-outline-variant shadow-[var(--card-shadow)]">
+                    <div id="review-container" class="flex flex-col gap-4 min-h-[50px]"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tab-deliverables" class="cmd-tab-content hidden animate-in fade-in duration-300">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-lg font-bold text-on-surface tracking-tight">Project Assets & Deliverables</h3>
+            <button class="bg-surface-container-highest hover:bg-surface-container text-on-surface px-4 py-2 rounded-lg text-xs font-bold transition-colors flex items-center gap-2 border border-outline-variant" onclick="window.openUploadAssetModal()">
+                <span class="material-symbols-outlined text-[16px]">upload</span> Upload Asset
+            </button>
+        </div>
+        <div class="bg-surface-container-low rounded-xl overflow-x-auto border border-outline-variant shadow-sm">
+            <table class="w-full text-left border-collapse min-w-[600px]">
+                <thead>
+                    <tr class="border-b border-outline-variant bg-[var(--color-surface-highest-alpha)]">
+                        <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant">File Name</th>
+                        <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant">Uploaded By</th>
+                        <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant">Visibility</th>
+                        <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="cmd-deliverables-container" class="divide-y divide-outline-variant">
+                    <tr><td colspan="4" class="px-6 py-8 text-center text-on-surface-variant">Loading deliverables...</td></tr>
                 </tbody>
-        </table>
-    </div>
-</section>
+            </table>
+        </div>
+    </section>
 
-<section id="tab-invoices" class="cmd-tab-content hidden animate-in fade-in duration-300">
-    <div class="flex justify-between items-center mb-6">
-        <h3 class="text-lg font-bold text-on-surface tracking-tight">Billing & Invoices</h3>
-        <button class="bg-primary hover:bg-primary-container text-[#09090b] px-4 py-2 rounded-lg text-xs font-bold transition-colors flex items-center gap-2 shadow-[0_4px_15px_var(--color-primary-glow)]" onclick="window.openInvoiceModal()">
-            <span class="material-symbols-outlined text-[16px]">add</span> Generate Invoice
-        </button>
-    </div>
-    
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant shadow-[var(--card-shadow)] flex flex-col justify-center min-w-0">
-            <h4 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-2 shrink-0">Total Billed</h4>
-            <p id="cmd-inv-total" class="text-2xl lg:text-3xl font-black text-on-surface break-all whitespace-normal" style="overflow-wrap: anywhere;">$--</p>
+    <section id="tab-invoices" class="cmd-tab-content hidden animate-in fade-in duration-300">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-lg font-bold text-on-surface tracking-tight">Billing & Invoices</h3>
+            <button class="bg-primary hover:bg-primary-container text-[#09090b] px-4 py-2 rounded-lg text-xs font-bold transition-colors flex items-center gap-2 shadow-[0_4px_15px_var(--color-primary-glow)]" onclick="window.openInvoiceModal()">
+                <span class="material-symbols-outlined text-[16px]">add</span> Generate Invoice
+            </button>
         </div>
-        <div class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant shadow-[var(--card-shadow)] flex flex-col justify-center min-w-0">
-            <h4 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-2 shrink-0">Collected</h4>
-            <p id="cmd-inv-collected" class="text-2xl lg:text-3xl font-black text-primary break-all whitespace-normal" style="overflow-wrap: anywhere;">$--</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant shadow-[var(--card-shadow)] flex flex-col justify-center min-w-0">
+                <h4 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-2 shrink-0">Total Billed</h4>
+                <p id="cmd-inv-total" class="text-2xl lg:text-3xl font-black text-on-surface break-all whitespace-normal" style="overflow-wrap: anywhere;">₦ 0.00</p>
+            </div>
+            <div class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant shadow-[var(--card-shadow)] flex flex-col justify-center min-w-0">
+                <h4 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-2 shrink-0">Collected</h4>
+                <p id="cmd-inv-collected" class="text-2xl lg:text-3xl font-black text-primary break-all whitespace-normal" style="overflow-wrap: anywhere;">₦ 0.00</p>
+            </div>
+            <div class="bg-surface-container-low p-6 rounded-2xl border border-[var(--color-error-dim)] bg-[var(--color-error-container)] relative flex flex-col justify-center min-w-0 shadow-[var(--card-shadow)]">
+                <h4 class="text-xs font-bold text-error uppercase tracking-widest mb-2 shrink-0">Outstanding</h4>
+                <p id="cmd-inv-outstanding" class="text-2xl lg:text-3xl font-black text-on-surface break-all whitespace-normal" style="overflow-wrap: anywhere;">₦ 0.00</p>
+            </div>
         </div>
-        <div class="bg-surface-container-low p-6 rounded-2xl border border-[var(--color-error-dim)] bg-[var(--color-error-container)] relative flex flex-col justify-center min-w-0 shadow-[var(--card-shadow)]">
-            <h4 class="text-xs font-bold text-error uppercase tracking-widest mb-2 shrink-0">Outstanding</h4>
-            <p id="cmd-inv-outstanding" class="text-2xl lg:text-3xl font-black text-on-surface break-all whitespace-normal" style="overflow-wrap: anywhere;">$--</p>
-        </div>
-    </div>
-
-    <div class="bg-surface-container-low rounded-xl overflow-x-auto border border-outline-variant shadow-sm">
-        <table class="w-full text-left border-collapse min-w-[600px]">
-            <thead>
-                <tr class="border-b border-outline-variant bg-[var(--color-surface-highest-alpha)]">
-                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant">Invoice ID</th>
-                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant">Issue Date</th>
-                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant">Amount</th>
-                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant">Status</th>
-                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant text-right">Actions</th>
-                </tr>
-            </thead>
-            <tbody id="cmd-invoices-container" class="divide-y divide-outline-variant">
+        <div class="bg-surface-container-low rounded-xl overflow-x-auto border border-outline-variant shadow-sm">
+            <table class="w-full text-left border-collapse min-w-[600px]">
+                <thead>
+                    <tr class="border-b border-outline-variant bg-[var(--color-surface-highest-alpha)]">
+                        <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant">Invoice ID</th>
+                        <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant">Issue Date</th>
+                        <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant">Amount</th>
+                        <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant">Status</th>
+                        <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="cmd-invoices-container" class="divide-y divide-outline-variant">
+                    <tr><td colspan="5" class="px-6 py-8 text-center text-on-surface-variant">Loading financial data...</td></tr>
                 </tbody>
-        </table>
-    </div>
-</section>
-
+            </table>
+        </div>
+    </section>
 </main>
 
 <template id="tpl-cmd-project-card">
-    <div class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant hover:border-[var(--color-primary-alpha-30)] transition-all cursor-pointer group shadow-[var(--card-shadow)]" onclick="window.selectProject('{id}', '{titleEscaped}', '{statusBadge}')">
+    <div class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant hover:border-[var(--color-primary-alpha-30)] transition-all cursor-pointer group shadow-[var(--card-shadow)]" onclick="window.selectProject('{id}', '{titleEscaped}', '{statusBadge}')" oncontextmenu="window.handleProjectContextMenu(event, '{id}')">
         <div class="flex justify-between items-start mb-4">
             <div class="w-12 h-12 rounded-xl {bgGradient} flex items-center justify-center border border-outline-variant">
                 <img class="w-8 h-8 object-cover rounded" src="{logoUrl}"/>
@@ -239,41 +223,31 @@
         <h4 class="text-lg font-bold text-on-surface mb-1 group-hover:text-primary transition-colors">{title}</h4>
         <p class="text-xs text-on-surface-variant mb-6">{description}</p>
         <div class="flex justify-between items-center pt-4 border-t border-outline-variant">
-            <div class="flex -space-x-2" id="cmd-proj-avatars-{id}">
-                </div>
-            <span class="text-[10px] uppercase font-bold tracking-widest text-on-surface-variant group-hover:text-on-surface transition-colors">Open Workspace →</span>
-        </div>
-    </div>
-</template>
-
-<template id="tpl-cmd-activity">
-    <div class="flex gap-4">
-        <div class="w-10 h-10 rounded-full {iconBgClass} {iconColorClass} flex items-center justify-center shrink-0 border {iconBorderClass}">
-            <span class="material-symbols-outlined text-sm">{icon}</span>
-        </div>
-        <div>
-            <p class="text-sm text-on-surface font-bold">{title}</p>
-            <p class="text-xs text-on-surface-variant mt-1">{description}</p>
-            <p class="text-[10px] text-on-surface-variant mt-2 font-mono">{timeAgo}</p>
+            <div class="flex -space-x-2" id="cmd-proj-avatars-{id}"></div>
+            <span class="text-[10px] uppercase font-bold tracking-widest text-on-surface-variant group-hover:text-on-surface transition-colors">Open Workspace  </span>
         </div>
     </div>
 </template>
 
 <template id="tpl-cmd-task-todo">
-    <div class="bg-surface-container-high p-5 rounded-xl border border-transparent hover:border-outline-variant transition-all cursor-grab shadow-sm">
+    <div class="bg-surface-container-high p-5 rounded-xl border border-transparent hover:border-outline-variant transition-all cursor-pointer shadow-sm group" onclick="window.openTaskModal('{taskId}')">
         <div class="flex justify-between items-start mb-3">
             <span class="px-2 py-1 bg-surface-container-highest text-on-surface-variant text-[10px] font-bold rounded uppercase tracking-wider">{phase}</span>
+            <span class="text-[10px] text-primary font-mono bg-[var(--color-primary-alpha-30)] px-1.5 rounded">{weightPct}%</span>
         </div>
-        <h4 class="text-sm font-bold text-on-surface mb-2 leading-tight">{title}</h4>
+        <h4 class="text-sm font-bold text-on-surface mb-2 leading-tight group-hover:text-primary transition-colors">{title}</h4>
         <div class="flex justify-between items-center mt-4">
             <img class="w-6 h-6 rounded-full border-2 border-surface-container-high" src="{assigneeUrl}"/>
             <div class="text-[10px] font-bold text-on-surface-variant uppercase flex items-center gap-1">
                 <span class="material-symbols-outlined text-xs">event</span> {dueDate}
             </div>
         </div>
+        <div class="mt-3 space-y-2 empty:hidden pointer-events-none">
+            {subtasksHtml}
+        </div>
         <div class="mt-4 pt-3 border-t border-outline-variant flex justify-end">
-            <button class="text-[10px] uppercase font-bold text-on-surface-variant hover:text-primary flex items-center gap-1 transition-colors" onclick="window.openAddBranchModal()">
-                <span class="material-symbols-outlined text-sm">fork_right</span> Add Sub-task Branch
+            <button class="text-[10px] uppercase font-bold text-on-surface-variant hover:text-primary flex items-center gap-1 transition-colors" onclick="event.stopPropagation(); window.openAddBranchModal('{taskId}')">
+                <span class="material-symbols-outlined text-sm">fork_right</span> Add Sub-task
             </button>
         </div>
     </div>
@@ -293,25 +267,117 @@
         <td class="px-6 py-4 text-xs text-on-surface-variant font-medium">{uploadedBy}</td>
         <td class="px-6 py-4"><span class="whitespace-nowrap px-2 py-1 rounded text-[9px] font-black uppercase {visBgClass} {visTextClass} tracking-widest">{visibility}</span></td>
         <td class="px-6 py-4 text-right">
-            <button class="p-2 text-on-surface-variant hover:text-on-surface transition-colors" onclick="Toast.show('File downloading...', 'info')"><span class="material-symbols-outlined text-sm">download</span></button>
+            <button class="p-2 text-on-surface-variant hover:text-on-surface transition-colors" onclick="window.downloadAsset('{url}')"><span class="material-symbols-outlined text-sm">download</span></button>
             <button class="p-2 text-on-surface-variant hover:text-error transition-colors" onclick="window.deleteAsset()"><span class="material-symbols-outlined text-sm">delete</span></button>
         </td>
     </tr>
 </template>
 
 <template id="tpl-cmd-invoice-row">
-    <tr class="hover:bg-surface-container transition-colors group {rowClass}">
-        <td class="px-6 py-4 text-sm font-bold {idTextClass} font-mono tracking-tight">{invoiceId}</td>
-        <td class="px-6 py-4 text-xs text-on-surface-variant font-medium {dateClass}">{issueDate}</td>
-        <td class="px-6 py-4 text-sm font-bold {amountClass}">{amount}</td>
+    <tr class="hover:bg-surface-container transition-colors group">
+        <td class="px-6 py-4 text-sm font-bold text-on-surface font-mono tracking-tight">{invoiceId}</td>
+        <td class="px-6 py-4 text-xs text-on-surface-variant font-medium">{issueDate}</td>
+        <td class="px-6 py-4 text-sm font-bold text-on-surface">{amount}</td>
         <td class="px-6 py-4"><span class="px-2 py-1 rounded text-[9px] font-black uppercase {statusBgClass} {statusTextClass} tracking-widest">{status}</span></td>
         <td class="px-6 py-4 text-right">
-            {actionsHtml}
+            <button class="p-2 text-on-surface-variant hover:text-on-surface transition-colors" onclick="window.Toast.show('Generating PDF Receipt...', 'info')"><span class="material-symbols-outlined text-sm">download</span></button>
         </td>
     </tr>
 </template>
 
-<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" style="display:none;" onload="
+<template id="tpl-cmd-qa-row">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 gap-4 bg-surface-container-highest rounded-xl border border-[var(--input-border)] transition-all">
+        <div class="flex items-center gap-4">
+            <span class="material-symbols-outlined text-[18px] {iconColorClass}">{iconName}</span>
+            <div>
+                <p class="text-sm font-bold text-on-surface">{phaseName} <span class="text-[10px] text-on-surface-variant ml-2 font-mono">({scopePct}%)</span></p>
+                <p class="text-xs {statusTextColorClass} font-bold uppercase tracking-widest mt-0.5">{statusText}</p>
+            </div>
+        </div>
+        <div class="flex justify-end">
+            {actionButtonHtml}
+        </div>
+    </div>
+</template>
+
+<script type="text/plain" id="cmd-data-script">
+    if (!window.jspdf) {
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+        document.head.appendChild(script);
+    }
+
+    window.contextMenuTargetId = null;
+
+    document.addEventListener('click', function(e) {
+        const menu = document.getElementById('project-context-menu');
+        if (menu && !menu.classList.contains('hidden')) {
+            if (!menu.contains(e.target)) window.hideContextMenu();
+        }
+    });
+
+    window.handleProjectContextMenu = function(e, projectId) {
+        e.preventDefault(); 
+        
+        const role = window.currentUserRole;
+        if (role !== 'Super Admin' && role !== 'admin' && role !== 'SuperAdmin') {
+            if (window.Toast) window.Toast.show('Super Admin clearance required to modify workspaces.', 'error');
+            return; 
+        }
+        
+        window.contextMenuTargetId = projectId;
+        const menu = document.getElementById('project-context-menu');
+        
+        let x = e.clientX;
+        let y = e.clientY;
+        const menuWidth = 200; 
+        const menuHeight = 120;
+        if (x + menuWidth > window.innerWidth) x = window.innerWidth - menuWidth - 10;
+        if (y + menuHeight > window.innerHeight) y = window.innerHeight - menuHeight - 10;
+
+        menu.style.left = `${x}px`;
+        menu.style.top = `${y}px`;
+        
+        menu.classList.remove('hidden');
+        setTimeout(() => menu.classList.remove('opacity-0'), 10);
+    };
+
+    window.hideContextMenu = function() {
+        const menu = document.getElementById('project-context-menu');
+        if (menu && !menu.classList.contains('hidden')) {
+            menu.classList.add('opacity-0');
+            setTimeout(() => menu.classList.add('hidden'), 150);
+        }
+    };
+
+    window.executeProjectAction = async function(action) {
+        window.hideContextMenu();
+        if (!window.contextMenuTargetId) return;
+        const pId = window.contextMenuTargetId;
+
+        if (window.Toast) window.Toast.show(`Executing project ${action}...`, 'info');
+
+        try {
+            const { doc, updateDoc, deleteDoc } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+            const { db } = await import('/js/config/firebase-dev.js');
+            const pRef = doc(db, 'projects', pId);
+
+            if (action === 'archive') {
+                await updateDoc(pRef, { status: 'Archived' });
+                if(window.Toast) window.Toast.show('Project archived successfully.', 'success');
+            } else if (action === 'delete') {
+                const confirmed = confirm("Are you sure you want to permanently delete this project? This action cannot be undone.");
+                if(confirmed) {
+                    await deleteDoc(pRef);
+                    if(window.Toast) window.Toast.show('Project permanently deleted.', 'success');
+                }
+            }
+        } catch (e) {
+            console.error("Context Action Error", e);
+            if(window.Toast) window.Toast.show('Failed to execute project action.', 'error');
+        }
+    };
+
     window.switchCmdTab = function(tabId, btnElement) {
         document.querySelectorAll('.cmd-tab-content').forEach(el => {
             el.classList.add('hidden');
@@ -340,10 +406,32 @@
         }
     };
 
+    window.updatePhaseStatus = async function(projectId, phaseId, newStatus) {
+        if (!window.currentUser) return;
+        try {
+            const { doc, getDoc, updateDoc } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+            const { db } = await import('/js/config/firebase-dev.js');
+            
+            const pRef = doc(db, 'projects', projectId);
+            const pSnap = await getDoc(pRef);
+            if (!pSnap.exists()) return;
+            
+            const phases = pSnap.data().phases || [];
+            const updatedPhases = phases.map(p => p.id === phaseId ? { ...p, status: newStatus } : p);
+            
+            await updateDoc(pRef, { phases: updatedPhases });
+            if(window.Toast) window.Toast.show('QA Phase updated to: ' + newStatus, 'success');
+        } catch(e) {
+            console.error('Phase update error', e);
+            if(window.Toast) window.Toast.show('Failed to lock phase update in DB.', 'error');
+        }
+    };
+
     window.selectProject = function(id, titleEscaped, statusBadge) {
+        window.activeProjectId = id;
         document.getElementById('active-project-title').innerText = titleEscaped;
         document.getElementById('active-phase-badge').innerText = statusBadge;
-        if(window.Toast) window.Toast.show('Workspace loaded: ' + titleEscaped, 'success');
+        if(window.Toast) window.Toast.show('Workspace loaded.', 'success');
         
         document.getElementById('cmd-manage-access-btn').classList.remove('opacity-50', 'pointer-events-none');
         const tabs = ['tab-btn-overview', 'tab-btn-tracker', 'tab-btn-deliverables', 'tab-btn-invoices'];
@@ -353,151 +441,479 @@
         });
         
         document.getElementById('tab-btn-overview').click();
+
+        if(window.cmdWorkspaceUnsubs) {
+            window.cmdWorkspaceUnsubs.forEach(u => u());
+        }
+        window.cmdWorkspaceUnsubs = [];
+
+        import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js').then(({doc, collection, onSnapshot, query, orderBy}) => {
+            import('/js/config/firebase-dev.js').then(({db}) => {
+                
+                const unsubOverview = onSnapshot(doc(db, 'projects', id), (docSnap) => {
+                    if(!docSnap.exists()) return;
+                    const proj = docSnap.data();
+                    
+                    const startDate = proj.createdAt?.toDate() || new Date();
+                    const now = new Date();
+                    const diffDays = Math.max(0, Math.ceil((now - startDate) / (1000 * 60 * 60 * 24)));
+                    const durationDays = proj.durationDays !== undefined ? proj.durationDays : 1;
+                    const timeElapsedPct = Math.min(100, (diffDays / durationDays) * 100);
+                    
+                    let trueScopePct = 0;
+                    const phases = proj.phases || [];
+                    phases.forEach(p => {
+                        if(p.status === 'Approved') trueScopePct += (p.scopePct || 0);
+                    });
+
+                    const consumed = proj.budgetConsumed !== undefined ? proj.budgetConsumed : 0;
+                    const total = proj.totalBudget !== undefined ? proj.totalBudget : 0;
+                    const budgetPct = total > 0 ? (consumed / total) * 100 : 0;
+
+                    const variance = trueScopePct - timeElapsedPct;
+                    let paceStatus = 'On Track';
+                    let paceClass = 'bg-[var(--color-primary-alpha-30)] text-primary';
+                    
+                    if (variance < -5) {
+                        paceStatus = 'Behind Schedule';
+                        paceClass = 'bg-error-container text-error';
+                    } else if (variance > 5) {
+                        paceStatus = 'Ahead of Schedule';
+                        paceClass = 'bg-primary text-[#09090b] shadow-[0_0_10px_var(--color-primary-glow)]';
+                    }
+
+                    document.getElementById('cmd-health-pct').innerHTML = `${trueScopePct.toFixed(0)}<span class="text-2xl text-on-surface-variant font-mono">%</span>`;
+                    document.getElementById('cmd-health-bar').style.width = `${Math.min(100, trueScopePct)}%`;
+                    document.getElementById('cmd-health-status').innerText = paceStatus;
+                    document.getElementById('cmd-health-status').className = `font-bold mb-1 px-2 py-0.5 rounded text-[10px] uppercase ${paceClass}`;
+
+                    document.getElementById('cmd-time-elapsed').innerText = diffDays;
+                    document.getElementById('cmd-time-est').innerText = `Est. completion in ${Math.max(0, durationDays - diffDays)} days.`;
+
+                    const curr = proj.currency || '₦';
+                    document.getElementById('cmd-budget-consumed').innerText = curr + ' ' + consumed.toLocaleString('en-US');
+                    document.getElementById('cmd-budget-total').innerText = `/ ${curr} ${total.toLocaleString('en-US')}`;
+                    document.getElementById('cmd-budget-bar').style.width = `${Math.min(100, budgetPct)}%`;
+
+                    const qaContainer = document.getElementById('cmd-qa-checklist-container');
+                    const qaTpl = document.getElementById('tpl-cmd-qa-row').innerHTML;
+                    let qaHtml = '';
+
+                    if(phases.length === 0) {
+                        qaHtml = '<p class="text-xs text-on-surface-variant py-4">No QA phases defined for this project.</p>';
+                    } else {
+                        phases.forEach(p => {
+                            let icon = 'lock';
+                            let iconColor = 'text-on-surface-variant';
+                            let statColor = 'text-on-surface-variant';
+                            let btnHtml = '';
+
+                            if (p.status === 'Approved') {
+                                icon = 'check_circle';
+                                iconColor = 'text-primary';
+                                statColor = 'text-primary';
+                            } else if (p.status === 'Pending Review') {
+                                icon = 'hourglass_empty';
+                                iconColor = 'text-[var(--color-primary-alpha)] animate-pulse';
+                                statColor = 'text-[var(--color-primary-alpha)]';
+                                
+                                if(window.currentUserRole === 'Super Admin' || window.currentUserRole === 'admin') {
+                                    btnHtml = `<button class="text-[10px] font-black uppercase tracking-widest bg-primary text-[#09090b] px-4 py-2 rounded-lg hover:bg-primary-container transition-colors" onclick="window.updatePhaseStatus('${id}', '${p.id}', 'Approved')">Approve Phase</button>`;
+                                } else {
+                                    btnHtml = `<span class="text-[10px] uppercase font-bold text-on-surface-variant">Awaiting Super Admin</span>`;
+                                }
+                            } else {
+                                btnHtml = `<button class="text-[10px] font-black uppercase tracking-widest border border-outline-variant text-on-surface px-4 py-2 rounded-lg hover:bg-surface-container transition-colors" onclick="window.updatePhaseStatus('${id}', '${p.id}', 'Pending Review')">Submit for Review</button>`;
+                            }
+
+                            qaHtml += qaTpl.replace(/{phaseName}/g, p.name)
+                                           .replace(/{scopePct}/g, p.scopePct)
+                                           .replace(/{iconName}/g, icon)
+                                           .replace(/{iconColorClass}/g, iconColor)
+                                           .replace(/{statusTextColorClass}/g, statColor)
+                                           .replace(/{statusText}/g, p.status)
+                                           .replace(/{actionButtonHtml}/g, btnHtml);
+                        });
+                    }
+                    if(qaContainer) qaContainer.innerHTML = qaHtml;
+                });
+
+                const qTasks = query(collection(db, 'projects', id, 'tasks'), orderBy('createdAt', 'asc'));
+                const unsubTasks = onSnapshot(qTasks, (snap) => {
+                    const todoC = document.getElementById('todo-container');
+                    const inprogC = document.getElementById('in-progress-container');
+                    const reviewC = document.getElementById('review-container');
+                    
+                    let todoHtml = '', inprogHtml = '', reviewHtml = '';
+                    let cTodo = 0, cInprog = 0, cReview = 0;
+                    const tpl = document.getElementById('tpl-cmd-task-todo').innerHTML;
+                    
+                    snap.forEach(doc => {
+                        const t = doc.data();
+                        
+                        let subHtml = '';
+                        if (t.subtasks && t.subtasks.length > 0) {
+                            t.subtasks.forEach(st => {
+                                const isDone = st.status === 'Completed';
+                                subHtml += `<div class="flex items-center justify-between p-2 bg-surface-container rounded border border-outline-variant mt-2 ${isDone ? 'opacity-50' : ''}">
+                                    <div class="flex items-center gap-2">
+                                        <span class="material-symbols-outlined text-[12px] ${isDone ? 'text-primary' : 'text-on-surface-variant'}">${isDone ? 'check' : 'subdirectory_arrow_right'}</span>
+                                        <span class="text-[10px] font-bold ${isDone ? 'text-on-surface-variant line-through' : 'text-on-surface'}">${st.title}</span>
+                                    </div>
+                                    <span class="text-[9px] text-primary font-mono bg-[var(--color-primary-alpha-30)] px-1.5 py-0.5 rounded">${st.weightPct || 0}%</span>
+                                </div>`;
+                            });
+                        }
+
+                        let html = tpl.replace(/{title}/g, t.title || 'Untitled Task')
+                                      .replace(/{phase}/g, t.phase || 'General Phase')
+                                      .replace(/{dueDate}/g, t.durationDays ? t.durationDays + ' Days' : 'Pending')
+                                      .replace(/{weightPct}/g, t.weightPct || 0)
+                                      .replace(/{taskId}/g, t.taskId || doc.id)
+                                      .replace(/{subtasksHtml}/g, subHtml)
+                                      .replace(/{assigneeUrl}/g, '/assets/icons/ethan01logo.svg');
+                        
+                        if (t.status === 'In Progress' || t.status === 'Active') { 
+                            inprogHtml += html; cInprog++; 
+                        } else if (t.status === 'Under Review' || t.status === 'Review') { 
+                            reviewHtml += html; cReview++; 
+                        } else { 
+                            todoHtml += html; cTodo++; 
+                        }
+                    });
+                    
+                    if(todoC) todoC.innerHTML = todoHtml || '<p class="text-xs text-on-surface-variant text-center py-4">No tasks pending.</p>';
+                    if(inprogC) inprogC.innerHTML = inprogHtml || '<p class="text-xs text-on-surface-variant text-center py-4">No active tasks.</p>';
+                    if(reviewC) reviewC.innerHTML = reviewHtml || '<p class="text-xs text-on-surface-variant text-center py-4">No tasks in review.</p>';
+                    
+                    document.getElementById('count-todo').innerText = '(' + cTodo + ')';
+                    document.getElementById('count-inprogress').innerText = '(' + cInprog + ')';
+                    document.getElementById('count-review').innerText = '(' + cReview + ')';
+                });
+                
+                const qDeliv = query(collection(db, 'projects', id, 'deliverables'), orderBy('uploadedAt', 'desc'));
+                const unsubDeliv = onSnapshot(qDeliv, (snap) => {
+                    const dC = document.getElementById('cmd-deliverables-container');
+                    let dHtml = '';
+                    const tpl = document.getElementById('tpl-cmd-file-row').innerHTML;
+                    
+                    snap.forEach(doc => {
+                        const d = doc.data();
+                        const sizeMb = (d.fileSize / (1024*1024)).toFixed(2);
+                        dHtml += tpl.replace(/{fileName}/g, d.fileName)
+                                    .replace(/{fileMeta}/g, d.fileType + ' • ' + sizeMb + ' MB')
+                                    .replace(/{iconColorClass}/g, 'text-primary')
+                                    .replace(/{icon}/g, 'description')
+                                    .replace(/{uploadedBy}/g, 'System User')
+                                    .replace(/{visBgClass}/g, 'bg-[var(--color-primary-alpha-30)]')
+                                    .replace(/{visTextClass}/g, 'text-primary')
+                                    .replace(/{visibility}/g, d.visibility || 'Internal')
+                                    .replace(/{url}/g, d.url || '#');
+                    });
+                    
+                    if(dC) {
+                        dC.innerHTML = dHtml || '<tr><td colspan="4" class="px-6 py-8 text-center text-on-surface-variant">No deliverables uploaded yet.</td></tr>';
+                    }
+                });
+
+                const qInvoices = query(collection(db, 'projects', id, 'invoices'), orderBy('createdAt', 'desc'));
+                const unsubInvoices = onSnapshot(qInvoices, (snap) => {
+                    const invC = document.getElementById('cmd-invoices-container');
+                    let invHtml = '';
+                    const tpl = document.getElementById('tpl-cmd-invoice-row').innerHTML;
+                    
+                    let totalBilled = 0;
+                    let totalCollected = 0;
+
+                    snap.forEach(doc => {
+                        const inv = doc.data();
+                        const amt = inv.amount || 0;
+                        totalBilled += amt;
+                        
+                        let statusBg = 'bg-[var(--color-outline-variant)]';
+                        let statusText = 'text-on-surface';
+
+                        if(inv.status === 'Paid') {
+                            totalCollected += amt;
+                            statusBg = 'bg-[var(--color-primary-alpha-30)]';
+                            statusText = 'text-primary';
+                        } else if(inv.status === 'Overdue') {
+                            statusBg = 'bg-error-container';
+                            statusText = 'text-error';
+                        } else {
+                            statusBg = 'bg-surface-container-highest';
+                            statusText = 'text-on-surface-variant';
+                        }
+
+                        const fmtAmt = amt.toLocaleString('en-US', { style: 'currency', currency: 'NGN' });
+
+                        invHtml += tpl.replace(/{invoiceId}/g, inv.invoiceId)
+                                      .replace(/{issueDate}/g, inv.issueDate || 'N/A')
+                                      .replace(/{amount}/g, fmtAmt)
+                                      .replace(/{statusBgClass}/g, statusBg)
+                                      .replace(/{statusTextClass}/g, statusText)
+                                      .replace(/{status}/g, inv.status || 'Draft');
+                    });
+                    
+                    if(invC) {
+                        invC.innerHTML = invHtml || '<tr><td colspan="5" class="px-6 py-8 text-center text-on-surface-variant">No financial records found.</td></tr>';
+                    }
+
+                    const outstanding = totalBilled - totalCollected;
+                    const elTot = document.getElementById('cmd-inv-total');
+                    const elCol = document.getElementById('cmd-inv-collected');
+                    const elOut = document.getElementById('cmd-inv-outstanding');
+
+                    if(elTot) elTot.innerText = totalBilled.toLocaleString('en-US', { style: 'currency', currency: 'NGN' });
+                    if(elCol) elCol.innerText = totalCollected.toLocaleString('en-US', { style: 'currency', currency: 'NGN' });
+                    if(elOut) elOut.innerText = outstanding.toLocaleString('en-US', { style: 'currency', currency: 'NGN' });
+                });
+                
+                window.cmdWorkspaceUnsubs.push(unsubOverview, unsubTasks, unsubDeliv, unsubInvoices);
+            });
+        });
     };
 
-    window.exportStatusReportPDF = function() {
-        if(window.Toast) window.Toast.show('Collating metrics from active tabs...', 'info');
-        setTimeout(() => {
-            if(window.Toast) window.Toast.show('Generating sectioned PDF...', 'info');
-            setTimeout(() => {
-                if(window.Toast) window.Toast.show('Status Report Exported successfully.', 'success');
-            }, 1500);
-        }, 1000);
-    };
+    // TASK MANAGEMENT MODAL ENGINE
+    window.openTaskModal = async function(taskId) {
+        if(!window.activeProjectId) return;
+        if(window.Toast) window.Toast.show('Loading task details...', 'info');
 
-    window.openInvoiceModal = function() {
-        const m = `<div class='space-y-4 text-left'><div class='space-y-2'><label class='text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest'>Billing Phase / Milestone</label><select class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none'><option>Phase 2: Firebase DB Architecture</option><option>Custom Retainer Billing</option></select></div><div class='grid grid-cols-2 gap-4'><div class='space-y-2'><label class='text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest'>Due Date</label><input type='date' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none'/></div><div class='space-y-2'><label class='text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest'>Amount (₦)</label><input type='number' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none' value='250000'/></div></div><div class='space-y-2 pt-2'><label class='flex items-center gap-3 cursor-pointer group'><input type='checkbox' checked class='w-4 h-4 rounded-sm bg-surface-container border-[var(--input-border)] text-primary focus:ring-0 outline-none'/><span class='text-xs text-on-surface-variant group-hover:text-on-surface transition-colors'>Instantly email PDF receipt to Client Admin</span></label></div></div>`;
-        const a = `<button onclick='window.Modal.hide()' class='text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors'>Cancel</button><button onclick='window.Modal.hide(); window.Toast.show(&quot;PDF Invoice generated.&quot;, &quot;success&quot;)' class='bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm flex items-center gap-2'><span class='material-symbols-outlined text-[16px]'>send</span> Issue Invoice</button>`;
-        if(window.Modal) window.Modal.show('Generate New Invoice', m, a);
-    };
+        try {
+            const { doc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+            const { db } = await import('/js/config/firebase-dev.js');
+            
+            const taskRef = doc(db, 'projects', window.activeProjectId, 'tasks', taskId);
+            const snap = await getDoc(taskRef);
+            if(!snap.exists()) return;
+            const task = snap.data();
 
-    window.reviewManualReceipt = function() {
-        const m = `<div class='space-y-4'><div class='aspect-[3/4] bg-surface-container-highest rounded-xl border border-[var(--input-border)] flex flex-col items-center justify-center p-4'><span class='material-symbols-outlined text-4xl text-on-surface-variant mb-2'>receipt_long</span><p class='text-xs text-on-surface font-bold'>Manual Bank Transfer Receipt.pdf</p><p class='text-[10px] text-on-surface-variant'>Uploaded 2 hours ago</p></div><div class='p-3 bg-[var(--color-primary-alpha-30)] border border-[var(--color-primary-glow)] rounded-lg'><p class='text-xs text-primary font-bold flex items-center gap-2'><span class='material-symbols-outlined text-sm'>info</span> Verify with Finance Dept before approving.</p></div></div>`;
-        const a = `<button onclick='window.Modal.hide(); window.Toast.show(&quot;Receipt Rejected.&quot;, &quot;error&quot;)' class='text-error hover:text-error/80 font-bold text-sm px-4 transition-colors'>Reject</button><button onclick='window.Modal.hide(); window.Toast.show(&quot;Payment Approved. Budget sum updated.&quot;, &quot;success&quot;)' class='bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm'>Approve Payment</button>`;
-        if(window.Modal) window.Modal.show('Review Manual Payment', m, a);
-    };
+            let actionHtml = '';
+            if (task.status === 'To Do' || task.status === 'Pending') {
+                actionHtml = `<button onclick="window.updateTaskStatus('${taskId}', 'In Progress')" class="bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm w-full mt-4 shadow-[0_4px_15px_var(--color-primary-glow)] transition-all hover:bg-primary-container">Commence Task</button>`;
+            } else if (task.status === 'In Progress' || task.status === 'Active') {
+                actionHtml = `<button onclick="window.updateTaskStatus('${taskId}', 'Under Review')" class="bg-[#00E5FF] text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm w-full mt-4 shadow-[0_4px_15px_#00E5FF88] transition-all hover:opacity-80">Push for Client Review</button>`;
+            } else {
+                actionHtml = `<p class="text-xs text-on-surface-variant text-center mt-4 uppercase tracking-widest font-bold border border-outline-variant py-2 rounded bg-surface-container-highest">Currently Under Client Review</p>`;
+            }
 
-    window.openManageAccessModal = function() {
-        const m = `<p class='mb-4 text-sm text-on-surface-variant'>Select agency members to grant access to this workspace.</p><div class='flex gap-2 mb-4'><input type='email' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none' placeholder='team@ethan01.com'/></div>`;
-        const a = `<button onclick='window.Modal.hide()' class='text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors'>Cancel</button><button onclick='window.Modal.hide(); window.Toast.show(&quot;Access granted successfully.&quot;, &quot;success&quot;)' class='bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm'>Grant Access</button>`;
-        if(window.Modal) window.Modal.show('Manage Access', m, a);
-    };
+            let subHtml = '';
+            if (task.subtasks && task.subtasks.length > 0) {
+                subHtml = '<div class="space-y-2 mt-4"><label class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant mb-2 block">Sub-Branches</label>';
+                task.subtasks.forEach(st => {
+                    const isDone = st.status === 'Completed';
+                    subHtml += `<div class="flex items-center justify-between p-3 bg-surface-container-highest rounded-lg border border-[var(--input-border)] cursor-pointer hover:border-primary transition-colors" onclick="window.toggleSubtask('${taskId}', '${st.id}', ${!isDone})">
+                        <div class="flex items-center gap-3">
+                            <div class="w-4 h-4 rounded border ${isDone ? 'bg-primary border-primary text-[#09090b]' : 'border-outline-variant text-transparent'} flex items-center justify-center transition-colors">
+                                <span class="material-symbols-outlined text-[12px]">check</span>
+                            </div>
+                            <span class="text-sm font-bold ${isDone ? 'text-on-surface-variant line-through' : 'text-on-surface'}">${st.title}</span>
+                        </div>
+                        <span class="text-[10px] text-primary font-mono bg-[var(--color-primary-alpha-30)] px-2 py-1 rounded">${st.weightPct || 0}%</span>
+                    </div>`;
+                });
+                subHtml += '</div>';
+            } else {
+                subHtml = '<p class="text-xs text-on-surface-variant mt-4">No sub-branches attached.</p>';
+            }
 
-    window.openAddTaskModal = function() {
-        const m = `<div class='space-y-4'><div class='space-y-2'><label class='text-xs font-bold text-on-surface-variant uppercase tracking-widest'>Task Description</label><input type='text' id='new-task-desc' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none' placeholder='What needs to be done?'/></div><div class='grid grid-cols-2 gap-4'><div class='space-y-2'><label class='text-xs font-bold text-on-surface-variant uppercase tracking-widest'>Assign Phase</label><select id='new-task-phase' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none'><option>Phase 1: Discovery</option><option>Phase 2: Development</option></select></div><div class='space-y-2'><label class='text-xs font-bold text-on-surface-variant uppercase tracking-widest'>Timeline (Days)</label><input type='number' id='new-task-days' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none' placeholder='e.g. 5'/></div></div></div>`;
-        const a = `<button onclick='if(window.Modal) window.Modal.hide()' class='text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors'>Cancel</button><button onclick='window.addTaskToDB()' class='bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm'>Save Task</button>`;
-        if(window.Modal) window.Modal.show('Create New Task', m, a);
+            const m = `<div class='space-y-4 text-left'>
+                <div>
+                    <span class="px-2 py-1 bg-surface-container-highest text-on-surface-variant text-[10px] font-bold rounded uppercase tracking-wider mb-2 inline-block">${task.phase || 'General Phase'}</span>
+                    <h3 class="text-lg font-black text-on-surface leading-tight">${task.title}</h3>
+                </div>
+                <div class="flex items-center gap-4 text-xs font-bold text-on-surface-variant uppercase tracking-widest border-b border-outline-variant pb-4">
+                    <span>Status: <span class="text-primary">${task.status}</span></span>
+                    <span>&bull;</span>
+                    <span>Timeline: ${task.durationDays || 0} Days</span>
+                </div>
+                ${subHtml}
+                ${actionHtml}
+            </div>`;
+            const a = `<button onclick='window.Modal.hide()' class='text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors'>Close</button>`;
+            
+            if(window.Modal) window.Modal.show('Manage Task', m, a);
+            
+        } catch (e) {
+            console.error(e);
+            if(window.Toast) window.Toast.show('Failed to fetch task details.', 'error');
+        }
     };
-
-    window.addTaskToDB = function() {
+    
+    window.updateTaskStatus = async function(taskId, newStatus) {
         if(window.Modal) window.Modal.hide();
-        const days = document.getElementById('new-task-days') ? document.getElementById('new-task-days').value : '0';
-        if(window.Toast) window.Toast.show('Task added. Project timeline increased by ' + days + ' days.', 'success');
-        
-        const timeEstEl = document.getElementById('cmd-time-est');
-        if(timeEstEl) {
-            let current = parseInt(timeEstEl.innerText.replace(/[^0-9]/g, '')) || 0;
-            current += parseInt(days);
-            timeEstEl.innerText = 'Est. completion in ' + current + ' days.';
+        try {
+            const { doc, updateDoc } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+            const { db } = await import('/js/config/firebase-dev.js');
+            const taskRef = doc(db, 'projects', window.activeProjectId, 'tasks', taskId);
+            await updateDoc(taskRef, { status: newStatus });
+            if(window.Toast) window.Toast.show('Task advanced to: ' + newStatus, 'success');
+        } catch (e) {
+            if(window.Toast) window.Toast.show('Failed to advance task.', 'error');
+        }
+    };
+    
+    window.toggleSubtask = async function(taskId, subtaskId, markDone) {
+        try {
+            const { doc, getDoc, updateDoc } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+            const { db } = await import('/js/config/firebase-dev.js');
+            const taskRef = doc(db, 'projects', window.activeProjectId, 'tasks', taskId);
+            
+            const snap = await getDoc(taskRef);
+            if(!snap.exists()) return;
+            const task = snap.data();
+            
+            const updatedSubtasks = (task.subtasks || []).map(st => {
+                if(st.id === subtaskId) {
+                    return { ...st, status: markDone ? 'Completed' : 'To Do' };
+                }
+                return st;
+            });
+            
+            await updateDoc(taskRef, { subtasks: updatedSubtasks });
+            
+            // Silently re-render modal to show the checked box
+            window.openTaskModal(taskId);
+        } catch(e) {
+            console.error("Subtask update failed", e);
         }
     };
 
-    window.openAddBranchModal = function() {
-        const m = `<div class='space-y-4'><div class='space-y-2'><label class='text-xs font-bold text-on-surface-variant uppercase tracking-widest'>Branch Title</label><input type='text' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none' placeholder='e.g. Edge case testing'/></div></div>`;
-        const a = `<button onclick='window.Modal.hide()' class='text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors'>Cancel</button><button onclick='window.Modal.hide(); window.Toast.show(&quot;Branch attached successfully.&quot;, &quot;success&quot;)' class='bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm'>Attach Branch</button>`;
+    window.openAddBranchModal = function(parentTaskId) {
+        window.activeParentTaskId = parentTaskId;
+        const m = `<div class='space-y-4'>
+            <div class='space-y-2'><label class='text-xs font-bold text-on-surface-variant uppercase tracking-widest'>Branch Title</label><input type='text' id='sub-branch-title' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none' placeholder='e.g. Edge case testing'/></div>
+            <div class='grid grid-cols-2 gap-4'>
+                <div class='space-y-2'><label class='text-xs font-bold text-on-surface-variant uppercase tracking-widest'>Weight (%)</label><input type='number' id='sub-branch-weight' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none' placeholder='Auto-distribute'/></div>
+                <div class='space-y-2'><label class='text-xs font-bold text-on-surface-variant uppercase tracking-widest'>Days Allocated</label><input type='number' id='sub-branch-days' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none' placeholder='e.g. 2'/></div>
+            </div>
+            <p class="text-[10px] text-on-surface-variant mt-2">Leave Weight (%) blank to evenly distribute among parent sub-tasks.</p>
+        </div>`;
+        const a = `<button onclick='window.Modal.hide()' class='text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors'>Cancel</button><button onclick='window.addSubBranchToDB()' class='bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm'>Attach Branch</button>`;
         if(window.Modal) window.Modal.show('Add Sub-Task Branch', m, a);
     };
 
-    window.openUploadAssetModal = function() {
-        if(window.currentUserRole !== 'admin') {
-            if(window.Toast) window.Toast.show('Super Admin clearance required to manage assets.', 'error');
-            return;
-        }
-        const m = `<div class='border-[1.5px] border-dashed border-[var(--input-border)] rounded-xl p-12 text-center hover:bg-surface-container transition-colors cursor-pointer' onclick='window.simulateFileUpload()'><span class='material-symbols-outlined text-4xl text-on-surface-variant mb-2'>cloud_upload</span><p class='text-sm font-bold text-on-surface'>Drag and drop file here or click</p><p class='text-xs text-on-surface-variant mt-1'>PDF, ZIP, or FIG up to 500MB</p></div>`;
-        const a = `<button onclick='if(window.Modal) window.Modal.hide()' class='text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors'>Cancel</button>`;
-        if(window.Modal) window.Modal.show('Upload Asset', m, a);
-    };
+    window.addSubBranchToDB = async function() {
+        if(window.Modal) window.Modal.hide();
+        if(!window.activeProjectId || !window.activeParentTaskId) return;
 
-    window.simulateFileUpload = function() {
-        if(window.Toast) window.Toast.show('Uploading to secure Storage/DB...', 'info');
-        setTimeout(() => {
-            if(window.Modal) window.Modal.hide();
-            if(window.Toast) window.Toast.show('Asset synchronized.', 'success');
-        }, 1500);
-    };
+        const title = document.getElementById('sub-branch-title')?.value || 'New Branch';
+        let inputWeight = parseFloat(document.getElementById('sub-branch-weight')?.value); 
+        const days = parseInt(document.getElementById('sub-branch-days')?.value) || 0;
 
-    window.deleteAsset = function() {
-        if(window.currentUserRole !== 'admin') {
-            if(window.Toast) window.Toast.show('Action Denied: Super Admin clearance required.', 'error');
-            return;
-        }
-        if(window.Toast) window.Toast.show('Asset deleted permanently.', 'success');
-    };
+        if (window.Toast) window.Toast.show('Calculating Iron Triangle parameters...', 'info');
 
-    window.handleCmdHydration = function(e) {
-        const payload = e.detail;
-        if(!payload) return;
+        try {
+            const { doc, getDoc, writeBatch, increment } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+            const { db } = await import('/js/config/firebase-dev.js');
 
-        if (payload.projects) {
-            const cont = document.getElementById('cmd-projects-container');
-            const tpl = document.getElementById('tpl-cmd-project-card');
-            if (cont && tpl) {
-                cont.innerHTML = '';
-                payload.projects.forEach(proj => {
-                    let html = tpl.innerHTML;
-                    const escapedTitle = proj.title.replace(/'/g, '\\\'');
-                    html = html.replace(/{titleEscaped}/g, escapedTitle)
-                               .replace(/{statusBadge}/g, proj.status)
-                               .replace(/{bgGradient}/g, proj.bgGradient || 'bg-surface-container-highest')
-                               .replace(/{logoUrl}/g, proj.logoUrl || '/assets/icons/ethan01logo.svg')
-                               .replace(/{pctClass}/g, parseInt(proj.pct) > 50 ? 'bg-[var(--color-primary-glow)] text-primary' : 'bg-surface-container-highest text-on-surface-variant')
-                               .replace(/{pctComplete}/g, proj.pct + '%')
-                               .replace(/{title}/g, proj.title)
-                               .replace(/{description}/g, proj.desc)
-                               .replace(/{id}/g, proj.id);
-                    cont.innerHTML += html;
+            const taskRef = doc(db, 'projects', window.activeProjectId, 'tasks', window.activeParentTaskId);
+            const projectRef = doc(db, 'projects', window.activeProjectId);
+            
+            const taskSnap = await getDoc(taskRef);
+            if (!taskSnap.exists()) throw new Error("Parent task missing");
+            
+            const taskData = taskSnap.data();
+            let currentSubtasks = taskData.subtasks || [];
+            
+            let finalWeight = inputWeight;
+            if (isNaN(inputWeight) || inputWeight <= 0) {
+                let usedWeight = currentSubtasks.reduce((sum, st) => sum + (st.weightPct || 0), 0);
+                let remaining = Math.max(0, 100 - usedWeight);
+                finalWeight = remaining; 
+            }
+
+            const newSubtask = {
+                id: 'sub_' + Date.now(),
+                title: title,
+                weightPct: finalWeight,
+                durationDays: days,
+                status: 'To Do'
+            };
+
+            currentSubtasks.push(newSubtask);
+
+            const batch = writeBatch(db);
+
+            batch.update(taskRef, {
+                subtasks: currentSubtasks,
+                durationDays: increment(days)
+            });
+
+            if (days > 0) {
+                batch.update(projectRef, {
+                    durationDays: increment(days)
                 });
             }
-        }
-        
-        if(payload.activeProject) {
-            const timeEl = document.getElementById('cmd-time-elapsed');
-            const timeEst = document.getElementById('cmd-time-est');
-            const healthPct = document.getElementById('cmd-health-pct');
-            const healthStatus = document.getElementById('cmd-health-status');
-            const healthBar = document.getElementById('cmd-health-bar');
-            const budgetCons = document.getElementById('cmd-budget-consumed');
-            const budgetTotal = document.getElementById('cmd-budget-total');
-            const budgetBar = document.getElementById('cmd-budget-bar');
-            
-            if(timeEl) {
-                const startDate = new Date(payload.activeProject.startDate || Date.now());
-                const now = new Date();
-                const diffTime = Math.abs(now - startDate);
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                timeEl.innerText = diffDays;
-            }
-            if(timeEst) {
-                timeEst.innerText = 'Est. completion in ' + (payload.activeProject.durationDays || 30) + ' days.';
-            }
-            if(healthPct) {
-                healthPct.innerText = payload.activeProject.healthPct + '%';
-                healthBar.style.width = payload.activeProject.healthPct + '%';
-                healthStatus.innerText = payload.activeProject.healthStatus || 'On Track';
-            }
-            if(budgetCons && payload.activeProject.budget) {
-                const consumed = payload.activeProject.budget.consumed || 0;
-                const total = payload.activeProject.budget.total || 0;
-                budgetCons.innerText = '₦' + consumed.toLocaleString();
-                budgetTotal.innerText = '/ ₦' + total.toLocaleString();
-                const bPct = (consumed / total) * 100;
-                budgetBar.style.width = Math.min(100, bPct) + '%';
-            }
+
+            await batch.commit();
+
+            if(window.Toast) window.Toast.show(`Branch attached. Project timeline extended by ${days} days.`, 'success');
+        } catch (e) {
+            console.error("Sub-branch Integration Error", e);
+            if(window.Toast) window.Toast.show('Failed to synchronize branch with project timeline.', 'error');
         }
     };
 
-    window.removeEventListener('vanguard-cmd-sync', window.handleCmdHydration);
-    window.addEventListener('vanguard-cmd-sync', window.handleCmdHydration);
+    window.initializeProjectGrids = async function() {
+        try {
+            const { collection, onSnapshot, query, orderBy } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+            const { db } = await import('/js/config/firebase-dev.js');
+
+            const q = query(collection(db, 'projects'), orderBy('createdAt', 'desc'));
+            if(window.projectGridUnsub) window.projectGridUnsub();
+            
+            window.projectGridUnsub = onSnapshot(q, (snap) => {
+                const activeCont = document.getElementById('cmd-projects-container');
+                const archiveCont = document.getElementById('cmd-archived-container');
+                const tpl = document.getElementById('tpl-cmd-project-card').innerHTML;
+                
+                if (!activeCont || !archiveCont) return;
+
+                activeCont.innerHTML = '';
+                archiveCont.innerHTML = '';
+                
+                let activeCount = 0;
+                let archiveCount = 0;
+
+                snap.forEach(docSnap => {
+                    const proj = docSnap.data();
+                    let html = tpl;
+                    const escapedTitle = (proj.projectName || '').replace(/'/g, '\\\'');
+                    
+                    let scopePct = 0;
+                    if(proj.phases) {
+                        proj.phases.forEach(p => { if(p.status === 'Approved') scopePct += (p.scopePct || 0); });
+                    }
+
+                    html = html.replace(/{titleEscaped}/g, escapedTitle)
+                               .replace(/{statusBadge}/g, proj.status || 'Active')
+                               .replace(/{bgGradient}/g, 'bg-surface-container-highest')
+                               .replace(/{logoUrl}/g, '/assets/icons/ethan01logo.svg')
+                               .replace(/{pctClass}/g, scopePct > 50 ? 'bg-[var(--color-primary-glow)] text-primary' : 'bg-surface-container-highest text-on-surface-variant')
+                               .replace(/{pctComplete}/g, Math.min(100, scopePct) + '%')
+                               .replace(/{title}/g, proj.projectName || 'Untitled')
+                               .replace(/{description}/g, proj.clientId || 'No Client ID')
+                               .replace(/{id}/g, docSnap.id);
+                    
+                    if (proj.status === 'Archived') {
+                        archiveCont.innerHTML += html;
+                        archiveCount++;
+                    } else {
+                        activeCont.innerHTML += html;
+                        activeCount++;
+                    }
+                });
+
+                if(archiveCount === 0) archiveCont.innerHTML = '<p class="text-xs text-on-surface-variant col-span-full py-4">No archived projects found.</p>';
+                if(activeCount === 0) activeCont.innerHTML = '<p class="text-xs text-on-surface-variant col-span-full py-4">No active projects commissioned yet.</p>';
+            });
+        } catch(e) { 
+            console.error("Grid Init Error", e); 
+        }
+    };
+    
+    window.initializeProjectGrids();
 
     setTimeout(() => {
         const activeBtn = document.querySelector('.cmd-tab-btn.text-primary') || document.querySelector('.cmd-tab-btn');
@@ -506,6 +922,5 @@
             window.switchCmdTab(tabId, activeBtn);
         }
     }, 100);
-
-    this.remove();
-" />
+</script>
+<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" style="display:none;" onload="const s=document.createElement('script');s.textContent=document.getElementById('cmd-data-script').textContent;document.body.appendChild(s);this.remove();" />
