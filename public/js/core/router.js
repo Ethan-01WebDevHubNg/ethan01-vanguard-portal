@@ -27,7 +27,6 @@ window.returnToPreviousRoute = function() {
     const publicRoutes = ['#/login', '#/admin/auth', '#/forgot-password', '#/admin/forgot-password', '#/404', '#/offline'];
     let targetRoute = window.ethan01_previousRoute;
     
-    // GRACEFUL OFFLINE FALLBACK: Prevent infinite loops into auth pages upon network restoration
     if (publicRoutes.includes(targetRoute) || !targetRoute) {
         targetRoute = window.currentUserRole === 'admin' ? '#/admin/dashboard' : '#/dashboard';
     }
@@ -43,7 +42,6 @@ window.addEventListener('online', () => {
 });
 
 export async function handleLocation() {
-    // CORE FIX: Halt execution until the auth state is absolutely resolved
     if (!window.authInitialized) {
         await new Promise(resolve => {
             window.addEventListener('authResolved', resolve, { once: true });
@@ -52,7 +50,6 @@ export async function handleLocation() {
 
     let path = window.location.hash;
 
-    // SECURITY: Anti-directory listing & path injection block
     if (path.includes('.html') || path.includes('/templates/') || (path.endsWith('/') && path !== '#/')) {
         console.warn("Security Alert: Direct template directory access blocked.");
         window.location.hash = '#/403';
@@ -67,23 +64,24 @@ export async function handleLocation() {
     const publicRoutes = ['#/login', '#/admin/auth', '#/forgot-password', '#/admin/forgot-password', '#/404', '#/500', '#/403', '#/offline'];
     const isProtectedRoute = !publicRoutes.includes(path);
 
-    // STRICT PERSISTENCE GUARD
     if (isProtectedRoute && !window.currentUser) {
         window.location.hash = path.startsWith('#/admin') ? '#/admin/auth' : '#/login';
         return;
     }
 
-    // Strict FSD RBAC Protection
+    // STRICT FSD RBAC PROTECTION 
     if (window.currentUser) {
         const isAdminRoute = path.startsWith('#/admin') && !publicRoutes.includes(path);
         const isClientRoute = path.startsWith('#/') && !path.startsWith('#/admin') && !publicRoutes.includes(path);
 
+        // A DB-verified client attempting to access an admin route
         if (isAdminRoute && window.currentUserRole === 'client') {
             window.location.hash = '#/403';
             return;
         }
 
-        if (isClientRoute && window.currentUserRole !== 'client' && window.currentUserRole !== null) {
+        // A DB-verified admin attempting to access a client route
+        if (isClientRoute && window.currentUserRole === 'admin') {
             window.location.hash = '#/admin/dashboard';
             return;
         }

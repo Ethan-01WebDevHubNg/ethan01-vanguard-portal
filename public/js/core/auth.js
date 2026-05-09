@@ -3,6 +3,7 @@ import { db, auth } from '../config/firebase-dev.js';
 import {
     doc,
     setDoc,
+    getDoc,
     serverTimestamp as firestoreTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { 
@@ -105,15 +106,30 @@ document.addEventListener('visibilitychange', () => {
 });
 window.addEventListener('focus', handleReturn);
 
+// --- HYPER-OPTIMIZED ROLE ENGINE ---
+async function fetchSecureUserRole(uid) {
+    // 0ms Local Cache Return (Bypasses network latency on page reloads)
+    const cachedRole = sessionStorage.getItem(`vanguard_role_${uid}`);
+    if (cachedRole) return cachedRole;
+
+    try {
+        const adminDoc = await getDoc(doc(db, 'admins', uid));
+        const role = adminDoc.exists() ? 'admin' : 'client';
+        sessionStorage.setItem(`vanguard_role_${uid}`, role); // Cache for session duration
+        return role;
+    } catch (e) {
+        console.error("Role Verification Error", e);
+        return 'client'; // Safe fallback
+    }
+}
+
 export function initAuthObserver() {
     onAuthStateChanged(auth, async (user) => {
         const currentHash = window.location.hash;
         
-        if (!window.currentUserRole) {
-            window.currentUserRole = sessionStorage.getItem('ethan01_user_role') || (currentHash.startsWith('#/admin') ? 'admin' : 'client');
-        }
-        
         if (user) {
+            window.currentUserRole = await fetchSecureUserRole(user.uid);
+            
             const rememberDevice = localStorage.getItem('ethan01_remember_device') === 'true';
             const sessionVerified = sessionStorage.getItem('ethan01_device_verified') === 'true';
             
@@ -128,7 +144,6 @@ export function initAuthObserver() {
                 if (window.Toast) window.Toast.show("Identity cryptographically verified.", "success");
             }
 
-            // POPULATE FIRST
             window.currentUser = user;
             resetInactivityTimer(); 
         } else {
@@ -137,7 +152,6 @@ export function initAuthObserver() {
             if (inactivityTimer) clearTimeout(inactivityTimer);
         }
 
-        // CRITICAL FIX: Unlock the router ONLY AFTER user population is complete
         window.authInitialized = true; 
         window.dispatchEvent(new Event('authResolved')); 
         
@@ -163,12 +177,12 @@ export function initAuthObserver() {
     });
 }
 
-window.processLogin = async function(event, formElement, routeType) {
+window.processLogin = async function(event, formElement, attemptedRouteType) {
     event.preventDefault();
     
     const btn = formElement.querySelector('button[type="submit"]');
     const originalText = btn.innerHTML;
-    btn.innerHTML = `<span class="material-symbols-outlined animate-spin">progress_activity</span> Authenticating...`;
+    btn.innerHTML = `<span class="material-symbols-outlined animate-spin">progress_activity</span>`;
     btn.disabled = true;
 
     try {
@@ -182,32 +196,35 @@ window.processLogin = async function(event, formElement, routeType) {
             localStorage.removeItem('ethan01_remember_device');
         }
 
+        // 1. Authenticate Payload
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
         
-        try {
+        // 2. Fetch/Cache Role Payload
+        const verifiedRole = await fetchSecureUserRole(user.uid);
+        window.currentUserRole = verifiedRole;
+        
+        // 3. Fire-and-Forget Background Mutation (DO NOT AWAIT - Speeds up routing by ~50ms)
+        if (verifiedRole === 'admin') {
             const sessionToken = `session_${Date.now()}_${Math.random().toString(36).substring(2)}`;
-            const adminRef = doc(db, 'admins', user.uid);
-            await setDoc(adminRef, {
+            setDoc(doc(db, 'admins', user.uid), {
                 currentSessionToken: sessionToken,
                 status: 'online',
                 lastActive: firestoreTimestamp()
-            }, { merge: true });
-        } catch (dbError) {
-            console.warn("Session token write bypassed.", dbError);
+            }, { merge: true }).catch(e => console.warn("Background session update dropped.", e));
         }
         
-        window.currentUserRole = routeType; 
-        sessionStorage.setItem('ethan01_user_role', routeType); 
         sessionStorage.setItem('ethan01_device_verified', 'true'); 
         
-        if (window.Toast) window.Toast.show("Authentication successful.", "success");
-        
-        if (routeType === 'admin') {
+        // 4. Instant Routing Execution
+        if (attemptedRouteType === 'admin' && verifiedRole === 'client') {
+            window.location.hash = '#/dashboard';
+        } else if (attemptedRouteType === 'client' && verifiedRole === 'admin') {
             window.location.hash = '#/admin/dashboard';
         } else {
-            window.location.hash = '#/dashboard';
+            window.location.hash = verifiedRole === 'admin' ? '#/admin/dashboard' : '#/dashboard';
         }
+
     } catch (error) {
         console.error("Login Error:", error);
         let errorMsg = "Authentication failed.";
@@ -229,19 +246,14 @@ window.processLogin = async function(event, formElement, routeType) {
 window.processLogout = async function(event) {
     if(event && event.preventDefault) event.preventDefault(); 
     try {
-        const wasAdmin = window.location.hash.startsWith('#/admin');
+        const wasAdmin = window.currentUserRole === 'admin';
         
-        if (window.currentUser) {
-            try {
-                const adminRef = doc(db, 'admins', window.currentUser.uid);
-                await setDoc(adminRef, {
-                    currentSessionToken: null,
-                    status: 'offline',
-                    lastActive: firestoreTimestamp()
-                }, { merge: true });
-            } catch (dbError) {
-                console.warn("Deep session database wipe bypassed.", dbError);
-            }
+        if (window.currentUser && wasAdmin) {
+            setDoc(doc(db, 'admins', window.currentUser.uid), {
+                currentSessionToken: null,
+                status: 'offline',
+                lastActive: firestoreTimestamp()
+            }, { merge: true }).catch(() => {}); // Fire and forget
         }
 
         window.currentUserRole = null; 
@@ -255,7 +267,6 @@ window.processLogout = async function(event) {
         
         await signOut(auth);
         
-        if (window.Toast) window.Toast.show("Session Terminated", "info");
         window.location.hash = wasAdmin ? '#/admin/auth' : '#/login';
     } catch (error) {
         console.error("Logout error:", error);
