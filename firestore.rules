@@ -1,0 +1,43 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Reusable Authentication check
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // PHASE 2: Deep Session Auth Rules
+    match /admins/{adminId} {
+      allow read: if isAuthenticated();
+      // Allow admins to update their own session state and status
+      allow update: if isAuthenticated() && request.auth.uid == adminId;
+      allow create, delete: if false; 
+    }
+
+    // PHASE 2: Strict RBAC for Projects
+    match /projects/{projectId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      
+      // Standard admins can only mutate project settings if their UID is explicitly in the assignedTeam array
+      allow update, delete: if isAuthenticated() && (request.auth.uid in resource.data.assignedTeam);
+      
+      // Cascade rule for project deliverables, tasks, and nested metrics
+      match /{subDoc=**} {
+        allow read: if isAuthenticated();
+        // To mutate a subcollection, they must exist in the parent project's assignedTeam
+        allow write: if isAuthenticated() && (request.auth.uid in get(/databases/$(database)/documents/projects/$(projectId)).data.assignedTeam);
+      }
+    }
+
+    // Global Vanguard Baseline
+    match /clients/{clientId} {
+      allow read, write: if isAuthenticated();
+    }
+    
+    match /metadata/{document=**} {
+      allow read, write: if isAuthenticated();
+    }
+  }
+}
