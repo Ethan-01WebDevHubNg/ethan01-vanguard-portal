@@ -95,32 +95,54 @@ export function renderHeader() {
 
     mountPoint.outerHTML = headerHTML; 
 
-    window.hydrateHeader = function(userObj) {
-        if (!userObj && !window.currentUser && !window.ethan01_currentUser) return;
+    // --- SMART NAME TRUNCATION ENGINE ---
+    window.formatHeaderName = function(fullName) {
+        if (!fullName) return '--';
+        const words = fullName.trim().split(/\s+/);
+        if (words.length <= 3) return fullName;
         
-        // CRITICAL FIX: Prioritize DB Profile -> Passed Payload -> Firebase Auth Object
-        const targetUser = window.ethan01_currentUser || userObj || window.currentUser;
-        if(!targetUser) return;
+        const firstTwo = words.slice(0, 2).join(' ');
+        const initials = words.slice(2).map(w => w.charAt(0).toUpperCase() + '.').join(' ');
+        return `${firstTwo} ${initials}`;
+    };
 
+    window.hydrateHeader = function(userObj) {
         const nameEl = document.getElementById('header-user-name');
         const roleEl = document.getElementById('header-user-role');
         const avatarEl = document.getElementById('header-user-avatar');
-        
-        let displayName = targetUser.fullName || targetUser.displayName || targetUser.email || 'Authorized User';
-        if (displayName.includes('@')) displayName = displayName.split('@')[0];
 
-        // Robust Role Deduction
-        let displayRole = targetUser.role;
-        if (!displayRole) {
-            displayRole = window.currentUserRole === 'admin' ? 'Super Admin' : 'Client';
+        // ROLE-BASED CONTEXT SWITCH
+        if (window.currentUserRole === 'admin') {
+            if (!userObj && !window.currentUser && !window.ethan01_currentUser) return;
+            
+            // CRITICAL FIX: Prioritize DB Profile -> Passed Payload -> Firebase Auth Object
+            const targetUser = window.ethan01_currentUser || userObj || window.currentUser;
+            if(!targetUser) return;
+            
+            let displayName = targetUser.fullName || targetUser.displayName || targetUser.email || 'Authorized User';
+            if (displayName.includes('@')) displayName = displayName.split('@')[0];
+
+            let displayRole = targetUser.role;
+            if (!displayRole) displayRole = 'Super Admin';
+
+            if (nameEl) nameEl.innerText = displayName;
+            if (roleEl) roleEl.innerText = displayRole;
+            if (avatarEl && (targetUser.avatarUrl || targetUser.photoURL)) avatarEl.src = targetUser.avatarUrl || targetUser.photoURL;
+        } else {
+            // CLIENT-SIDE HYDRATION
+            if (window.activeClientData) {
+                if (nameEl) nameEl.innerText = window.formatHeaderName(window.activeClientData.companyName || 'Client Profile');
+                if (roleEl) roleEl.innerText = 'Authorized Client';
+                if (avatarEl && window.activeClientData.logoUrl) avatarEl.src = window.activeClientData.logoUrl;
+            } else if (window.currentUser) {
+                if (nameEl) nameEl.innerText = window.currentUser.email.split('@')[0];
+                if (roleEl) roleEl.innerText = 'Authorized Client';
+            }
         }
-
-        if (nameEl) nameEl.innerText = displayName;
-        if (roleEl) roleEl.innerText = displayRole;
-        if (avatarEl && (targetUser.avatarUrl || targetUser.photoURL)) avatarEl.src = targetUser.avatarUrl || targetUser.photoURL;
     };
 
     window.addEventListener('profileLoaded', () => window.hydrateHeader());
+    window.addEventListener('vanguard-client-data-loaded', () => window.hydrateHeader()); // Added specific hook for client data loads
 
     if (!window._headerHydrationAttached) {
         // OVERHAUL: Listen to ALL Vanguard engine sync events to prevent stale headers on sub-routes
@@ -144,6 +166,7 @@ export function renderHeader() {
         window.hydrateHeader();
     }, 50);
 
+    // --- ORIGINAL SEARCH ENGINE LOGIC (UNTOUCHED) ---
     window.executeContextualSearch = function(query, mode) {
         const dropdown = document.getElementById(`${mode}-search-dropdown`);
         const actionIcon = document.getElementById('mobile-search-action');

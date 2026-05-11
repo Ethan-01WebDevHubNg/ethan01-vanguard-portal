@@ -168,7 +168,7 @@ window.processLogin = async function(event, formElement, routeType) {
     
     const btn = formElement.querySelector('button[type="submit"]');
     const originalText = btn.innerHTML;
-    btn.innerHTML = `<span class="material-symbols-outlined animate-spin">progress_activity</span> Authenticating...`;
+    btn.innerHTML = `<span class="material-symbols-outlined animate-spin">progress_activity</span>`;
     btn.disabled = true;
 
     try {

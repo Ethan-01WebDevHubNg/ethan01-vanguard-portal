@@ -1,171 +1,261 @@
 <div id="sidebar-mount"></div>
-<header class="fixed top-0 right-0 w-full md:w-[calc(100%-16rem)] z-40 bg-[#0e0e0e]/60 backdrop-blur-xl flex justify-between items-center px-4 sm:px-8 h-16 transition-all duration-300 border-b border-white/5">
-<div class="flex items-center gap-4">
-<button onclick="window.toggleSidebar(this)" class="md:hidden relative w-8 h-8 flex items-center justify-center group z-[80] shrink-0">
-<div class="flex flex-col justify-between w-5 h-4 transform transition-all duration-300 origin-center">
-<div class="bg-white h-[2px] w-full transform transition-all duration-300 origin-left group-[.active]:rotate-[42deg] group-[.active]:w-5 group-[.active]:bg-primary"></div>
-<div class="bg-white h-[2px] w-full transform transition-all duration-300 group-[.active]:opacity-0"></div>
-<div class="bg-white h-[2px] w-full transform transition-all duration-300 origin-left group-[.active]:-rotate-[42deg] group-[.active]:w-5 group-[.active]:bg-primary"></div>
-</div>
-</button>
-<span class="text-lg font-bold text-white tracking-tight hidden sm:block">Client Portal</span>
-<div class="ml-2 sm:ml-8 relative hidden sm:block">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 text-sm">search</span>
-<input class="bg-surface-container-highest border-none rounded-full pl-10 pr-4 py-1.5 text-xs w-64 focus:ring-1 focus:ring-primary-fixed transition-all text-on-surface" placeholder="Search resources..." type="text" onkeydown="if(event.key === 'Enter') Toast.show('Searching resources...', 'info')"/>
-</div>
-</div>
-<div class="flex items-center gap-4 sm:gap-6">
-<div class="hidden sm:flex items-center gap-4">
-<span class="material-symbols-outlined text-zinc-400 hover:text-[#f3ffca] cursor-pointer" onclick="Toast.show('No new project alerts.', 'info')">notifications</span>
-<span class="material-symbols-outlined text-zinc-400 hover:text-[#f3ffca] cursor-pointer" onclick="Toast.show('Interface theme toggled.', 'success')">dark_mode</span>
-</div>
-<div class="h-8 w-8 rounded-full overflow-hidden border border-outline-variant shrink-0">
-<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-rhBGHoAFMEzuLp3zkKhV--tdQ4lI8iPmoKDVnJr43ClFD6KAFC1jZYs-jz0Vrg_98SC0nptYlIb3JPccXmckvGtOVJvkICfmxVhwihzn8Pduroqvoufvm26mLVlsmdnp-o-2Azzui7GY3xZoSHx88MWl77EzvDTcMXiz33lVYQ20kp5wK-3n96uhAO_qpSucjAMh5m09airNpHgEN8NuQO-rKyRASypDHI5e-PYyl2Vfah_H8Td3w-ewSMgIcqDg4N2du4Q9Rw"/>
-</div>
-</div>
-</header>
+<div id="header-mount" data-search-placeholder="Search Active Workspace..."></div>
+
 <main class="ml-0 md:ml-64 pt-24 px-4 sm:px-8 pb-20 min-h-screen transition-all duration-300">
 <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
 <div>
 <h4 class="text-[0.6875rem] font-bold uppercase tracking-[0.05em] text-primary-fixed mb-2">Project Overview</h4>
-<h1 class="text-4xl sm:text-5xl font-black tracking-tighter text-white leading-none">Global Expansion Alpha</h1>
-<p class="text-on-surface-variant mt-4 max-w-xl leading-relaxed">System architecture and infrastructure scaling for the Q3 market penetration initiative. Current sprint: Module 4 Deployment.</p>
+<h1 id="cli-project-name" class="text-4xl sm:text-5xl font-black tracking-tighter text-on-surface leading-none">Loading Workspace...</h1>
+<p id="cli-project-desc" class="text-on-surface-variant mt-4 max-w-xl leading-relaxed">Retrieving active architectural pipeline data.</p>
 </div>
 <div class="flex items-center gap-3 pb-2">
 <div class="text-right">
-<p class="text-[0.6875rem] font-bold uppercase tracking-[0.05em] text-zinc-500">Client</p>
-<p class="text-sm font-semibold">Nexus Dynamics Inc.</p>
+<p class="text-[0.6875rem] font-bold uppercase tracking-[0.05em] text-on-surface-variant">Client</p>
+<p id="cli-company-name" class="text-sm font-semibold text-on-surface"><span class="animate-pulse bg-surface-container-highest h-4 w-32 rounded inline-block"></span></p>
 </div>
-<div class="h-10 w-10 bg-surface-container-high rounded-lg flex items-center justify-center">
-<span class="material-symbols-outlined text-primary">business</span>
+<div class="h-10 w-10 bg-surface-container-high rounded-lg flex items-center justify-center overflow-hidden border border-outline-variant shadow-sm">
+<img id="cli-company-logo" src="" class="w-full h-full object-cover hidden" />
+<span id="cli-company-icon" class="material-symbols-outlined text-primary animate-pulse">business</span>
 </div>
 </div>
 </div>
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-<section class="lg:col-span-8 bg-surface-container-low rounded-xl p-6 sm:p-8 flex flex-col justify-between min-h-[320px] relative overflow-hidden ghost-shadow">
+<section class="lg:col-span-8 bg-surface-container-low rounded-xl p-6 sm:p-8 flex flex-col justify-between min-h-[320px] relative overflow-hidden border border-outline-variant shadow-[var(--card-shadow)]">
 <div class="absolute top-0 right-0 p-8 opacity-10">
-<span class="material-symbols-outlined text-[160px]">speed</span>
+<span class="material-symbols-outlined text-[160px] text-on-surface">speed</span>
 </div>
 <div class="relative z-10">
 <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-12">
 <div>
-<span class="text-[0.6875rem] font-bold uppercase tracking-[0.05em] text-zinc-500 block mb-1">Completion Status</span>
-<h2 class="text-5xl sm:text-6xl font-black tracking-tighter text-primary-fixed">74.2%</h2>
+<span class="text-[0.6875rem] font-bold uppercase tracking-[0.05em] text-on-surface-variant block mb-1">Completion Status</span>
+<h2 id="cli-scope-val" class="text-5xl sm:text-6xl font-black tracking-tighter text-primary"><span class="animate-pulse bg-surface-container-highest h-12 w-32 rounded inline-block"></span></h2>
 </div>
-<div class="px-3 py-1 rounded-full bg-primary/10 border border-primary/20 self-start">
-<span class="text-[10px] font-bold text-primary uppercase">Ahead of Schedule</span>
+<div id="cli-pace-wrapper" class="px-3 py-1 rounded-full bg-[var(--color-primary-glow)] border border-[var(--color-primary-alpha-30)] self-start">
+<span id="cli-pace-badge" class="text-[10px] font-bold text-primary uppercase">Calculating...</span>
 </div>
 </div>
 <div class="space-y-4">
 <div class="h-4 w-full bg-surface-container-highest rounded-full overflow-hidden">
-<div class="h-full bg-gradient-to-r from-primary to-primary-container rounded-full w-[74.2%]"></div>
+<div id="cli-scope-bar" class="h-full bg-gradient-to-r from-primary to-primary-container rounded-full w-[0%] transition-all duration-1000"></div>
 </div>
-<div class="flex justify-between text-[0.6875rem] font-medium tracking-wide text-zinc-400 uppercase">
+<div class="flex justify-between text-[0.6875rem] font-medium tracking-wide text-on-surface-variant uppercase">
 <span>Project Initiation</span>
 <span>Deployment Ready</span>
 </div>
 </div>
 </div>
-<div class="grid grid-cols-3 gap-4 sm:gap-8 mt-8 border-t border-outline-variant/15 pt-8">
+<div class="grid grid-cols-3 gap-4 sm:gap-8 mt-8 border-t border-outline-variant pt-8">
 <div>
-<p class="text-zinc-500 text-[9px] sm:text-[10px] uppercase tracking-wider mb-1">Elapsed Days</p>
-<p class="text-lg sm:text-xl font-bold">142 <span class="text-xs text-zinc-600">/ 180</span></p>
+<p class="text-on-surface-variant text-[9px] sm:text-[10px] uppercase tracking-wider mb-1">Elapsed Days</p>
+<p id="cli-time-val" class="text-lg sm:text-xl font-bold text-on-surface"><span class="animate-pulse bg-surface-container-highest h-6 w-16 rounded inline-block"></span></p>
 </div>
 <div>
-<p class="text-zinc-500 text-[9px] sm:text-[10px] uppercase tracking-wider mb-1">Budget Burn</p>
-<p class="text-lg sm:text-xl font-bold">68%</p>
+<p class="text-on-surface-variant text-[9px] sm:text-[10px] uppercase tracking-wider mb-1">Budget Burn</p>
+<p id="cli-budget-val" class="text-lg sm:text-xl font-bold text-on-surface"><span class="animate-pulse bg-surface-container-highest h-6 w-16 rounded inline-block"></span></p>
 </div>
 <div>
-<p class="text-zinc-500 text-[9px] sm:text-[10px] uppercase tracking-wider mb-1">Milestones</p>
-<p class="text-lg sm:text-xl font-bold">12 <span class="text-xs text-zinc-600">/ 16</span></p>
+<p class="text-on-surface-variant text-[9px] sm:text-[10px] uppercase tracking-wider mb-1">Milestones</p>
+<p id="cli-milestone-val" class="text-lg sm:text-xl font-bold text-on-surface"><span class="animate-pulse bg-surface-container-highest h-6 w-16 rounded inline-block"></span></p>
 </div>
 </div>
 </section>
 <div class="lg:col-span-4 space-y-6">
-<div class="bg-error-container/10 border border-error/20 rounded-xl p-6 relative overflow-hidden">
+<div id="cli-qa-block" class="bg-[var(--color-error-container)] border border-[var(--color-error-dim)] rounded-xl p-6 relative overflow-hidden shadow-sm" style="display: none;">
 <div class="flex gap-4">
-<div class="h-10 w-10 shrink-0 bg-error-container rounded-lg flex items-center justify-center">
+<div class="h-10 w-10 shrink-0 bg-error rounded-lg flex items-center justify-center">
 <span class="material-symbols-outlined text-white">warning</span>
 </div>
 <div>
-<h3 class="font-bold text-white text-sm mb-1">Approval Required</h3>
-<p class="text-on-surface-variant text-xs leading-relaxed mb-4">Phase 3 infrastructure costs have exceeded the initial estimate by 4.2%. Project continuation requires lead sign-off.</p>
-<button class="text-xs font-black uppercase tracking-widest text-primary hover:underline transition-all" onclick="Modal.show('Review Cost Discrepancy', '<div class=\'space-y-4\'><p class=\'text-sm text-zinc-300 leading-relaxed\'>Phase 3 infrastructure costs have exceeded the initial estimate by 4.2% ($850.00) due to increased server load requirements during the beta launch.</p></div>', '<button onclick=\'Modal.hide()\' class=\'text-zinc-400 hover:text-white font-bold text-sm px-4\'>Request Review</button><button onclick=\'Modal.hide(); Toast.show(&quot;Discrepancy approved.&quot;, &quot;success&quot;)\' class=\'bg-primary text-on-primary px-6 py-2.5 rounded-lg font-bold text-sm shadow-[0_4px_15px_rgba(204,255,0,0.15)]\'>Approve &amp; Proceed</button>')">Review Discrepancy</button>
+<h3 class="font-bold text-error text-sm mb-1">Approval Required</h3>
+<p id="cli-qa-desc" class="text-on-surface-variant text-xs leading-relaxed mb-4">Phase continuation requires lead sign-off.</p>
+<button id="cli-qa-btn" class="text-xs font-black uppercase tracking-widest text-error hover:underline transition-all">Review Discrepancy</button>
 </div>
 </div>
 </div>
-<div class="bg-surface-container-high rounded-xl p-6">
+<div class="bg-surface-container-high rounded-xl p-6 border border-outline-variant shadow-sm">
 <div class="flex items-center gap-3 mb-6">
-<span class="material-symbols-outlined text-zinc-500">timeline</span>
-<h3 class="text-[0.6875rem] font-bold uppercase tracking-[0.05em] text-zinc-500">Resource Allocation</h3>
+<span class="material-symbols-outlined text-on-surface-variant">timeline</span>
+<h3 class="text-[0.6875rem] font-bold uppercase tracking-[0.05em] text-on-surface-variant">Resource Allocation</h3>
 </div>
 <div class="space-y-6">
 <div class="flex items-center justify-between">
 <span class="text-xs text-on-surface-variant">Engineering</span>
-<span class="text-xs font-mono font-bold text-white">420h</span>
+<span class="text-xs font-mono font-bold text-on-surface">Active</span>
 </div>
 <div class="flex items-center justify-between">
 <span class="text-xs text-on-surface-variant">Design</span>
-<span class="text-xs font-mono font-bold text-white">180h</span>
+<span class="text-xs font-mono font-bold text-on-surface">Active</span>
 </div>
 <div class="flex items-center justify-between">
 <span class="text-xs text-on-surface-variant">Strategy</span>
-<span class="text-xs font-mono font-bold text-white">95h</span>
+<span class="text-xs font-mono font-bold text-on-surface">Active</span>
 </div>
 </div>
 </div>
 </div>
-<section class="col-span-1 lg:col-span-12 bg-surface-container-low rounded-xl p-6 sm:p-8">
+<section class="col-span-1 lg:col-span-12 bg-surface-container-low rounded-xl p-6 sm:p-8 border border-outline-variant shadow-[var(--card-shadow)]">
 <div class="flex items-center justify-between mb-10">
-<h3 class="text-lg font-bold text-white tracking-tight">Project Roadmap</h3>
+<h3 class="text-lg font-bold text-on-surface tracking-tight">Project Roadmap</h3>
 <div class="flex items-center gap-2">
-<span class="h-2 w-2 rounded-full bg-primary"></span>
-<span class="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Current Phase: Beta Launch</span>
+<span class="h-2 w-2 rounded-full bg-primary animate-pulse"></span>
+<span id="cli-current-phase-badge" class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Synchronizing...</span>
 </div>
 </div>
-<div class="relative flex flex-col md:flex-row justify-between gap-8">
-<div class="absolute top-5 left-5 md:left-0 md:w-full h-[calc(100%-40px)] md:h-0.5 bg-surface-variant z-0"></div>
-<div class="relative z-10 flex md:flex-col gap-4 md:items-center text-left md:text-center w-full">
-<div class="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-on-primary ring-4 ring-surface shrink-0">
-<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">check</span>
-</div>
-<div class="pt-1 md:pt-0">
-<p class="text-[10px] font-bold uppercase tracking-widest text-zinc-500 mb-1">Phase 01</p>
-<h4 class="text-sm font-bold text-white">Discovery & Audit</h4>
-<p class="text-[11px] text-zinc-500 mt-1 hidden md:block">Technical architecture review and security audit completed.</p>
-</div>
-</div>
-<div class="relative z-10 flex md:flex-col gap-4 md:items-center text-left md:text-center w-full">
-<div class="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-on-primary ring-4 ring-surface shrink-0">
-<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">check</span>
-</div>
-<div class="pt-1 md:pt-0">
-<p class="text-[10px] font-bold uppercase tracking-widest text-zinc-500 mb-1">Phase 02</p>
-<h4 class="text-sm font-bold text-white">Core Development</h4>
-<p class="text-[11px] text-zinc-500 mt-1 hidden md:block">Baseline API infrastructure and database schemas live.</p>
-</div>
-</div>
-<div class="relative z-10 flex md:flex-col gap-4 md:items-center text-left md:text-center w-full">
-<div class="h-10 w-10 rounded-full bg-surface-container-highest border-2 border-primary flex items-center justify-center text-primary ring-4 ring-surface shadow-[0_0_15px_rgba(243,255,202,0.3)] shrink-0">
-<span class="material-symbols-outlined text-lg animate-pulse">near_me</span>
-</div>
-<div class="pt-1 md:pt-0">
-<p class="text-[10px] font-bold uppercase tracking-widest text-primary mb-1">In Progress</p>
-<h4 class="text-sm font-bold text-white">Beta Launch</h4>
-<p class="text-[11px] text-zinc-500 mt-1 hidden md:block">Limited testing environment deployment for stakeholders.</p>
-</div>
-</div>
-<div class="relative z-10 flex md:flex-col gap-4 md:items-center text-left md:text-center w-full">
-<div class="h-10 w-10 rounded-full bg-surface-container-highest flex items-center justify-center text-zinc-600 ring-4 ring-surface shrink-0">
-<span class="material-symbols-outlined text-lg">rocket_launch</span>
-</div>
-<div class="pt-1 md:pt-0">
-<p class="text-[10px] font-bold uppercase tracking-widest text-zinc-600 mb-1">Phase 04</p>
-<h4 class="text-sm font-bold text-zinc-600">Final Release</h4>
-<p class="text-[11px] text-zinc-700 mt-1 hidden md:block">Full production rollout and CDN optimization.</p>
-</div>
-</div>
+<div id="cli-roadmap-container" class="relative flex flex-col md:flex-row justify-between gap-8">
+<div class="text-sm text-on-surface-variant text-center w-full py-4 animate-pulse">Loading roadmap data...</div>
 </div>
 </section>
 </div>
 </main>
+
+<template id="tpl-cli-roadmap-item">
+<div class="relative z-10 flex md:flex-col gap-4 md:items-center text-left md:text-center w-full" style="flex: {flexValue};">
+<div class="h-10 w-10 rounded-full {bgClass} flex items-center justify-center {textClass} ring-4 ring-surface shrink-0 {borderClass} {shadowClass}">
+<span class="material-symbols-outlined text-lg {iconAnim}" style="font-variation-settings: 'FILL' 1;">{icon}</span>
+</div>
+<div class="pt-1 md:pt-0">
+<p class="text-[10px] font-bold uppercase tracking-widest {labelClass} mb-1">{phaseLabel}</p>
+<h4 class="text-sm font-bold {titleClass}">{phaseName}</h4>
+<p class="text-[11px] {descClass} mt-1 hidden md:block">{desc}</p>
+</div>
+</div>
+</template>
+
+<script type="text/plain" id="cli-dash-data-script">
+    window.initializeClientDashboard = async function() {
+        try {
+            const { collection, query, where, getDocs, onSnapshot } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+            const { db, auth } = await import('/js/config/firebase-dev.js');
+            
+            if (!auth.currentUser) return setTimeout(window.initializeClientDashboard, 500);
+            const uid = auth.currentUser.uid;
+
+            const cSnap = await getDocs(query(collection(db, 'clients'), where('authUid', '==', uid)));
+            if (cSnap.empty) return;
+            
+            const clientDoc = cSnap.docs[0];
+            window.activeClientData = { id: clientDoc.id, ...clientDoc.data() };
+            window.dispatchEvent(new Event('vanguard-client-data-loaded'));
+            
+            document.getElementById('cli-company-name').innerText = window.activeClientData.companyName || 'Authorized Client';
+            if(window.activeClientData.logoUrl) {
+                document.getElementById('cli-company-logo').src = window.activeClientData.logoUrl;
+                document.getElementById('cli-company-logo').classList.remove('hidden');
+                document.getElementById('cli-company-icon').classList.add('hidden');
+            }
+            if (window.activeClientData.brandColor && window.applyDynamicBrandColor) {
+                window.applyDynamicBrandColor(window.activeClientData.brandColor);
+            }
+
+            const qProj = query(collection(db, 'projects'), where('clientId', '==', window.activeClientData.id), where('status', '==', 'Active'));
+            
+            if (window.cliProjUnsub) window.cliProjUnsub();
+            window.cliProjUnsub = onSnapshot(qProj, (pSnap) => {
+                if (pSnap.empty) return;
+
+                const projDoc = pSnap.docs[0];
+                const proj = { id: projDoc.id, ...projDoc.data() };
+                
+                document.getElementById('cli-project-name').innerText = proj.projectName || 'Active Project';
+                document.getElementById('cli-project-desc').innerText = `Project ID: ${proj.projectId}`;
+
+                const startDate = proj.createdAt?.toDate() || new Date();
+                const diffDays = Math.max(0, Math.ceil((new Date() - startDate) / (1000 * 60 * 60 * 24)));
+                const durationDays = proj.durationDays > 0 ? proj.durationDays : 1;
+                const timeElapsedPct = Math.min(100, (diffDays / durationDays) * 100);
+
+                let trueScopePct = 0;
+                let approvedCount = 0;
+                let totalPhases = proj.phases ? proj.phases.length : 0;
+                let currentActivePhase = 'Pending Kickoff';
+                
+                let roadmapHtml = '';
+                const tlTpl = document.getElementById('tpl-cli-roadmap-item').innerHTML;
+                let qaPendingPhase = null;
+
+                if(proj.phases) {
+                    proj.phases.forEach((p, idx) => { 
+                        if(p.status === 'Approved') {
+                            trueScopePct += (p.scopePct || 0); 
+                            approvedCount++;
+                        }
+                        if(p.status === 'In Progress' || p.status === 'Active') {
+                            currentActivePhase = p.name;
+                        }
+                        if(p.status === 'Pending Review') {
+                            qaPendingPhase = p;
+                        }
+
+                        let bgClass = 'bg-surface-container-highest', textClass = 'text-on-surface-variant', borderClass = 'border border-outline-variant', shadowClass = '', icon = 'rocket_launch', iconAnim = '', labelClass = 'text-on-surface-variant', titleClass = 'text-on-surface-variant', descClass = 'text-on-surface-variant';
+
+                        if (p.status === 'Approved') {
+                            bgClass = 'bg-primary'; textClass = 'text-[#09090b]'; icon = 'check'; borderClass = ''; shadowClass = 'shadow-[0_4px_15px_var(--color-primary-glow)]';
+                            labelClass = 'text-on-surface-variant'; titleClass = 'text-on-surface'; descClass = 'text-on-surface-variant';
+                        } else if (p.status === 'In Progress' || p.status === 'Active') {
+                            bgClass = 'bg-surface-container-highest'; textClass = 'text-primary'; borderClass = 'border-2 border-primary'; shadowClass = 'shadow-[0_4px_15px_var(--color-primary-glow)]';
+                            icon = 'near_me'; iconAnim = 'animate-pulse'; labelClass = 'text-primary'; titleClass = 'text-on-surface'; descClass = 'text-on-surface-variant';
+                        } else if (p.status === 'Pending Review') {
+                            bgClass = 'bg-[var(--color-error-container)]'; textClass = 'text-error'; borderClass = 'border-2 border-[var(--color-error-dim)]';
+                            icon = 'warning'; iconAnim = 'animate-pulse'; labelClass = 'text-error'; titleClass = 'text-on-surface'; descClass = 'text-on-surface-variant';
+                        }
+
+                        // Flex-value perfectly aligns spacing via scope weight
+                        roadmapHtml += tlTpl.replace(/{flexValue}/g, Math.max(1, p.scopePct || 0)).replace(/{bgClass}/g, bgClass).replace(/{textClass}/g, textClass).replace(/{borderClass}/g, borderClass).replace(/{shadowClass}/g, shadowClass).replace(/{icon}/g, icon).replace(/{iconAnim}/g, iconAnim).replace(/{labelClass}/g, labelClass).replace(/{titleClass}/g, titleClass).replace(/{descClass}/g, descClass).replace(/{phaseLabel}/g, `Phase ${(idx+1).toString().padStart(2,'0')}`).replace(/{phaseName}/g, p.name).replace(/{desc}/g, `${p.scopePct}% Scope Weight`);
+                    });
+                }
+
+                // DYNAMIC GLOWING HORIZONTAL TRACK & THEME-AWARE BACKGROUND
+                roadmapHtml = `
+                    <div class="absolute top-5 left-5 md:left-0 md:w-full h-[calc(100%-40px)] md:h-0.5 bg-black/20 dark:bg-white/10 z-0"></div>
+                    <div class="absolute top-5 left-5 md:left-0 bg-primary z-0 shadow-[0_0_15px_var(--color-primary-glow)] transition-all duration-1000 hidden md:block" style="width: ${trueScopePct}%; height: 2px;"></div>
+                    <div class="absolute top-5 left-5 md:hidden bg-primary z-0 shadow-[0_0_15px_var(--color-primary-glow)] transition-all duration-1000" style="height: calc(${trueScopePct}% - 40px); width: 2px;"></div>
+                ` + roadmapHtml;
+
+                document.getElementById('cli-scope-val').innerText = `${Math.min(100, trueScopePct).toFixed(1)}%`;
+                document.getElementById('cli-scope-bar').style.width = `${Math.min(100, trueScopePct)}%`;
+                document.getElementById('cli-time-val').innerHTML = `${diffDays} <span class="text-xs text-on-surface-variant">/ ${durationDays}</span>`;
+                
+                const consumed = proj.budgetConsumed || 0;
+                const total = proj.totalBudget || 0;
+                const budgetPct = total > 0 ? Math.min(100, (consumed / total) * 100).toFixed(0) : 0;
+                document.getElementById('cli-budget-val').innerText = `${budgetPct}%`;
+                
+                document.getElementById('cli-milestone-val').innerHTML = `${approvedCount} <span class="text-xs text-on-surface-variant">/ ${totalPhases}</span>`;
+                document.getElementById('cli-current-phase-badge').innerText = `Current Phase: ${currentActivePhase}`;
+                document.getElementById('cli-roadmap-container').innerHTML = roadmapHtml;
+
+                const variance = trueScopePct - timeElapsedPct;
+                const paceWrapper = document.getElementById('cli-pace-wrapper');
+                const paceBadge = document.getElementById('cli-pace-badge');
+                
+                if (variance < -5) {
+                    paceWrapper.className = 'px-3 py-1 rounded-full bg-[var(--color-error-container)] border border-[var(--color-error-dim)] self-start text-error';
+                    paceBadge.className = 'text-[10px] font-bold text-error uppercase';
+                    paceBadge.innerText = 'Behind Schedule';
+                } else {
+                    paceWrapper.className = 'px-3 py-1 rounded-full bg-[var(--color-primary-glow)] border border-[var(--color-primary-alpha-30)] self-start';
+                    paceBadge.className = 'text-[10px] font-bold text-primary uppercase';
+                    paceBadge.innerText = variance > 5 ? 'Ahead of Schedule' : 'On Track';
+                }
+
+                const qaBlock = document.getElementById('cli-qa-block');
+                if (qaPendingPhase) {
+                    document.getElementById('cli-qa-desc').innerText = `The milestone "${qaPendingPhase.name}" requires your approval to proceed.`;
+                    const btn = document.getElementById('cli-qa-btn');
+                    btn.setAttribute('data-pid', proj.id);
+                    btn.setAttribute('data-phaseid', qaPendingPhase.id);
+                    btn.setAttribute('onclick', `window.Modal.show('Approve Milestone', '<p class="text-sm text-on-surface-variant">Acknowledge completion of ${qaPendingPhase.name}?</p>', '<button onclick="window.Modal.hide()" class="text-on-surface-variant font-bold px-4 text-sm">Cancel</button><button onclick="window.Toast.show(\\'QA Engine linked in backend.\\',\\'info\\'); window.Modal.hide();" class="bg-primary text-[#09090b] px-6 py-2.5 rounded-lg text-sm font-bold">Approve</button>')`);
+                    qaBlock.style.display = 'block';
+                } else {
+                    qaBlock.style.display = 'none';
+                }
+            });
+
+        } catch(e) {
+            console.error('Dashboard Init Error', e);
+        }
+    };
+
+    window.initializeClientDashboard();
+</script>
+<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" style="display:none;" onload="const s=document.createElement('script');s.textContent=document.getElementById('cli-dash-data-script').textContent;document.body.appendChild(s);this.remove();" />

@@ -20,8 +20,13 @@ export function initTheme() {
         const newTheme = isDark ? 'dark' : 'light';
         localStorage.setItem('ethan01_theme', newTheme);
         
-        // Dispatch event for JS-dependent components (like your loader canvas)
+        // Dispatch event for JS-dependent components
         window.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme: newTheme } }));
+        
+        // CRITICAL: If a client's custom brand color is active, recalculate its contrast for the new theme
+        if (window.activeClientBrandColor) {
+            window.applyDynamicBrandColor(window.activeClientBrandColor);
+        }
         
         if (window.Toast) {
             window.Toast.show(`Switched to ${newTheme.toUpperCase()} mode.`, 'info');
@@ -34,6 +39,45 @@ export function initTheme() {
         const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
         return adjustColorLuminance(baseHexCode, currentTheme);
     };
+
+    // 4. Dynamic Brand Color Hydration Engine
+    window.activeClientBrandColor = null;
+
+    window.applyDynamicBrandColor = function(hexCode) {
+        if (!hexCode || !hexCode.startsWith('#')) return;
+        
+        // Store it so toggleTheme can re-apply the correct contrast if the user switches themes
+        window.activeClientBrandColor = hexCode; 
+        
+        // Pass it through your Smart Color engine to ensure it doesn't blind the user in Light Mode
+        const smartHex = window.getSmartColor(hexCode);
+        
+        const root = document.documentElement;
+        // Inject the CSS variables at the root level. This securely overwrites the default agency theme.
+        root.style.setProperty('--color-primary', smartHex);
+        root.style.setProperty('--color-primary-glow', smartHex + '33');     // 20% opacity
+        root.style.setProperty('--color-primary-alpha', smartHex + '80');    // 50% opacity
+        root.style.setProperty('--color-primary-alpha-30', smartHex + '4D'); // 30% opacity
+    };
+
+    // 5. Gateway Reset Engine
+    window.resetBrandColor = function() {
+        window.activeClientBrandColor = null;
+        const root = document.documentElement;
+        // Strip the inline overrides so the UI falls back to your default main.css variables
+        root.style.removeProperty('--color-primary');
+        root.style.removeProperty('--color-primary-glow');
+        root.style.removeProperty('--color-primary-alpha');
+        root.style.removeProperty('--color-primary-alpha-30');
+    };
+
+    // Listen to the SPA router. If they hit the login/public pages, instantly restore the agency default colors.
+    window.addEventListener('hashchange', () => {
+        const publicRoutes = ['#/login', '#/admin/auth', '', '#/'];
+        if (publicRoutes.includes(window.location.hash)) {
+            window.resetBrandColor();
+        }
+    });
 }
 
 function adjustColorLuminance(hex, theme) {
@@ -49,6 +93,7 @@ function adjustColorLuminance(hex, theme) {
     let luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
     let lumAdjustment = 0;
 
+    // The math engine to ensure contrast ratio validity
     if (theme === 'light') {
         if (luminance > 0.55) lumAdjustment = -0.30; 
         else lumAdjustment = -0.15; 
