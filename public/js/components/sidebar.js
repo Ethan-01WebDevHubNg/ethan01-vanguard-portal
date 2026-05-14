@@ -76,10 +76,16 @@ export function renderSidebar() {
     // FIXED: Mobile nav top border changed to surface-container-highest for dynamic cross-theme visibility
     const mobileClientNav = role === 'client' ? `
         <div class="md:hidden fixed bottom-0 left-0 w-full bg-surface-container-low px-6 py-4 flex justify-between items-center z-[90] border-t border-surface-container-highest">
-            <a href="#/dashboard" class="material-symbols-outlined ${hash === '#/dashboard' ? 'text-primary' : 'text-on-surface-variant'}">dashboard</a>
-            <a href="#/files" class="material-symbols-outlined ${hash === '#/files' ? 'text-primary' : 'text-on-surface-variant'}">account_tree</a>
-            <a href="#/settings" class="material-symbols-outlined ${hash === '#/settings' ? 'text-primary' : 'text-on-surface-variant'}">settings</a>
-        </div>
+  <a href="#/dashboard" class="flex flex-1 justify-center items-center">
+    <span class="material-symbols-outlined text-primary">dashboard</span>
+  </a>
+  <a href="#/files" class="flex flex-1 justify-center items-center">
+    <span class="material-symbols-outlined text-on-surface-variant">account_tree</span>
+  </a>
+  <a href="#/settings" class="flex flex-1 justify-center items-center">
+    <span class="material-symbols-outlined text-on-surface-variant">settings</span>
+  </a>
+</div>
     ` : '';
 
     const sidebarHtml = `

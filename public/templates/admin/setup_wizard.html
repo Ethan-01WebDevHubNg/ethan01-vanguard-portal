@@ -87,13 +87,37 @@
                         </div>
                         <div class="flex-1">
                             <h3 class="text-lg font-bold text-on-surface">2. Project Phases & Timeline</h3>
-                            <p class="text-[0.6875rem] text-on-surface-variant uppercase tracking-wider">Set the completion percentage, duration, and cost for each phase</p>
+                            <p class="text-[0.6875rem] text-on-surface-variant uppercase tracking-wider">Define project specific details, scopes and timelines.</p>
                         </div>
                         <div class="text-right">
                             <p class="text-xs text-on-surface-variant font-bold uppercase">Total Scope</p>
                             <p class="text-xl font-black text-on-surface transition-colors" id="display-total-scope">0%</p>
                         </div>
                     </div>
+                    
+                    <div class="mb-8 p-5 bg-surface-container-highest border border-outline-variant rounded-xl space-y-5 shadow-sm">
+                        <h4 class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest mb-2 flex items-center gap-2"><span class="material-symbols-outlined text-sm">view_kanban</span> Project Specifics</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <div class="space-y-2">
+                                <label for="in-project-title" class="text-[0.6875rem] uppercase tracking-wider text-on-surface-variant font-bold ml-1">Project Title</label>
+                                <input id="in-project-title" name="project_title" class="w-full bg-surface-container-high border-[1.5px] border-transparent focus:border-[var(--color-primary-alpha-30)] rounded-lg p-3 text-sm text-on-surface placeholder-on-surface-variant outline-none transition-all" placeholder="e.g. Website Redesign" type="text"/>
+                            </div>
+                            <div class="space-y-2">
+                                <label for="in-project-domain" class="text-[0.6875rem] uppercase tracking-wider text-on-surface-variant font-bold ml-1">Project Domain</label>
+                                <input id="in-project-domain" name="project_domain" class="w-full bg-surface-container-high border-[1.5px] border-transparent focus:border-[var(--color-primary-alpha-30)] rounded-lg p-3 text-sm text-on-surface placeholder-on-surface-variant outline-none transition-all" placeholder="e.g. new.acme.com" type="text"/>
+                            </div>
+                            <div class="space-y-2 sm:col-span-2">
+                                <label class="text-[0.6875rem] uppercase tracking-wider text-on-surface-variant font-bold ml-1">Project Brand Color</label>
+                                <div class="flex items-center gap-4">
+                                    <div class="relative w-10 h-10 rounded-full border border-outline-variant overflow-hidden cursor-pointer shrink-0 shadow-sm">
+                                        <input type="color" id="in-project-color" value="#CCFF00" class="absolute inset-0 w-[200%] h-[200%] -top-[50%] -left-[50%] cursor-pointer" oninput="document.getElementById('in-project-color-text').value = this.value.toUpperCase(); window.updateBrandColor(this.value);"/>
+                                    </div>
+                                    <input type="text" id="in-project-color-text" value="#CCFF00" class="bg-surface-container-high border-[1.5px] border-transparent focus:border-[var(--color-primary-alpha-30)] rounded-lg p-3 text-sm font-mono uppercase text-on-surface w-32 outline-none transition-all" oninput="document.getElementById('in-project-color').value = this.value; window.updateBrandColor(this.value);"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="space-y-3 mb-6" id="phases-container"></div>
                     <button class="flex items-center gap-2 text-xs font-bold text-on-surface-variant hover:text-on-surface transition-colors" onclick="window.openPhaseModal()">
                         <span class="material-symbols-outlined text-sm">add_circle</span> Add New Phase
@@ -114,8 +138,8 @@
                             <span class="material-symbols-outlined text-on-surface-variant" id="step-3-icon">palette</span>
                         </div>
                         <div>
-                            <h3 class="text-lg font-bold text-on-surface">3. Brand Colors</h3>
-                            <p class="text-[0.6875rem] text-on-surface-variant uppercase tracking-wider">Customize the client's portal look</p>
+                            <h3 class="text-lg font-bold text-on-surface">3. Client Base Theme</h3>
+                            <p class="text-[0.6875rem] text-on-surface-variant uppercase tracking-wider">Fallback identity color for the organization</p>
                         </div>
                     </div>
                     <div class="flex flex-col sm:flex-row gap-8 sm:gap-12">
@@ -251,6 +275,27 @@
             <label for='new-phase-name' class='text-xs font-bold text-on-surface-variant uppercase tracking-widest'>Phase Name</label>
             <input type='text' id='new-phase-name' name='new_phase_name' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none' placeholder='e.g. Server Migration'/>
         </div>
+
+        <div class='space-y-2'>
+            <label for='new-phase-department' class='text-xs font-bold text-on-surface-variant uppercase tracking-widest'>Assigned Department</label>
+            <div class='relative'>
+                <select id='new-phase-department' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface appearance-none focus:border-primary outline-none cursor-pointer'>
+                    <option value="Engineering">Engineering</option>
+                    <option value="Design">Design</option>
+                    <option value="Strategy">Strategy</option>
+                </select>
+                <span class='material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none text-sm'>expand_more</span>
+            </div>
+        </div>
+
+        <div class='space-y-2'>
+            <div class='flex justify-between items-center mb-1'>
+                <label for='new-phase-desc' class='text-xs font-bold text-on-surface-variant uppercase tracking-widest'>Phase Description</label>
+                <span id='phase-desc-count' class='text-[10px] font-mono text-on-surface-variant'>0/50 words</span>
+            </div>
+            <textarea id='new-phase-desc' rows="2" class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none resize-none' placeholder='Concise overview of phase deliverables (Max 50 words)...' oninput='window.updatePhaseWordCount(this)'></textarea>
+        </div>
+
         <div class='grid grid-cols-3 gap-4'>
             <div class='space-y-2'>
                 <label for='new-phase-percent' class='text-xs font-bold text-on-surface-variant uppercase tracking-widest'>Scope %</label>
@@ -292,6 +337,9 @@
         <div class='flex items-center gap-3 flex-1 w-full'>
             <div class='w-8 h-8 rounded bg-surface-container-highest border border-outline-variant flex items-center justify-center text-xs font-bold text-on-surface-variant shrink-0'>{count}</div>
             <input class='flex-1 w-full min-w-0 bg-transparent border-none focus:ring-0 text-sm text-on-surface placeholder-on-surface-variant outline-none phase-name-val' name='phase_name_{count}' aria-label='Phase Name' type='text' value='{name}' onchange='window.saveWizardState()'/>
+            <input type='hidden' class='phase-dept-val' value='{department}'/>
+            <input type='hidden' class='phase-desc-val' value='{description}'/>
+            <span class='text-[10px] font-bold uppercase tracking-widest text-on-surface-variant bg-surface-container border border-outline-variant px-2 py-1 rounded hidden sm:block'>{department}</span>
         </div>
         <div class='flex items-center justify-start gap-3 w-full sm:w-auto pl-11 sm:pl-0 overflow-x-auto no-scrollbar scroll-smooth pb-1 sm:pb-0'>
             <div class='w-16 relative shrink-0'>
@@ -356,7 +404,6 @@
         }
     };
     
-    // NEW: Draft Loading Engine
     window.loadDraft = async function(draftId) {
         if(window.Toast) window.Toast.show('Loading draft...', 'info');
         try {
@@ -703,13 +750,31 @@
         setTimeout(window.updateCurrency, 10);
     };
 
+    // PHASE 3 OVERHAUL: Description Limit Control
+    window.updatePhaseWordCount = function(el) {
+        let words = el.value.trim().split(/\s+/).filter(w => w.length > 0);
+        const countEl = document.getElementById('phase-desc-count');
+        if (words.length > 50) {
+            el.value = words.slice(0, 50).join(' ');
+            words = words.slice(0, 50);
+            if(countEl) countEl.classList.add('text-error');
+        } else {
+            if(countEl) countEl.classList.remove('text-error');
+        }
+        if(countEl) countEl.innerText = `${words.length}/50 words`;
+    };
+
     window.addPhaseAndCost = function() {
         const nameIn = document.getElementById('new-phase-name');
+        const deptIn = document.getElementById('new-phase-department');
+        const descIn = document.getElementById('new-phase-desc'); // PHASE 3 OVERHAUL
         const pctIn = document.getElementById('new-phase-percent');
         const daysIn = document.getElementById('new-phase-days');
         const costIn = document.getElementById('modal-phase-cost');
         
         const name = (nameIn && nameIn.value) ? nameIn.value : 'New Phase';
+        const dept = (deptIn && deptIn.value) ? deptIn.value : 'Engineering';
+        const desc = (descIn && descIn.value) ? descIn.value : ''; // Phase 3 extra
         const percent = (pctIn && pctIn.value) ? pctIn.value : '10';
         const days = (daysIn && daysIn.value) ? daysIn.value : '14';
         const cost = (costIn && costIn.value) ? costIn.value : '0';
@@ -719,7 +784,15 @@
             const count = cont.children.length + 1;
             const div = document.createElement('div');
             let html = document.getElementById('tpl-phase-item').innerHTML;
-            html = html.replace(/{count}/g, count).replace('{name}', name).replace('{pct}', percent).replace('{days}', days).replace('{cost}', cost);
+            
+            html = html.replace(/{count}/g, count)
+                       .replace('{name}', name)
+                       .replace(/{department}/g, dept)
+                       .replace('{description}', desc.replace(/'/g, "&#39;")) 
+                       .replace('{pct}', percent)
+                       .replace('{days}', days)
+                       .replace('{cost}', cost);
+                       
             div.innerHTML = html;
             cont.appendChild(div.firstElementChild);
         }
@@ -730,7 +803,7 @@
         window.saveWizardState();
         
         if(window.Modal) window.Modal.hide();
-        if(window.Toast) window.Toast.show('Phase added.', 'success');
+        if(window.Toast) window.Toast.show('Phase added successfully.', 'success');
     };
 
     window.updateBrandColor = function(val) {
@@ -748,6 +821,10 @@
         const clientEmail = document.getElementById('in-client-email')?.value || '';
         const clientPassword = document.getElementById('in-client-password')?.value || '';
         
+        const projectTitle = document.getElementById('in-project-title')?.value || (companyName + ' Project Setup');
+        const projectDomain = document.getElementById('in-project-domain')?.value || '';
+        const projectBrandColor = document.getElementById('in-project-color')?.value || document.getElementById('brand-color-text')?.value || '#CCFF00';
+
         if (!companyName.trim()) {
             if(window.Toast) window.Toast.show('Company Name is required to initialize a workspace.', 'warning');
             return;
@@ -764,6 +841,8 @@
         document.querySelectorAll('.phase-row-wrapper').forEach((row, idx) => {
             const pct = parseFloat(row.querySelector('.phase-pct-input').value) || 0;
             const days = parseInt(row.querySelector('.phase-days-input').value) || 0;
+            const dept = row.querySelector('.phase-dept-val').value || 'Engineering'; 
+            const desc = row.querySelector('.phase-desc-val').value || ''; // PHASE 3 OVERHAUL
             
             totalScope += pct;
             totalDurationDays += days;
@@ -771,6 +850,8 @@
             extractedPhases.push({
                 id: 'phase_' + Date.now() + '_' + idx,
                 name: row.querySelector('.phase-name-val').value || ('Phase ' + (idx + 1)),
+                department: dept, 
+                description: desc, // Written securely to DB
                 scopePct: pct,
                 durationDays: days,
                 cost: parseFloat(row.querySelector('.phase-cost-input').value) || 0,
@@ -783,7 +864,6 @@
             return;
         }
 
-        // NEW: Capture Extra Billing Items
         let extraBillingItems = [];
         document.querySelectorAll('#extra-billing-container > div').forEach(row => {
             const name = row.querySelector('input[name="extra_item_name"]')?.value || '';
@@ -855,17 +935,18 @@
 
             batch.set(clientRef, clientPayload, { merge: true });
 
-            // FIX: Removed the *100 from totalBudget
             batch.set(projectRef, {
                 projectId: projectId,
                 clientId: clientId,
-                projectName: companyName + ' Architecture Setup',
+                projectName: projectTitle,
+                projectDomain: projectDomain,
+                brandColor: projectBrandColor,
                 status: 'Active',
                 phases: extractedPhases,
                 durationDays: totalDurationDays,
                 totalBudget: parseFloat((document.getElementById('display-total-budget')?.value || '0').replace(/,/g, '')) || 0,
                 currency: document.getElementById('currency-selector')?.value || '₦',
-                extraBilling: extraBillingItems, // Array appended securely
+                extraBilling: extraBillingItems,
                 budgetConsumed: 0,
                 createdAt: timestamp,
                 leadArchitectId: auth.currentUser.uid,
@@ -878,6 +959,8 @@
                     taskId: taskRef.id,
                     title: phase.name,
                     phase: phase.name,
+                    department: phase.department,
+                    description: phase.description, // Passed forward to task context
                     status: 'To Do',
                     priority: 'Medium',
                     assignees: [auth.currentUser.uid],

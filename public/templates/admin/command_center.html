@@ -104,6 +104,14 @@
                 </div>
             </div>
         </div>
+
+        <div class="bg-surface-container-low p-6 sm:p-8 rounded-2xl border border-outline-variant shadow-[var(--card-shadow)] mb-8">
+            <h3 class="text-lg font-bold text-on-surface mb-2 tracking-tight">Department Resource Allocation</h3>
+            <p class="text-xs text-on-surface-variant mb-6">Internal metrics routing logic for Engineering, Design, and Strategy loads.</p>
+            <div id="cmd-resource-allocation-container" class="space-y-4">
+                <div class="text-xs text-on-surface-variant animate-pulse">Collating department distribution...</div>
+            </div>
+        </div>
         
         <div class="bg-surface-container-low p-6 sm:p-8 rounded-2xl border border-outline-variant shadow-[var(--card-shadow)] mb-8">
             <h3 class="text-lg font-bold text-on-surface mb-2 tracking-tight">Project QA Milestones</h3>
@@ -117,6 +125,14 @@
     </section>
 
     <section id="tab-tracker" class="cmd-tab-content hidden animate-in fade-in duration-300">
+        
+        <div class="flex gap-2 mb-6 overflow-x-auto no-scrollbar pb-2" id="task-dept-filters">
+            <button class="px-4 py-1.5 rounded-full text-xs font-bold bg-primary text-[#09090b] transition-all whitespace-nowrap cmd-filter-btn" onclick="window.filterCmdTasks('All', this)">All Departments</button>
+            <button class="px-4 py-1.5 rounded-full text-xs font-bold bg-surface-container-highest border border-[var(--input-border)] text-on-surface-variant hover:text-on-surface transition-all whitespace-nowrap cmd-filter-btn" onclick="window.filterCmdTasks('Engineering', this)">Engineering</button>
+            <button class="px-4 py-1.5 rounded-full text-xs font-bold bg-surface-container-highest border border-[var(--input-border)] text-on-surface-variant hover:text-on-surface transition-all whitespace-nowrap cmd-filter-btn" onclick="window.filterCmdTasks('Design', this)">Design</button>
+            <button class="px-4 py-1.5 rounded-full text-xs font-bold bg-surface-container-highest border border-[var(--input-border)] text-on-surface-variant hover:text-on-surface transition-all whitespace-nowrap cmd-filter-btn" onclick="window.filterCmdTasks('Strategy', this)">Strategy</button>
+        </div>
+
         <div class="flex flex-col lg:grid lg:grid-cols-3 gap-8 mb-16 h-full lg:min-h-[600px]">
             <div class="flex flex-col gap-4">
                 <div class="flex justify-between items-center px-2">
@@ -231,8 +247,11 @@
 
 <template id="tpl-cmd-task-todo">
     <div class="bg-surface-container-high p-5 rounded-xl border border-transparent hover:border-outline-variant transition-all cursor-pointer shadow-sm group" onclick="window.openTaskModal('{taskId}')">
-        <div class="flex justify-between items-start mb-3">
-            <span class="px-2 py-1 bg-surface-container-highest text-on-surface-variant text-[10px] font-bold rounded uppercase tracking-wider">{phase}</span>
+        <div class="flex flex-wrap justify-between items-start gap-2 mb-3">
+            <div class="flex flex-wrap gap-1 border border-outline-variant rounded p-1 bg-surface-container-highest">
+                <span class="px-1.5 py-0.5 text-on-surface text-[9px] font-bold uppercase tracking-wider">{department}</span>
+                <span class="px-1.5 py-0.5 text-on-surface-variant border-l border-outline-variant text-[9px] font-bold uppercase tracking-wider">{phase}</span>
+            </div>
             <span class="text-[10px] text-primary font-mono bg-[var(--color-primary-alpha-30)] px-1.5 rounded">{weightPct}%</span>
         </div>
         <h4 class="text-sm font-bold text-on-surface mb-2 leading-tight group-hover:text-primary transition-colors">{title}</h4>
@@ -291,11 +310,27 @@
             <span class="material-symbols-outlined text-[18px] {iconColorClass}">{iconName}</span>
             <div>
                 <p class="text-sm font-bold text-on-surface">{phaseName} <span class="text-[10px] text-on-surface-variant ml-2 font-mono">({scopePct}%)</span></p>
-                <p class="text-xs {statusTextColorClass} font-bold uppercase tracking-widest mt-0.5">{statusText}</p>
+                <div class="flex items-center gap-2 mt-0.5">
+                    <span class="px-1.5 py-0.5 rounded text-[8px] uppercase tracking-widest font-bold border border-outline-variant text-on-surface-variant">{department}</span>
+                    <p class="text-[10px] {statusTextColorClass} font-bold uppercase tracking-widest">{statusText}</p>
+                </div>
             </div>
         </div>
         <div class="flex justify-end">
             {actionButtonHtml}
+        </div>
+    </div>
+</template>
+
+<template id="tpl-cmd-resource-row">
+    <div class="flex flex-col gap-1 border-b border-outline-variant pb-4 last:border-0 last:pb-0">
+        <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-on-surface flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-primary"></span> {department}</span>
+            <span class="text-xs font-mono font-bold text-on-surface">{timeInvested} Days</span>
+        </div>
+        <div class="flex justify-between items-center pl-4">
+            <span class="text-[10px] uppercase tracking-widest text-on-surface-variant">Capital Weighting</span>
+            <span class="text-[10px] font-black text-primary bg-[var(--color-primary-alpha-30)] px-2 py-0.5 rounded">{budgetPct}% Budget</span>
         </div>
     </div>
 </template>
@@ -308,6 +343,8 @@
     }
 
     window.contextMenuTargetId = null;
+    window.cmdTaskFilter = 'All'; 
+    window.cmdCurrentTasksSnap = null; 
 
     document.addEventListener('click', function(e) {
         const menu = document.getElementById('project-context-menu');
@@ -406,10 +443,178 @@
         }
     };
 
+    window.filterCmdTasks = function(deptFilter, btnElement) {
+        window.cmdTaskFilter = deptFilter;
+        
+        document.querySelectorAll('.cmd-filter-btn').forEach(btn => {
+            btn.classList.remove('bg-primary', 'text-[#09090b]', 'border-transparent');
+            btn.classList.add('bg-surface-container-highest', 'text-on-surface-variant', 'border-[var(--input-border)]');
+        });
+
+        btnElement.classList.remove('bg-surface-container-highest', 'text-on-surface-variant', 'border-[var(--input-border)]');
+        btnElement.classList.add('bg-primary', 'text-[#09090b]', 'border-transparent');
+
+        if(window.cmdCurrentTasksSnap) {
+            window.renderTasksFromSnap(window.cmdCurrentTasksSnap);
+        }
+    };
+
+    window.renderTasksFromSnap = function(snap) {
+        const todoC = document.getElementById('todo-container');
+        const inprogC = document.getElementById('in-progress-container');
+        const reviewC = document.getElementById('review-container');
+        
+        let todoHtml = '', inprogHtml = '', reviewHtml = '';
+        let cTodo = 0, cInprog = 0, cReview = 0;
+        const tpl = document.getElementById('tpl-cmd-task-todo').innerHTML;
+        
+        snap.forEach(doc => {
+            const t = doc.data();
+            const tDept = t.department || 'Engineering';
+
+            if (window.cmdTaskFilter !== 'All' && tDept !== window.cmdTaskFilter) return;
+            
+            let subHtml = '';
+            if (t.subtasks && t.subtasks.length > 0) {
+                t.subtasks.forEach(st => {
+                    const isDone = st.status === 'Completed';
+                    subHtml += `<div class="flex items-center justify-between p-2 bg-surface-container rounded border border-outline-variant mt-2 ${isDone ? 'opacity-50' : ''}">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[12px] ${isDone ? 'text-primary' : 'text-on-surface-variant'}">${isDone ? 'check' : 'subdirectory_arrow_right'}</span>
+                            <span class="text-[10px] font-bold ${isDone ? 'text-on-surface-variant line-through' : 'text-on-surface'}">${st.title}</span>
+                        </div>
+                        <span class="text-[9px] text-primary font-mono bg-[var(--color-primary-alpha-30)] px-1.5 py-0.5 rounded">${st.weightPct || 0}%</span>
+                    </div>`;
+                });
+            }
+
+            let html = tpl.replace(/{title}/g, t.title || 'Untitled Task')
+                          .replace(/{phase}/g, t.phase || 'General Phase')
+                          .replace(/{department}/g, tDept)
+                          .replace(/{dueDate}/g, t.durationDays ? t.durationDays + ' Days' : 'Pending')
+                          .replace(/{weightPct}/g, t.weightPct || 0)
+                          .replace(/{taskId}/g, t.taskId || doc.id)
+                          .replace(/{subtasksHtml}/g, subHtml)
+                          .replace(/{assigneeUrl}/g, '/assets/icons/ethan01logo.svg');
+            
+            if (t.status === 'In Progress' || t.status === 'Active') { 
+                inprogHtml += html; cInprog++; 
+            } else if (t.status === 'Under Review' || t.status === 'Review') { 
+                reviewHtml += html; cReview++; 
+            } else { 
+                todoHtml += html; cTodo++; 
+            }
+        });
+        
+        if(todoC) todoC.innerHTML = todoHtml || '<p class="text-xs text-on-surface-variant text-center py-4">No tasks match criteria.</p>';
+        if(inprogC) inprogC.innerHTML = inprogHtml || '<p class="text-xs text-on-surface-variant text-center py-4">No active tasks.</p>';
+        if(reviewC) reviewC.innerHTML = reviewHtml || '<p class="text-xs text-on-surface-variant text-center py-4">No tasks in review.</p>';
+        
+        document.getElementById('count-todo').innerText = '(' + cTodo + ')';
+        document.getElementById('count-inprogress').innerText = '(' + cInprog + ')';
+        document.getElementById('count-review').innerText = '(' + cReview + ')';
+    };
+
+    window.openInvoiceModal = async function() {
+        if (!window.activeProjectId) return;
+        if(window.Toast) window.Toast.show('Fetching billable tasks...', 'info');
+
+        try {
+            const { doc, getDoc, collection, getDocs } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+            const { db } = await import('/js/config/firebase-dev.js');
+
+            const pRef = doc(db, 'projects', window.activeProjectId);
+            const pSnap = await getDoc(pRef);
+            if (!pSnap.exists()) return;
+            
+            const proj = pSnap.data();
+            const totalBudget = proj.totalBudget || 0;
+            const currency = proj.currency || '₦';
+
+            let tasks = [];
+            if (window.cmdCurrentTasksSnap) {
+                window.cmdCurrentTasksSnap.forEach(d => tasks.push({id: d.id, ...d.data()}));
+            } else {
+                const tSnap = await getDocs(collection(db, 'projects', window.activeProjectId, 'tasks'));
+                tSnap.forEach(d => tasks.push({id: d.id, ...d.data()}));
+            }
+
+            let listHtml = '<div class="space-y-3 max-h-80 overflow-y-auto pr-2 no-scrollbar">';
+            if (tasks.length === 0) {
+                listHtml += '<p class="text-xs text-on-surface-variant text-center">No tasks found.</p>';
+            } else {
+                tasks.forEach(t => {
+                    const allocatedAmt = totalBudget * ((t.weightPct || 0) / 100);
+                    const isSent = t.invoiceSent ? 'opacity-50 pointer-events-none' : '';
+                    const btnText = t.invoiceSent ? 'Sent' : 'Send Invoice';
+
+                    listHtml += `
+                    <div class="flex items-center justify-between p-4 bg-surface-container-highest rounded-xl border border-outline-variant ${isSent}">
+                        <div class="flex-1 pr-4 min-w-0">
+                            <p class="text-sm font-bold text-on-surface mb-1 truncate" title="${t.title}">${t.title}</p>
+                            <p class="text-[10px] text-on-surface-variant uppercase tracking-widest font-mono truncate">${currency} ${allocatedAmt.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} • ${t.weightPct || 0}% Weight</p>
+                        </div>
+                        <button onclick="window.sendTaskInvoice('${t.id}', '${t.title.replace(/'/g, "\\'")}', ${allocatedAmt})" class="bg-primary text-[#09090b] px-4 py-2 rounded-lg text-xs font-bold transition-all hover:bg-primary-container shadow-[0_4px_15px_var(--color-primary-glow)] whitespace-nowrap flex items-center gap-1 shrink-0">
+                            <span class="material-symbols-outlined text-sm">send</span> ${btnText}
+                        </button>
+                    </div>`;
+                });
+            }
+            listHtml += '</div>';
+
+            const m = `
+                <div class="space-y-4 text-left">
+                    <p class="text-xs text-on-surface-variant leading-relaxed">Select a task below to generate and push its allocated invoice directly to the client's billing portal.</p>
+                    ${listHtml}
+                </div>
+            `;
+            
+            const a = `<button onclick='window.Modal.hide()' class='text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors'>Cancel</button>`;
+            
+            if(window.Modal) window.Modal.show('Generate Task Invoices', m, a);
+            
+        } catch (e) {
+            console.error("Invoice Modal Error", e);
+            if(window.Toast) window.Toast.show('Failed to load tasks for invoicing.', 'error');
+        }
+    };
+
+    window.sendTaskInvoice = async function(taskId, taskTitle, amount) {
+        if (!window.activeProjectId) return;
+        
+        try {
+            const { doc, setDoc, updateDoc, collection, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+            const { db } = await import('/js/config/firebase-dev.js');
+            
+            const invRef = doc(collection(db, 'projects', window.activeProjectId, 'invoices'));
+            const invId = 'INV-' + window.activeProjectId.slice(-4) + '-' + Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+            
+            await setDoc(invRef, {
+                invoiceId: invId,
+                issueDate: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+                amount: amount,
+                status: 'Pending Payment',
+                taskId: taskId,
+                taskTitle: taskTitle,
+                createdAt: serverTimestamp()
+            });
+
+            const tRef = doc(db, 'projects', window.activeProjectId, 'tasks', taskId);
+            await updateDoc(tRef, { invoiceSent: true });
+
+            if(window.Toast) window.Toast.show('Invoice reminder sent to client portal!', 'success');
+            if(window.Modal) window.Modal.hide();
+
+        } catch (e) {
+            console.error("Send Invoice Error", e);
+            if(window.Toast) window.Toast.show('Failed to send invoice.', 'error');
+        }
+    };
+
     window.updatePhaseStatus = async function(projectId, phaseId, newStatus) {
         if (!window.currentUser) return;
         try {
-            const { doc, getDoc, updateDoc } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+            const { doc, getDoc, updateDoc, collection, query, where, getDocs } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
             const { db } = await import('/js/config/firebase-dev.js');
             
             const pRef = doc(db, 'projects', projectId);
@@ -417,13 +622,80 @@
             if (!pSnap.exists()) return;
             
             const phases = pSnap.data().phases || [];
-            const updatedPhases = phases.map(p => p.id === phaseId ? { ...p, status: newStatus } : p);
+            let targetPhaseName = null;
+
+            const updatedPhases = phases.map(p => {
+                if (p.id === phaseId) {
+                    targetPhaseName = p.name;
+                    return { ...p, status: newStatus };
+                }
+                return p;
+            });
             
             await updateDoc(pRef, { phases: updatedPhases });
+
+            if (targetPhaseName) {
+                let taskTargetStatus = newStatus;
+                if (newStatus === 'Approved') taskTargetStatus = 'Completed';
+                else if (newStatus === 'Pending Review') taskTargetStatus = 'Under Review';
+
+                const q = query(collection(db, 'projects', projectId, 'tasks'), where('phase', '==', targetPhaseName));
+                const tSnap = await getDocs(q);
+                tSnap.forEach(async (tDoc) => {
+                    if (tDoc.data().status !== 'Completed') {
+                        await updateDoc(doc(db, 'projects', projectId, 'tasks', tDoc.id), { status: taskTargetStatus });
+                    }
+                });
+            }
+
             if(window.Toast) window.Toast.show('QA Phase updated to: ' + newStatus, 'success');
         } catch(e) {
             console.error('Phase update error', e);
             if(window.Toast) window.Toast.show('Failed to lock phase update in DB.', 'error');
+        }
+    };
+
+    window.updateTaskStatus = async function(taskId, newStatus) {
+        if(window.Modal) window.Modal.hide();
+        try {
+            const { doc, getDoc, updateDoc } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+            const { db } = await import('/js/config/firebase-dev.js');
+            
+            const taskRef = doc(db, 'projects', window.activeProjectId, 'tasks', taskId);
+            const taskSnap = await getDoc(taskRef);
+            if(!taskSnap.exists()) return;
+            const taskData = taskSnap.data();
+
+            await updateDoc(taskRef, { status: newStatus });
+
+            const pRef = doc(db, 'projects', window.activeProjectId);
+            const pSnap = await getDoc(pRef);
+            if (pSnap.exists()) {
+                const projData = pSnap.data();
+                const phases = projData.phases || [];
+                
+                let targetPhaseStatus = newStatus;
+                if (newStatus === 'Under Review') targetPhaseStatus = 'Pending Review';
+                if (newStatus === 'To Do') targetPhaseStatus = 'Locked';
+
+                let isModified = false;
+                const updatedPhases = phases.map(p => {
+                    if (p.name === taskData.phase && p.status !== 'Approved') {
+                        isModified = true;
+                        return { ...p, status: targetPhaseStatus };
+                    }
+                    return p;
+                });
+
+                if (isModified) {
+                    await updateDoc(pRef, { phases: updatedPhases });
+                }
+            }
+
+            if(window.Toast) window.Toast.show('Task advanced to: ' + newStatus, 'success');
+        } catch (e) {
+            console.error(e);
+            if(window.Toast) window.Toast.show('Failed to advance task.', 'error');
         }
     };
 
@@ -462,13 +734,37 @@
                     
                     let trueScopePct = 0;
                     const phases = proj.phases || [];
+                    
+                    let departmentMetrics = {};
+
                     phases.forEach(p => {
                         if(p.status === 'Approved') trueScopePct += (p.scopePct || 0);
+
+                        const dept = p.department || 'Engineering';
+                        if(!departmentMetrics[dept]) departmentMetrics[dept] = { time: 0, cost: 0, count: 0 };
+                        departmentMetrics[dept].time += (p.durationDays || 0);
+                        departmentMetrics[dept].cost += (p.cost || 0);
+                        departmentMetrics[dept].count += 1;
                     });
 
                     const consumed = proj.budgetConsumed !== undefined ? proj.budgetConsumed : 0;
                     const total = proj.totalBudget !== undefined ? proj.totalBudget : 0;
                     const budgetPct = total > 0 ? (consumed / total) * 100 : 0;
+
+                    const resCont = document.getElementById('cmd-resource-allocation-container');
+                    const resTpl = document.getElementById('tpl-cmd-resource-row').innerHTML;
+                    let resHtml = '';
+                    
+                    if (Object.keys(departmentMetrics).length === 0) {
+                        resHtml = '<div class="text-xs text-on-surface-variant">Resources unallocated for this workspace.</div>';
+                    } else {
+                        for (const [deptName, metrics] of Object.entries(departmentMetrics)) {
+                            let calcPct = total > 0 ? ((metrics.cost / total) * 100).toFixed(0) : 0;
+                            resHtml += resTpl.replace(/{department}/g, deptName).replace(/{timeInvested}/g, metrics.time).replace(/{budgetPct}/g, calcPct);
+                        }
+                    }
+                    if (resCont) resCont.innerHTML = resHtml;
+
 
                     const variance = trueScopePct - timeElapsedPct;
                     let paceStatus = 'On Track';
@@ -532,6 +828,7 @@
                                            .replace(/{iconColorClass}/g, iconColor)
                                            .replace(/{statusTextColorClass}/g, statColor)
                                            .replace(/{statusText}/g, p.status)
+                                           .replace(/{department}/g, p.department || 'Engineering')
                                            .replace(/{actionButtonHtml}/g, btnHtml);
                         });
                     }
@@ -540,55 +837,8 @@
 
                 const qTasks = query(collection(db, 'projects', id, 'tasks'), orderBy('createdAt', 'asc'));
                 const unsubTasks = onSnapshot(qTasks, (snap) => {
-                    const todoC = document.getElementById('todo-container');
-                    const inprogC = document.getElementById('in-progress-container');
-                    const reviewC = document.getElementById('review-container');
-                    
-                    let todoHtml = '', inprogHtml = '', reviewHtml = '';
-                    let cTodo = 0, cInprog = 0, cReview = 0;
-                    const tpl = document.getElementById('tpl-cmd-task-todo').innerHTML;
-                    
-                    snap.forEach(doc => {
-                        const t = doc.data();
-                        
-                        let subHtml = '';
-                        if (t.subtasks && t.subtasks.length > 0) {
-                            t.subtasks.forEach(st => {
-                                const isDone = st.status === 'Completed';
-                                subHtml += `<div class="flex items-center justify-between p-2 bg-surface-container rounded border border-outline-variant mt-2 ${isDone ? 'opacity-50' : ''}">
-                                    <div class="flex items-center gap-2">
-                                        <span class="material-symbols-outlined text-[12px] ${isDone ? 'text-primary' : 'text-on-surface-variant'}">${isDone ? 'check' : 'subdirectory_arrow_right'}</span>
-                                        <span class="text-[10px] font-bold ${isDone ? 'text-on-surface-variant line-through' : 'text-on-surface'}">${st.title}</span>
-                                    </div>
-                                    <span class="text-[9px] text-primary font-mono bg-[var(--color-primary-alpha-30)] px-1.5 py-0.5 rounded">${st.weightPct || 0}%</span>
-                                </div>`;
-                            });
-                        }
-
-                        let html = tpl.replace(/{title}/g, t.title || 'Untitled Task')
-                                      .replace(/{phase}/g, t.phase || 'General Phase')
-                                      .replace(/{dueDate}/g, t.durationDays ? t.durationDays + ' Days' : 'Pending')
-                                      .replace(/{weightPct}/g, t.weightPct || 0)
-                                      .replace(/{taskId}/g, t.taskId || doc.id)
-                                      .replace(/{subtasksHtml}/g, subHtml)
-                                      .replace(/{assigneeUrl}/g, '/assets/icons/ethan01logo.svg');
-                        
-                        if (t.status === 'In Progress' || t.status === 'Active') { 
-                            inprogHtml += html; cInprog++; 
-                        } else if (t.status === 'Under Review' || t.status === 'Review') { 
-                            reviewHtml += html; cReview++; 
-                        } else { 
-                            todoHtml += html; cTodo++; 
-                        }
-                    });
-                    
-                    if(todoC) todoC.innerHTML = todoHtml || '<p class="text-xs text-on-surface-variant text-center py-4">No tasks pending.</p>';
-                    if(inprogC) inprogC.innerHTML = inprogHtml || '<p class="text-xs text-on-surface-variant text-center py-4">No active tasks.</p>';
-                    if(reviewC) reviewC.innerHTML = reviewHtml || '<p class="text-xs text-on-surface-variant text-center py-4">No tasks in review.</p>';
-                    
-                    document.getElementById('count-todo').innerText = '(' + cTodo + ')';
-                    document.getElementById('count-inprogress').innerText = '(' + cInprog + ')';
-                    document.getElementById('count-review').innerText = '(' + cReview + ')';
+                    window.cmdCurrentTasksSnap = snap; 
+                    window.renderTasksFromSnap(snap); 
                 });
                 
                 const qDeliv = query(collection(db, 'projects', id, 'deliverables'), orderBy('uploadedAt', 'desc'));
@@ -674,7 +924,6 @@
         });
     };
 
-    // TASK MANAGEMENT MODAL ENGINE
     window.openTaskModal = async function(taskId) {
         if(!window.activeProjectId) return;
         if(window.Toast) window.Toast.show('Loading task details...', 'info');
@@ -724,7 +973,7 @@
                 </div>
                 <div class="flex items-center gap-4 text-xs font-bold text-on-surface-variant uppercase tracking-widest border-b border-outline-variant pb-4">
                     <span>Status: <span class="text-primary">${task.status}</span></span>
-                    <span>&bull;</span>
+                    <span>•</span>
                     <span>Timeline: ${task.durationDays || 0} Days</span>
                 </div>
                 ${subHtml}
@@ -737,19 +986,6 @@
         } catch (e) {
             console.error(e);
             if(window.Toast) window.Toast.show('Failed to fetch task details.', 'error');
-        }
-    };
-    
-    window.updateTaskStatus = async function(taskId, newStatus) {
-        if(window.Modal) window.Modal.hide();
-        try {
-            const { doc, updateDoc } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
-            const { db } = await import('/js/config/firebase-dev.js');
-            const taskRef = doc(db, 'projects', window.activeProjectId, 'tasks', taskId);
-            await updateDoc(taskRef, { status: newStatus });
-            if(window.Toast) window.Toast.show('Task advanced to: ' + newStatus, 'success');
-        } catch (e) {
-            if(window.Toast) window.Toast.show('Failed to advance task.', 'error');
         }
     };
     
@@ -771,8 +1007,6 @@
             });
             
             await updateDoc(taskRef, { subtasks: updatedSubtasks });
-            
-            // Silently re-render modal to show the checked box
             window.openTaskModal(taskId);
         } catch(e) {
             console.error("Subtask update failed", e);
