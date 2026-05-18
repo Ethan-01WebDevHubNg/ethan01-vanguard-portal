@@ -90,7 +90,7 @@ export function initHeaderDrops() {
 
             const q = query(collection(db, 'notifications'), orderBy('timestamp', 'desc'), limit(25));
 
-            onSnapshot(q, (snap) => {
+            window.notifUnsub = onSnapshot(q, (snap) => {
                 window.vanguardNotifications = [];
                 window.unreadNotifCount = 0;
                 
@@ -190,6 +190,15 @@ export function initHeaderDrops() {
     };
 
     setTimeout(initNotifListener, 1000);
+
+    // CRITICAL FIX: Actively listen for Client Data Load to instantly re-sync the notification block to avoid empty arrays
+    window.addEventListener('vanguard-client-data-loaded', () => {
+        if (window.notifUnsub) {
+            window.notifUnsub();
+            window.notifListenerAttached = false;
+        }
+        initNotifListener();
+    });
 
     // 3. Setup Notification Drop Card UI Shell
     const notifTrigger = document.getElementById('header-notif-trigger');

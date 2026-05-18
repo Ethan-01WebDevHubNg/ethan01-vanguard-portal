@@ -51,7 +51,7 @@ export function renderSidebar() {
         const linkId = `nav-link-${link.label.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()}`;
         
         navHtml += `
-            <a id="${linkId}" ${mobileClickAction} class="flex items-center gap-3 px-4 py-3 rounded-xl group active:scale-[0.98] ${activeClass}" href="${link.path}">
+            <a id="${linkId}" ${mobileClickAction} class="flex items-center gap-3 px-4 py-3 rounded-xl group active:scale-[0.98] ${activeClass} relative z-10" href="${link.path}">
                 <span class="material-symbols-outlined text-[20px] ${iconColor}">${link.icon}</span>
                 <span class="text-sm font-inter tracking-tight">${link.label}</span>
             </a>
@@ -67,13 +67,12 @@ export function renderSidebar() {
             : 'bg-[var(--color-primary-alpha-30)] text-on-surface hover:bg-primary hover:text-[#09090b]'; 
 
         actionBtn = `
-            <a id="nav-btn-new-project" ${mobileClickAction} href="#/admin/project/new" class="flex items-center justify-center gap-2 px-4 py-3 mt-4 rounded-xl font-bold transition-all duration-200 active:scale-[0.98] ${newProjectClass}">
+            <a id="nav-btn-new-project" ${mobileClickAction} href="#/admin/project/new" class="flex items-center justify-center gap-2 px-4 py-3 mt-4 rounded-xl font-bold transition-all duration-200 active:scale-[0.98] ${newProjectClass} relative z-10">
                 <span class="material-symbols-outlined text-[18px]">add</span> New Project
             </a>
         `;
     }
 
-    // FIXED: Mobile nav top border changed to surface-container-highest for dynamic cross-theme visibility
     const mobileClientNav = role === 'client' ? `
         <div class="md:hidden fixed bottom-0 left-0 w-full bg-surface-container-low px-6 py-4 flex justify-between items-center z-[90] border-t border-surface-container-highest">
   <a href="#/dashboard" class="flex flex-1 justify-center items-center">
@@ -89,8 +88,8 @@ export function renderSidebar() {
     ` : '';
 
     const sidebarHtml = `
-        <aside id="global-sidebar" class="bg-surface-container-low h-[100dvh] w-64 fixed left-0 top-0 flex flex-col py-8 px-4 z-[100] transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out border-r border-[var(--layout-border)]">
-            <div class="mb-10 px-2 flex justify-between items-start">
+        <aside id="global-sidebar" class="bg-surface-container-low h-[100dvh] w-64 fixed left-0 top-0 flex flex-col py-8 px-4 z-[100] transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out border-r border-[var(--layout-border)] vanguard-svg-pattern">
+            <div class="mb-10 px-2 flex justify-between items-start relative z-10">
                 <div>
                     <a href="${dashPath}">
                         <img src="/assets/icons/ethan01logo.svg" alt="ETHAN01 Logo" class="h-8 sm:h-9 w-auto object-contain mb-1 hover:opacity-80 transition-opacity">
@@ -102,12 +101,12 @@ export function renderSidebar() {
                 </button>
             </div>
 
-            <nav class="flex-1 flex flex-col space-y-1 overflow-y-auto no-scrollbar pb-4">
+            <nav class="flex-1 flex flex-col space-y-1 overflow-y-auto no-scrollbar pb-4 relative z-10">
                 ${navHtml}
                 ${actionBtn}
             </nav>
 
-            <div class="mt-auto pt-6 border-t border-surface-container-highest space-y-1">
+            <div class="mt-auto pt-6 border-t border-[var(--input-border)] space-y-1 relative z-10">
                 <button onclick="window.toggleTheme()" class="w-full flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-highest rounded-lg text-left">
                     <span class="material-symbols-outlined text-[20px]">brightness_6</span>
                     <span class="font-inter tracking-tight">Toggle Theme</span>

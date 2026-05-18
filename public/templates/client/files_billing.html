@@ -24,29 +24,28 @@
     </header>
 
     <section id="tab-files" class="client-tab-content grid grid-cols-1 lg:grid-cols-12 gap-6 mb-16 animate-in fade-in duration-300">
-        <div id="cli-hero-file" class="lg:col-span-8 bg-surface-container-high rounded-xl p-6 sm:p-8 flex flex-col justify-between min-h-[320px] relative overflow-hidden shadow-[var(--card-shadow)] border border-outline-variant">
-            <div class="absolute inset-0 z-0">
-                <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUovs8ig_fD25qEIxlwELksFYLrDxbXZr253pLM4-5W4dB_3cnQlSgDio7H0vgr4MidLKOyCS4Hdbr73kO8VT3wzvdoPxxStDorjyLRDZyRfGt0t7kcCtyg75yEYkoJYpuJmT6x7QePo9RZg3jIHWfKJdmxhGoBK0wuO51NclyBJ5x2OMR5x9KUko2DZoydeSC6f-YsDhcBZIQoaqt6Ol9L7ffJ3KWIA0I1T62VeJvVyd6jek96dM8mdNRUwXZG2FvTF77_OJCDw" alt="Blueprint"/>
-                <div class="absolute inset-0 bg-primary mix-blend-multiply dark:mix-blend-screen opacity-70 dark:opacity-40 transition-colors pointer-events-none"></div>
-                <div class="absolute inset-0 bg-surface/30 dark:bg-surface/60 backdrop-blur-[2px] pointer-events-none"></div>
+        <div id="cli-hero-file" class="lg:col-span-8 rounded-xl p-6 sm:p-8 flex flex-col justify-between min-h-[320px] relative overflow-hidden shadow-[var(--card-shadow)] border border-outline-variant bg-[#09090b]">
+            <div id="cli-hero-bg-layer" class="absolute inset-0 z-0 bg-[#09090b]">
+                <img id="cli-hero-img" class="w-full h-full object-cover opacity-40" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUovs8ig_fD25qEIxlwELksFYLrDxbXZr253pLM4-5W4dB_3cnQlSgDio7H0vgr4MidLKOyCS4Hdbr73kO8VT3wzvdoPxxStDorjyLRDZyRfGt0t7kcCtyg75yEYkoJYpuJmT6x7QePo9RZg3jIHWfKJdmxhGoBK0wuO51NclyBJ5x2OMR5x9KUko2DZoydeSC6f-YsDhcBZIQoaqt6Ol9L7ffJ3KWIA0I1T62VeJvVyd6jek96dM8mdNRUwXZG2FvTF77_OJCDw" alt="Workspace Backdrop" onerror="this.style.display='none'"/>
+                <div class="absolute inset-0 bg-gradient-to-t from-[#18181b] to-transparent pointer-events-none"></div>
             </div>
             <div class="relative z-10">
-                <span class="bg-[var(--color-primary-glow)] text-primary text-[0.6rem] px-2 py-1 rounded-full font-bold uppercase tracking-widest border border-[var(--color-primary-alpha-30)] shadow-sm">Latest Version</span>
-                <h3 id="cli-hero-title" class="text-2xl font-bold text-on-surface mt-4 max-w-md"><span class="animate-pulse bg-surface-container-highest h-8 w-48 rounded inline-block"></span></h3>
-                <p id="cli-hero-desc" class="text-on-surface-variant text-sm mt-2 max-w-xs leading-relaxed"><span class="animate-pulse bg-surface-container-highest h-4 w-64 rounded inline-block"></span></p>
+                <span id="cli-hero-badge" class="bg-[var(--color-primary-glow)] text-primary text-[0.6rem] px-2 py-1 rounded-full font-bold uppercase tracking-widest border border-[var(--color-primary-alpha-30)] shadow-sm hidden">Latest Version</span>
+                <h3 id="cli-hero-title" class="text-2xl font-bold text-white mt-4 max-w-md">No Deliverables Ready</h3>
+                <p id="cli-hero-desc" class="text-white/70 text-sm mt-2 max-w-xs leading-relaxed">The agency has not yet deployed any project archives to this portal.</p>
             </div>
             <div class="relative z-10 flex items-end justify-between mt-8 lg:mt-0">
-                <div class="flex gap-4">
+                <div class="flex gap-4 hidden" id="cli-hero-stats">
                     <div>
-                        <p class="text-[0.6rem] uppercase tracking-widest text-on-surface-variant">Size</p>
-                        <p id="cli-hero-size" class="text-on-surface font-bold">--</p>
+                        <p class="text-[0.6rem] uppercase tracking-widest text-white/50">Size</p>
+                        <p id="cli-hero-size" class="text-white font-bold">--</p>
                     </div>
                     <div>
-                        <p class="text-[0.6rem] uppercase tracking-widest text-on-surface-variant">Format</p>
-                        <p id="cli-hero-type" class="text-on-surface font-bold">--</p>
+                        <p class="text-[0.6rem] uppercase tracking-widest text-white/50">Format</p>
+                        <p id="cli-hero-type" class="text-white font-bold">--</p>
                     </div>
                 </div>
-                <button id="cli-hero-btn" class="bg-surface text-on-surface h-12 w-12 rounded-full flex items-center justify-center hover:scale-110 transition-transform shrink-0 shadow-[var(--card-shadow)] border border-outline-variant" onclick="window.Toast.show('No file to download.', 'info')">
+                <button id="cli-hero-btn" class="hidden bg-white/10 text-white hover:bg-white hover:text-[#09090b] h-12 w-12 rounded-full flex items-center justify-center transition-all shrink-0 shadow-lg border border-white/20 backdrop-blur-md" onclick="window.Toast.show('No file to download.', 'info')">
                     <span class="material-symbols-outlined">download</span>
                 </button>
             </div>
@@ -64,12 +63,33 @@
             </div>
             <div class="flex gap-4">
                 <button class="bg-surface-container-highest text-on-surface px-6 py-2.5 rounded-xl text-sm font-bold hover:bg-surface-container border border-outline-variant shadow-sm transition-colors hidden sm:block" onclick="window.Toast.show('Compiling billing history PDF...', 'info')">Export History</button>
+                <button id="cli-upload-receipt-btn" class="bg-primary text-[#09090b] px-6 py-2.5 rounded-xl text-sm font-bold hover:bg-primary-container shadow-[0_4px_15px_var(--color-primary-glow)] transition-colors opacity-50 pointer-events-none flex items-center gap-2" onclick="document.getElementById('manual-receipt-upload').click()">
+                    <span class="material-symbols-outlined text-[18px]">receipt_long</span> Upload Receipt
+                </button>
+                <input type="file" id="manual-receipt-upload" class="hidden" accept="image/*,.pdf" onchange="window.handleManualReceiptUpload(this)" />
             </div>
         </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant shadow-[var(--card-shadow)] flex flex-col justify-center min-w-0">
+                <h4 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-2 shrink-0">Total Billed</h4>
+                <p id="cli-inv-total" class="text-2xl lg:text-3xl font-black text-on-surface break-all whitespace-normal" style="overflow-wrap: anywhere;">₦ 0.00</p>
+            </div>
+            <div class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant shadow-[var(--card-shadow)] flex flex-col justify-center min-w-0">
+                <h4 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-2 shrink-0">Collected</h4>
+                <p id="cli-inv-collected" class="text-2xl lg:text-3xl font-black text-primary break-all whitespace-normal" style="overflow-wrap: anywhere;">₦ 0.00</p>
+            </div>
+            <div class="bg-surface-container-low p-6 rounded-2xl border border-[var(--color-error-dim)] bg-[var(--color-error-container)] relative flex flex-col justify-center min-w-0 shadow-[var(--card-shadow)]">
+                <h4 class="text-xs font-bold text-error uppercase tracking-widest mb-2 shrink-0">Outstanding</h4>
+                <p id="cli-inv-outstanding" class="text-2xl lg:text-3xl font-black text-on-surface break-all whitespace-normal" style="overflow-wrap: anywhere;">₦ 0.00</p>
+            </div>
+        </div>
+
         <div class="bg-surface-container-low rounded-xl overflow-x-auto border border-outline-variant shadow-[var(--card-shadow)]">
-            <table class="w-full text-left border-collapse min-w-[600px]">
+            <table class="w-full text-left border-collapse min-w-[650px]">
                 <thead>
                     <tr class="bg-[var(--color-surface-highest-alpha)] border-b border-outline-variant">
+                        <th class="px-6 py-5 w-12 text-center"></th>
                         <th class="px-6 py-5 text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Invoice Ref</th>
                         <th class="px-6 py-5 text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Billing Item</th>
                         <th class="px-6 py-5 text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Amount</th>
@@ -78,7 +98,7 @@
                     </tr>
                 </thead>
                 <tbody id="cli-invoices-container" class="divide-y divide-outline-variant">
-                    <tr><td colspan="5" class="px-6 py-8 text-on-surface-variant text-sm text-center animate-pulse">Loading ledger...</td></tr>
+                    <tr><td colspan="6" class="px-6 py-8 text-on-surface-variant text-sm text-center animate-pulse">Loading ledger...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -89,14 +109,15 @@
             <div class="flex items-center justify-between mb-12">
                 <div>
                     <h3 class="text-xl font-bold text-on-surface tracking-tight">Project Roadmap</h3>
-                    <p class="text-sm text-on-surface-variant mt-1">Live progress tracking of global deliverables.</p>
+                    <p class="text-sm text-on-surface-variant mt-1">Tracking global milestones from inception (bottom) to completion (top).</p>
                 </div>
                 <div class="px-3 py-1 bg-surface-container-highest rounded-full border border-outline-variant flex items-center gap-2">
                     <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
                     <span id="cli-timeline-badge" class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Synchronizing...</span>
                 </div>
             </div>
-            <div id="cli-timeline-vault-container" class="relative space-y-8 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-black/20 dark:before:via-white/10 before:to-transparent">
+            
+            <div id="cli-timeline-vault-container" class="relative flex flex-col space-y-8 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-black/20 dark:before:bg-white/10">
                 <div class="text-on-surface-variant text-sm text-center animate-pulse">Loading timeline data...</div>
             </div>
         </div>
@@ -117,7 +138,10 @@
 </template>
 
 <template id="tpl-cli-invoice-row">
-    <tr class="hover:bg-surface-container-highest transition-colors group">
+    <tr class="hover:bg-surface-container-highest transition-colors group {isRowDisabled}">
+        <td class="px-6 py-6 text-center">
+            <input type="checkbox" class="cli-inv-checkbox w-4 h-4 rounded border-outline-variant text-primary bg-transparent focus:ring-0 cursor-pointer" value="{id}" data-type="{itemType}" onchange="window.toggleClientInvoiceSelection()" {isDisabledAttr}>
+        </td>
         <td class="px-6 py-6 font-mono text-sm text-on-surface font-bold">{invoiceId}</td>
         <td class="px-6 py-6 text-sm text-on-surface-variant font-bold">{issueDate}</td>
         <td class="px-6 py-6">
@@ -131,6 +155,7 @@
             {actionBtn}
         </td>
     </tr>
+    {noteRowHtml}
 </template>
 
 <template id="tpl-cli-timeline-row">
@@ -223,6 +248,83 @@
         }
     };
 
+    window.toggleClientInvoiceSelection = function() {
+        const anyChecked = document.querySelectorAll('.cli-inv-checkbox:checked').length > 0;
+        const uploadBtn = document.getElementById('cli-upload-receipt-btn');
+        if (uploadBtn) {
+            if (anyChecked) uploadBtn.classList.remove('opacity-50', 'pointer-events-none');
+            else uploadBtn.classList.add('opacity-50', 'pointer-events-none');
+        }
+    };
+
+    window.handleManualReceiptUpload = async function(input) {
+        const file = input.files[0];
+        if (!file) return;
+        
+        const checkedBoxes = document.querySelectorAll('.cli-inv-checkbox:checked');
+        if (checkedBoxes.length === 0) return;
+
+        if (window.Toast) window.Toast.show('Uploading receipt for admin verification...', 'info');
+
+        try {
+            const { ref, uploadBytesResumable, getDownloadURL } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js');
+            const { doc, getDoc, updateDoc } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+            const { storage, db } = await import('/js/config/firebase-dev.js');
+
+            const storageRef = ref(storage, `manual_receipts/${window.activeProjectId}_${Date.now()}_${file.name}`);
+            const uploadTask = uploadBytesResumable(storageRef, file);
+
+            uploadTask.on('state_changed', null, 
+                (error) => {
+                    console.error('Upload Error', error);
+                    if(window.Toast) window.Toast.show('Receipt upload failed.', 'error');
+                }, 
+                async () => {
+                    const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                    
+                    const pRef = doc(db, 'projects', window.activeProjectId);
+                    const pSnap = await getDoc(pRef);
+                    const pData = pSnap.data();
+                    let updatedPhases = pData.phases || [];
+                    let updatedExtra = pData.extraBilling || [];
+                    let modified = false;
+
+                    checkedBoxes.forEach(box => {
+                        const targetId = box.value;
+                        const type = box.getAttribute('data-type');
+                        
+                        if (type === 'phase') {
+                            updatedPhases = updatedPhases.map(p => {
+                                if(p.id === targetId) {
+                                    modified = true;
+                                    return { ...p, paymentStatus: 'Pending Admin Review', receiptUrl: downloadURL };
+                                }
+                                return p;
+                            });
+                        } else if (type === 'extra') {
+                            const idx = parseInt(targetId.split('_')[1]);
+                            if (updatedExtra[idx]) {
+                                modified = true;
+                                updatedExtra[idx].paymentStatus = 'Pending Admin Review';
+                                updatedExtra[idx].receiptUrl = downloadURL;
+                            }
+                        }
+                    });
+
+                    if(modified) await updateDoc(pRef, { phases: updatedPhases, extraBilling: updatedExtra });
+
+                    if(window.Toast) window.Toast.show('Receipt sent successfully! Awaiting Admin verification.', 'success');
+                    
+                    document.querySelectorAll('.cli-inv-checkbox:checked').forEach(cb => cb.checked = false);
+                    window.toggleClientInvoiceSelection();
+                }
+            );
+        } catch (e) {
+            console.error("Receipt Logic Error", e);
+            if(window.Toast) window.Toast.show('An error occurred during submission.', 'error');
+        }
+    };
+
     window.renderProjectVaultData = async function(projData) {
         try {
             const { collection, query, where, onSnapshot, orderBy } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
@@ -230,18 +332,27 @@
             const projectId = projData.id;
             const currency = projData.currency || '₦';
 
-            const qDeliv = query(collection(db, 'projects', projectId, 'deliverables'), where('visibility', '==', 'Client'), orderBy('uploadedAt', 'desc'));
+            const qDeliv = query(collection(db, 'projects', projectId, 'deliverables'), where('status', '==', 'Approved'), orderBy('uploadedAt', 'desc'));
+            
             if(window.cliDelivUnsub) window.cliDelivUnsub();
             window.cliDelivUnsub = onSnapshot(qDeliv, (snap) => {
                 const listCont = document.getElementById('cli-file-list');
                 const tpl = document.getElementById('tpl-cli-file-card').innerHTML;
                 
                 if (snap.empty) {
+                    document.getElementById('cli-hero-badge').classList.add('hidden');
+                    document.getElementById('cli-hero-stats').classList.add('hidden');
+                    document.getElementById('cli-hero-btn').classList.add('hidden');
+                    
                     document.getElementById('cli-hero-title').innerText = 'No Deliverables Ready';
                     document.getElementById('cli-hero-desc').innerText = 'The agency has not yet deployed any project archives to this portal.';
-                    listCont.innerHTML = '<div class="text-on-surface-variant text-sm">No files uploaded yet.</div>';
+                    listCont.innerHTML = '<div class="text-on-surface-variant text-sm">No files authorized for client view.</div>';
                     return;
                 }
+                
+                document.getElementById('cli-hero-badge').classList.remove('hidden');
+                document.getElementById('cli-hero-stats').classList.remove('hidden');
+                document.getElementById('cli-hero-btn').classList.remove('hidden');
 
                 const docs = snap.docs;
                 const heroDoc = docs[0].data();
@@ -262,98 +373,131 @@
                 listCont.innerHTML = listHtml;
             });
 
-            let basePhaseHtml = '';
+            let invHtml = '';
+            let totalBilled = 0;
+            let totalCollected = 0;
             const invCont = document.getElementById('cli-invoices-container');
             const invTpl = document.getElementById('tpl-cli-invoice-row').innerHTML;
 
-            if (projData.phases && projData.phases.length > 0) {
-                projData.phases.forEach((p, idx) => {
-                    const amt = p.cost || 0;
-                    if (amt > 0) {
-                        let status = p.paymentStatus || 'Unpaid';
-                        let badgeClass = '', actionBtn = '';
-                        
-                        if(status === 'Paid') {
-                            badgeClass = 'bg-[var(--color-primary-glow)] text-primary border-[var(--color-primary-alpha-30)]';
-                            actionBtn = `<button class="text-on-surface-variant hover:text-primary transition-colors p-2" onclick="window.Toast.show('Downloading receipt...', 'info')"><span class="material-symbols-outlined text-sm">download</span></button>`;
-                        } else {
-                            badgeClass = 'bg-[var(--color-error-container)] text-error border-[var(--color-error-dim)]';
-                            const modalHtml = `<div class='space-y-6'><div class='bg-surface-container-highest p-5 rounded-xl border border-outline-variant'><div class='flex justify-between items-center mb-6'><p class='text-xs text-on-surface-variant uppercase tracking-widest'>Phase Bill</p><span class='text-xs font-mono font-bold text-on-surface'>${p.name.replace(/'/g, "\\'")}</span></div><p class='text-xs text-on-surface-variant uppercase tracking-widest mb-1'>Amount Due</p><p class='text-4xl font-black text-on-surface'>${currency} ${amt.toLocaleString()}</p></div><div class='p-4 bg-[var(--color-primary-glow)] border border-[var(--color-primary-alpha-30)] rounded-xl flex items-start gap-4'><div class='p-2 bg-surface rounded-lg shrink-0'><span class='material-symbols-outlined text-primary text-xl'>lock</span></div><div><p class='text-sm font-bold text-on-surface mb-1'>Secure Checkout</p><p class='text-xs text-on-surface-variant leading-relaxed'>You will be securely passed to the Squad gateway. No card details are stored on our servers.</p></div></div></div>`;
-                            actionBtn = `<button onclick="window.Modal.show('Payment Authorization', \`${modalHtml}\`, '<button onclick=\\'window.Modal.hide()\\' class=\\'text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors\\'>Cancel</button><button onclick=\\'window.Modal.hide(); window.initializeSquadPayment(${amt}, \\'${p.id}\\')\\' class=\\'bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm shadow-[0_4px_15px_var(--color-primary-glow)] transition-all flex items-center gap-2\\'><span class=\\'material-symbols-outlined text-sm\\'>security</span> Launch Squad Gateway</button>')" class="bg-primary hover:bg-primary-container text-[#09090b] text-[0.65rem] font-black uppercase tracking-widest px-5 py-2.5 rounded-lg transition-all shadow-[0_4px_15px_var(--color-primary-glow)]">Pay Now</button>`;
-                        }
+            const processItem = (item, type, id, title, subtitle) => {
+                const amt = parseFloat(item.cost) || 0;
+                if (amt <= 0) return;
 
-                        const invId = `INV-${projData.projectId.slice(-4)}-${(idx+1).toString().padStart(2, '0')}`;
-                        basePhaseHtml += invTpl.replace(/{invoiceId}/g, invId)
-                                   .replace(/{issueDate}/g, 'Phase: ' + p.name)
-                                   .replace(/{status}/g, status)
-                                   .replace(/{statusBadgeClass}/g, badgeClass)
-                                   .replace(/{amount}/g, `${currency} ${amt.toLocaleString()}`)
-                                   .replace(/{actionBtn}/g, actionBtn);
-                    }
-                });
+                // MATH: Unconditionally sum for the project total BEFORE UI rendering choices
+                totalBilled += amt;
+
+                let status = item.paymentStatus || 'Unbilled';
+                
+                if(status === 'Paid') {
+                    totalCollected += amt;
+                }
+
+                let badgeClass = '', actionBtn = '', isDisabledAttr = 'disabled', isRowDisabled = '';
+                
+                if(status === 'Paid') {
+                    badgeClass = 'bg-[var(--color-primary-glow)] text-primary border-[var(--color-primary-alpha-30)]';
+                    actionBtn = `<button class="text-on-surface-variant hover:text-primary transition-colors p-2" onclick="window.Toast.show('Downloading receipt...', 'info')"><span class="material-symbols-outlined text-sm">download</span></button>`;
+                    isRowDisabled = 'opacity-60';
+                } else if(status === 'Pending Admin Review') {
+                    badgeClass = 'bg-surface-container-highest text-on-surface-variant border-outline-variant';
+                    actionBtn = `<span class="text-[9px] uppercase font-bold text-on-surface-variant">Verifying</span>`;
+                    isRowDisabled = 'opacity-60 pointer-events-none';
+                } else if(status === 'Pending Payment' || status === 'Overdue') {
+                    badgeClass = status === 'Overdue' ? 'bg-[var(--color-error-container)] text-error border-[var(--color-error-dim)]' : 'bg-surface-container border border-outline-variant text-on-surface';
+                    isDisabledAttr = ''; 
+                    
+                    actionBtn = `<button onclick="window.initializeSquadPayment('${id}')" class="bg-primary hover:bg-primary-container text-[#09090b] text-[0.65rem] font-black uppercase tracking-widest px-5 py-2.5 rounded-lg transition-all shadow-[0_4px_15px_var(--color-primary-glow)]">Pay Now</button>`;
+                } else {
+                    badgeClass = 'bg-surface-container-highest text-on-surface-variant border-outline-variant';
+                    actionBtn = `<span class="text-[9px] uppercase font-bold text-on-surface-variant">Awaiting Invoice</span>`;
+                    isRowDisabled = 'opacity-60 pointer-events-none';
+                }
+
+                const safeProjectId = projData.projectId || '0000';
+                const parsedId = id ? id.split('_').pop().padStart(2, '0') : '00';
+                const invId = `INV-${safeProjectId.slice(-4)}-${parsedId}`;
+                
+                let noteRowHtml = '';
+                if (item.adminNotes && status !== 'Unbilled') {
+                    noteRowHtml = `<tr class="bg-surface-container-lowest"><td colspan="6" class="px-6 py-3 border-b border-[var(--input-border)] text-xs text-on-surface-variant"><span class="font-bold text-primary mr-2 uppercase tracking-widest">Admin Note:</span> ${item.adminNotes.replace(/'/g, "'")}</td></tr>`;
+                }
+                
+                invHtml += invTpl.replace(/{invoiceId}/g, invId)
+                           .replace(/{issueDate}/g, subtitle + ': ' + title)
+                           .replace(/{status}/g, status)
+                           .replace(/{statusBadgeClass}/g, badgeClass)
+                           .replace(/{amount}/g, `${currency} ${amt.toLocaleString()}`)
+                           .replace(/{actionBtn}/g, actionBtn)
+                           .replace(/{id}/g, id)
+                           .replace(/{itemType}/g, type)
+                           .replace(/{isDisabledAttr}/g, isDisabledAttr)
+                           .replace(/{isRowDisabled}/g, isRowDisabled)
+                           .replace('{noteRowHtml}', noteRowHtml);
+            };
+
+            if (projData.phases && projData.phases.length > 0) {
+                projData.phases.forEach(p => processItem(p, 'phase', p.id, p.name, 'Phase'));
+            }
+            if (projData.extraBilling && projData.extraBilling.length > 0) {
+                projData.extraBilling.forEach((eb, idx) => processItem(eb, 'extra', 'extra_' + idx, eb.name, 'Extra'));
             }
 
-            const qInvoices = query(collection(db, 'projects', projectId, 'invoices'), orderBy('createdAt', 'desc'));
-            if(window.cliInvUnsub) window.cliInvUnsub();
-            window.cliInvUnsub = onSnapshot(qInvoices, (snap) => {
-                let dynamicTaskHtml = '';
-                
-                snap.forEach(doc => {
-                    const inv = doc.data();
-                    const amt = inv.amount || 0;
-                    let status = inv.status || 'Pending Payment';
-                    let badgeClass = '', actionBtn = '';
-                    
-                    if(status === 'Paid') {
-                        badgeClass = 'bg-[var(--color-primary-glow)] text-primary border-[var(--color-primary-alpha-30)]';
-                        actionBtn = `<button class="text-on-surface-variant hover:text-primary transition-colors p-2" onclick="window.Toast.show('Downloading receipt...', 'info')"><span class="material-symbols-outlined text-sm">download</span></button>`;
-                    } else {
-                        badgeClass = 'bg-[var(--color-error-container)] text-error border-[var(--color-error-dim)]';
-                        const modalHtml = `<div class='space-y-6'><div class='bg-surface-container-highest p-5 rounded-xl border border-outline-variant'><div class='flex justify-between items-center mb-6'><p class='text-xs text-on-surface-variant uppercase tracking-widest'>Task Invoice Ref</p><span class='text-xs font-mono font-bold text-on-surface'>${inv.invoiceId}</span></div><p class='text-xs text-on-surface-variant uppercase tracking-widest mb-1'>Amount Due</p><p class='text-4xl font-black text-on-surface'>${currency} ${amt.toLocaleString()}</p><p class='text-xs text-on-surface-variant mt-4'>For Task: ${inv.taskTitle || 'Project Deliverable'}</p></div><div class='p-4 bg-[var(--color-primary-glow)] border border-[var(--color-primary-alpha-30)] rounded-xl flex items-start gap-4'><div class='p-2 bg-surface rounded-lg shrink-0'><span class='material-symbols-outlined text-primary text-xl'>lock</span></div><div><p class='text-sm font-bold text-on-surface mb-1'>Secure Checkout</p><p class='text-xs text-on-surface-variant leading-relaxed'>You will be securely passed to the Squad gateway. No card details are stored on our servers.</p></div></div></div>`;
-                        actionBtn = `<button onclick="window.Modal.show('Payment Authorization', \`${modalHtml}\`, '<button onclick=\\'window.Modal.hide()\\' class=\\'text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors\\'>Cancel</button><button onclick=\\'window.Modal.hide(); window.initializeSquadPayment(${amt}, \\'${doc.id}\\')\\' class=\\'bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm shadow-[0_4px_15px_var(--color-primary-glow)] transition-all flex items-center gap-2\\'><span class=\\'material-symbols-outlined text-sm\\'>security</span> Launch Squad Gateway</button>')" class="bg-primary hover:bg-primary-container text-[#09090b] text-[0.65rem] font-black uppercase tracking-widest px-5 py-2.5 rounded-lg transition-all shadow-[0_4px_15px_var(--color-primary-glow)]">Pay Now</button>`;
-                    }
+            if(invCont) {
+                invCont.innerHTML = invHtml || '<tr><td colspan="6" class="px-6 py-8 text-center text-on-surface-variant">No invoices found for this workspace.</td></tr>';
+            }
 
-                    dynamicTaskHtml += invTpl.replace(/{invoiceId}/g, inv.invoiceId)
-                               .replace(/{issueDate}/g, 'Task: ' + (inv.taskTitle || 'Deliverable'))
-                               .replace(/{status}/g, status)
-                               .replace(/{statusBadgeClass}/g, badgeClass)
-                               .replace(/{amount}/g, `${currency} ${amt.toLocaleString()}`)
-                               .replace(/{actionBtn}/g, actionBtn);
-                });
+            const outstanding = totalBilled - totalCollected;
+            const elTot = document.getElementById('cli-inv-total');
+            const elCol = document.getElementById('cli-inv-collected');
+            const elOut = document.getElementById('cli-inv-outstanding');
 
-                const finalHtml = basePhaseHtml + dynamicTaskHtml;
-                invCont.innerHTML = finalHtml || '<tr><td colspan="5" class="px-6 py-8 text-center text-on-surface-variant">No invoices generated yet.</td></tr>';
-            });
+            if(elTot) elTot.innerText = `${currency} ${totalBilled.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+            if(elCol) elCol.innerText = `${currency} ${totalCollected.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+            if(elOut) elOut.innerText = `${currency} ${outstanding.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
 
             const tlCont = document.getElementById('cli-timeline-vault-container');
             const tlTpl = document.getElementById('tpl-cli-timeline-row').innerHTML;
             let tlHtml = '';
             
             let trueScopePct = 0;
+            let activeScopeBoost = 0;
 
             if (projData.phases && projData.phases.length > 0) {
                 projData.phases.forEach((p, index) => {
-                    if(p.status === 'Approved') {
+                    const rawStatus = p.status || 'To Do';
+                    const normStatus = rawStatus.toLowerCase().replace(/-/g, ' ').trim();
+                    let displayStatus = normStatus;
+                    
+                    if (['internal review', 'pending review', 'rejected internal', 'under review'].includes(normStatus)) {
+                        displayStatus = 'in progress'; 
+                    }
+
+                    if(displayStatus === 'approved' || displayStatus === 'completed') {
                         trueScopePct += (p.scopePct || 0);
                     }
+                    if(displayStatus === 'in progress' || displayStatus === 'active' || displayStatus === 'client review') {
+                        activeScopeBoost = (p.scopePct || 0) / 2;
+                    }
                     
-                    let bgClass = 'bg-surface-container', textClass = 'text-on-surface-variant', borderClass = '', shadowClass = '', icon = 'schedule', iconAnim = '', labelClass = 'text-on-surface-variant', titleClass = 'text-on-surface-variant', descClass = 'text-on-surface-variant', cardClass = 'bg-surface-container border-outline-variant opacity-50';
+                    let bgClass = 'bg-surface-container', textClass = 'text-on-surface-variant', borderClass = 'border-4 border-surface', shadowClass = '', icon = 'radio_button_unchecked', iconAnim = '', labelClass = 'text-on-surface-variant', titleClass = 'text-on-surface-variant', descClass = 'text-on-surface-variant', cardClass = 'bg-surface-container border-outline-variant opacity-50';
 
-                    if (p.status === 'Approved' || p.status === 'Completed') {
-                        bgClass = 'bg-primary'; textClass = 'text-[#09090b]'; icon = 'check'; borderClass = 'border-4 border-surface'; shadowClass = 'shadow-[0_4px_20px_var(--color-primary-glow)]';
+                    if (displayStatus === 'approved' || displayStatus === 'completed') {
+                        bgClass = 'bg-primary'; textClass = 'text-[#09090b]'; icon = 'rocket_launch'; shadowClass = 'shadow-[0_4px_15px_var(--color-primary-glow)]';
                         labelClass = 'text-on-surface-variant'; titleClass = 'text-on-surface'; descClass = 'text-on-surface-variant'; cardClass = 'bg-surface-container-highest border-outline-variant opacity-70';
-                    } else if (p.status === 'In Progress' || p.status === 'Active') {
-                        bgClass = 'bg-surface-container-highest'; textClass = 'text-primary'; borderClass = 'border-4 border-surface border-primary'; shadowClass = 'shadow-[0_4px_20px_var(--color-primary-glow)]'; icon = 'near_me'; iconAnim = 'animate-pulse';
-                        labelClass = 'text-primary'; titleClass = 'text-on-surface'; descClass = 'text-on-surface-variant'; cardClass = 'bg-surface-container-highest border-[var(--color-primary-alpha-30)] shadow-[var(--card-shadow)]';
+                    } else if (displayStatus === 'in progress' || displayStatus === 'active') {
+                        bgClass = 'bg-[var(--color-primary-alpha-30)]'; textClass = 'text-primary'; borderClass = 'border-4 border-surface !border-primary'; shadowClass = 'shadow-[0_0_20px_var(--color-primary-glow)]'; 
+                        icon = 'autorenew'; iconAnim = 'animate-spin'; labelClass = 'text-primary'; titleClass = 'text-on-surface'; descClass = 'text-on-surface-variant'; cardClass = 'bg-surface-container-highest border-[var(--color-primary-alpha-30)] shadow-[var(--card-shadow)]';
                         document.getElementById('cli-timeline-badge').innerText = `Phase ${index + 1} Active`;
-                    } else if (p.status === 'Pending Review' || p.status === 'Finalization' || p.status === 'Deployment' || p.status === 'Under Review') {
-                        bgClass = 'bg-[var(--color-primary-alpha-30)]'; textClass = 'text-primary'; borderClass = 'border-4 border-surface border-primary'; shadowClass = 'shadow-[0_0_20px_var(--color-primary)]';
-                        icon = 'rocket_launch'; iconAnim = ''; labelClass = 'text-error'; titleClass = 'text-on-surface'; descClass = 'text-on-surface-variant'; cardClass = 'bg-surface-container-highest border-outline-variant';
+                    } else if (displayStatus === 'client review') {
+                        bgClass = 'bg-[var(--color-error-container)]'; textClass = 'text-error'; borderClass = 'border-4 border-surface !border-[var(--color-error-dim)]'; shadowClass = 'shadow-[0_0_20px_rgba(255,0,0,0.4)]';
+                        icon = 'warning'; iconAnim = 'animate-pulse'; labelClass = 'text-error'; titleClass = 'text-on-surface'; descClass = 'text-on-surface-variant'; cardClass = 'bg-surface-container-highest border-outline-variant';
+                    } else {
+                        icon = 'radio_button_unchecked'; iconAnim = '';
                     }
 
                     const renderDesc = p.description ? p.description : 'Awaiting architectural definitions for this milestone.';
 
-                    tlHtml += tlTpl.replace(/{bgClass}/g, bgClass)
+                    tlHtml = tlTpl.replace(/{bgClass}/g, bgClass)
                                    .replace(/{textClass}/g, textClass)
                                    .replace(/{borderClass}/g, borderClass)
                                    .replace(/{shadowClass}/g, shadowClass)
@@ -367,10 +511,11 @@
                                    .replace(/{scopePct}/g, p.scopePct || 0)
                                    .replace(/{phaseName}/g, p.name)
                                    .replace(/{duration}/g, p.durationDays || 0)
-                                   .replace(/{phaseDesc}/g, renderDesc);
+                                   .replace(/{phaseDesc}/g, renderDesc) + tlHtml; 
                 });
                 
-                tlHtml = `<div class="absolute top-0 left-5 md:left-1/2 w-0.5 md:-translate-x-px z-0 transition-all duration-1000 shadow-[0_0_15px_var(--color-primary-glow)]" style="height: ${trueScopePct}%; background: linear-gradient(180deg, var(--color-primary) 0%, var(--color-primary-alpha-30) 100%);"></div>` + tlHtml;
+                const renderScopePct = Math.min(100, trueScopePct + activeScopeBoost);
+                tlHtml = `<div class="absolute bottom-0 left-5 md:left-1/2 w-0.5 md:-translate-x-px z-0 transition-all duration-1000 shadow-[0_0_15px_var(--color-primary-glow)]" style="height: ${renderScopePct}%; background: linear-gradient(0deg, var(--color-primary) 0%, var(--color-primary-alpha-30) 100%);"></div>` + tlHtml;
                 
                 tlCont.innerHTML = tlHtml;
             } else {
@@ -439,16 +584,23 @@
     }, 150);
 
     window.initializeClientVault();
-</script>
 
-<script>
-    window.initializeSquadPayment = function(amount, invoiceId) {
-        window.Toast.show('Initializing secure gateway...', 'info');
-        console.log(`[SquadCo Stub] Preparing to charge ${amount} for Phase Block ${invoiceId}`);
+    // FIXED: Correctly attached grouping and routing function to the window object.
+    window.initializeSquadPayment = function(clickedId) {
+        window.Toast.show('Routing to secure checkout...', 'info');
+        
+        const checkedBoxes = Array.from(document.querySelectorAll('.cli-inv-checkbox:checked')).map(cb => cb.value);
+        
+        if (!checkedBoxes.includes(clickedId)) {
+            checkedBoxes.push(clickedId);
+        }
+        
+        const payload = checkedBoxes.join(',');
+        sessionStorage.setItem('checkout_inv_ids', payload); 
+        
         setTimeout(() => {
-            window.Toast.show('Squad gateway loaded. Awaiting payment processing.', 'success');
-        }, 1200);
+            window.location.hash = `#/secure_checkout?inv=${payload}`;
+        }, 500);
     };
 </script>
-
 <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" style="display:none;" onload="const s=document.createElement('script');s.textContent=document.getElementById('cli-vault-data-script').textContent;document.body.appendChild(s);this.remove();" />

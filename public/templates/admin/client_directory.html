@@ -184,6 +184,22 @@
     <button onclick="if(window.Modal) window.Modal.hide(); if(window.Toast) window.Toast.show('Client profile updated.', 'success')" class="bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm transition-colors">Save Changes</button>
 </template>
 
+<template id="tpl-delete-warning-modal">
+    <div class="space-y-4 text-left">
+        <div class="p-4 bg-error-container border border-error rounded-xl flex items-start gap-4">
+            <span class="material-symbols-outlined text-error mt-0.5">warning</span>
+            <div>
+                <h4 class="text-sm font-black text-on-surface mb-1">CRITICAL WARNING</h4>
+                <p class="text-xs text-on-surface-variant leading-relaxed">You are about to permanently delete this client and EVERY project, task, and invoice associated with them. This action cannot be undone.</p>
+            </div>
+        </div>
+    </div>
+</template>
+<template id="tpl-delete-warning-action">
+    <button onclick="if(window.Modal) window.Modal.hide()" class="text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors">Cancel</button>
+    <button onclick="window.confirmAtomicClientDelete('{clientId}')" class="bg-error text-white px-6 py-2.5 rounded-lg font-bold text-sm transition-colors hover:bg-error/90">Permanently Delete</button>
+</template>
+
 <script type="text/plain" id="dir-data-script">
     if (!window.XLSX) {
         const script = document.createElement('script');
@@ -199,6 +215,7 @@
         window.location.hash = '#/admin/project/new';
     };
 
+    // PHASE 1 OVERHAUL: Trigger custom warning modal instead of window.confirm
     window.executeAtomicClientDelete = async function(clientId) {
         const role = window.currentUserRole;
         if (role !== 'Super Admin' && role !== 'admin' && role !== 'SuperAdmin') {
@@ -206,9 +223,14 @@
             return;
         }
 
-        const confirmed = confirm("CRITICAL WARNING: You are about to permanently delete this client and EVERY project, task, and invoice associated with them. This action cannot be undone. Proceed?");
-        if(!confirmed) return;
+        const m = document.getElementById('tpl-delete-warning-modal').innerHTML;
+        const a = document.getElementById('tpl-delete-warning-action').innerHTML.replace('{clientId}', clientId);
+        if(window.Modal) window.Modal.show('Delete Client Workspace', m, a);
+    };
 
+    // PHASE 1 OVERHAUL: Proceed with cascade delete
+    window.confirmAtomicClientDelete = async function(clientId) {
+        if(window.Modal) window.Modal.hide();
         if(window.Toast) window.Toast.show('Initiating atomic deletion cascade...', 'info');
 
         try {

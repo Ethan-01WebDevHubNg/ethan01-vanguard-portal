@@ -17,15 +17,27 @@
     </button>
 </div>
 
+<div id="file-context-menu" class="hidden fixed bg-surface-container-highest border border-[var(--input-border)] shadow-[0_8px_30px_rgba(0,0,0,0.6)] rounded-xl py-2 w-48 z-[9999] transition-opacity duration-150 opacity-0 overflow-hidden">
+    <div class="px-3 pb-2 mb-2 border-b border-outline-variant">
+        <p class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Asset QA Actions</p>
+    </div>
+    <button class="w-full text-left px-4 py-2.5 text-xs font-bold text-primary hover:bg-surface-container transition-colors flex items-center gap-3" onclick="window.executeFileAction('Approved')">
+        <span class="material-symbols-outlined text-[16px]">check_circle</span> Approve Asset
+    </button>
+    <button class="w-full text-left px-4 py-2.5 text-xs font-bold text-error hover:bg-error-container transition-colors flex items-center gap-3" onclick="window.executeFileAction('Rejected')">
+        <span class="material-symbols-outlined text-[16px]">cancel</span> Reject Asset
+    </button>
+</div>
+
 <main class="ml-0 md:ml-64 min-h-screen p-4 sm:p-8 bg-surface transition-all duration-300" style="padding-top: 6rem;">
     <header class="mb-10">
         <div class="flex flex-col lg:flex-row lg:justify-between lg:items-end gap-6 mb-6">
             <div>
                 <div class="flex items-center gap-4 mb-2">
-                    <span class="text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-primary" id="active-project-title">Select a Project</span>
-                    <span class="px-2 py-0.5 rounded text-[0.6rem] font-black uppercase bg-[var(--color-primary-glow)] text-primary" id="active-phase-badge">Status: Pending</span>
+                    <span class="text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-primary" id="active-project-title">Select a Client</span>
+                    <span class="px-2 py-0.5 rounded text-[0.6rem] font-black uppercase bg-[var(--color-primary-glow)] text-primary" id="active-phase-badge">System Ready</span>
                 </div>
-                <h1 class="text-4xl sm:text-[3.5rem] font-black tracking-tighter leading-none mb-4 text-on-surface">PROJECT WORKSPACE</h1>
+                <h1 class="text-4xl sm:text-[3.5rem] font-black tracking-tighter leading-none mb-4 text-on-surface">COMMAND CENTER</h1>
                 <p class="text-on-surface-variant max-w-2xl leading-relaxed text-sm sm:text-base">Track project tasks, manage timelines, and upload deliverables for client review.</p>
             </div>
             <div class="flex flex-wrap gap-3">
@@ -37,7 +49,8 @@
         <div class="flex gap-4 sm:gap-8 border-b border-outline-variant overflow-x-auto overflow-y-hidden no-scrollbar relative" id="cmd-tabs">
             <div id="tab-slide-indicator" class="absolute bottom-[-1px] h-[2px] bg-primary transition-all duration-300 ease-out w-0 left-0"></div>
             
-            <button id="tab-btn-projects" onclick="window.switchCmdTab('tab-projects', this)" class="cmd-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-primary whitespace-nowrap outline-none">Projects</button>
+            <button id="tab-btn-clients" onclick="window.switchCmdTab('tab-clients', this)" class="cmd-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-primary whitespace-nowrap outline-none">Clients</button>
+            <button id="tab-btn-projects" onclick="window.switchCmdTab('tab-projects', this)" class="cmd-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap opacity-50 pointer-events-none outline-none">Projects</button>
             <button id="tab-btn-overview" onclick="window.switchCmdTab('tab-overview', this)" class="cmd-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap opacity-50 pointer-events-none outline-none">Overview</button>
             <button id="tab-btn-tracker" onclick="window.switchCmdTab('tab-tracker', this)" class="cmd-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap opacity-50 pointer-events-none outline-none">Task Board</button>
             <button id="tab-btn-deliverables" onclick="window.switchCmdTab('tab-deliverables', this)" class="cmd-tab-btn pb-4 text-[0.6875rem] font-black uppercase tracking-[0.15em] text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap opacity-50 pointer-events-none outline-none">Deliverables</button>
@@ -45,27 +58,36 @@
         </div>
     </header>
 
-    <section id="tab-projects" class="cmd-tab-content animate-in fade-in duration-300">
+    <section id="tab-clients" class="cmd-tab-content animate-in fade-in duration-300">
         <div class="flex justify-between items-center mb-6">
-            <h3 class="text-lg font-bold text-on-surface tracking-tight">Active Commissioned Projects</h3>
+            <h3 class="text-lg font-bold text-on-surface tracking-tight">Global Client Directory</h3>
+            <button class="bg-surface-container-highest hover:bg-surface-container text-on-surface px-4 py-2 rounded-lg text-xs font-bold transition-colors flex items-center gap-2 border border-outline-variant" onclick="window.location.hash='#/admin/project/new'">
+                <span class="material-symbols-outlined text-[16px]">person_add</span> Setup Client
+            </button>
+        </div>
+        <div id="cmd-clients-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            <div class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant animate-pulse shadow-[var(--card-shadow)] h-48 w-full flex items-center justify-center">
+                <span class="material-symbols-outlined animate-spin text-primary text-3xl">sync</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="tab-projects" class="cmd-tab-content hidden animate-in fade-in duration-300">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-lg font-bold text-on-surface tracking-tight">Client Workspaces</h3>
             <button class="bg-surface-container-highest hover:bg-surface-container text-on-surface px-4 py-2 rounded-lg text-xs font-bold transition-colors flex items-center gap-2 border border-outline-variant" onclick="window.location.hash='#/admin/project/new'">
                 <span class="material-symbols-outlined text-[16px]">add</span> New Project
             </button>
         </div>
         
-        <div id="cmd-projects-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-            <div class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant animate-pulse shadow-[var(--card-shadow)] h-48 w-full flex items-center justify-center">
-                <span class="material-symbols-outlined animate-spin text-primary text-3xl">sync</span>
-            </div>
-        </div>
+        <div id="cmd-projects-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12"></div>
 
         <div class="mb-6 border-t border-outline-variant pt-8">
             <h3 class="text-sm font-bold text-on-surface-variant tracking-widest uppercase mb-6 flex items-center gap-2">
                 <span class="material-symbols-outlined text-[18px]">inventory_2</span> Archived Workspaces
             </h3>
         </div>
-        <div id="cmd-archived-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 opacity-60 hover:opacity-100 transition-opacity">
-        </div>
+        <div id="cmd-archived-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 opacity-60 hover:opacity-100 transition-opacity"></div>
     </section>
 
     <section id="tab-overview" class="cmd-tab-content hidden animate-in fade-in duration-300">
@@ -125,7 +147,6 @@
     </section>
 
     <section id="tab-tracker" class="cmd-tab-content hidden animate-in fade-in duration-300">
-        
         <div class="flex gap-2 mb-6 overflow-x-auto no-scrollbar pb-2" id="task-dept-filters">
             <button class="px-4 py-1.5 rounded-full text-xs font-bold bg-primary text-[#09090b] transition-all whitespace-nowrap cmd-filter-btn" onclick="window.filterCmdTasks('All', this)">All Departments</button>
             <button class="px-4 py-1.5 rounded-full text-xs font-bold bg-surface-container-highest border border-[var(--input-border)] text-on-surface-variant hover:text-on-surface transition-all whitespace-nowrap cmd-filter-btn" onclick="window.filterCmdTasks('Engineering', this)">Engineering</button>
@@ -142,7 +163,6 @@
                     <div id="todo-container" class="flex flex-col gap-4 min-h-[50px]"></div>
                 </div>
             </div>
-            
             <div class="flex flex-col gap-4">
                 <div class="flex justify-between items-center px-2">
                     <h3 class="text-sm font-bold text-primary">In Progress <span id="count-inprogress" class="ml-2 opacity-50 text-primary font-normal text-xs">(0)</span></h3>
@@ -151,7 +171,6 @@
                     <div id="in-progress-container" class="flex flex-col gap-4 min-h-[50px]"></div>
                 </div>
             </div>
-            
             <div class="flex flex-col gap-4">
                 <div class="flex justify-between items-center px-2">
                     <h3 class="text-sm font-bold text-on-surface">Under Review <span id="count-review" class="ml-2 text-on-surface-variant font-normal text-xs">(0)</span></h3>
@@ -171,17 +190,18 @@
             </button>
         </div>
         <div class="bg-surface-container-low rounded-xl overflow-x-auto border border-outline-variant shadow-sm">
-            <table class="w-full text-left border-collapse min-w-[600px]">
+            <table class="w-full text-left border-collapse min-w-[700px]">
                 <thead>
                     <tr class="border-b border-outline-variant bg-[var(--color-surface-highest-alpha)]">
-                        <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant">File Name</th>
+                        <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant">File/Asset Name</th>
                         <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant">Uploaded By</th>
-                        <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant">Visibility</th>
+                        <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant">Status</th>
+                        <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant">Due Date</th>
                         <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant text-right">Actions</th>
                     </tr>
                 </thead>
                 <tbody id="cmd-deliverables-container" class="divide-y divide-outline-variant">
-                    <tr><td colspan="4" class="px-6 py-8 text-center text-on-surface-variant">Loading deliverables...</td></tr>
+                    <tr><td colspan="5" class="px-6 py-8 text-center text-on-surface-variant">Loading deliverables...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -190,9 +210,20 @@
     <section id="tab-invoices" class="cmd-tab-content hidden animate-in fade-in duration-300">
         <div class="flex justify-between items-center mb-6">
             <h3 class="text-lg font-bold text-on-surface tracking-tight">Billing & Invoices</h3>
-            <button class="bg-primary hover:bg-primary-container text-[#09090b] px-4 py-2 rounded-lg text-xs font-bold transition-colors flex items-center gap-2 shadow-[0_4px_15px_var(--color-primary-glow)]" onclick="window.openInvoiceModal()">
-                <span class="material-symbols-outlined text-[16px]">add</span> Generate Invoice
-            </button>
+            <div class="flex gap-2">
+                <button id="btn-cancel-gen" class="hidden bg-surface-container-highest hover:bg-surface-container text-on-surface px-4 py-2 rounded-lg text-xs font-bold transition-colors border border-outline-variant" onclick="window.toggleGenerateMode(false)">
+                    Cancel
+                </button>
+                <button id="btn-generate-inv" class="bg-primary hover:bg-primary-container text-[#09090b] px-4 py-2 rounded-lg text-xs font-bold transition-colors flex items-center gap-2 shadow-[0_4px_15px_var(--color-primary-glow)]" onclick="window.toggleGenerateMode(true)">
+                    <span class="material-symbols-outlined text-[16px]">receipt_long</span> Generate Invoice
+                </button>
+                <button id="btn-send-inv" class="hidden bg-primary hover:bg-primary-container text-[#09090b] px-4 py-2 rounded-lg text-xs font-bold transition-colors flex items-center gap-2 shadow-[0_4px_15px_var(--color-primary-glow)] opacity-50 pointer-events-none" onclick="window.sendSelectedInvoices()">
+                    <span class="material-symbols-outlined text-[16px]">send</span> Send to Client
+                </button>
+                <button id="btn-send-reminder" class="hidden bg-surface-container-highest hover:bg-surface-container text-on-surface px-4 py-2 rounded-lg text-xs font-bold transition-colors border border-outline-variant flex items-center gap-2 opacity-50 pointer-events-none" onclick="window.sendBulkReminders()">
+                    <span class="material-symbols-outlined text-[16px]">notifications_active</span> Send Reminders
+                </button>
+            </div>
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -209,24 +240,44 @@
                 <p id="cmd-inv-outstanding" class="text-2xl lg:text-3xl font-black text-on-surface break-all whitespace-normal" style="overflow-wrap: anywhere;">₦ 0.00</p>
             </div>
         </div>
+
         <div class="bg-surface-container-low rounded-xl overflow-x-auto border border-outline-variant shadow-sm">
+            <p class="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold px-6 pt-4 pb-2 border-b border-outline-variant bg-surface-container-highest">Base Project Ledger (Phases & Setup Items)</p>
             <table class="w-full text-left border-collapse min-w-[600px]">
                 <thead>
                     <tr class="border-b border-outline-variant bg-[var(--color-surface-highest-alpha)]">
-                        <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant">Invoice ID</th>
-                        <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant">Issue Date</th>
+                        <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant hidden gen-mode-col w-12 text-center border-r border-outline-variant">Select</th>
+                        <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant">Billing Item</th>
                         <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant">Amount</th>
                         <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant">Status</th>
                         <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant text-right">Actions</th>
                     </tr>
                 </thead>
                 <tbody id="cmd-invoices-container" class="divide-y divide-outline-variant">
-                    <tr><td colspan="5" class="px-6 py-8 text-center text-on-surface-variant">Loading financial data...</td></tr>
+                    <tr><td colspan="5" class="px-6 py-8 text-center text-on-surface-variant">Loading financial ledger...</td></tr>
                 </tbody>
             </table>
         </div>
     </section>
 </main>
+
+<template id="tpl-cmd-client-card">
+    <div class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant hover:border-[var(--color-primary-alpha-30)] transition-all cursor-pointer group shadow-[var(--card-shadow)]" onclick="window.selectClient('{id}', '{nameEscaped}')">
+        <div class="flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center border border-outline-variant shrink-0">
+                <img class="w-8 h-8 object-cover rounded" src="{logoUrl}"/>
+            </div>
+            <div>
+                <h4 class="text-lg font-bold text-on-surface group-hover:text-primary transition-colors">{name}</h4>
+                <p class="text-[10px] uppercase tracking-widest text-on-surface-variant">{activeProjectsCount} Active Projects</p>
+            </div>
+        </div>
+        <div class="flex justify-between items-center pt-4 border-t border-outline-variant mt-4">
+            <span class="text-xs text-on-surface-variant">{domain}</span>
+            <span class="text-[10px] uppercase font-bold tracking-widest text-primary group-hover:text-on-surface transition-colors">View Projects <span class="material-symbols-outlined text-[10px] ml-1 align-middle">arrow_forward</span></span>
+        </div>
+    </div>
+</template>
 
 <template id="tpl-cmd-project-card">
     <div class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant hover:border-[var(--color-primary-alpha-30)] transition-all cursor-pointer group shadow-[var(--card-shadow)]" onclick="window.selectProject('{id}', '{titleEscaped}', '{statusBadge}')" oncontextmenu="window.handleProjectContextMenu(event, '{id}')">
@@ -284,22 +335,63 @@
             </div>
         </td>
         <td class="px-6 py-4 text-xs text-on-surface-variant font-medium">{uploadedBy}</td>
-        <td class="px-6 py-4"><span class="whitespace-nowrap px-2 py-1 rounded text-[9px] font-black uppercase {visBgClass} {visTextClass} tracking-widest">{visibility}</span></td>
-        <td class="px-6 py-4 text-right">
-            <button class="p-2 text-on-surface-variant hover:text-on-surface transition-colors" onclick="window.downloadAsset('{url}')"><span class="material-symbols-outlined text-sm">download</span></button>
-            <button class="p-2 text-on-surface-variant hover:text-error transition-colors" onclick="window.deleteAsset()"><span class="material-symbols-outlined text-sm">delete</span></button>
+        <td class="px-6 py-4"><span class="whitespace-nowrap px-2 py-1 rounded text-[9px] font-black uppercase {statusBgClass} {statusTextClass} tracking-widest">{status}</span></td>
+        <td class="px-6 py-4 text-xs font-mono font-bold {dateWarningClass}">{dueDate}</td>
+        <td class="px-6 py-4 text-right relative">
+            <button class="p-2 text-on-surface-variant hover:text-on-surface transition-colors" onclick="window.downloadAsset('{url}')" title="Download"><span class="material-symbols-outlined text-sm">download</span></button>
+            <button class="p-2 text-on-surface-variant hover:text-primary transition-colors {superAdminHiddenClass}" onclick="window.handleFileContextMenu(event, '{fileId}')" title="QA Actions"><span class="material-symbols-outlined text-sm">more_vert</span></button>
         </td>
     </tr>
 </template>
 
+<template id="tpl-upload-asset-modal">
+    <div class="space-y-4 text-left">
+        <div class="space-y-2">
+            <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Select Deliverable Asset</label>
+            <div class="flex items-center gap-4 p-4 bg-surface-container-highest rounded-lg border-[1.5px] border-dashed border-[var(--input-border)] hover:border-primary transition-colors cursor-pointer" onclick="document.getElementById('upload-asset-input').click()">
+                <div class="w-10 h-10 rounded-full bg-[var(--color-primary-alpha-30)] flex items-center justify-center text-primary shrink-0">
+                    <span class="material-symbols-outlined">cloud_upload</span>
+                </div>
+                <div>
+                    <p id="upload-asset-filename" class="text-sm font-bold text-on-surface">Click to browse files...</p>
+                    <p class="text-xs text-on-surface-variant">PDF, ZIP, PNG, JPG (Max 50MB)</p>
+                </div>
+                <input type="file" id="upload-asset-input" class="hidden" onchange="document.getElementById('upload-asset-filename').innerText = this.files[0] ? this.files[0].name : 'Click to browse files...'"/>
+            </div>
+        </div>
+        <div class="space-y-2">
+            <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Assigned Phase/Task</label>
+            <select id="upload-asset-task" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none cursor-pointer">
+                {taskOptionsHtml}
+            </select>
+        </div>
+        <div class="space-y-2">
+            <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Client Review Due Date</label>
+            <input type="date" id="upload-asset-date" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none cursor-pointer" />
+        </div>
+    </div>
+</template>
+
 <template id="tpl-cmd-invoice-row">
-    <tr class="hover:bg-surface-container transition-colors group">
-        <td class="px-6 py-4 text-sm font-bold text-on-surface font-mono tracking-tight">{invoiceId}</td>
-        <td class="px-6 py-4 text-xs text-on-surface-variant font-medium">{issueDate}</td>
-        <td class="px-6 py-4 text-sm font-bold text-on-surface">{amount}</td>
+    <tr class="hover:bg-surface-container transition-colors group {rowDisabledClass}">
+        <td class="px-6 py-4 hidden gen-mode-col w-12 text-center border-r border-outline-variant">
+            <input type="checkbox" class="inv-checkbox w-4 h-4 rounded border-outline-variant text-primary bg-transparent focus:ring-0 cursor-pointer" value="{itemId}" data-type="{itemType}" data-status="{rawStatus}" onchange="window.toggleInvoiceSelection()" {checkboxDisabled}>
+        </td>
+        <td class="px-6 py-4 tracking-tight">
+            <p class="text-sm font-bold text-on-surface">{itemTitle}</p>
+            <p class="text-[9px] text-on-surface-variant uppercase tracking-widest font-mono mt-0.5">{itemSubtitle}</p>
+        </td>
+        <td class="px-6 py-4 text-sm font-bold text-primary">{amount}</td>
         <td class="px-6 py-4"><span class="px-2 py-1 rounded text-[9px] font-black uppercase {statusBgClass} {statusTextClass} tracking-widest">{status}</span></td>
-        <td class="px-6 py-4 text-right">
-            <button class="p-2 text-on-surface-variant hover:text-on-surface transition-colors" onclick="window.Toast.show('Generating PDF Receipt...', 'info')"><span class="material-symbols-outlined text-sm">download</span></button>
+        <td class="px-6 py-4 text-right relative">
+            {actionBtn}
+        </td>
+    </tr>
+    <tr id="inv-comment-row-{itemId}" class="hidden bg-surface-container-lowest">
+        <td colspan="5" class="px-6 pb-4 pt-3 border-b border-[var(--input-border)]">
+            <label class="text-[9px] uppercase tracking-widest text-primary font-bold mb-2 block">Invoice Transmission Notes</label>
+            <textarea id="inv-text-{itemId}" rows="2" class="w-full bg-surface-container-highest border border-[var(--input-border)] rounded-lg p-3 text-xs text-on-surface focus:border-primary outline-none resize-none" placeholder="Provide extra context for the client (Max 50 words)..." oninput="window.validateInvoiceComment(this, '{itemId}')"></textarea>
+            <div class="flex justify-end mt-1"><span id="inv-count-{itemId}" class="text-[9px] text-on-surface-variant font-mono">0/50 words</span></div>
         </td>
     </tr>
 </template>
@@ -316,7 +408,7 @@
                 </div>
             </div>
         </div>
-        <div class="flex justify-end">
+        <div class="flex justify-end shrink-0">
             {actionButtonHtml}
         </div>
     </div>
@@ -342,39 +434,40 @@
         document.head.appendChild(script);
     }
 
+    // Global State
+    window.globalCmdProjects = [];
+    window.globalCmdClients = [];
+    window.activeClientId = null;
+    window.activeProjectId = null;
     window.contextMenuTargetId = null;
+    window.fileMenuTargetId = null;
     window.cmdTaskFilter = 'All'; 
     window.cmdCurrentTasksSnap = null; 
 
     document.addEventListener('click', function(e) {
-        const menu = document.getElementById('project-context-menu');
-        if (menu && !menu.classList.contains('hidden')) {
-            if (!menu.contains(e.target)) window.hideContextMenu();
-        }
+        const pMenu = document.getElementById('project-context-menu');
+        const fMenu = document.getElementById('file-context-menu');
+        if (pMenu && !pMenu.classList.contains('hidden') && !pMenu.contains(e.target)) window.hideContextMenu();
+        if (fMenu && !fMenu.classList.contains('hidden') && !fMenu.contains(e.target)) window.hideFileContextMenu();
     });
 
     window.handleProjectContextMenu = function(e, projectId) {
         e.preventDefault(); 
-        
-        const role = window.currentUserRole;
-        if (role !== 'Super Admin' && role !== 'admin' && role !== 'SuperAdmin') {
-            if (window.Toast) window.Toast.show('Super Admin clearance required to modify workspaces.', 'error');
+        const currentRole = window.ethan01_currentUser?.role;
+        if (currentRole !== 'Super Admin' && currentRole !== 'admin' && currentRole !== 'SuperAdmin') {
+            if (window.Toast) window.Toast.show('Super Admin clearance required.', 'error');
             return; 
         }
         
         window.contextMenuTargetId = projectId;
         const menu = document.getElementById('project-context-menu');
         
-        let x = e.clientX;
-        let y = e.clientY;
-        const menuWidth = 200; 
-        const menuHeight = 120;
+        let x = e.clientX, y = e.clientY;
+        const menuWidth = 200, menuHeight = 120;
         if (x + menuWidth > window.innerWidth) x = window.innerWidth - menuWidth - 10;
         if (y + menuHeight > window.innerHeight) y = window.innerHeight - menuHeight - 10;
 
-        menu.style.left = `${x}px`;
-        menu.style.top = `${y}px`;
-        
+        menu.style.left = `${x}px`; menu.style.top = `${y}px`;
         menu.classList.remove('hidden');
         setTimeout(() => menu.classList.remove('opacity-0'), 10);
     };
@@ -387,11 +480,34 @@
         }
     };
 
+    window.handleFileContextMenu = function(e, fileId) {
+        e.preventDefault();
+        e.stopPropagation();
+        window.fileMenuTargetId = fileId;
+        const menu = document.getElementById('file-context-menu');
+        
+        let x = e.clientX, y = e.clientY;
+        const menuWidth = 200, menuHeight = 100;
+        if (x + menuWidth > window.innerWidth) x = window.innerWidth - menuWidth - 10;
+        if (y + menuHeight > window.innerHeight) y = window.innerHeight - menuHeight - 10;
+
+        menu.style.left = `${x}px`; menu.style.top = `${y}px`;
+        menu.classList.remove('hidden');
+        setTimeout(() => menu.classList.remove('opacity-0'), 10);
+    };
+
+    window.hideFileContextMenu = function() {
+        const menu = document.getElementById('file-context-menu');
+        if (menu && !menu.classList.contains('hidden')) {
+            menu.classList.add('opacity-0');
+            setTimeout(() => menu.classList.add('hidden'), 150);
+        }
+    };
+
     window.executeProjectAction = async function(action) {
         window.hideContextMenu();
         if (!window.contextMenuTargetId) return;
         const pId = window.contextMenuTargetId;
-
         if (window.Toast) window.Toast.show(`Executing project ${action}...`, 'info');
 
         try {
@@ -401,17 +517,32 @@
 
             if (action === 'archive') {
                 await updateDoc(pRef, { status: 'Archived' });
-                if(window.Toast) window.Toast.show('Project archived successfully.', 'success');
+                if(window.Toast) window.Toast.show('Project archived.', 'success');
             } else if (action === 'delete') {
-                const confirmed = confirm("Are you sure you want to permanently delete this project? This action cannot be undone.");
+                const confirmed = confirm("Permanently delete this project?");
                 if(confirmed) {
                     await deleteDoc(pRef);
-                    if(window.Toast) window.Toast.show('Project permanently deleted.', 'success');
+                    if(window.Toast) window.Toast.show('Project deleted.', 'success');
                 }
             }
         } catch (e) {
-            console.error("Context Action Error", e);
-            if(window.Toast) window.Toast.show('Failed to execute project action.', 'error');
+            console.error(e);
+            if(window.Toast) window.Toast.show('Failed to execute action.', 'error');
+        }
+    };
+
+    window.executeFileAction = async function(decision) {
+        window.hideFileContextMenu();
+        if(!window.fileMenuTargetId || !window.activeProjectId) return;
+        try {
+            const { doc, updateDoc } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+            const { db } = await import('/js/config/firebase-dev.js');
+            const fileRef = doc(db, 'projects', window.activeProjectId, 'deliverables', window.fileMenuTargetId);
+            await updateDoc(fileRef, { status: decision });
+            if(window.Toast) window.Toast.show(`Asset marked as ${decision}.`, 'success');
+        } catch(e) {
+            console.error(e);
+            if(window.Toast) window.Toast.show('Failed to update asset.', 'error');
         }
     };
 
@@ -436,24 +567,20 @@
         if(indicator && container) {
             const containerRect = container.getBoundingClientRect();
             const btnRect = btnElement.getBoundingClientRect();
-            const scrollLeft = container.scrollLeft;
-            const targetLeft = (btnRect.left - containerRect.left) + scrollLeft;
+            const offsetLeft = btnRect.left - containerRect.left + container.scrollLeft;
             indicator.style.width = btnRect.width + 'px';
-            indicator.style.transform = 'translateX(' + targetLeft + 'px)';
+            indicator.style.transform = `translateX(${offsetLeft}px)`;
         }
     };
 
     window.filterCmdTasks = function(deptFilter, btnElement) {
         window.cmdTaskFilter = deptFilter;
-        
         document.querySelectorAll('.cmd-filter-btn').forEach(btn => {
             btn.classList.remove('bg-primary', 'text-[#09090b]', 'border-transparent');
             btn.classList.add('bg-surface-container-highest', 'text-on-surface-variant', 'border-[var(--input-border)]');
         });
-
         btnElement.classList.remove('bg-surface-container-highest', 'text-on-surface-variant', 'border-[var(--input-border)]');
         btnElement.classList.add('bg-primary', 'text-[#09090b]', 'border-transparent');
-
         if(window.cmdCurrentTasksSnap) {
             window.renderTasksFromSnap(window.cmdCurrentTasksSnap);
         }
@@ -468,9 +595,25 @@
         let cTodo = 0, cInprog = 0, cReview = 0;
         const tpl = document.getElementById('tpl-cmd-task-todo').innerHTML;
         
-        snap.forEach(doc => {
+        const currentRole = window.ethan01_currentUser?.role;
+        const currentDept = window.ethan01_currentUser?.department?.toLowerCase();
+        const isSuperAdmin = currentRole === 'Super Admin' || currentRole === 'admin' || currentRole === 'SuperAdmin';
+
+        let docsArray = [];
+        snap.forEach(doc => docsArray.push(doc));
+        docsArray.sort((a, b) => {
+            const idxA = a.data().phaseIndex !== undefined ? a.data().phaseIndex : 999;
+            const idxB = b.data().phaseIndex !== undefined ? b.data().phaseIndex : 999;
+            return idxA - idxB;
+        });
+
+        docsArray.forEach(doc => {
             const t = doc.data();
             const tDept = t.department || 'Engineering';
+
+            if (!isSuperAdmin && currentDept) {
+                if (tDept.toLowerCase() !== currentDept) return;
+            }
 
             if (window.cmdTaskFilter !== 'All' && tDept !== window.cmdTaskFilter) return;
             
@@ -497,10 +640,15 @@
                           .replace(/{subtasksHtml}/g, subHtml)
                           .replace(/{assigneeUrl}/g, '/assets/icons/ethan01logo.svg');
             
-            if (t.status === 'In Progress' || t.status === 'Active') { 
+            const rawStatus = t.status || 'To Do';
+            const normStatus = rawStatus.toLowerCase().replace(/-/g, ' ').trim();
+
+            if (normStatus === 'in progress' || normStatus === 'active' || normStatus === 'rejected internal') { 
                 inprogHtml += html; cInprog++; 
-            } else if (t.status === 'Under Review' || t.status === 'Review') { 
+            } else if (normStatus === 'internal review' || normStatus === 'pending review' || normStatus === 'approved internally' || normStatus === 'client review' || normStatus === 'under review') { 
                 reviewHtml += html; cReview++; 
+            } else if (normStatus === 'completed' || normStatus === 'approved') {
+                // Done tasks hidden
             } else { 
                 todoHtml += html; cTodo++; 
             }
@@ -515,104 +663,270 @@
         document.getElementById('count-review').innerText = '(' + cReview + ')';
     };
 
-    window.openInvoiceModal = async function() {
-        if (!window.activeProjectId) return;
-        if(window.Toast) window.Toast.show('Fetching billable tasks...', 'info');
+    window.renderAdminInvoices = function(projData) {
+        const invC = document.getElementById('cmd-invoices-container');
+        const tpl = document.getElementById('tpl-cmd-invoice-row').innerHTML;
+        const currency = projData.currency || '₦';
+        let invHtml = '';
+        let totalBilled = 0;
+        let totalCollected = 0;
 
-        try {
-            const { doc, getDoc, collection, getDocs } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
-            const { db } = await import('/js/config/firebase-dev.js');
+        const processItem = (item, type, id, title, subtitle) => {
+            const amt = parseFloat(item.cost) || 0;
+            if (amt <= 0) return;
 
-            const pRef = doc(db, 'projects', window.activeProjectId);
-            const pSnap = await getDoc(pRef);
-            if (!pSnap.exists()) return;
-            
-            const proj = pSnap.data();
-            const totalBudget = proj.totalBudget || 0;
-            const currency = proj.currency || '₦';
+            // CORE MATH FIX: Add to billed unconditionally so project total is always accurate
+            totalBilled += amt;
 
-            let tasks = [];
-            if (window.cmdCurrentTasksSnap) {
-                window.cmdCurrentTasksSnap.forEach(d => tasks.push({id: d.id, ...d.data()}));
-            } else {
-                const tSnap = await getDocs(collection(db, 'projects', window.activeProjectId, 'tasks'));
-                tSnap.forEach(d => tasks.push({id: d.id, ...d.data()}));
+            let status = item.paymentStatus || 'Unbilled';
+            if (status === 'Paid') {
+                totalCollected += amt;
             }
 
-            let listHtml = '<div class="space-y-3 max-h-80 overflow-y-auto pr-2 no-scrollbar">';
-            if (tasks.length === 0) {
-                listHtml += '<p class="text-xs text-on-surface-variant text-center">No tasks found.</p>';
+            let statusBg = 'bg-[var(--color-outline-variant)]';
+            let statusText = 'text-on-surface';
+            let actionBtn = `<button class="p-2 text-on-surface-variant hover:text-primary transition-colors" onclick="window.triggerInvoiceEmail('${id}')" title="Email Invoice to Client"><span class="material-symbols-outlined text-sm">mail</span></button>`;
+            let rowDisabledClass = '';
+            let checkboxDisabled = '';
+
+            if(status === 'Paid') {
+                statusBg = 'bg-[var(--color-primary-alpha-30)]';
+                statusText = 'text-primary';
+                rowDisabledClass = 'opacity-60';
+                checkboxDisabled = 'disabled';
+            } else if(status === 'Pending Admin Review') {
+                statusBg = 'bg-[var(--color-primary-alpha-30)] animate-pulse';
+                statusText = 'text-primary';
+                actionBtn = `<button class="text-[9px] uppercase tracking-widest bg-primary text-[#09090b] px-3 py-1.5 font-bold rounded shadow-[0_4px_15px_var(--color-primary-glow)] hover:bg-primary-container transition-colors" onclick="window.acceptManualReceipt('${id}', '${type}')">Verify Receipt</button>`;
+                checkboxDisabled = 'disabled';
+            } else if(status === 'Pending Payment') {
+                statusBg = 'bg-surface-container-highest';
+                statusText = 'text-on-surface-variant';
+                actionBtn += `<span class="text-[9px] uppercase font-bold text-primary ml-2 border border-primary px-2 py-1 rounded">Transmitted</span>`;
+            } else if(status === 'Overdue') {
+                statusBg = 'bg-error-container';
+                statusText = 'text-error';
             } else {
-                tasks.forEach(t => {
-                    const allocatedAmt = totalBudget * ((t.weightPct || 0) / 100);
-                    const isSent = t.invoiceSent ? 'opacity-50 pointer-events-none' : '';
-                    const btnText = t.invoiceSent ? 'Sent' : 'Send Invoice';
-
-                    listHtml += `
-                    <div class="flex items-center justify-between p-4 bg-surface-container-highest rounded-xl border border-outline-variant ${isSent}">
-                        <div class="flex-1 pr-4 min-w-0">
-                            <p class="text-sm font-bold text-on-surface mb-1 truncate" title="${t.title}">${t.title}</p>
-                            <p class="text-[10px] text-on-surface-variant uppercase tracking-widest font-mono truncate">${currency} ${allocatedAmt.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} • ${t.weightPct || 0}% Weight</p>
-                        </div>
-                        <button onclick="window.sendTaskInvoice('${t.id}', '${t.title.replace(/'/g, "\\'")}', ${allocatedAmt})" class="bg-primary text-[#09090b] px-4 py-2 rounded-lg text-xs font-bold transition-all hover:bg-primary-container shadow-[0_4px_15px_var(--color-primary-glow)] whitespace-nowrap flex items-center gap-1 shrink-0">
-                            <span class="material-symbols-outlined text-sm">send</span> ${btnText}
-                        </button>
-                    </div>`;
-                });
+                statusBg = 'bg-surface-container';
+                statusText = 'text-on-surface-variant';
             }
-            listHtml += '</div>';
 
-            const m = `
-                <div class="space-y-4 text-left">
-                    <p class="text-xs text-on-surface-variant leading-relaxed">Select a task below to generate and push its allocated invoice directly to the client's billing portal.</p>
-                    ${listHtml}
-                </div>
-            `;
+            const fmtAmt = amt.toLocaleString('en-US', { style: 'currency', currency: 'NGN' }).replace('NGN', currency);
+
+            invHtml += tpl.replace(/{itemId}/g, id)
+                          .replace(/{itemType}/g, type)
+                          .replace(/{rawStatus}/g, status)
+                          .replace(/{itemTitle}/g, title)
+                          .replace(/{itemSubtitle}/g, subtitle)
+                          .replace(/{amount}/g, fmtAmt)
+                          .replace(/{statusBgClass}/g, statusBg)
+                          .replace(/{statusTextClass}/g, statusText)
+                          .replace(/{status}/g, status)
+                          .replace(/{actionBtn}/g, actionBtn)
+                          .replace(/{rowDisabledClass}/g, rowDisabledClass)
+                          .replace(/{checkboxDisabled}/g, checkboxDisabled);
+        };
+
+        if (projData.phases && projData.phases.length > 0) {
+            projData.phases.forEach(p => processItem(p, 'phase', p.id, p.name, 'Phase Milestone Allocation'));
+        }
+        if (projData.extraBilling && projData.extraBilling.length > 0) {
+            projData.extraBilling.forEach((eb, idx) => processItem(eb, 'extra', 'extra_' + idx, eb.name, 'Auxiliary Request'));
+        }
+
+        if(invC) {
+            invC.innerHTML = invHtml || '<tr><td colspan="5" class="px-6 py-8 text-center text-on-surface-variant">No billable phases or items defined during workspace setup.</td></tr>';
+        }
+
+        const outstanding = totalBilled - totalCollected;
+        const elTot = document.getElementById('cmd-inv-total');
+        const elCol = document.getElementById('cmd-inv-collected');
+        const elOut = document.getElementById('cmd-inv-outstanding');
+
+        if(elTot) elTot.innerText = `${currency} ${totalBilled.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+        if(elCol) elCol.innerText = `${currency} ${totalCollected.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+        if(elOut) elOut.innerText = `${currency} ${outstanding.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+    };
+
+    window.toggleGenerateMode = function(isGen) {
+        const genCols = document.querySelectorAll('.gen-mode-col');
+        const btnGen = document.getElementById('btn-generate-inv');
+        const btnCancel = document.getElementById('btn-cancel-gen');
+        const btnSend = document.getElementById('btn-send-inv');
+        const btnRemind = document.getElementById('btn-send-reminder');
+
+        if (isGen) {
+            genCols.forEach(el => el.classList.remove('hidden'));
+            if(btnGen) btnGen.classList.add('hidden');
+            if(btnCancel) btnCancel.classList.remove('hidden');
+            if(btnSend) btnSend.classList.remove('hidden');
+            if(btnRemind) btnRemind.classList.remove('hidden');
+        } else {
+            genCols.forEach(el => el.classList.add('hidden'));
+            if(btnGen) btnGen.classList.remove('hidden');
+            if(btnCancel) btnCancel.classList.add('hidden');
+            if(btnSend) btnSend.classList.add('hidden');
+            if(btnRemind) btnRemind.classList.add('hidden');
             
-            const a = `<button onclick='window.Modal.hide()' class='text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors'>Cancel</button>`;
-            
-            if(window.Modal) window.Modal.show('Generate Task Invoices', m, a);
-            
-        } catch (e) {
-            console.error("Invoice Modal Error", e);
-            if(window.Toast) window.Toast.show('Failed to load tasks for invoicing.', 'error');
+            document.querySelectorAll('.inv-checkbox:checked').forEach(cb => {
+                cb.checked = false;
+                window.toggleInvoiceSelection();
+            });
         }
     };
 
-    window.sendTaskInvoice = async function(taskId, taskTitle, amount) {
-        if (!window.activeProjectId) return;
+    window.toggleInvoiceSelection = function() {
+        const checkedBoxes = Array.from(document.querySelectorAll('.inv-checkbox:checked'));
+        const btnSend = document.getElementById('btn-send-inv');
+        const btnRemind = document.getElementById('btn-send-reminder');
+
+        const hasUnbilled = checkedBoxes.some(cb => cb.getAttribute('data-status') === 'Unbilled');
+        const hasBilled = checkedBoxes.some(cb => cb.getAttribute('data-status') === 'Pending Payment' || cb.getAttribute('data-status') === 'Overdue');
+
+        if(btnSend) {
+            if(hasUnbilled) btnSend.classList.remove('opacity-50', 'pointer-events-none');
+            else btnSend.classList.add('opacity-50', 'pointer-events-none');
+        }
+
+        if(btnRemind) {
+            if(hasBilled) btnRemind.classList.remove('opacity-50', 'pointer-events-none');
+            else btnRemind.classList.add('opacity-50', 'pointer-events-none');
+        }
+
+        document.querySelectorAll('.inv-checkbox').forEach(cb => {
+            const commentRow = document.getElementById('inv-comment-row-' + cb.value);
+            if (cb.checked && cb.getAttribute('data-status') === 'Unbilled') {
+                if(commentRow) commentRow.classList.remove('hidden');
+            } else {
+                if(commentRow) commentRow.classList.add('hidden');
+            }
+        });
+    };
+
+    window.triggerInvoiceEmail = function(id) {
+        if(window.Toast) window.Toast.show('Automated worker dispatched to send invoice via email.', 'success');
+    };
+
+    window.sendBulkReminders = function() {
+        const checkedBoxes = document.querySelectorAll('.inv-checkbox:checked');
+        if(checkedBoxes.length === 0) return;
+        if(window.Toast) window.Toast.show(`Automated worker dispatched to send ${checkedBoxes.length} reminders.`, 'success');
         
+        document.querySelectorAll('.inv-checkbox:checked').forEach(cb => { cb.checked = false; });
+        window.toggleInvoiceSelection();
+    };
+
+    window.validateInvoiceComment = function(el, id) {
+        let words = el.value.trim().split(/\s+/).filter(w => w.length > 0);
+        const countEl = document.getElementById('inv-count-' + id);
+        if (words.length > 50) {
+            el.value = words.slice(0, 50).join(' ');
+            words = words.slice(0, 50);
+            if(countEl) countEl.classList.add('text-error');
+        } else {
+            if(countEl) countEl.classList.remove('text-error');
+        }
+        if(countEl) countEl.innerText = `${words.length}/50 words`;
+    };
+
+    window.sendSelectedInvoices = async function() {
+        if (!window.activeProjectId) return;
+        const checkedBoxes = document.querySelectorAll('.inv-checkbox:checked');
+        if(checkedBoxes.length === 0) return;
+
+        const btn = document.getElementById('btn-send-inv');
+        if(btn) {
+            btn.innerHTML = `<span class="material-symbols-outlined animate-spin text-[16px]">sync</span> Sending...`;
+            btn.classList.add('opacity-50', 'pointer-events-none');
+        }
+
         try {
-            const { doc, setDoc, updateDoc, collection, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+            const { doc, getDoc, updateDoc } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
             const { db } = await import('/js/config/firebase-dev.js');
             
-            const invRef = doc(collection(db, 'projects', window.activeProjectId, 'invoices'));
-            const invId = 'INV-' + window.activeProjectId.slice(-4) + '-' + Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+            const pRef = doc(db, 'projects', window.activeProjectId);
+            const pSnap = await getDoc(pRef);
+            const pData = pSnap.data();
             
-            await setDoc(invRef, {
-                invoiceId: invId,
-                issueDate: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
-                amount: amount,
-                status: 'Pending Payment',
-                taskId: taskId,
-                taskTitle: taskTitle,
-                createdAt: serverTimestamp()
+            let updatedPhases = pData.phases || [];
+            let updatedExtra = pData.extraBilling || [];
+            let modified = false;
+
+            checkedBoxes.forEach(box => {
+                const id = box.value;
+                const type = box.getAttribute('data-type');
+                const comment = document.getElementById('inv-text-' + id)?.value || '';
+
+                if (box.getAttribute('data-status') !== 'Unbilled') return;
+
+                if (type === 'phase') {
+                    updatedPhases = updatedPhases.map(p => {
+                        if (p.id === id) {
+                            modified = true;
+                            return { ...p, paymentStatus: 'Pending Payment', adminNotes: comment };
+                        }
+                        return p;
+                    });
+                } else if (type === 'extra') {
+                    const idx = parseInt(id.split('_')[1]);
+                    if (updatedExtra[idx]) {
+                        modified = true;
+                        updatedExtra[idx].paymentStatus = 'Pending Payment';
+                        updatedExtra[idx].adminNotes = comment;
+                    }
+                }
             });
 
-            const tRef = doc(db, 'projects', window.activeProjectId, 'tasks', taskId);
-            await updateDoc(tRef, { invoiceSent: true });
+            if (modified) {
+                await updateDoc(pRef, { phases: updatedPhases, extraBilling: updatedExtra });
+                if(window.Toast) window.Toast.show('Invoices pushed directly to client portal ledger.', 'success');
+            }
 
-            if(window.Toast) window.Toast.show('Invoice reminder sent to client portal!', 'success');
-            if(window.Modal) window.Modal.hide();
+            document.querySelectorAll('.inv-checkbox:checked').forEach(cb => { cb.checked = false; });
+            window.toggleInvoiceSelection();
 
         } catch (e) {
-            console.error("Send Invoice Error", e);
-            if(window.Toast) window.Toast.show('Failed to send invoice.', 'error');
+            console.error("Send Invoices Error", e);
+            if(window.Toast) window.Toast.show('Database error pushing invoices.', 'error');
+        } finally {
+            if(btn) {
+                btn.innerHTML = `<span class="material-symbols-outlined text-[16px]">send</span> Send to Client`;
+                btn.classList.remove('opacity-50', 'pointer-events-none');
+            }
         }
+    };
+
+    window.acceptManualReceipt = async function(id, type) {
+        try {
+            const { doc, getDoc, updateDoc } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+            const { db } = await import('/js/config/firebase-dev.js');
+            
+            const pRef = doc(db, 'projects', window.activeProjectId);
+            const pSnap = await getDoc(pRef);
+            const pData = pSnap.data();
+
+            let updatedPhases = pData.phases || [];
+            let updatedExtra = pData.extraBilling || [];
+            let modified = false;
+
+            if (type === 'phase') {
+                updatedPhases = updatedPhases.map(p => {
+                    if (p.id === id) { modified = true; return { ...p, paymentStatus: 'Paid' }; }
+                    return p;
+                });
+            } else if (type === 'extra') {
+                const idx = parseInt(id.split('_')[1]);
+                if (updatedExtra[idx]) { modified = true; updatedExtra[idx].paymentStatus = 'Paid'; }
+            }
+
+            if (modified) await updateDoc(pRef, { phases: updatedPhases, extraBilling: updatedExtra });
+            
+            if(window.Toast) window.Toast.show('Receipt verified. Invoice officially marked Paid.', 'success');
+        } catch(e) { console.error(e); }
     };
 
     window.updatePhaseStatus = async function(projectId, phaseId, newStatus) {
-        if (!window.currentUser) return;
+        if (!window.ethan01_currentUser) return;
         try {
             const { doc, getDoc, updateDoc, collection, query, where, getDocs } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
             const { db } = await import('/js/config/firebase-dev.js');
@@ -621,34 +935,33 @@
             const pSnap = await getDoc(pRef);
             if (!pSnap.exists()) return;
             
-            const phases = pSnap.data().phases || [];
+            const projData = pSnap.data();
+            const phases = projData.phases || [];
             let targetPhaseName = null;
+            let isModified = false;
 
             const updatedPhases = phases.map(p => {
                 if (p.id === phaseId) {
                     targetPhaseName = p.name;
+                    isModified = true;
                     return { ...p, status: newStatus };
                 }
                 return p;
             });
             
-            await updateDoc(pRef, { phases: updatedPhases });
+            if (isModified) await updateDoc(pRef, { phases: updatedPhases });
 
             if (targetPhaseName) {
-                let taskTargetStatus = newStatus;
-                if (newStatus === 'Approved') taskTargetStatus = 'Completed';
-                else if (newStatus === 'Pending Review') taskTargetStatus = 'Under Review';
-
                 const q = query(collection(db, 'projects', projectId, 'tasks'), where('phase', '==', targetPhaseName));
                 const tSnap = await getDocs(q);
                 tSnap.forEach(async (tDoc) => {
                     if (tDoc.data().status !== 'Completed') {
-                        await updateDoc(doc(db, 'projects', projectId, 'tasks', tDoc.id), { status: taskTargetStatus });
+                        await updateDoc(doc(db, 'projects', projectId, 'tasks', tDoc.id), { status: newStatus });
                     }
                 });
             }
 
-            if(window.Toast) window.Toast.show('QA Phase updated to: ' + newStatus, 'success');
+            if(window.Toast) window.Toast.show('Phase state synchronized.', 'success');
         } catch(e) {
             console.error('Phase update error', e);
             if(window.Toast) window.Toast.show('Failed to lock phase update in DB.', 'error');
@@ -672,17 +985,12 @@
             const pSnap = await getDoc(pRef);
             if (pSnap.exists()) {
                 const projData = pSnap.data();
-                const phases = projData.phases || [];
-                
-                let targetPhaseStatus = newStatus;
-                if (newStatus === 'Under Review') targetPhaseStatus = 'Pending Review';
-                if (newStatus === 'To Do') targetPhaseStatus = 'Locked';
-
                 let isModified = false;
-                const updatedPhases = phases.map(p => {
-                    if (p.name === taskData.phase && p.status !== 'Approved') {
+                
+                const updatedPhases = (projData.phases || []).map(p => {
+                    if (p.name === taskData.phase && p.status !== 'Completed') {
                         isModified = true;
-                        return { ...p, status: targetPhaseStatus };
+                        return { ...p, status: newStatus };
                     }
                     return p;
                 });
@@ -697,6 +1005,416 @@
             console.error(e);
             if(window.Toast) window.Toast.show('Failed to advance task.', 'error');
         }
+    };
+
+    window.openFeedbackModal = async function(phaseId, phaseName) {
+        try {
+            const { doc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+            const { db } = await import('/js/config/firebase-dev.js');
+            const pRef = doc(db, 'projects', window.activeProjectId);
+            const pSnap = await getDoc(pRef);
+            if (!pSnap.exists()) return;
+            
+            const projData = pSnap.data();
+            const phase = (projData.phases || []).find(p => p.id === phaseId);
+            
+            const m = `
+                <div class="space-y-4 text-left">
+                    <p class="text-sm font-bold text-error mb-2">Internal Review Failed</p>
+                    <div class="p-4 bg-error-container border border-[var(--color-error-dim)] rounded-xl">
+                        <p class="text-[10px] font-black uppercase tracking-widest text-error mb-2">Super Admin Notes</p>
+                        <p class="text-xs text-on-surface-variant italic">"${phase?.rejectionNote || 'No specific notes provided.'}"</p>
+                    </div>
+                    <p class="text-xs text-on-surface-variant mt-2">Acknowledge this feedback to revert the phase back to In-Progress and continue your work.</p>
+                </div>
+            `;
+            const a = `<button onclick="window.Modal.hide()" class="text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors">Close</button>
+                       <button onclick="window.updatePhaseStatus('${window.activeProjectId}', '${phaseId}', 'In Progress'); window.Modal.hide();" class="bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm shadow-[0_4px_15px_var(--color-primary-glow)]">Acknowledge & Rollback</button>`;
+                       
+            if(window.Modal) window.Modal.show(`Feedback: ${phaseName}`, m, a);
+        } catch(e) { console.error(e); }
+    };
+
+    window.openTaskModal = async function(taskId) {
+        if(!window.activeProjectId) return;
+        if(window.Toast) window.Toast.show('Loading task details...', 'info');
+
+        try {
+            const { doc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+            const { db } = await import('/js/config/firebase-dev.js');
+            
+            const taskRef = doc(db, 'projects', window.activeProjectId, 'tasks', taskId);
+            const snap = await getDoc(taskRef);
+            if(!snap.exists()) return;
+            const task = snap.data();
+
+            let actionHtml = '';
+            const currentRole = window.ethan01_currentUser?.role;
+            const isSuperAdmin = (currentRole === 'Super Admin' || currentRole === 'admin' || currentRole === 'SuperAdmin');
+            
+            const rawStatus = task.status || 'To Do';
+            const normStatus = rawStatus.toLowerCase().replace(/-/g, ' ').trim();
+
+            if (normStatus === 'to do' || normStatus === 'pending' || normStatus === 'locked') {
+                actionHtml = `
+                    <button disabled class="bg-surface-container-highest text-on-surface-variant px-6 py-2.5 rounded-lg font-bold text-sm w-full mt-4 cursor-not-allowed border border-[var(--input-border)]">Submit for Review (Locked)</button>
+                    <button onclick="window.updateTaskStatus('${taskId}', 'In Progress')" class="bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm w-full mt-2 shadow-[0_4px_15px_var(--color-primary-glow)] transition-all hover:bg-primary-container">Commence Task</button>
+                `;
+            } else if (normStatus === 'in progress' || normStatus === 'active') {
+                actionHtml = `<button onclick="window.updateTaskStatus('${taskId}', 'Internal Review')" class="bg-[#00E5FF] text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm w-full mt-4 shadow-[0_4px_15px_#00E5FF88] transition-all hover:opacity-80">Submit for Internal Review</button>`;
+            } else if (normStatus === 'internal review' || normStatus === 'pending review' || normStatus === 'under review') {
+                if(isSuperAdmin) {
+                    actionHtml = `<button onclick="window.openReviewModal('${taskId}', '${task.title.replace(/'/g, "\\'")}')" class="bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm w-full mt-4 shadow-[0_4px_15px_var(--color-primary-glow)] transition-all hover:bg-primary-container">Review Phase (Super Admin)</button>`;
+                } else {
+                    actionHtml = `<p class="text-xs text-on-surface-variant text-center mt-4 uppercase tracking-widest font-bold border border-outline-variant py-2 rounded bg-surface-container-highest">Awaiting Super Admin Internal Review</p>`;
+                }
+            } else if (normStatus === 'client review') {
+                actionHtml = `<p class="text-xs text-primary text-center mt-4 uppercase tracking-widest font-bold border border-primary py-2 rounded bg-[var(--color-primary-alpha-30)]">Awaiting Client Approval</p>`;
+            } else {
+                actionHtml = `<p class="text-xs text-on-surface-variant text-center mt-4 uppercase tracking-widest font-bold border border-outline-variant py-2 rounded bg-surface-container-highest">Phase Completed</p>`;
+            }
+
+            let subHtml = '';
+            if (task.subtasks && task.subtasks.length > 0) {
+                subHtml = '<div class="space-y-2 mt-4"><label class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant mb-2 block">Sub-Branches</label>';
+                task.subtasks.forEach(st => {
+                    const isDone = st.status === 'Completed';
+                    subHtml += `<div class="flex items-center justify-between p-3 bg-surface-container-highest rounded-lg border border-[var(--input-border)] cursor-pointer hover:border-primary transition-colors" onclick="window.toggleSubtask('${taskId}', '${st.id}', ${!isDone})">
+                        <div class="flex items-center gap-3">
+                            <div class="w-4 h-4 rounded border ${isDone ? 'bg-primary border-primary text-[#09090b]' : 'border-outline-variant text-transparent'} flex items-center justify-center transition-colors">
+                                <span class="material-symbols-outlined text-[12px]">check</span>
+                            </div>
+                            <span class="text-sm font-bold ${isDone ? 'text-on-surface-variant line-through' : 'text-on-surface'}">${st.title}</span>
+                        </div>
+                        <span class="text-[10px] text-primary font-mono bg-[var(--color-primary-alpha-30)] px-2 py-1 rounded">${st.weightPct || 0}%</span>
+                    </div>`;
+                });
+                subHtml += '</div>';
+            } else {
+                subHtml = '<p class="text-xs text-on-surface-variant mt-4">No sub-branches attached.</p>';
+            }
+
+            const m = `<div class='space-y-4 text-left'>
+                <div>
+                    <span class="px-2 py-1 bg-surface-container-highest text-on-surface-variant text-[10px] font-bold rounded uppercase tracking-wider mb-2 inline-block">${task.phase || 'General Phase'}</span>
+                    <h3 class="text-lg font-black text-on-surface leading-tight">${task.title}</h3>
+                </div>
+                <div class="flex items-center gap-4 text-xs font-bold text-on-surface-variant uppercase tracking-widest border-b border-outline-variant pb-4">
+                    <span>Status: <span class="text-primary">${task.status}</span></span>
+                    <span>•</span>
+                    <span>Timeline: ${task.durationDays || 0} Days</span>
+                </div>
+                ${subHtml}
+                ${actionHtml}
+            </div>`;
+            const a = `<button onclick='window.Modal.hide()' class='text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors'>Close</button>`;
+            
+            if(window.Modal) window.Modal.show('Manage Task', m, a);
+            
+        } catch (e) {
+            console.error(e);
+            if(window.Toast) window.Toast.show('Failed to fetch task details.', 'error');
+        }
+    };
+
+    window.openReviewModal = function(taskId, taskTitle) {
+        if(window.Modal) window.Modal.hide();
+        setTimeout(() => {
+            const m = `
+            <div class="space-y-4 text-left" id="review-modal-content">
+                <p class="text-sm font-bold text-on-surface mb-2">Internal QA Review: ${taskTitle}</p>
+                <p class="text-xs text-on-surface-variant mb-4">Accepting this phase pushes it to the Client Portal for final approval. Rejecting requires a comment and reverts the phase back to In-Progress.</p>
+                
+                <div id="rejection-box" class="hidden animate-in slide-in-from-top-2">
+                    <label class="text-[10px] font-black uppercase tracking-widest text-error mb-2 block">Mandatory Rejection Notes (Max 50 Words)</label>
+                    <textarea id="rejection-text" rows="3" class="w-full bg-surface-container-highest border border-[var(--input-border)] rounded-lg p-3 text-sm text-on-surface focus:border-error outline-none resize-none" placeholder="Provide feedback to the assignee..." oninput="window.validateRejectionComment(this)"></textarea>
+                    <div class="flex justify-end mt-1"><span id="reject-word-count" class="text-[10px] text-on-surface-variant font-mono">0/50 words</span></div>
+                </div>
+            </div>`;
+
+            const a = `
+            <button onclick="window.openTaskModal('${taskId}')" class="text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors">Back</button>
+            <div id="initial-review-actions" class="flex gap-2">
+                <button onclick="window.showRejectBox()" class="bg-error-container text-error px-6 py-2.5 rounded-lg font-bold text-sm transition-colors hover:bg-error/20">Reject (Internal)</button>
+                <button onclick="window.submitPhaseReview('${taskId}', 'Accept')" class="bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm transition-all shadow-[0_4px_15px_var(--color-primary-glow)] hover:bg-primary-container">Approve to Client</button>
+            </div>
+            <div id="confirm-reject-actions" class="hidden flex gap-2">
+                <button id="confirm-reject-btn" onclick="window.submitPhaseReview('${taskId}', 'Reject')" class="bg-error text-white px-6 py-2.5 rounded-lg font-bold text-sm transition-colors opacity-50 pointer-events-none shadow-[0_4px_15px_rgba(255,0,0,0.3)]">Confirm Rejection</button>
+            </div>
+            `;
+            if(window.Modal) window.Modal.show('Super Admin QA Review', m, a);
+        }, 300);
+    };
+
+    window.showRejectBox = function() {
+        const box = document.getElementById('rejection-box');
+        const initActs = document.getElementById('initial-review-actions');
+        const confActs = document.getElementById('confirm-reject-actions');
+        if(box) box.classList.remove('hidden');
+        if(initActs) initActs.classList.add('hidden');
+        if(confActs) confActs.classList.remove('hidden');
+        document.getElementById('rejection-text')?.focus();
+    };
+
+    window.validateRejectionComment = function(el) {
+        let words = el.value.trim().split(/\s+/).filter(w => w.length > 0);
+        const countEl = document.getElementById('reject-word-count');
+        if (words.length > 50) {
+            el.value = words.slice(0, 50).join(' ');
+            words = words.slice(0, 50);
+            if(countEl) countEl.classList.add('text-error');
+        } else {
+            if(countEl) countEl.classList.remove('text-error');
+        }
+        if(countEl) countEl.innerText = `${words.length}/50 words`;
+        
+        const btn = document.getElementById('confirm-reject-btn');
+        if(btn) {
+            if (words.length > 0 && words.length <= 50) btn.classList.remove('opacity-50', 'pointer-events-none');
+            else btn.classList.add('opacity-50', 'pointer-events-none');
+        }
+    };
+
+    window.submitPhaseReview = async function(taskId, decision) {
+        if(window.Modal) window.Modal.hide();
+        // Double QA: Accept pushes to Client Review. Reject rolls back to In Progress.
+        const targetStatus = decision === 'Accept' ? 'Client Review' : 'Rejected Internal';
+        const msg = decision === 'Accept' ? 'Phase Approved. Pushed to Client Portal.' : 'Phase Rejected. Reverted to In-Progress.';
+        
+        try {
+            const { doc, getDoc, updateDoc, collection, addDoc, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+            const { db } = await import('/js/config/firebase-dev.js');
+            
+            const taskRef = doc(db, 'projects', window.activeProjectId, 'tasks', taskId);
+            const taskSnap = await getDoc(taskRef);
+            if(!taskSnap.exists()) return;
+            const taskData = taskSnap.data();
+            
+            let updates = { status: targetStatus };
+            let comment = '';
+            if (decision === 'Reject') {
+                comment = document.getElementById('rejection-text')?.value || '';
+                updates.rejectionNote = comment;
+                
+                await addDoc(collection(db, 'projects', window.activeProjectId, 'notifications'), {
+                    title: 'QA Rejection',
+                    message: `A task failed Super Admin QA review. Notes: ${comment}`,
+                    type: 'alert',
+                    createdAt: serverTimestamp(),
+                    read: false
+                });
+            }
+
+            await updateDoc(taskRef, updates);
+            
+            // Sync rejection note to the phase array as well
+            const pRef = doc(db, 'projects', window.activeProjectId);
+            const pSnap = await getDoc(pRef);
+            if (pSnap.exists()) {
+                const projData = pSnap.data();
+                let isModified = false;
+                const updatedPhases = (projData.phases || []).map(p => {
+                    if (p.name === taskData.phase) {
+                        isModified = true;
+                        const phaseObj = { ...p, status: targetStatus };
+                        if (decision === 'Reject') phaseObj.rejectionNote = comment;
+                        return phaseObj;
+                    }
+                    return p;
+                });
+                if (isModified) await updateDoc(pRef, { phases: updatedPhases });
+            }
+
+            if(window.Toast) window.Toast.show(msg, decision === 'Accept' ? 'success' : 'warning');
+        } catch(e) {
+            console.error(e);
+            if(window.Toast) window.Toast.show('Failed to process QA decision.', 'error');
+        }
+    };
+
+    window.openUploadAssetModal = function() {
+        if (!window.activeProjectId) {
+            if(window.Toast) window.Toast.show('Select a project workspace first.', 'error');
+            return;
+        }
+
+        let optionsHtml = '<option value="">General Project Asset</option>';
+        if (window.cmdCurrentTasksSnap) {
+            let docsArray = [];
+            window.cmdCurrentTasksSnap.forEach(doc => docsArray.push(doc));
+            docsArray.sort((a, b) => {
+                const idxA = a.data().phaseIndex !== undefined ? a.data().phaseIndex : 999;
+                const idxB = b.data().phaseIndex !== undefined ? b.data().phaseIndex : 999;
+                return idxA - idxB;
+            });
+            
+            docsArray.forEach(doc => {
+                const t = doc.data();
+                optionsHtml += `<option value="${doc.id}">${t.title}</option>`;
+            });
+        }
+
+        let m = document.getElementById('tpl-upload-asset-modal').innerHTML;
+        m = m.replace('{taskOptionsHtml}', optionsHtml);
+
+        const a = `<button onclick="window.Modal.hide()" class="text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors">Cancel</button><button onclick="window.processAssetUpload(this)" class="bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm transition-all shadow-[0_4px_15px_var(--color-primary-glow)]">Upload & Submit</button>`;
+        
+        if(window.Modal) window.Modal.show('Upload Deliverable', m, a);
+    };
+
+    window.processAssetUpload = async function(btn) {
+        const fileInput = document.getElementById('upload-asset-input');
+        const dateInput = document.getElementById('upload-asset-date');
+        const taskSelect = document.getElementById('upload-asset-task');
+        
+        if(!fileInput.files.length) {
+            if(window.Toast) window.Toast.show('Please select a file to upload.', 'error');
+            return;
+        }
+        
+        const file = fileInput.files[0];
+        const dueDate = dateInput.value;
+        const taskId = taskSelect.value;
+        const taskTitle = taskSelect.options[taskSelect.selectedIndex]?.text || 'General Asset';
+
+        btn.innerHTML = `<span class="material-symbols-outlined animate-spin text-[16px]">sync</span> Uploading...`;
+        btn.classList.add('opacity-50', 'pointer-events-none');
+
+        try {
+            const { ref, uploadBytesResumable, getDownloadURL } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js');
+            const { doc, setDoc, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+            const { storage, db } = await import('/js/config/firebase-dev.js');
+
+            const storageRef = ref(storage, `deliverables/${window.activeProjectId}_${Date.now()}_${file.name}`);
+            const uploadTask = uploadBytesResumable(storageRef, file);
+
+            uploadTask.on('state_changed', null, 
+                (error) => {
+                    console.error('Upload Error', error);
+                    if(window.Toast) window.Toast.show('Asset upload failed.', 'error');
+                    btn.innerHTML = `Upload & Submit`;
+                    btn.classList.remove('opacity-50', 'pointer-events-none');
+                }, 
+                async () => {
+                    const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                    
+                    const uploaderName = window.ethan01_currentUser ? window.ethan01_currentUser.name : 'System User';
+                    const delivId = 'FILE_' + Date.now();
+                    const ext = file.name.split('.').pop().toUpperCase();
+
+                    await setDoc(doc(db, 'projects', window.activeProjectId, 'deliverables', delivId), {
+                        fileName: file.name,
+                        fileSize: file.size,
+                        fileType: ext,
+                        url: downloadURL,
+                        uploadedBy: uploaderName,
+                        status: 'Pending',
+                        dueDate: dueDate || null,
+                        taskId: taskId || null,
+                        taskTitle: taskTitle,
+                        uploadedAt: serverTimestamp()
+                    });
+
+                    if(window.Toast) window.Toast.show('Asset uploaded and pending Super Admin approval.', 'success');
+                    if(window.Modal) window.Modal.hide();
+                }
+            );
+        } catch (e) {
+            console.error("Upload Logic Error", e);
+            if(window.Toast) window.Toast.show('An error occurred during submission.', 'error');
+            btn.innerHTML = `Upload & Submit`;
+            btn.classList.remove('opacity-50', 'pointer-events-none');
+        }
+    };
+
+    window.selectClient = function(clientId, clientName) {
+        window.activeClientId = clientId;
+        document.getElementById('active-project-title').innerText = clientName + ' Workspace';
+        document.getElementById('active-phase-badge').innerText = 'Select a Project';
+
+        const projTabBtn = document.getElementById('tab-btn-projects');
+        projTabBtn.classList.remove('opacity-50', 'pointer-events-none');
+        
+        ['tab-btn-overview', 'tab-btn-tracker', 'tab-btn-deliverables', 'tab-btn-invoices'].forEach(id => {
+            const btn = document.getElementById(id);
+            if(btn) btn.classList.add('opacity-50', 'pointer-events-none');
+        });
+
+        window.renderCmdProjects(clientId);
+        projTabBtn.click();
+    };
+
+    window.renderCmdClients = function() {
+        const cont = document.getElementById('cmd-clients-container');
+        const tpl = document.getElementById('tpl-cmd-client-card').innerHTML;
+        if (!cont) return;
+
+        let html = '';
+        window.globalCmdClients.forEach(client => {
+            const clientProjects = window.globalCmdProjects.filter(p => p.clientId === (client.clientId || client.id));
+            const activeCount = clientProjects.filter(p => p.status !== 'Archived').length;
+
+            const escapedName = (client.companyName || 'Unnamed').replace(/'/g, '\\\'');
+
+            html += tpl.replace(/{id}/g, client.id || client.clientId)
+                       .replace(/{nameEscaped}/g, escapedName)
+                       .replace(/{name}/g, client.companyName || 'Unnamed Client')
+                       .replace(/{logoUrl}/g, client.logoUrl || '/assets/icons/ethan01logo.svg')
+                       .replace(/{activeProjectsCount}/g, activeCount)
+                       .replace(/{domain}/g, client.domain || 'N/A');
+        });
+
+        cont.innerHTML = html || '<p class="text-xs text-on-surface-variant col-span-full py-4">No clients registered.</p>';
+    };
+
+    window.renderCmdProjects = function(clientId) {
+        const activeCont = document.getElementById('cmd-projects-container');
+        const archiveCont = document.getElementById('cmd-archived-container');
+        const tpl = document.getElementById('tpl-cmd-project-card').innerHTML;
+        
+        if (!activeCont || !archiveCont) return;
+
+        activeCont.innerHTML = '';
+        archiveCont.innerHTML = '';
+        
+        let activeCount = 0;
+        let archiveCount = 0;
+
+        const clientProjects = window.globalCmdProjects.filter(p => p.clientId === clientId);
+
+        clientProjects.forEach(proj => {
+            let html = tpl;
+            const escapedTitle = (proj.projectName || '').replace(/'/g, '\\\'');
+            
+            let scopePct = 0;
+            if(proj.phases) {
+                proj.phases.forEach(p => { 
+                    const nps = (p.status || 'To Do').toLowerCase().replace(/-/g, ' ').trim();
+                    if(nps === 'completed' || nps === 'approved') scopePct += (p.scopePct || 0); 
+                });
+            }
+
+            html = html.replace(/{titleEscaped}/g, escapedTitle)
+                       .replace(/{statusBadge}/g, proj.status || 'Active')
+                       .replace(/{bgGradient}/g, 'bg-surface-container-highest')
+                       .replace(/{logoUrl}/g, '/assets/icons/ethan01logo.svg')
+                       .replace(/{pctClass}/g, scopePct > 50 ? 'bg-[var(--color-primary-glow)] text-primary' : 'bg-surface-container-highest text-on-surface-variant')
+                       .replace(/{pctComplete}/g, Math.min(100, scopePct) + '%')
+                       .replace(/{title}/g, proj.projectName || 'Untitled')
+                       .replace(/{description}/g, proj.projectDomain || 'No Domain')
+                       .replace(/{id}/g, proj.id);
+            
+            if (proj.status === 'Archived') {
+                archiveCont.innerHTML += html;
+                archiveCount++;
+            } else {
+                activeCont.innerHTML += html;
+                activeCount++;
+            }
+        });
+
+        if(archiveCount === 0) archiveCont.innerHTML = '<p class="text-xs text-on-surface-variant col-span-full py-4">No archived projects found for this client.</p>';
+        if(activeCount === 0) activeCont.innerHTML = '<p class="text-xs text-on-surface-variant col-span-full py-4">No active projects commissioned yet.</p>';
     };
 
     window.selectProject = function(id, titleEscaped, statusBadge) {
@@ -726,6 +1444,8 @@
                     if(!docSnap.exists()) return;
                     const proj = docSnap.data();
                     
+                    window.renderAdminInvoices(proj);
+                    
                     const startDate = proj.createdAt?.toDate() || new Date();
                     const now = new Date();
                     const diffDays = Math.max(0, Math.ceil((now - startDate) / (1000 * 60 * 60 * 24)));
@@ -734,11 +1454,12 @@
                     
                     let trueScopePct = 0;
                     const phases = proj.phases || [];
-                    
                     let departmentMetrics = {};
 
                     phases.forEach(p => {
-                        if(p.status === 'Approved') trueScopePct += (p.scopePct || 0);
+                        const rawPhaseStatus = p.status || 'To Do';
+                        const nps = rawPhaseStatus.toLowerCase().replace(/-/g, ' ').trim();
+                        if(nps === 'completed' || nps === 'approved') trueScopePct += (p.scopePct || 0);
 
                         const dept = p.department || 'Engineering';
                         if(!departmentMetrics[dept]) departmentMetrics[dept] = { time: 0, cost: 0, count: 0 };
@@ -795,6 +1516,9 @@
                     const qaTpl = document.getElementById('tpl-cmd-qa-row').innerHTML;
                     let qaHtml = '';
 
+                    const currentRole = window.ethan01_currentUser?.role;
+                    const isSuperAdmin = (currentRole === 'Super Admin' || currentRole === 'admin' || currentRole === 'SuperAdmin');
+
                     if(phases.length === 0) {
                         qaHtml = '<p class="text-xs text-on-surface-variant py-4">No QA phases defined for this project.</p>';
                     } else {
@@ -804,22 +1528,58 @@
                             let statColor = 'text-on-surface-variant';
                             let btnHtml = '';
 
-                            if (p.status === 'Approved') {
-                                icon = 'check_circle';
-                                iconColor = 'text-primary';
-                                statColor = 'text-primary';
-                            } else if (p.status === 'Pending Review') {
-                                icon = 'hourglass_empty';
-                                iconColor = 'text-[var(--color-primary-alpha)] animate-pulse';
-                                statColor = 'text-[var(--color-primary-alpha)]';
-                                
-                                if(window.currentUserRole === 'Super Admin' || window.currentUserRole === 'admin') {
-                                    btnHtml = `<button class="text-[10px] font-black uppercase tracking-widest bg-primary text-[#09090b] px-4 py-2 rounded-lg hover:bg-primary-container transition-colors" onclick="window.updatePhaseStatus('${id}', '${p.id}', 'Approved')">Approve Phase</button>`;
+                            const rawStatus = p.status || 'To Do';
+                            const normStatus = rawStatus.toLowerCase().replace(/-/g, ' ').trim();
+
+                            if (normStatus === 'to do' || normStatus === 'locked' || normStatus === 'pending') {
+                                btnHtml = `<button class="text-[10px] font-black uppercase tracking-widest border border-outline-variant text-on-surface-variant px-4 py-2 rounded-lg opacity-50 cursor-not-allowed" title="Phase has not been commenced in the Task Board">Locked</button>`;
+                            }
+                            else if (normStatus === 'in progress' || normStatus === 'active') {
+                                if (isSuperAdmin) {
+                                    btnHtml = `<button class="text-[10px] font-black uppercase tracking-widest border border-outline-variant text-on-surface px-4 py-2 rounded-lg hover:bg-surface-container transition-colors" onclick="window.Toast.show('Update requested from assignee.', 'info')">Request Update</button>`;
                                 } else {
-                                    btnHtml = `<span class="text-[10px] uppercase font-bold text-on-surface-variant">Awaiting Super Admin</span>`;
+                                    btnHtml = `<button class="text-[10px] font-black uppercase tracking-widest bg-primary text-[#09090b] px-4 py-2 rounded-lg hover:bg-primary-container transition-colors shadow-[0_4px_15px_var(--color-primary-glow)]" onclick="window.updatePhaseStatus('${id}', '${p.id}', 'Internal Review')">Submit Internally</button>`;
                                 }
-                            } else {
-                                btnHtml = `<button class="text-[10px] font-black uppercase tracking-widest border border-outline-variant text-on-surface px-4 py-2 rounded-lg hover:bg-surface-container transition-colors" onclick="window.updatePhaseStatus('${id}', '${p.id}', 'Pending Review')">Submit for Review</button>`;
+                            }
+                            else if (normStatus === 'internal review' || normStatus === 'pending review') {
+                                icon = 'hourglass_empty'; iconColor = 'text-[var(--color-primary-alpha)] animate-pulse'; statColor = 'text-[var(--color-primary-alpha)]';
+                                if (isSuperAdmin) {
+                                    btnHtml = `<button class="text-[10px] font-black uppercase tracking-widest bg-primary text-[#09090b] px-4 py-2 rounded-lg hover:bg-primary-container transition-colors shadow-[0_4px_15px_var(--color-primary-glow)]" onclick="window.openReviewModal('${p.id}', '${p.name.replace(/'/g, "\\'")}')">Review</button>`;
+                                } else {
+                                    btnHtml = `<button class="text-[10px] font-black uppercase tracking-widest border border-outline-variant text-on-surface-variant px-4 py-2 rounded-lg opacity-50" ondblclick="window.Toast.show('Review reminder sent to Admin.', 'success')">Under Review</button>`;
+                                }
+                            }
+                            else if (normStatus === 'rejected internal') {
+                                icon = 'warning'; iconColor = 'text-error animate-pulse'; statColor = 'text-error';
+                                if (isSuperAdmin) {
+                                    btnHtml = `<button class="text-[10px] font-black uppercase tracking-widest border border-outline-variant text-on-surface-variant px-4 py-2 rounded-lg opacity-50 cursor-not-allowed">Awaiting Fix</button>`;
+                                } else {
+                                    btnHtml = `<button class="text-[10px] font-black uppercase tracking-widest bg-error-container text-error border border-error px-4 py-2 rounded-lg hover:bg-error/20 transition-colors" onclick="window.openFeedbackModal('${p.id}', '${p.name.replace(/'/g, "\\'")}')">View Review</button>`;
+                                }
+                            }
+                            else if (normStatus === 'approved internally') {
+                                icon = 'verified'; iconColor = 'text-[#00E5FF]'; statColor = 'text-[#00E5FF]';
+                                if (isSuperAdmin) {
+                                    btnHtml = `<button class="text-[10px] font-black uppercase tracking-widest bg-[#00E5FF] text-[#09090b] px-4 py-2 rounded-lg hover:opacity-80 transition-colors shadow-[0_4px_15px_#00E5FF88]" onclick="window.updatePhaseStatus('${id}', '${p.id}', 'Client Review')">Push to Client</button>`;
+                                } else {
+                                    btnHtml = `<button class="text-[10px] font-black uppercase tracking-widest border border-outline-variant text-primary bg-[var(--color-primary-alpha-30)] px-4 py-2 rounded-lg opacity-80 cursor-not-allowed">Passed</button>`;
+                                }
+                            }
+                            else if (normStatus === 'client review') {
+                                icon = 'visibility'; iconColor = 'text-primary animate-pulse'; statColor = 'text-primary';
+                                if (isSuperAdmin) {
+                                    btnHtml = `<button class="text-[10px] font-black uppercase tracking-widest border border-primary text-primary px-4 py-2 rounded-lg opacity-50 cursor-not-allowed">With Client</button>`;
+                                } else {
+                                    btnHtml = `<button class="text-[10px] font-black uppercase tracking-widest border border-outline-variant text-primary bg-[var(--color-primary-alpha-30)] px-4 py-2 rounded-lg opacity-80 cursor-not-allowed">Passed</button>`;
+                                }
+                            }
+                            else if (normStatus === 'approved' || normStatus === 'completed') {
+                                icon = 'check_circle'; iconColor = 'text-primary'; statColor = 'text-primary';
+                                if (isSuperAdmin) {
+                                    btnHtml = `<button class="text-[10px] font-black uppercase tracking-widest border border-outline-variant text-primary px-4 py-2 rounded-lg opacity-50 cursor-not-allowed">Pushed & Completed</button>`;
+                                } else {
+                                    btnHtml = `<button class="text-[10px] font-black uppercase tracking-widest border border-outline-variant text-primary bg-[var(--color-primary-alpha-30)] px-4 py-2 rounded-lg opacity-80 cursor-not-allowed">Passed</button>`;
+                                }
                             }
 
                             qaHtml += qaTpl.replace(/{phaseName}/g, p.name)
@@ -847,307 +1607,84 @@
                     let dHtml = '';
                     const tpl = document.getElementById('tpl-cmd-file-row').innerHTML;
                     
+                    const currentRole = window.ethan01_currentUser?.role;
+                    const isSuperAdmin = (currentRole === 'Super Admin' || currentRole === 'admin' || currentRole === 'SuperAdmin');
+                    
                     snap.forEach(doc => {
                         const d = doc.data();
                         const sizeMb = (d.fileSize / (1024*1024)).toFixed(2);
+                        
+                        let sClass = 'bg-[var(--color-primary-alpha-30)] text-primary';
+                        let sText = d.status || 'Pending';
+                        if(sText === 'Approved') sClass = 'bg-primary text-[#09090b]';
+                        if(sText === 'Rejected') sClass = 'bg-error-container text-error';
+
+                        let dueDateText = d.dueDate || 'N/A';
+                        let dateWarning = 'text-on-surface-variant';
+                        
+                        if(d.dueDate) {
+                            const due = new Date(d.dueDate);
+                            const now = new Date();
+                            const diffDays = (due - now) / (1000 * 60 * 60 * 24);
+                            if(diffDays > 0 && diffDays <= 3 && sText !== 'Approved') {
+                                dateWarning = 'text-error animate-pulse';
+                                if(isSuperAdmin && window.Toast && !sessionStorage.getItem(`alerted_${doc.id}`)) { 
+                                    window.Toast.show(`Deadline Alert: Deliverable "${d.fileName}" is due in less than 3 days.`, 'warning');
+                                    sessionStorage.setItem(`alerted_${doc.id}`, 'true');
+                                }
+                            }
+                        }
+
                         dHtml += tpl.replace(/{fileName}/g, d.fileName)
                                     .replace(/{fileMeta}/g, d.fileType + ' • ' + sizeMb + ' MB')
                                     .replace(/{iconColorClass}/g, 'text-primary')
                                     .replace(/{icon}/g, 'description')
-                                    .replace(/{uploadedBy}/g, 'System User')
-                                    .replace(/{visBgClass}/g, 'bg-[var(--color-primary-alpha-30)]')
-                                    .replace(/{visTextClass}/g, 'text-primary')
-                                    .replace(/{visibility}/g, d.visibility || 'Internal')
+                                    .replace(/{uploadedBy}/g, d.uploadedBy || 'System User')
+                                    .replace(/{visBgClass}/g, sClass)
+                                    .replace(/{visTextClass}/g, '')
+                                    .replace(/{status}/g, sText)
+                                    .replace(/{dueDate}/g, dueDateText)
+                                    .replace(/{dateWarningClass}/g, dateWarning)
+                                    .replace(/{fileId}/g, doc.id)
+                                    .replace(/{superAdminHiddenClass}/g, isSuperAdmin ? '' : 'hidden pointer-events-none opacity-0')
                                     .replace(/{url}/g, d.url || '#');
                     });
                     
                     if(dC) {
-                        dC.innerHTML = dHtml || '<tr><td colspan="4" class="px-6 py-8 text-center text-on-surface-variant">No deliverables uploaded yet.</td></tr>';
+                        dC.innerHTML = dHtml || '<tr><td colspan="5" class="px-6 py-8 text-center text-on-surface-variant">No deliverables uploaded yet.</td></tr>';
                     }
                 });
 
-                const qInvoices = query(collection(db, 'projects', id, 'invoices'), orderBy('createdAt', 'desc'));
-                const unsubInvoices = onSnapshot(qInvoices, (snap) => {
-                    const invC = document.getElementById('cmd-invoices-container');
-                    let invHtml = '';
-                    const tpl = document.getElementById('tpl-cmd-invoice-row').innerHTML;
-                    
-                    let totalBilled = 0;
-                    let totalCollected = 0;
-
-                    snap.forEach(doc => {
-                        const inv = doc.data();
-                        const amt = inv.amount || 0;
-                        totalBilled += amt;
-                        
-                        let statusBg = 'bg-[var(--color-outline-variant)]';
-                        let statusText = 'text-on-surface';
-
-                        if(inv.status === 'Paid') {
-                            totalCollected += amt;
-                            statusBg = 'bg-[var(--color-primary-alpha-30)]';
-                            statusText = 'text-primary';
-                        } else if(inv.status === 'Overdue') {
-                            statusBg = 'bg-error-container';
-                            statusText = 'text-error';
-                        } else {
-                            statusBg = 'bg-surface-container-highest';
-                            statusText = 'text-on-surface-variant';
-                        }
-
-                        const fmtAmt = amt.toLocaleString('en-US', { style: 'currency', currency: 'NGN' });
-
-                        invHtml += tpl.replace(/{invoiceId}/g, inv.invoiceId)
-                                      .replace(/{issueDate}/g, inv.issueDate || 'N/A')
-                                      .replace(/{amount}/g, fmtAmt)
-                                      .replace(/{statusBgClass}/g, statusBg)
-                                      .replace(/{statusTextClass}/g, statusText)
-                                      .replace(/{status}/g, inv.status || 'Draft');
-                    });
-                    
-                    if(invC) {
-                        invC.innerHTML = invHtml || '<tr><td colspan="5" class="px-6 py-8 text-center text-on-surface-variant">No financial records found.</td></tr>';
-                    }
-
-                    const outstanding = totalBilled - totalCollected;
-                    const elTot = document.getElementById('cmd-inv-total');
-                    const elCol = document.getElementById('cmd-inv-collected');
-                    const elOut = document.getElementById('cmd-inv-outstanding');
-
-                    if(elTot) elTot.innerText = totalBilled.toLocaleString('en-US', { style: 'currency', currency: 'NGN' });
-                    if(elCol) elCol.innerText = totalCollected.toLocaleString('en-US', { style: 'currency', currency: 'NGN' });
-                    if(elOut) elOut.innerText = outstanding.toLocaleString('en-US', { style: 'currency', currency: 'NGN' });
-                });
-                
-                window.cmdWorkspaceUnsubs.push(unsubOverview, unsubTasks, unsubDeliv, unsubInvoices);
+                window.cmdWorkspaceUnsubs.push(unsubOverview, unsubTasks, unsubDeliv);
             });
         });
     };
 
-    window.openTaskModal = async function(taskId) {
-        if(!window.activeProjectId) return;
-        if(window.Toast) window.Toast.show('Loading task details...', 'info');
-
-        try {
-            const { doc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
-            const { db } = await import('/js/config/firebase-dev.js');
-            
-            const taskRef = doc(db, 'projects', window.activeProjectId, 'tasks', taskId);
-            const snap = await getDoc(taskRef);
-            if(!snap.exists()) return;
-            const task = snap.data();
-
-            let actionHtml = '';
-            if (task.status === 'To Do' || task.status === 'Pending') {
-                actionHtml = `<button onclick="window.updateTaskStatus('${taskId}', 'In Progress')" class="bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm w-full mt-4 shadow-[0_4px_15px_var(--color-primary-glow)] transition-all hover:bg-primary-container">Commence Task</button>`;
-            } else if (task.status === 'In Progress' || task.status === 'Active') {
-                actionHtml = `<button onclick="window.updateTaskStatus('${taskId}', 'Under Review')" class="bg-[#00E5FF] text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm w-full mt-4 shadow-[0_4px_15px_#00E5FF88] transition-all hover:opacity-80">Push for Client Review</button>`;
-            } else {
-                actionHtml = `<p class="text-xs text-on-surface-variant text-center mt-4 uppercase tracking-widest font-bold border border-outline-variant py-2 rounded bg-surface-container-highest">Currently Under Client Review</p>`;
-            }
-
-            let subHtml = '';
-            if (task.subtasks && task.subtasks.length > 0) {
-                subHtml = '<div class="space-y-2 mt-4"><label class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant mb-2 block">Sub-Branches</label>';
-                task.subtasks.forEach(st => {
-                    const isDone = st.status === 'Completed';
-                    subHtml += `<div class="flex items-center justify-between p-3 bg-surface-container-highest rounded-lg border border-[var(--input-border)] cursor-pointer hover:border-primary transition-colors" onclick="window.toggleSubtask('${taskId}', '${st.id}', ${!isDone})">
-                        <div class="flex items-center gap-3">
-                            <div class="w-4 h-4 rounded border ${isDone ? 'bg-primary border-primary text-[#09090b]' : 'border-outline-variant text-transparent'} flex items-center justify-center transition-colors">
-                                <span class="material-symbols-outlined text-[12px]">check</span>
-                            </div>
-                            <span class="text-sm font-bold ${isDone ? 'text-on-surface-variant line-through' : 'text-on-surface'}">${st.title}</span>
-                        </div>
-                        <span class="text-[10px] text-primary font-mono bg-[var(--color-primary-alpha-30)] px-2 py-1 rounded">${st.weightPct || 0}%</span>
-                    </div>`;
-                });
-                subHtml += '</div>';
-            } else {
-                subHtml = '<p class="text-xs text-on-surface-variant mt-4">No sub-branches attached.</p>';
-            }
-
-            const m = `<div class='space-y-4 text-left'>
-                <div>
-                    <span class="px-2 py-1 bg-surface-container-highest text-on-surface-variant text-[10px] font-bold rounded uppercase tracking-wider mb-2 inline-block">${task.phase || 'General Phase'}</span>
-                    <h3 class="text-lg font-black text-on-surface leading-tight">${task.title}</h3>
-                </div>
-                <div class="flex items-center gap-4 text-xs font-bold text-on-surface-variant uppercase tracking-widest border-b border-outline-variant pb-4">
-                    <span>Status: <span class="text-primary">${task.status}</span></span>
-                    <span>•</span>
-                    <span>Timeline: ${task.durationDays || 0} Days</span>
-                </div>
-                ${subHtml}
-                ${actionHtml}
-            </div>`;
-            const a = `<button onclick='window.Modal.hide()' class='text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors'>Close</button>`;
-            
-            if(window.Modal) window.Modal.show('Manage Task', m, a);
-            
-        } catch (e) {
-            console.error(e);
-            if(window.Toast) window.Toast.show('Failed to fetch task details.', 'error');
-        }
-    };
-    
-    window.toggleSubtask = async function(taskId, subtaskId, markDone) {
-        try {
-            const { doc, getDoc, updateDoc } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
-            const { db } = await import('/js/config/firebase-dev.js');
-            const taskRef = doc(db, 'projects', window.activeProjectId, 'tasks', taskId);
-            
-            const snap = await getDoc(taskRef);
-            if(!snap.exists()) return;
-            const task = snap.data();
-            
-            const updatedSubtasks = (task.subtasks || []).map(st => {
-                if(st.id === subtaskId) {
-                    return { ...st, status: markDone ? 'Completed' : 'To Do' };
-                }
-                return st;
-            });
-            
-            await updateDoc(taskRef, { subtasks: updatedSubtasks });
-            window.openTaskModal(taskId);
-        } catch(e) {
-            console.error("Subtask update failed", e);
-        }
-    };
-
-    window.openAddBranchModal = function(parentTaskId) {
-        window.activeParentTaskId = parentTaskId;
-        const m = `<div class='space-y-4'>
-            <div class='space-y-2'><label class='text-xs font-bold text-on-surface-variant uppercase tracking-widest'>Branch Title</label><input type='text' id='sub-branch-title' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none' placeholder='e.g. Edge case testing'/></div>
-            <div class='grid grid-cols-2 gap-4'>
-                <div class='space-y-2'><label class='text-xs font-bold text-on-surface-variant uppercase tracking-widest'>Weight (%)</label><input type='number' id='sub-branch-weight' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none' placeholder='Auto-distribute'/></div>
-                <div class='space-y-2'><label class='text-xs font-bold text-on-surface-variant uppercase tracking-widest'>Days Allocated</label><input type='number' id='sub-branch-days' class='w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none' placeholder='e.g. 2'/></div>
-            </div>
-            <p class="text-[10px] text-on-surface-variant mt-2">Leave Weight (%) blank to evenly distribute among parent sub-tasks.</p>
-        </div>`;
-        const a = `<button onclick='window.Modal.hide()' class='text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors'>Cancel</button><button onclick='window.addSubBranchToDB()' class='bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm'>Attach Branch</button>`;
-        if(window.Modal) window.Modal.show('Add Sub-Task Branch', m, a);
-    };
-
-    window.addSubBranchToDB = async function() {
-        if(window.Modal) window.Modal.hide();
-        if(!window.activeProjectId || !window.activeParentTaskId) return;
-
-        const title = document.getElementById('sub-branch-title')?.value || 'New Branch';
-        let inputWeight = parseFloat(document.getElementById('sub-branch-weight')?.value); 
-        const days = parseInt(document.getElementById('sub-branch-days')?.value) || 0;
-
-        if (window.Toast) window.Toast.show('Calculating Iron Triangle parameters...', 'info');
-
-        try {
-            const { doc, getDoc, writeBatch, increment } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
-            const { db } = await import('/js/config/firebase-dev.js');
-
-            const taskRef = doc(db, 'projects', window.activeProjectId, 'tasks', window.activeParentTaskId);
-            const projectRef = doc(db, 'projects', window.activeProjectId);
-            
-            const taskSnap = await getDoc(taskRef);
-            if (!taskSnap.exists()) throw new Error("Parent task missing");
-            
-            const taskData = taskSnap.data();
-            let currentSubtasks = taskData.subtasks || [];
-            
-            let finalWeight = inputWeight;
-            if (isNaN(inputWeight) || inputWeight <= 0) {
-                let usedWeight = currentSubtasks.reduce((sum, st) => sum + (st.weightPct || 0), 0);
-                let remaining = Math.max(0, 100 - usedWeight);
-                finalWeight = remaining; 
-            }
-
-            const newSubtask = {
-                id: 'sub_' + Date.now(),
-                title: title,
-                weightPct: finalWeight,
-                durationDays: days,
-                status: 'To Do'
-            };
-
-            currentSubtasks.push(newSubtask);
-
-            const batch = writeBatch(db);
-
-            batch.update(taskRef, {
-                subtasks: currentSubtasks,
-                durationDays: increment(days)
-            });
-
-            if (days > 0) {
-                batch.update(projectRef, {
-                    durationDays: increment(days)
-                });
-            }
-
-            await batch.commit();
-
-            if(window.Toast) window.Toast.show(`Branch attached. Project timeline extended by ${days} days.`, 'success');
-        } catch (e) {
-            console.error("Sub-branch Integration Error", e);
-            if(window.Toast) window.Toast.show('Failed to synchronize branch with project timeline.', 'error');
-        }
-    };
-
-    window.initializeProjectGrids = async function() {
+    window.initializeCommandCenter = async function() {
         try {
             const { collection, onSnapshot, query, orderBy } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
             const { db } = await import('/js/config/firebase-dev.js');
 
-            const q = query(collection(db, 'projects'), orderBy('createdAt', 'desc'));
-            if(window.projectGridUnsub) window.projectGridUnsub();
-            
-            window.projectGridUnsub = onSnapshot(q, (snap) => {
-                const activeCont = document.getElementById('cmd-projects-container');
-                const archiveCont = document.getElementById('cmd-archived-container');
-                const tpl = document.getElementById('tpl-cmd-project-card').innerHTML;
-                
-                if (!activeCont || !archiveCont) return;
-
-                activeCont.innerHTML = '';
-                archiveCont.innerHTML = '';
-                
-                let activeCount = 0;
-                let archiveCount = 0;
-
-                snap.forEach(docSnap => {
-                    const proj = docSnap.data();
-                    let html = tpl;
-                    const escapedTitle = (proj.projectName || '').replace(/'/g, '\\\'');
-                    
-                    let scopePct = 0;
-                    if(proj.phases) {
-                        proj.phases.forEach(p => { if(p.status === 'Approved') scopePct += (p.scopePct || 0); });
-                    }
-
-                    html = html.replace(/{titleEscaped}/g, escapedTitle)
-                               .replace(/{statusBadge}/g, proj.status || 'Active')
-                               .replace(/{bgGradient}/g, 'bg-surface-container-highest')
-                               .replace(/{logoUrl}/g, '/assets/icons/ethan01logo.svg')
-                               .replace(/{pctClass}/g, scopePct > 50 ? 'bg-[var(--color-primary-glow)] text-primary' : 'bg-surface-container-highest text-on-surface-variant')
-                               .replace(/{pctComplete}/g, Math.min(100, scopePct) + '%')
-                               .replace(/{title}/g, proj.projectName || 'Untitled')
-                               .replace(/{description}/g, proj.clientId || 'No Client ID')
-                               .replace(/{id}/g, docSnap.id);
-                    
-                    if (proj.status === 'Archived') {
-                        archiveCont.innerHTML += html;
-                        archiveCount++;
-                    } else {
-                        activeCont.innerHTML += html;
-                        activeCount++;
-                    }
-                });
-
-                if(archiveCount === 0) archiveCont.innerHTML = '<p class="text-xs text-on-surface-variant col-span-full py-4">No archived projects found.</p>';
-                if(activeCount === 0) activeCont.innerHTML = '<p class="text-xs text-on-surface-variant col-span-full py-4">No active projects commissioned yet.</p>';
+            if(window.cmdClientsUnsub) window.cmdClientsUnsub();
+            window.cmdClientsUnsub = onSnapshot(collection(db, 'clients'), (snap) => {
+                window.globalCmdClients = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                window.renderCmdClients();
             });
-        } catch(e) { 
-            console.error("Grid Init Error", e); 
-        }
+
+            const qProj = query(collection(db, 'projects'), orderBy('createdAt', 'desc'));
+            if(window.cmdGlobalProjUnsub) window.cmdGlobalProjUnsub();
+            window.cmdGlobalProjUnsub = onSnapshot(qProj, (snap) => {
+                window.globalCmdProjects = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                window.renderCmdClients();
+                if (window.activeClientId) {
+                    window.renderCmdProjects(window.activeClientId);
+                }
+            });
+
+        } catch(e) { console.error("Init Error", e); }
     };
     
-    window.initializeProjectGrids();
+    window.initializeCommandCenter();
 
     setTimeout(() => {
         const activeBtn = document.querySelector('.cmd-tab-btn.text-primary') || document.querySelector('.cmd-tab-btn');

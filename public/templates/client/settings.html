@@ -10,7 +10,7 @@
 <div class="flex flex-col md:flex-row gap-8">
     <div class="w-full md:w-64 shrink-0">
         <nav class="flex flex-col space-y-2">
-            <button onclick="window.switchSettingsTab('tab-profile', this)" class="settings-tab-btn flex items-center gap-3 px-4 py-3 bg-[var(--color-primary-glow)] text-primary border border-[var(--color-primary-alpha-30)] rounded-xl font-bold text-sm text-left transition-all">
+            <button onclick="window.switchSettingsTab('tab-profile', this)" class="settings-tab-btn flex items-center gap-3 px-4 py-3 bg-[var(--color-primary-glow)] text-on-surface border border-[var(--color-primary-alpha-30)] rounded-xl font-bold text-sm text-left transition-all">
                 <span class="material-symbols-outlined text-[20px]">person</span> Profile Details
             </button>
             <button onclick="window.switchSettingsTab('tab-security', this)" class="settings-tab-btn flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-xl text-sm font-medium text-left transition-all border border-transparent">
@@ -126,12 +126,14 @@
         document.getElementById(tabId).classList.remove('hidden');
         
         document.querySelectorAll('.settings-tab-btn').forEach(btn => {
-            btn.classList.remove('bg-[var(--color-primary-glow)]', 'text-primary', 'border-[var(--color-primary-alpha-30)]');
+            // FIXED: Removed text-on-surface so inactive buttons return to variant
+            btn.classList.remove('bg-[var(--color-primary-glow)]', 'text-on-surface', 'border-[var(--color-primary-alpha-30)]');
             btn.classList.add('text-on-surface-variant', 'border-transparent', 'hover:bg-surface-container-low', 'hover:text-on-surface');
         });
         
         btnElement.classList.remove('text-on-surface-variant', 'border-transparent', 'hover:bg-surface-container-low', 'hover:text-on-surface');
-        btnElement.classList.add('bg-[var(--color-primary-glow)]', 'text-primary', 'border-[var(--color-primary-alpha-30)]');
+        // FIXED: Added text-on-surface to the active button instead of text-primary
+        btnElement.classList.add('bg-[var(--color-primary-glow)]', 'text-on-surface', 'border-[var(--color-primary-alpha-30)]');
     };
 
     window.initializeClientSettings = async function() {

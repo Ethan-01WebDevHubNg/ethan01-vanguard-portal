@@ -17,7 +17,9 @@ const routes = {
     '#/admin/team': '/templates/admin/team.html',
     '#/dashboard': '/templates/client/dashboard.html',
     '#/files': '/templates/client/files_billing.html',
-    '#/settings': '/templates/client/settings.html'
+    '#/settings': '/templates/client/settings.html',
+    '#/secure_checkout': '/templates/client/secure_checkout.html', // Fixed missing leading slash
+    '#/payment_update': '/templates/client/payment_success.html'   // Fixed missing leading slash
 };
 
 window.ethan01_previousRoute = window.ethan01_previousRoute || '#/';
@@ -50,7 +52,10 @@ export async function handleLocation() {
         });
     }
 
-    let path = window.location.hash;
+    let fullPath = window.location.hash;
+    
+    // THE FIX: Strip out query parameters (e.g. ?inv=123) so the router finds the base template correctly
+    let path = fullPath.split('?')[0]; 
 
     // SECURITY: Anti-directory listing & path injection block
     if (path.includes('.html') || path.includes('/templates/') || (path.endsWith('/') && path !== '#/')) {
@@ -91,7 +96,7 @@ export async function handleLocation() {
 
     if (path !== '#/404' && path !== '#/offline' && path !== '#/403' && path !== '#/500') {
         window.ethan01_previousRoute = window.ethan01_currentRoute;
-        window.ethan01_currentRoute = path;
+        window.ethan01_currentRoute = fullPath; // Save the full path (including parameters) for history
     }
 
     const route = routes[path] || routes[404];

@@ -4,6 +4,16 @@
       data-search-toast="Searching team directory..."
      data-role-simulator="false">
 </div>
+
+<div id="team-context-menu" class="hidden fixed bg-surface-container-highest border border-[var(--input-border)] shadow-[0_8px_30px_rgba(0,0,0,0.6)] rounded-xl py-2 w-48 z-[9999] transition-opacity duration-150 opacity-0 overflow-hidden">
+    <button class="w-full text-left px-4 py-2.5 text-xs font-bold text-on-surface hover:bg-surface-container hover:text-primary transition-colors flex items-center gap-3" onclick="window.revokeTeamAccess()">
+        <span class="material-symbols-outlined text-[16px]">block</span> Suspend Access
+    </button>
+    <button class="w-full text-left px-4 py-2.5 text-xs font-bold text-error hover:bg-error-container transition-colors flex items-center gap-3" onclick="window.deleteTeamMember()">
+        <span class="material-symbols-outlined text-[16px]">person_remove</span> Delete Staff
+    </button>
+</div>
+
 <main class="ml-0 md:ml-64 pt-24 px-4 sm:px-8 pb-12 min-h-screen bg-surface transition-all duration-300">
 <header class="mb-10">
 <div class="flex flex-col lg:flex-row lg:justify-between lg:items-end gap-6 mb-6">
@@ -26,7 +36,6 @@
 </div>
 </header>
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-12" id="team-grid">
-    <!-- Shimmering Loaders -->
     <div class="bg-surface-container-low rounded-2xl p-6 border border-outline-variant shadow-sm h-64 animate-pulse">
         <div class="flex justify-between items-start mb-4"><div class="w-20 h-5 bg-surface-container-highest rounded"></div><div class="w-2 h-2 rounded-full bg-surface-container-highest"></div></div>
         <div class="flex flex-col items-center"><div class="w-20 h-20 rounded-full bg-surface-container-highest mb-4"></div><div class="w-24 h-4 bg-surface-container-highest rounded mb-2"></div><div class="w-16 h-3 bg-surface-container-highest rounded"></div></div>
@@ -39,16 +48,16 @@
 </main>
 
 <template id="tpl-team-card">
-    <div class="team-card bg-surface-container-low rounded-2xl p-6 border border-outline-variant hover:border-[var(--color-primary-alpha-30)] shadow-[var(--card-shadow)] transition-all group duration-300 transform translate-y-0 opacity-100" data-department="{department}">
+    <div class="team-card bg-surface-container-low rounded-2xl p-6 border border-outline-variant hover:border-[var(--color-primary-alpha-30)] shadow-[var(--card-shadow)] transition-all group duration-300 transform translate-y-0 opacity-100" data-department="{department}" oncontextmenu="window.showTeamContextMenu(event, '{memberId}')">
         <div class="flex justify-between items-start mb-4">
             <span class="px-2 py-1 bg-surface-container-highest text-on-surface-variant text-[10px] font-bold rounded uppercase tracking-wider border border-[var(--input-border)]">{departmentLabel}</span>
             <span class="w-2 h-2 rounded-full {statusColor} shadow-[0_0_8px_{statusShadow}]" title="{statusTitle}"></span>
         </div>
         <div class="flex flex-col items-center text-center mb-6">
-            <div class="w-20 h-20 rounded-full overflow-hidden border-2 border-surface-container-highest mb-4 group-hover:opacity-100 transition-all duration-700 ease-in-out">
+            <div class="w-20 h-20 rounded-full overflow-hidden border-2 border-surface-container-highest mb-4 group-hover:opacity-100 transition-all duration-700 ease-in-out {opacityClass}">
                 <img src="{avatarUrl}" class="w-full h-full object-cover" alt="{nameEscaped}"/>
             </div>
-            <h3 class="text-lg font-bold text-on-surface mb-1 group-hover:text-primary transition-colors duration-700">{name}</h3>
+            <h3 class="text-lg font-bold text-on-surface mb-1 group-hover:text-primary transition-colors duration-700 {strikeClass}">{name}</h3>
             <p class="text-xs text-primary font-bold uppercase tracking-widest">{role}</p>
             <p class="text-[11px] text-on-surface-variant mt-2">{email}</p>
         </div>
@@ -56,7 +65,7 @@
             <button class="flex-1 flex items-center justify-center gap-2 py-2 bg-surface-container-high hover:bg-surface-container-highest rounded-lg text-on-surface-variant hover:text-on-surface border border-transparent hover:border-[var(--input-border)] transition-colors text-xs font-bold" onclick="window.openContactModal('{nameEscaped}', '{email}', '{phone}')">
                 <span class="material-symbols-outlined text-[16px]">contact_page</span> Contact
             </button>
-            <button class="flex-1 flex items-center justify-center gap-2 py-2 bg-surface-container-high hover:bg-surface-container-highest rounded-lg text-on-surface-variant hover:text-on-surface border border-transparent hover:border-[var(--input-border)] transition-colors text-xs font-bold" onclick="window.openEditMemberModal('{nameEscaped}', '{phone}', '{role}', '{departmentLabel}', '{email}', '{avatarUrl}')">
+            <button class="flex-1 flex items-center justify-center gap-2 py-2 bg-surface-container-high hover:bg-surface-container-highest rounded-lg text-on-surface-variant hover:text-on-surface border border-transparent hover:border-[var(--input-border)] transition-colors text-xs font-bold {editHiddenClass}" onclick="window.openEditMemberModal('{memberId}', '{nameEscaped}', '{phone}', '{role}', '{departmentLabel}', '{email}', '{avatarUrl}')">
                 <span class="material-symbols-outlined text-[16px]">manage_accounts</span> Edit
             </button>
         </div>
@@ -70,37 +79,42 @@
 </template>
 
 <template id="tpl-invite-modal">
-    <div class="space-y-4 text-left">
-        <div class="space-y-2 sm:col-span-2">
+    <div class="space-y-4 text-left" id="invite-form-container">
+        <div class="space-y-2 sm:col-span-2 mb-2">
             <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Profile Picture</label>
             <div class="flex items-center gap-4 p-3 bg-surface-container-highest rounded-lg border-[1.5px] border-dashed border-[var(--input-border)]">
-                <span class="material-symbols-outlined text-on-surface-variant">account_circle</span>
-                <input type="file" accept="image/*" class="text-xs text-on-surface-variant w-full file:mr-4 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-primary file:text-[#09090b] hover:file:bg-primary-container transition-all cursor-pointer outline-none"/>
+                <div class="w-10 h-10 rounded-full overflow-hidden bg-[var(--color-primary-alpha-30)] flex items-center justify-center shrink-0 border border-outline-variant relative group">
+                    <span class="material-symbols-outlined text-primary group-hover:opacity-0 transition-opacity">account_circle</span>
+                    <img id="invite-avatar-preview" class="hidden absolute inset-0 w-full h-full object-cover" />
+                </div>
+                <input type="file" id="invite-avatar-input" accept="image/*" class="text-xs text-on-surface-variant w-full file:mr-4 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-primary file:text-[#09090b] hover:file:bg-primary-container transition-all cursor-pointer outline-none" onchange="if(this.files[0]){document.getElementById('invite-avatar-preview').src=URL.createObjectURL(this.files[0]);document.getElementById('invite-avatar-preview').classList.remove('hidden')}"/>
             </div>
         </div>
+
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div class="space-y-2">
-                <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Email Address</label>
-                <input type="email" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none" placeholder="staff@ethan01.com"/>
+                <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Full Name</label>
+                <input type="text" id="invite-name" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none" placeholder="John Doe"/>
             </div>
             <div class="space-y-2">
-                <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Default Password</label>
-                <input type="text" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none" placeholder="TempPass123!"/>
+                <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Contact Details</label>
+                <input type="tel" id="invite-phone" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none" placeholder="Phone or WhatsApp"/>
             </div>
         </div>
+
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div class="space-y-2">
                 <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Department</label>
-                <select class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none cursor-pointer">
-                    <option>Engineering</option>
-                    <option>Design</option>
-                    <option>Management</option>
-                    <option>Security</option>
+                <select id="invite-dept" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none cursor-pointer">
+                    <option value="engineering">Engineering</option>
+                    <option value="design">Design</option>
+                    <option value="management">Management</option>
+                    <option value="security">Security</option>
                 </select>
             </div>
             <div class="space-y-2">
                 <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Assign Role</label>
-                <select class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none cursor-pointer">
+                <select id="invite-role" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none cursor-pointer">
                     <option>Developer</option>
                     <option>Creative Director</option>
                     <option>Account Manager</option>
@@ -108,56 +122,61 @@
                 </select>
             </div>
         </div>
-        <div class="space-y-2">
-            <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Contact Details</label>
-            <input type="tel" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none" placeholder="Phone or WhatsApp (e.g. +234...)"/>
+
+        <div class="pt-4 mt-4 border-t border-[var(--input-border)] grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="space-y-2">
+                <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest text-primary flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">lock</span> Email Address</label>
+                <input type="email" id="invite-email" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none" placeholder="staff@ethan01.com"/>
+            </div>
+            <div class="space-y-2">
+                <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest text-primary flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">key</span> Default Password</label>
+                <input type="text" id="invite-password" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none" placeholder="TempPass123!"/>
+            </div>
         </div>
     </div>
 </template>
 
 <template id="tpl-invite-action">
     <button onclick="if(window.Modal) window.Modal.hide()" class="text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors">Cancel</button>
-    <button onclick="if(window.Modal) window.Modal.hide(); if(window.Toast) window.Toast.show('Invitation sent to new staff member.', 'success')" class="bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm transition-all">Send Invite</button>
+    <button onclick="window.sendTeamInvite(this)" class="bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm transition-all shadow-[0_4px_15px_var(--color-primary-glow)]">Send Invite</button>
 </template>
 
-<!-- STRICT RBAC Edit Modal (Now With Profile Upload) -->
 <template id="tpl-edit-member-modal">
     <div class="space-y-4 text-left">
-        <!-- New Avatar Upload Field -->
         <div class="space-y-2 sm:col-span-2 mb-2">
             <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Update Profile Picture</label>
             <div class="flex items-center gap-4 p-3 bg-surface-container-highest rounded-lg border-[1.5px] border-dashed border-[var(--input-border)]">
                 <div class="w-10 h-10 rounded-full overflow-hidden bg-[var(--color-primary-alpha-30)] flex items-center justify-center shrink-0 border border-outline-variant">
-                    <img src="{avatarUrl}" class="w-full h-full object-cover" onerror="this.src='/assets/icons/ethan01logo.svg'"/>
+                    <img id="edit-avatar-preview" src="{avatarUrl}" class="w-full h-full object-cover" onerror="this.src='/assets/icons/ethan01logo.svg'"/>
                 </div>
-                <input type="file" accept="image/*" class="text-xs text-on-surface-variant w-full file:mr-4 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-primary file:text-[#09090b] hover:file:bg-primary-container transition-all cursor-pointer outline-none"/>
+                <input type="file" id="edit-avatar-input" accept="image/*" class="text-xs text-on-surface-variant w-full file:mr-4 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-primary file:text-[#09090b] hover:file:bg-primary-container transition-all cursor-pointer outline-none" onchange="if(this.files[0]) document.getElementById('edit-avatar-preview').src = URL.createObjectURL(this.files[0])"/>
             </div>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div class="space-y-2">
                 <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Full Name</label>
-                <input type="text" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none" value="{name}"/>
+                <input type="text" id="edit-member-name" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none" value="{name}"/>
             </div>
             <div class="space-y-2">
                 <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Phone / Contact</label>
-                <input type="tel" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none" value="{phone}"/>
+                <input type="tel" id="edit-member-phone" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none" value="{phone}"/>
             </div>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 {roleHiddenClass}">
             <div class="space-y-2">
                 <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Department</label>
-                <select class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none cursor-pointer">
-                    <option selected>{departmentLabel}</option>
-                    <option>Engineering</option>
-                    <option>Design</option>
-                    <option>Management</option>
-                    <option>Security</option>
+                <select id="edit-member-dept" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none cursor-pointer">
+                    <option value="" selected>{departmentLabel}</option>
+                    <option value="engineering">Engineering</option>
+                    <option value="design">Design</option>
+                    <option value="management">Management</option>
+                    <option value="security">Security</option>
                 </select>
             </div>
             <div class="space-y-2">
                 <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">Role</label>
-                <select class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none cursor-pointer">
+                <select id="edit-member-role" class="w-full bg-surface-container-highest rounded-lg p-3 text-sm border-[1.5px] border-[var(--input-border)] text-on-surface focus:border-primary outline-none cursor-pointer">
                     <option selected>{role}</option>
                     <option>Developer</option>
                     <option>Creative Director</option>
@@ -202,12 +221,44 @@
     <button onclick="if(window.Modal) window.Modal.hide()" class="w-full bg-surface-container-highest border border-[var(--input-border)] text-on-surface px-6 py-3 rounded-lg font-bold text-sm transition-all hover:bg-surface-container">Close</button>
 </template>
 
-<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" style="display:none;" onload="
+<template id="tpl-revoke-team-modal">
+    <div class="space-y-4 text-left">
+        <div class="p-4 bg-surface-container border border-error rounded-xl flex items-start gap-4">
+            <span class="material-symbols-outlined text-error mt-0.5">block</span>
+            <div>
+                <h4 class="text-sm font-black text-on-surface mb-1">SUSPEND LOGIN ACCESS</h4>
+                <p class="text-xs text-on-surface-variant leading-relaxed">This will suspend the user's account and prohibit them from logging into the Vanguard Engine. Their historical data and tag mappings will remain intact.</p>
+            </div>
+        </div>
+    </div>
+</template>
+<template id="tpl-revoke-team-action">
+    <button onclick="if(window.Modal) window.Modal.hide()" class="text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors">Cancel</button>
+    <button onclick="window.confirmRevokeTeamAccess()" class="bg-error text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm transition-colors hover:opacity-90">Suspend User</button>
+</template>
+
+<template id="tpl-delete-team-modal">
+    <div class="space-y-4 text-left">
+        <div class="p-4 bg-error-container border border-error rounded-xl flex items-start gap-4">
+            <span class="material-symbols-outlined text-error mt-0.5">warning</span>
+            <div>
+                <h4 class="text-sm font-black text-on-surface mb-1">PERMANENTLY DELETE STAFF</h4>
+                <p class="text-xs text-on-surface-variant leading-relaxed">This will permanently and irreversibly wipe the staff member's profile from the Vanguard Engine Database.</p>
+            </div>
+        </div>
+    </div>
+</template>
+<template id="tpl-delete-team-action">
+    <button onclick="if(window.Modal) window.Modal.hide()" class="text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors">Cancel</button>
+    <button onclick="window.confirmDeleteTeamMember()" class="bg-error text-white px-6 py-2.5 rounded-lg font-bold text-sm transition-colors hover:opacity-90">Permanently Delete</button>
+</template>
+
+<script type="text/plain" id="team-data-script">
     window.setRole = function(role) {
         const inviteTpl = document.getElementById('tpl-invite-btn');
         const inviteContainer = document.getElementById('invite-btn-container');
         
-        if (role === 'Super Admin' || role === 'Supreme Admin') {
+        if (role === 'Super Admin' || role === 'Supreme Admin' || role === 'admin') {
             if (inviteTpl && inviteContainer && inviteContainer.children.length === 0) {
                 inviteContainer.appendChild(inviteTpl.content.cloneNode(true));
             }
@@ -288,16 +339,19 @@
         if(window.Modal) window.Modal.show('Contact: ' + name, m, a);
     };
 
-    // STRICT RBAC ENGINE FOR PROFILE EDITING (Now handles Avatar)
-    window.openEditMemberModal = function(name, phone, role, dept, email, avatarUrl) {
-        // Evaluate active permissions
-        const isSuperAdmin = window.currentUserRole === 'admin'; 
+    window.currentEditMemberId = null;
+    window.openEditMemberModal = function(memberId, name, phone, role, dept, email, avatarUrl) {
+        // RBAC FIX: Reading from the correct global state variable
+        const currentRole = window.ethan01_currentUser?.role;
+        const isSuperAdmin = currentRole === 'admin' || currentRole === 'Super Admin' || currentRole === 'SuperAdmin'; 
         const isSelf = window.ethan01_currentUser && window.ethan01_currentUser.email === email;
         
         if (!isSuperAdmin && !isSelf) {
             if(window.Toast) window.Toast.show('Access Denied. Standard admins can only edit their own profile.', 'error');
             return;
         }
+
+        window.currentEditMemberId = memberId;
         
         let m = document.getElementById('tpl-edit-member-modal').innerHTML;
         m = m.replace(/{name}/g, name).replace(/{phone}/g, phone || '')
@@ -305,9 +359,230 @@
              .replace(/{avatarUrl}/g, avatarUrl || '/assets/icons/ethan01logo.svg')
              .replace(/{roleHiddenClass}/g, isSuperAdmin ? '' : 'hidden opacity-0 pointer-events-none');
              
-        const a = `<button onclick=&quot;window.Modal.hide()&quot; class=&quot;text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors&quot;>Cancel</button><button onclick=&quot;window.Modal.hide(); window.Toast.show('Profile updated successfully.', 'success')&quot; class=&quot;bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm transition-all shadow-[0_4px_15px_var(--color-primary-glow)]&quot;>Save Changes</button>`;
+        const a = `<button onclick="window.Modal.hide()" class="text-on-surface-variant hover:text-on-surface font-bold text-sm px-4 transition-colors">Cancel</button><button onclick="window.saveMemberEdit(this)" class="bg-primary text-[#09090b] px-6 py-2.5 rounded-lg font-bold text-sm transition-all shadow-[0_4px_15px_var(--color-primary-glow)]">Save Changes</button>`;
         
         if(window.Modal) window.Modal.show('Edit Profile: ' + name, m, a);
+    };
+
+    window.saveMemberEdit = async function(btn) {
+        const id = window.currentEditMemberId;
+        if(!id) return;
+        
+        btn.innerHTML = `<span class="material-symbols-outlined animate-spin">sync</span> Saving...`;
+        btn.classList.add('opacity-50', 'pointer-events-none');
+
+        try {
+            const { db, storage } = await import('/js/config/firebase-dev.js');
+            const { doc, updateDoc } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+            const { ref, uploadBytes, getDownloadURL } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js');
+
+            const name = document.getElementById('edit-member-name').value;
+            const phone = document.getElementById('edit-member-phone').value;
+            const deptSelect = document.getElementById('edit-member-dept');
+            const roleSelect = document.getElementById('edit-member-role');
+            const avatarInput = document.getElementById('edit-avatar-input');
+
+            let updates = {
+                name: name,
+                phone: phone
+            };
+
+            if(deptSelect && deptSelect.value) {
+                updates.departmentLabel = deptSelect.options[deptSelect.selectedIndex].text;
+                updates.department = deptSelect.value.toLowerCase();
+                updates.role = roleSelect.value;
+            }
+
+            if(avatarInput && avatarInput.files.length > 0) {
+                const file = avatarInput.files[0];
+                const storageRef = ref(storage, `team_avatars/${id}_${file.name}`);
+                await uploadBytes(storageRef, file);
+                updates.avatarUrl = await getDownloadURL(storageRef);
+            }
+
+            await updateDoc(doc(db, 'team', id), updates);
+
+            if(window.Modal) window.Modal.hide();
+            if(window.Toast) window.Toast.show('Profile updated successfully.', 'success');
+
+        } catch(e) {
+            console.error(e);
+            if(window.Toast) window.Toast.show('Failed to update profile.', 'error');
+            btn.innerHTML = 'Save Changes';
+            btn.classList.remove('opacity-50', 'pointer-events-none');
+        }
+    };
+
+    window.sendTeamInvite = async function(btn) {
+        const name = document.getElementById('invite-name')?.value;
+        const phone = document.getElementById('invite-phone')?.value;
+        const dept = document.getElementById('invite-dept')?.value;
+        const role = document.getElementById('invite-role')?.value;
+        const email = document.getElementById('invite-email')?.value;
+        const password = document.getElementById('invite-password')?.value;
+        const avatarInput = document.getElementById('invite-avatar-input');
+
+        if(!email || !password || !name) {
+            if(window.Toast) window.Toast.show('Name, Email and Password are required.', 'error');
+            return;
+        }
+
+        btn.innerHTML = `<span class="material-symbols-outlined animate-spin">sync</span> Provisioning...`;
+        btn.classList.add('opacity-50', 'pointer-events-none');
+
+        try {
+            const { db, storage, auth } = await import('/js/config/firebase-dev.js');
+            const { doc, setDoc, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+            const { ref, uploadBytes, getDownloadURL } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js');
+            const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js');
+            const { getAuth, createUserWithEmailAndPassword } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js');
+
+            const secondaryApp = initializeApp(auth.app.options, "TeamAuthApp_" + Date.now());
+            const secondaryAuth = getAuth(secondaryApp);
+            const userCred = await createUserWithEmailAndPassword(secondaryAuth, email, password);
+            const authUid = userCred.user.uid;
+            await secondaryAuth.signOut();
+
+            let avatarUrl = '';
+            if(avatarInput && avatarInput.files.length > 0) {
+                const file = avatarInput.files[0];
+                const storageRef = ref(storage, `team_avatars/${authUid}_${file.name}`);
+                await uploadBytes(storageRef, file);
+                avatarUrl = await getDownloadURL(storageRef);
+            }
+
+            let deptLabel = dept.charAt(0).toUpperCase() + dept.slice(1);
+            
+            await setDoc(doc(db, 'team', authUid), {
+                memberId: authUid,
+                name: name,
+                email: email,
+                phone: phone || '',
+                department: dept,
+                departmentLabel: deptLabel,
+                role: role,
+                avatarUrl: avatarUrl,
+                statusTitle: 'Active',
+                statusColor: 'bg-secondary',
+                statusShadow: 'var(--color-secondary)',
+                accessRevoked: false,
+                createdAt: serverTimestamp()
+            });
+
+            if(window.Modal) window.Modal.hide();
+            if(window.Toast) window.Toast.show('Invitation sent and user provisioned.', 'success');
+
+        } catch (error) {
+            console.error(error);
+            if(window.Toast) window.Toast.show('Failed to provision user: ' + error.message, 'error');
+            btn.innerHTML = 'Send Invite';
+            btn.classList.remove('opacity-50', 'pointer-events-none');
+        }
+    };
+
+    window.activeContextMemberId = null;
+
+    document.addEventListener('click', function(e) {
+        const menu = document.getElementById('team-context-menu');
+        if (menu && !menu.classList.contains('hidden')) {
+            if (!menu.contains(e.target)) {
+                menu.classList.add('opacity-0');
+                setTimeout(() => menu.classList.add('hidden'), 150);
+            }
+        }
+    });
+
+    window.showTeamContextMenu = function(e, memberId) {
+        e.preventDefault();
+        
+        // RBAC FIX: Reading from the correct global state variable
+        const currentRole = window.ethan01_currentUser?.role;
+        if (currentRole !== 'Super Admin' && currentRole !== 'admin' && currentRole !== 'SuperAdmin') {
+            if (window.Toast) window.Toast.show('Super Admin clearance required to manage staff accounts.', 'error');
+            return;
+        }
+
+        window.activeContextMemberId = memberId;
+        const menu = document.getElementById('team-context-menu');
+        menu.style.left = `${e.clientX}px`;
+        menu.style.top = `${e.clientY}px`;
+        menu.classList.remove('hidden');
+        setTimeout(() => menu.classList.remove('opacity-0'), 10);
+    };
+
+    // SUSPEND USER ACTION
+    window.revokeTeamAccess = function() {
+        const id = window.activeContextMemberId;
+        if(!id) {
+            if(window.Toast) window.Toast.show('No user selected for suspension.', 'error');
+            return;
+        }
+        
+        const menu = document.getElementById('team-context-menu');
+        menu.classList.add('opacity-0');
+        setTimeout(() => menu.classList.add('hidden'), 150);
+
+        const m = document.getElementById('tpl-revoke-team-modal').innerHTML;
+        const a = document.getElementById('tpl-revoke-team-action').innerHTML;
+        if(window.Modal) window.Modal.show('Suspend Login Access', m, a);
+    };
+
+    window.confirmRevokeTeamAccess = async function() {
+        const id = window.activeContextMemberId;
+        if(!id) return;
+        
+        if(window.Modal) window.Modal.hide();
+        if(window.Toast) window.Toast.show('Suspending access...', 'info');
+
+        try {
+            const { db } = await import('/js/config/firebase-dev.js');
+            const { doc, updateDoc } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+            await updateDoc(doc(db, 'team', id), {
+                statusTitle: 'Suspended',
+                statusColor: 'bg-error',
+                statusShadow: 'var(--color-error)',
+                accessRevoked: true
+            });
+            if(window.Toast) window.Toast.show('Staff access officially suspended.', 'warning');
+        } catch(e) {
+            console.error(e);
+            if(window.Toast) window.Toast.show('Failed to suspend access.', 'error');
+        }
+    };
+
+    // PERMANENT DELETE USER ACTION
+    window.deleteTeamMember = function() {
+        const id = window.activeContextMemberId;
+        if(!id) {
+            if(window.Toast) window.Toast.show('No user selected for deletion.', 'error');
+            return;
+        }
+        
+        const menu = document.getElementById('team-context-menu');
+        menu.classList.add('opacity-0');
+        setTimeout(() => menu.classList.add('hidden'), 150);
+
+        const m = document.getElementById('tpl-delete-team-modal').innerHTML;
+        const a = document.getElementById('tpl-delete-team-action').innerHTML;
+        if(window.Modal) window.Modal.show('Permanently Delete Staff', m, a);
+    };
+
+    window.confirmDeleteTeamMember = async function() {
+        const id = window.activeContextMemberId;
+        if(!id) return;
+        
+        if(window.Modal) window.Modal.hide();
+        if(window.Toast) window.Toast.show('Wiping staff profile...', 'info');
+
+        try {
+            const { db } = await import('/js/config/firebase-dev.js');
+            const { doc, deleteDoc } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+            await deleteDoc(doc(db, 'team', id));
+            if(window.Toast) window.Toast.show('Team member safely wiped from database.', 'success');
+        } catch(e) {
+            console.error(e);
+            if(window.Toast) window.Toast.show('Failed to delete staff member.', 'error');
+        }
     };
 
     window.handleTeamHydration = function(e) {
@@ -316,12 +591,19 @@
         const cont = document.getElementById('team-grid');
         const tpl = document.getElementById('tpl-team-card');
         
+        const currentRole = window.ethan01_currentUser?.role;
+        const isSuperAdmin = currentRole === 'Super Admin' || currentRole === 'admin' || currentRole === 'SuperAdmin';
+
         if(cont && tpl && payload.team) {
             cont.innerHTML = '';
             payload.team.forEach(member => {
                 let html = tpl.innerHTML;
                 const nameEscaped = member.name.replace(/'/g, '\\\'');
                 const safeAvatar = member.avatarUrl || '/assets/icons/ethan01logo.svg';
+                
+                const canEdit = isSuperAdmin || (window.ethan01_currentUser && window.ethan01_currentUser.email === member.email);
+                const isSuspended = member.accessRevoked === true || member.statusTitle === 'Suspended';
+                
                 html = html.replace(/{department}/g, member.department)
                            .replace(/{departmentLabel}/g, member.departmentLabel)
                            .replace(/{statusColor}/g, member.statusColor)
@@ -332,7 +614,11 @@
                            .replace(/{nameEscaped}/g, nameEscaped)
                            .replace(/{role}/g, member.role)
                            .replace(/{email}/g, member.email)
-                           .replace(/{phone}/g, member.phone || '');
+                           .replace(/{phone}/g, member.phone || '')
+                           .replace(/{memberId}/g, member.id || member.memberId || '')
+                           .replace(/{editHiddenClass}/g, canEdit ? '' : 'hidden opacity-0 pointer-events-none')
+                           .replace(/{opacityClass}/g, isSuspended ? 'opacity-50 grayscale' : '')
+                           .replace(/{strikeClass}/g, isSuspended ? 'line-through opacity-70' : '');
                 cont.innerHTML += html;
             });
             
@@ -349,6 +635,5 @@
     window.addEventListener('vanguard-team-sync', window.handleTeamHydration);
     
     console.log('[Vanguard] RTDB .info/connected listener ready for Team online status.');
-
-    this.remove();
-" />
+</script>
+<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" style="display:none;" onload="const s=document.createElement('script');s.textContent=document.getElementById('team-data-script').textContent;document.body.appendChild(s);this.remove();" />
