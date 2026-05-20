@@ -34,7 +34,7 @@
                 </p>
                 
                 <div class="w-full flex flex-col sm:flex-row gap-4">
-                    <button id="btn-download-receipt" onclick="window.print()" class="flex-1 bg-primary text-[#09090b] font-bold py-4 px-6 rounded-xl flex items-center justify-center gap-2 hover:bg-primary-container transition-all active:scale-95 shadow-[0_4px_15px_var(--color-primary-glow)]">
+                    <button id="btn-download-receipt" onclick="window.generateReceiptPDF(new URLSearchParams(window.location.hash.split('?')[1]).get('inv'))" class="flex-1 bg-primary text-[#09090b] font-bold py-4 px-6 rounded-xl flex items-center justify-center gap-2 hover:bg-primary-container transition-all active:scale-95 shadow-[0_4px_15px_var(--color-primary-glow)]">
                         <span class="material-symbols-outlined text-sm">download</span>
                         Download Receipt
                     </button>
@@ -50,7 +50,7 @@
                         Support Center
                     </a>
                     <div class="w-1 h-1 bg-outline-variant rounded-full"></div>
-                    <button onclick="window.print()" class="text-xs font-medium text-on-surface-variant hover:text-primary transition-colors flex items-center gap-1 cursor-pointer">
+                    <button onclick="window.generateReceiptPDF(new URLSearchParams(window.location.hash.split('?')[1]).get('inv'))" class="text-xs font-medium text-on-surface-variant hover:text-primary transition-colors flex items-center gap-1 cursor-pointer">
                         <span class="material-symbols-outlined text-base">print</span>
                         Print Details
                     </button>
@@ -109,7 +109,187 @@
     </div>
 </main>
 
+<div id="vanguard-receipt-export-zone" class="fixed top-0 left-0 -z-50 pointer-events-none opacity-0" style="width: 794px;">
+    <div id="vanguard-receipt-template" class="w-[794px] min-h-[1123px] bg-white text-[#09090b] p-14 font-sans box-border relative">
+        <div class="flex justify-between items-start mb-16">
+            <div class="flex flex-col">
+                <img src="/assets/icons/ethan01logo.svg" alt="Ethan01 Logo" class="h-12 w-auto mb-6" style="filter: invert(1);"/>
+                <h1 class="text-xl font-black tracking-tighter text-[#09090b]">Ethan01 InfoTech Services Enterprise</h1>
+                <p class="text-sm text-gray-600 mt-1">Abuja, Federal Capital Territory, Nigeria</p>
+                <p class="text-sm text-gray-600">contact@ethan01.com</p>
+            </div>
+            <div class="text-right flex flex-col items-end">
+                <h2 class="text-5xl font-black tracking-tighter text-[#09090b] mb-4">RECEIPT</h2>
+                <div class="px-4 py-1.5 bg-green-50 border border-green-200 rounded-md">
+                    <span class="text-green-700 font-bold text-xs uppercase tracking-widest flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 bg-green-600 rounded-full"></span> Settled in Full
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="grid grid-cols-2 gap-8 mb-16 border-t border-gray-200 pt-10">
+            <div>
+                <h3 class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Billed To</h3>
+                <p id="rcpt-client-name" class="text-base font-bold text-[#09090b] mb-1">--</p>
+                <p id="rcpt-client-email" class="text-sm text-gray-600">--</p>
+            </div>
+            <div class="text-right">
+                <h3 class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Receipt Details</h3>
+                <div class="space-y-1.5">
+                    <p class="text-sm"><span class="text-gray-500 w-24 inline-block">Receipt No:</span> <span id="rcpt-ref-id" class="font-bold text-[#09090b]">--</span></p>
+                    <p class="text-sm"><span class="text-gray-500 w-24 inline-block">Date of Issue:</span> <span id="rcpt-date" class="font-bold text-[#09090b]">--</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="mb-12 min-h-[300px]">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="border-b-2 border-[#09090b]">
+                        <th class="py-4 px-2 text-[11px] font-bold text-gray-500 uppercase tracking-widest">Description</th>
+                        <th class="py-4 px-2 text-[11px] font-bold text-gray-500 uppercase tracking-widest text-right w-48">Amount</th>
+                    </tr>
+                </thead>
+                <tbody id="rcpt-table-body" class="divide-y divide-gray-100"></tbody>
+            </table>
+        </div>
+        <div class="flex justify-end mb-16">
+            <div class="w-72 bg-gray-50 rounded-xl p-6 border border-gray-100">
+                <div class="flex justify-between py-2 text-sm">
+                    <span class="text-gray-500">Subtotal (Net)</span>
+                    <span id="rcpt-subtotal" class="font-bold text-[#09090b]">--</span>
+                </div>
+                <div class="flex justify-between py-2 text-sm border-b border-gray-200 mb-2 pb-4">
+                    <span class="text-gray-500">VAT (5%)</span>
+                    <span id="rcpt-vat" class="font-bold text-[#09090b]">--</span>
+                </div>
+                <div class="flex justify-between items-end pt-2">
+                    <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">Total Paid</span>
+                    <span id="rcpt-total" class="text-2xl font-black text-[#09090b] tracking-tighter">--</span>
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-14 left-14 right-14">
+            <div class="border-t border-gray-200 pt-6">
+                <h3 class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Transaction Notes</h3>
+                <p id="rcpt-notes" class="text-xs text-gray-600 leading-relaxed max-w-2xl">--</p>
+            </div>
+            <div class="mt-8 text-center text-[10px] text-gray-400 font-mono flex justify-center items-center gap-2">
+                <span>Generated by Vanguard Engine</span>
+                <span>•</span>
+                <span id="rcpt-footer-ref">--</span>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/plain" id="receipt-data-script">
+    window.generateReceiptPDF = async function(targetIdsParam) {
+        if (!targetIdsParam) {
+            if (window.Toast) window.Toast.show('No invoice ID provided.', 'error');
+            return;
+        }
+        
+        if (window.Toast) window.Toast.show('Generating high-fidelity receipt...', 'info');
+
+        if (typeof window.html2pdf === 'undefined') {
+            await new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+                script.onload = resolve;
+                script.onerror = reject;
+                document.head.appendChild(script);
+            });
+        }
+
+        try {
+            const { doc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+            const { db } = await import('/js/config/firebase-dev.js');
+            
+            const activeProjectId = sessionStorage.getItem('vanguard_active_project');
+            if (!activeProjectId) throw new Error("Workspace context lost.");
+
+            const pRef = doc(db, 'projects', activeProjectId);
+            const pSnap = await getDoc(pRef);
+            if (!pSnap.exists()) throw new Error("Project record missing.");
+            
+            const projData = pSnap.data();
+            const currencyStr = projData.currency || '₦';
+            
+            const cRef = doc(db, 'clients', projData.clientId);
+            const cSnap = await getDoc(cRef);
+            const clientData = cSnap.exists() ? cSnap.data() : { name: 'Valued Client', email: 'client@ethan01.com' };
+
+            const targetIds = typeof targetIdsParam === 'string' ? targetIdsParam.split(',') : targetIdsParam;
+            
+            let totalAmount = 0;
+            let rowsHtml = '';
+            let adminNotesSet = new Set();
+            let receiptRefArr = [];
+
+            const processItemForReceipt = (item, id) => {
+                if (targetIds.includes(id)) {
+                    const amt = parseFloat(item.cost) || 0;
+                    totalAmount += amt;
+                    
+                    const parsedId = id.split('_').pop().padStart(2, '0');
+                    const invId = `INV-${activeProjectId.slice(-4)}-${parsedId}`;
+                    receiptRefArr.push(invId);
+
+                    if (item.adminNotes) adminNotesSet.add(item.adminNotes);
+
+                    rowsHtml += `
+                        <tr class="group">
+                            <td class="py-4 px-2 text-sm text-[#09090b] border-b border-gray-100 group-last:border-0">${item.name}</td>
+                            <td class="py-4 px-2 text-sm font-bold text-[#09090b] text-right border-b border-gray-100 group-last:border-0">${currencyStr}${amt.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                        </tr>
+                    `;
+                }
+            };
+
+            (projData.phases || []).forEach(p => processItemForReceipt(p, p.id));
+            (projData.extraBilling || []).forEach((eb, idx) => processItemForReceipt(eb, 'extra_' + idx));
+
+            if (totalAmount === 0) throw new Error("No paid items matched the provided IDs.");
+
+            const vatRate = 0.05;
+            const subtotal = totalAmount / (1 + vatRate);
+            const vatAmount = totalAmount - subtotal;
+
+            document.getElementById('rcpt-client-name').innerText = clientData.name || clientData.companyName || 'Unknown Client';
+            document.getElementById('rcpt-client-email').innerText = clientData.email || '--';
+            
+            const displayRef = receiptRefArr.length > 1 ? `BATCH-${activeProjectId.slice(-4)}` : receiptRefArr[0];
+            document.getElementById('rcpt-ref-id').innerText = displayRef;
+            
+            const now = new Date();
+            document.getElementById('rcpt-date').innerText = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            document.getElementById('rcpt-table-body').innerHTML = rowsHtml;
+            document.getElementById('rcpt-subtotal').innerText = `${currencyStr}${subtotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            document.getElementById('rcpt-vat').innerText = `${currencyStr}${vatAmount.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            document.getElementById('rcpt-total').innerText = `${currencyStr}${totalAmount.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            
+            let notesText = Array.from(adminNotesSet).join(' | ');
+            document.getElementById('rcpt-notes').innerText = notesText || "Payment processed securely. All associated deliverables have been unlocked. Thank you for your business!";
+            document.getElementById('rcpt-footer-ref').innerText = `Ethan01 InfoTech Services Enterprise • Vanguard Engine • ${displayRef}`;
+
+            const element = document.getElementById('vanguard-receipt-template');
+            const opt = {
+                margin:       0,
+                filename:     `Receipt_${displayRef}.pdf`,
+                image:        { type: 'jpeg', quality: 1 },
+                html2canvas:  { scale: 2, useCORS: true, logging: false, windowWidth: 794 },
+                jsPDF:        { unit: 'px', format: [794, 1123], orientation: 'portrait' }
+            };
+            
+            await window.html2pdf().set(opt).from(element).save();
+            if (window.Toast) window.Toast.show('Receipt downloaded successfully.', 'success');
+
+        } catch (e) {
+            console.error("Receipt Generation Error:", e);
+            if (window.Toast) window.Toast.show('Failed to generate receipt: ' + e.message, 'error');
+        }
+    };
+
     window.initializeReceiptData = async function() {
         try {
             const hashParts = window.location.hash.split('?');

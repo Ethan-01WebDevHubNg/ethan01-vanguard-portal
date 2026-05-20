@@ -61,9 +61,11 @@
                 <h3 class="text-2xl font-bold text-on-surface tracking-tight">Active Invoices</h3>
                 <p class="text-sm text-on-surface-variant mt-1">Review and manage your project phase and task billing cycles.</p>
             </div>
-            <div class="flex gap-4">
-                <button class="bg-surface-container-highest text-on-surface px-6 py-2.5 rounded-xl text-sm font-bold hover:bg-surface-container border border-outline-variant shadow-sm transition-colors hidden sm:block" onclick="window.Toast.show('Compiling billing history PDF...', 'info')">Export History</button>
-                <button id="cli-upload-receipt-btn" class="bg-primary text-[#09090b] px-6 py-2.5 rounded-xl text-sm font-bold hover:bg-primary-container shadow-[0_4px_15px_var(--color-primary-glow)] transition-colors opacity-50 pointer-events-none flex items-center gap-2" onclick="document.getElementById('manual-receipt-upload').click()">
+            <div class="flex flex-wrap gap-3 w-full sm:w-auto">
+                <button class="flex-1 sm:flex-none bg-surface-container-highest text-on-surface px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-surface-container border border-outline-variant shadow-sm transition-colors flex items-center justify-center gap-2" onclick="window.exportInvoiceListPDF()">
+                    <span class="material-symbols-outlined text-[18px]">download</span> Export Invoices
+                </button>
+                <button id="cli-upload-receipt-btn" class="flex-1 sm:flex-none bg-primary text-[#09090b] px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-primary-container shadow-[0_4px_15px_var(--color-primary-glow)] transition-colors opacity-50 pointer-events-none flex items-center justify-center gap-2" onclick="document.getElementById('manual-receipt-upload').click()">
                     <span class="material-symbols-outlined text-[18px]">receipt_long</span> Upload Receipt
                 </button>
                 <input type="file" id="manual-receipt-upload" class="hidden" accept="image/*,.pdf" onchange="window.handleManualReceiptUpload(this)" />
@@ -124,6 +126,164 @@
     </section>
 </main>
 
+<div id="vanguard-receipt-export-zone" style="position: absolute; left: -9999px; top: 0; z-index: -9999; width: 794px;">
+    <div id="vanguard-receipt-template" class="w-[794px] bg-white text-[#09090b] font-sans box-border relative block pb-4">
+        
+        <div class="px-12 pt-8 pb-4 relative z-10">
+            <div class="flex justify-between items-end mb-10 border-b-2 border-gray-100 pb-6">
+                <div class="flex items-center gap-4">
+                    <div class="h-14 w-14 shrink-0 flex items-center justify-center bg-white/50 rounded-lg p-1">
+                        <img id="rcpt-logo-img" src="" style="display:none; max-width: 100%; max-height: 100%; object-fit: contain;" />
+                    </div>
+                    <div class="flex flex-col gap-0.5">
+                        <h1 class="text-2xl font-black tracking-wide text-[#97bc00] leading-tight">Ethan01&nbsp;&nbsp;InfoTech</h1>
+                        <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest leading-tight">Services Enterprise</p>
+                        <p class="text-[9px] text-gray-400 font-black tracking-widest leading-tight">RC: 9023456</p>
+                        <p class="text-[9px] text-gray-400 font-medium tracking-widest leading-tight">Abuja, Federal Capital Territory, Nigeria</p>
+                        <p class="text-[9px] text-gray-400 font-bold tracking-widest leading-tight">+234 812 019 5699</p>
+                    </div>
+                </div>
+                <div class="text-right flex flex-col items-end">
+                    <h2 class="text-3xl font-black tracking-widest text-[#97bc00] mb-2 uppercase">RECEIPT</h2>
+                    <div class="px-3 py-1 bg-[#97bc00]/10 border border-[#97bc00]/30 rounded-md">
+                        <span class="text-[#97bc00] font-bold text-[9px] uppercase tracking-widest flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 bg-[#97bc00] rounded-full"></span> Settled in Full
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-8 mb-10 bg-gray-50 p-6 rounded-xl border border-gray-200">
+                <div>
+                    <h3 class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-2">Billed To</h3>
+                    <p id="rcpt-client-name" class="text-sm font-bold text-[#09090b] mb-1 tracking-wide">--</p>
+                    <p id="rcpt-client-email" class="text-xs text-gray-600 tracking-wide">--</p>
+                    <p id="rcpt-client-address" class="text-[9px] text-gray-500 mt-1 whitespace-pre-wrap leading-relaxed tracking-wide">--</p>
+                </div>
+                <div class="text-right">
+                    <h3 class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-2">Receipt Details</h3>
+                    <div class="space-y-1">
+                        <p class="text-xs tracking-wide"><span class="text-gray-500 w-24 inline-block font-medium">Receipt No:</span> <span id="rcpt-ref-id" class="font-bold text-[#09090b]">--</span></p>
+                        <p class="text-xs tracking-wide"><span class="text-gray-500 w-24 inline-block font-medium">Date of Issue:</span> <span id="rcpt-date" class="font-bold text-[#09090b]">--</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative mb-10 min-h-[300px] border border-gray-200 rounded-xl overflow-hidden bg-white/80 z-20">
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.04] z-0 overflow-hidden">
+                    <img id="rcpt-watermark-img" src="" style="display:none; max-width:250px; max-height:250px; object-fit:contain;" />
+                </div>
+                <table class="relative z-10 w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-[#97bc00] text-white">
+                            <th class="py-3 px-6 text-[9px] font-bold uppercase tracking-widest border-r border-[#86a800]">Description</th>
+                            <th class="py-3 px-6 text-[9px] font-bold uppercase tracking-widest text-right w-48">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rcpt-table-body" class="divide-y divide-gray-100"></tbody>
+                </table>
+            </div>
+
+            <div class="flex justify-end">
+                <div class="w-80 bg-gray-50 rounded-xl p-5 border border-gray-200 shadow-sm">
+                    <div class="flex justify-between py-2 text-xs border-b border-gray-200 mb-2 pb-2">
+                        <span class="text-gray-500 font-medium tracking-wide">Subtotal (Net)</span>
+                        <span id="rcpt-subtotal" class="font-bold text-[#09090b] tracking-wide">--</span>
+                    </div>
+                    <div class="flex justify-between py-2 text-xs border-b border-gray-200 mb-3 pb-3">
+                        <span class="text-gray-500 font-medium tracking-wide">VAT (5%)</span>
+                        <span id="rcpt-vat" class="font-bold text-[#09090b] tracking-wide">--</span>
+                    </div>
+                    <div class="flex justify-between items-end pt-1">
+                        <span class="text-[10px] font-bold text-[#97bc00] uppercase tracking-widest">Total Paid</span>
+                        <span id="rcpt-total" class="text-xl font-black text-[#09090b] tracking-widest">--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="vanguard-invoice-list-export-zone" style="position: absolute; left: -9999px; top: 0; z-index: -9999; width: 794px;">
+    <div id="vanguard-invoicelist-template" class="w-[794px] bg-white text-[#09090b] font-sans box-border relative block pb-4">
+        
+        <div class="px-12 pt-8 pb-4 relative z-10">
+            <div class="flex justify-between items-end mb-10 border-b-2 border-gray-100 pb-6">
+                <div class="flex items-center gap-4">
+                    <div class="h-14 w-14 shrink-0 flex items-center justify-center bg-white/50 rounded-lg p-1">
+                        <img id="invlist-logo-img" src="" style="display:none; max-width: 100%; max-height: 100%; object-fit: contain;" />
+                    </div>
+                    <div class="flex flex-col gap-0.5">
+                        <h1 class="text-2xl font-black tracking-wider text-[#97bc00] leading-tight">Ethan01&nbsp;&nbsp;InfoTech</h1>
+                        <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest leading-tight">Services Enterprise</p>
+                        <p class="text-[9px] text-gray-400 font-black tracking-widest leading-tight">RC: 9023456</p>
+                        <p class="text-[9px] text-gray-400 font-medium tracking-widest leading-tight">Abuja, Federal Capital Territory, Nigeria</p>
+                        <p class="text-[9px] text-gray-400 font-bold tracking-widest leading-tight">+234 812 019 5699</p>
+                    </div>
+                </div>
+                <div class="text-right flex flex-col items-end">
+                    <h2 class="text-3xl font-black tracking-widest text-[#97bc00] mb-2 uppercase">INVOICE LEDGER</h2>
+                    <div class="px-3 py-1 bg-[#97bc00] text-white rounded">
+                        <span class="font-bold text-[9px] uppercase tracking-widest flex items-center gap-1">
+                            Date: <span id="pdf-invlist-date" class="tracking-widest">--</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-8 mb-10 bg-gray-50 p-6 rounded-xl border border-gray-200">
+                <div>
+                    <h3 class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-2">Billed To</h3>
+                    <p id="pdf-invlist-client" class="text-sm font-bold text-[#09090b] mb-0.5 tracking-wide">--</p>
+                    <p id="pdf-invlist-client-email" class="text-xs text-gray-600 tracking-wide">--</p>
+                    <p id="pdf-invlist-client-address" class="text-[9px] text-gray-500 mt-1 whitespace-pre-wrap leading-relaxed tracking-wide">--</p>
+                </div>
+                <div class="text-right">
+                    <h3 class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-2">Workspace</h3>
+                    <p id="pdf-invlist-project" class="text-sm font-bold text-[#09090b] tracking-wide">--</p>
+                </div>
+            </div>
+
+            <div class="relative mb-10 min-h-[400px] border border-gray-200 rounded-xl overflow-hidden bg-white/80 z-20">
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.04] z-0 overflow-hidden">
+                    <img id="invlist-watermark-img" src="" style="display:none; max-width:300px; max-height:300px; object-fit:contain;" />
+                </div>
+                
+                <table class="relative z-10 w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-[#97bc00] text-white">
+                            <th class="py-3 px-5 text-[9px] font-bold uppercase tracking-widest border-r border-[#86a800]">Invoice Ref</th>
+                            <th class="py-3 px-5 text-[9px] font-bold uppercase tracking-widest border-r border-[#86a800]">Billing Item</th>
+                            <th class="py-3 px-5 text-[9px] font-bold uppercase tracking-widest border-r border-[#86a800] text-right">Amount</th>
+                            <th class="py-3 px-5 text-[9px] font-bold uppercase tracking-widest text-center">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pdf-invlist-table-body" class="divide-y divide-gray-100"></tbody>
+                </table>
+            </div>
+
+            <div class="flex justify-end mb-8">
+                <table class="w-80 text-left border-collapse border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+                    <tbody>
+                        <tr class="border-b border-gray-200 bg-white">
+                            <td class="py-3 px-5 text-[9px] font-bold text-gray-500 uppercase tracking-widest">Total Billed</td>
+                            <td class="py-3 px-5 text-xs font-bold text-[#09090b] text-right tracking-wide" id="pdf-invlist-total">--</td>
+                        </tr>
+                        <tr class="border-b border-gray-200 bg-white">
+                            <td class="py-3 px-5 text-[9px] font-bold text-gray-500 uppercase tracking-widest">Collected</td>
+                            <td class="py-3 px-5 text-xs font-bold text-green-600 text-right tracking-wide" id="pdf-invlist-col">--</td>
+                        </tr>
+                        <tr class="bg-gray-50">
+                            <td class="py-3 px-5 text-[9px] font-bold text-[#97bc00] uppercase tracking-widest">Outstanding</td>
+                            <td class="py-3 px-5 text-sm font-black text-red-600 text-right tracking-widest" id="pdf-invlist-out">--</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
 <template id="tpl-cli-file-card">
     <div class="bg-surface-container-low p-6 rounded-xl border border-outline-variant hover:border-[var(--color-primary-alpha-30)] shadow-sm transition-all cursor-pointer group" onclick="window.open('{url}', '_blank')">
         <div class="flex justify-between items-start mb-4">
@@ -178,6 +338,325 @@
 <script type="text/plain" id="cli-vault-data-script">
     window.clientProjects = [];
     window.activeProjectId = sessionStorage.getItem('vanguard_active_project') || null;
+
+    window.getBase64ImageFromURL = (url) => {
+        return new Promise((resolve) => {
+            var img = new Image();
+            img.setAttribute("crossOrigin", "anonymous");
+            img.onload = () => {
+                var canvas = document.createElement("canvas");
+                canvas.width = img.width || 800;
+                canvas.height = img.height || 800;
+                var ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                resolve({ dataURL: canvas.toDataURL("image/png") });
+            };
+            img.onerror = () => resolve(null);
+            img.src = url;
+        });
+    };
+
+    window.createStripedBar = function() {
+        const canvas = document.createElement('canvas');
+        canvas.width = 1588; 
+        canvas.height = 32;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#97bc00';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = 'rgba(9, 9, 11, 0.15)';
+        for(let i = -64; i < canvas.width; i+=40) {
+            ctx.beginPath();
+            ctx.moveTo(i, 0);
+            ctx.lineTo(i+20, 0);
+            ctx.lineTo(i+20+32, 32);
+            ctx.lineTo(i+32, 32);
+            ctx.fill();
+        }
+        return canvas.toDataURL('image/png');
+    };
+
+    window.exportInvoiceListPDF = async function() {
+        if (!window.activeProjectId) {
+            if(window.Toast) window.Toast.show('No active project found.', 'error');
+            return;
+        }
+
+        if(window.Toast) window.Toast.show('Compiling premium invoice ledger PDF...', 'info');
+
+        const logoData = await window.getBase64ImageFromURL('/assets/icons/ethan01logo.png') || await window.getBase64ImageFromURL('/assets/icons/ethan01logo.svg');
+        const imgSrc = logoData ? logoData.dataURL : '/assets/icons/ethan01logo.png';
+
+        const logoImg = document.getElementById('invlist-logo-img');
+        if (logoImg) {
+            logoImg.src = imgSrc;
+            logoImg.style.display = 'block';
+        }
+
+        const watermarkImg = document.getElementById('invlist-watermark-img');
+        if (watermarkImg) {
+            watermarkImg.src = imgSrc;
+            watermarkImg.style.display = 'block';
+        }
+
+        await new Promise(r => setTimeout(r, 150));
+        await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+
+        if (typeof window.html2pdf === 'undefined') {
+            await new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+                script.onload = resolve;
+                script.onerror = reject;
+                document.head.appendChild(script);
+            });
+        }
+
+        try {
+            const { doc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+            const { db } = await import('/js/config/firebase-dev.js');
+            
+            const pRef = doc(db, 'projects', window.activeProjectId);
+            const pSnap = await getDoc(pRef);
+            if (!pSnap.exists()) throw new Error("Project record missing.");
+            const projData = pSnap.data();
+
+            const cRef = doc(db, 'clients', projData.clientId);
+            const cSnap = await getDoc(cRef);
+            const clientData = cSnap.exists() ? cSnap.data() : { companyName: 'Unknown Client' };
+
+            document.getElementById('pdf-invlist-date').innerText = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            document.getElementById('pdf-invlist-client').innerText = clientData.companyName || clientData.name || 'Valued Client';
+            document.getElementById('pdf-invlist-client-email').innerText = clientData.email || '--';
+            document.getElementById('pdf-invlist-client-address').innerText = clientData.address || clientData.companyAddress || 'No registered address';
+            document.getElementById('pdf-invlist-project').innerText = projData.projectName || 'Project Workspace';
+
+            const currency = projData.currency || '₦';
+            let totalBilled = 0;
+            let totalCollected = 0;
+            let rowsHtml = '';
+
+            const processItem = (item, type, id, subtitle) => {
+                const amt = parseFloat(item.cost) || 0;
+                if (amt <= 0) return;
+
+                totalBilled += amt;
+                let status = item.paymentStatus || 'Unbilled';
+                if (status === 'Paid') totalCollected += amt;
+
+                const safeProjectId = projData.projectId || '0000';
+                const parsedId = id ? id.split('_').pop().padStart(2, '0') : '00';
+                const invId = `INV-${safeProjectId.slice(-4)}-${parsedId}`;
+                
+                let statusBadge = '';
+                if(status === 'Paid') statusBadge = `<span class="text-[9px] font-bold uppercase tracking-widest text-green-700 bg-green-50 border border-green-200 px-2 py-1 rounded">Paid</span>`;
+                else if(status === 'Pending Payment') statusBadge = `<span class="text-[9px] font-bold uppercase tracking-widest text-gray-700 bg-gray-100 border border-gray-300 px-2 py-1 rounded">Pending</span>`;
+                else if(status === 'Overdue') statusBadge = `<span class="text-[9px] font-bold uppercase tracking-widest text-red-700 bg-red-50 border border-red-200 px-2 py-1 rounded">Overdue</span>`;
+                else if(status === 'Pending Admin Review') statusBadge = `<span class="text-[9px] font-bold uppercase tracking-widest text-blue-700 bg-blue-50 border border-blue-200 px-2 py-1 rounded">Verifying</span>`;
+                else statusBadge = `<span class="text-[9px] font-bold uppercase tracking-widest text-gray-500 bg-gray-50 border border-gray-200 px-2 py-1 rounded">Unbilled</span>`;
+
+                rowsHtml += `
+                    <tr class="border-b border-gray-100 bg-white/50">
+                        <td class="py-3 px-6 text-[10px] font-mono font-bold text-[#09090b] border-r border-gray-200">${invId}</td>
+                        <td class="py-3 px-6 border-r border-gray-200">
+                            <p class="text-sm font-bold text-[#09090b] tracking-wide">${item.name}</p>
+                            <p class="text-[9px] text-gray-500 uppercase tracking-widest mt-0.5">${subtitle}</p>
+                        </td>
+                        <td class="py-3 px-6 text-sm font-bold text-[#09090b] text-right border-r border-gray-200 tracking-wide">${currency}${amt.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                        <td class="py-3 px-6 text-center">${statusBadge}</td>
+                    </tr>
+                `;
+            };
+
+            if (projData.phases && projData.phases.length > 0) {
+                projData.phases.forEach(p => processItem(p, 'phase', p.id, 'Phase Allocation'));
+            }
+            if (projData.extraBilling && projData.extraBilling.length > 0) {
+                projData.extraBilling.forEach((eb, idx) => processItem(eb, 'extra', 'extra_' + idx, 'Extra Request'));
+            }
+
+            if (!rowsHtml) {
+                rowsHtml = '<tr><td colspan="4" class="py-8 text-center text-sm text-gray-500">No invoices generated yet.</td></tr>';
+            }
+
+            document.getElementById('pdf-invlist-table-body').innerHTML = rowsHtml;
+            document.getElementById('pdf-invlist-total').innerText = `${currency}${totalBilled.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+            document.getElementById('pdf-invlist-col').innerText = `${currency}${totalCollected.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+            document.getElementById('pdf-invlist-out').innerText = `${currency}${(totalBilled - totalCollected).toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+
+            const element = document.getElementById('vanguard-invoicelist-template');
+            const safeProjName = (projData.projectName || 'Project').replace(/[^a-z0-9]/gi, '_').toLowerCase();
+            
+            // Reverted html2canvas settings to default capturing mechanism to fix layout shift
+            const opt = {
+                margin:       [30, 0, 50, 0], 
+                filename:     `Invoice_Ledger_${safeProjName}.pdf`,
+                image:        { type: 'jpeg', quality: 0.95 },
+                html2canvas:  { scale: 2, useCORS: true, logging: false },
+                jsPDF:        { unit: 'px', format: [794, 1123], orientation: 'portrait' },
+                pagebreak:    { mode: 'css', avoid: 'tr' } 
+            };
+            
+            await window.html2pdf().set(opt).from(element).toPdf().get('pdf').then((pdf) => {
+                const totalPages = pdf.internal.getNumberOfPages();
+                const stripedBar = window.createStripedBar();
+                for (let i = 1; i <= totalPages; i++) {
+                    pdf.setPage(i);
+                    if (stripedBar) pdf.addImage(stripedBar, 'PNG', 0, 0, 794, 16);
+                    if (stripedBar) pdf.addImage(stripedBar, 'PNG', 0, 1123 - 16, 794, 16);
+                    
+                    pdf.setFont("helvetica", "bold");
+                    pdf.setFontSize(8);
+                    pdf.setTextColor(156, 163, 175); 
+                    pdf.text("GENERATED SECURELY BY THE ETHAN01 VANGUARD ENGINE • STRICTLY CONFIDENTIAL!", 397, 1123 - 24, { align: 'center' });
+                }
+            }).save();
+
+            if (window.Toast) window.Toast.show('Invoice Ledger exported successfully.', 'success');
+
+        } catch (e) {
+            console.error("PDF Export Error:", e);
+            if (window.Toast) window.Toast.show('Failed to export invoices: ' + e.message, 'error');
+        }
+    };
+
+    window.generateReceiptPDF = async function(targetIdsParam) {
+        if (!targetIdsParam) {
+            if (window.Toast) window.Toast.show('No invoice ID provided.', 'error');
+            return;
+        }
+        
+        if (window.Toast) window.Toast.show('Generating high-fidelity receipt...', 'info');
+
+        const logoData = await window.getBase64ImageFromURL('/assets/icons/ethan01logo.png') || await window.getBase64ImageFromURL('/assets/icons/ethan01logo.svg');
+        const imgSrc = logoData ? logoData.dataURL : '/assets/icons/ethan01logo.png';
+
+        const logoImg = document.getElementById('rcpt-logo-img');
+        if (logoImg) {
+            logoImg.src = imgSrc;
+            logoImg.style.display = 'block';
+        }
+
+        const watermarkImg = document.getElementById('rcpt-watermark-img');
+        if (watermarkImg) {
+            watermarkImg.src = imgSrc;
+            watermarkImg.style.display = 'block';
+        }
+
+        await new Promise(r => setTimeout(r, 150));
+        await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+
+        if (typeof window.html2pdf === 'undefined') {
+            await new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+                script.onload = resolve;
+                script.onerror = reject;
+                document.head.appendChild(script);
+            });
+        }
+
+        try {
+            const { doc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+            const { db } = await import('/js/config/firebase-dev.js');
+            
+            const activeProjectId = sessionStorage.getItem('vanguard_active_project');
+            if (!activeProjectId) throw new Error("Workspace context lost.");
+
+            const pRef = doc(db, 'projects', activeProjectId);
+            const pSnap = await getDoc(pRef);
+            if (!pSnap.exists()) throw new Error("Project record missing.");
+            
+            const projData = pSnap.data();
+            const currencyStr = projData.currency || '₦';
+            
+            const cRef = doc(db, 'clients', projData.clientId);
+            const cSnap = await getDoc(cRef);
+            const clientData = cSnap.exists() ? cSnap.data() : { name: 'Valued Client', email: 'client@ethan01.com' };
+
+            const targetIds = typeof targetIdsParam === 'string' ? targetIdsParam.split(',') : targetIdsParam;
+            
+            let totalAmount = 0;
+            let rowsHtml = '';
+            let adminNotesSet = new Set();
+            let receiptRefArr = [];
+
+            const processItemForReceipt = (item, id) => {
+                if (targetIds.includes(id)) {
+                    const amt = parseFloat(item.cost) || 0;
+                    totalAmount += amt;
+                    
+                    const parsedId = id.split('_').pop().padStart(2, '0');
+                    const invId = `INV-${activeProjectId.slice(-4)}-${parsedId}`;
+                    receiptRefArr.push(invId);
+
+                    if (item.adminNotes) adminNotesSet.add(item.adminNotes);
+
+                    rowsHtml += `
+                        <tr class="border-b border-gray-100 bg-white/50">
+                            <td class="py-4 px-6 text-sm font-bold text-[#09090b] border-r border-gray-200 tracking-wide">${item.name}</td>
+                            <td class="py-4 px-6 text-sm font-bold text-[#09090b] text-right tracking-wide">${currencyStr}${amt.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                        </tr>
+                    `;
+                }
+            };
+
+            (projData.phases || []).forEach(p => processItemForReceipt(p, p.id));
+            (projData.extraBilling || []).forEach((eb, idx) => processItemForReceipt(eb, 'extra_' + idx));
+
+            if (totalAmount === 0) throw new Error("No paid items matched the provided IDs.");
+
+            const vatRate = 0.05;
+            const subtotal = totalAmount / (1 + vatRate);
+            const vatAmount = totalAmount - subtotal;
+
+            document.getElementById('rcpt-client-name').innerText = clientData.name || clientData.companyName || 'Unknown Client';
+            document.getElementById('rcpt-client-email').innerText = clientData.email || '--';
+            document.getElementById('rcpt-client-address').innerText = clientData.address || clientData.companyAddress || 'No registered address';
+            
+            const displayRef = receiptRefArr.length > 1 ? `BATCH-${activeProjectId.slice(-4)}` : receiptRefArr[0];
+            document.getElementById('rcpt-ref-id').innerText = displayRef;
+            
+            const now = new Date();
+            document.getElementById('rcpt-date').innerText = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            document.getElementById('rcpt-table-body').innerHTML = rowsHtml;
+            document.getElementById('rcpt-subtotal').innerText = `${currencyStr}${subtotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            document.getElementById('rcpt-vat').innerText = `${currencyStr}${vatAmount.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            document.getElementById('rcpt-total').innerText = `${currencyStr}${totalAmount.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            
+            const element = document.getElementById('vanguard-receipt-template');
+            
+            // Reverted html2canvas settings to default capturing mechanism
+            const opt = {
+                margin:       [30, 0, 50, 0],
+                filename:     `Receipt_${displayRef}.pdf`,
+                image:        { type: 'jpeg', quality: 0.95 },
+                html2canvas:  { scale: 2, useCORS: true, logging: false },
+                jsPDF:        { unit: 'px', format: [794, 1123], orientation: 'portrait' },
+                pagebreak:    { mode: 'css', avoid: 'tr' }
+            };
+            
+            await window.html2pdf().set(opt).from(element).toPdf().get('pdf').then((pdf) => {
+                const totalPages = pdf.internal.getNumberOfPages();
+                const stripedBar = window.createStripedBar();
+                for (let i = 1; i <= totalPages; i++) {
+                    pdf.setPage(i);
+                    if (stripedBar) pdf.addImage(stripedBar, 'PNG', 0, 0, 794, 16);
+                    if (stripedBar) pdf.addImage(stripedBar, 'PNG', 0, 1123 - 16, 794, 16);
+                    
+                    pdf.setFont("helvetica", "bold");
+                    pdf.setFontSize(8);
+                    pdf.setTextColor(156, 163, 175); 
+                    pdf.text("GENERATED SECURELY BY THE ETHAN01 VANGUARD ENGINE • STRICTLY CONFIDENTIAL!", 397, 1123 - 24, { align: 'center' });
+                }
+            }).save();
+
+            if (window.Toast) window.Toast.show('Receipt downloaded successfully.', 'success');
+
+        } catch (e) {
+            console.error("Receipt Generation Error:", e);
+            if (window.Toast) window.Toast.show('Failed to generate receipt: ' + e.message, 'error');
+        }
+    };
 
     window.applyDynamicBrandColor = function(hexColor) {
         if (!hexColor || !hexColor.startsWith('#')) return;
@@ -396,7 +875,7 @@
                 
                 if(status === 'Paid') {
                     badgeClass = 'bg-[var(--color-primary-glow)] text-primary border-[var(--color-primary-alpha-30)]';
-                    actionBtn = `<button class="text-on-surface-variant hover:text-primary transition-colors p-2" onclick="window.Toast.show('Downloading receipt...', 'info')"><span class="material-symbols-outlined text-sm">download</span></button>`;
+                    actionBtn = `<button class="text-on-surface-variant hover:text-primary transition-colors p-2" onclick="window.generateReceiptPDF('${id}')"><span class="material-symbols-outlined text-sm">download</span></button>`;
                     isRowDisabled = 'opacity-60';
                 } else if(status === 'Pending Admin Review') {
                     badgeClass = 'bg-surface-container-highest text-on-surface-variant border-outline-variant';
@@ -585,7 +1064,6 @@
 
     window.initializeClientVault();
 
-    // FIXED: Correctly attached grouping and routing function to the window object.
     window.initializeSquadPayment = function(clickedId) {
         window.Toast.show('Routing to secure checkout...', 'info');
         
