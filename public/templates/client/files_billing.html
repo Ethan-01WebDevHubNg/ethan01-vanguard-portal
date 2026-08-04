@@ -111,7 +111,7 @@
             <div class="flex items-center justify-between mb-12">
                 <div>
                     <h3 class="text-xl font-bold text-on-surface tracking-tight">Project Roadmap</h3>
-                    <p class="text-sm text-on-surface-variant mt-1">Tracking global milestones from inception (bottom) to completion (top).</p>
+                    <p class="text-sm text-on-surface-variant mt-1">Tracking global milestones from inception (top) to completion (bottom).</p>
                 </div>
                 <div class="px-3 py-1 bg-surface-container-highest rounded-full border border-outline-variant flex items-center gap-2">
                     <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
@@ -119,7 +119,7 @@
                 </div>
             </div>
             
-            <div id="cli-timeline-vault-container" class="relative flex flex-col space-y-8 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-black/20 dark:before:bg-white/10">
+            <div id="cli-timeline-vault-container" class="relative flex flex-col w-full">
                 <div class="text-on-surface-variant text-sm text-center animate-pulse">Loading timeline data...</div>
             </div>
         </div>
@@ -136,7 +136,7 @@
                         <img id="rcpt-logo-img" src="" style="display:none; max-width: 100%; max-height: 100%; object-fit: contain;" />
                     </div>
                     <div class="flex flex-col gap-0.5">
-                        <h1 class="text-2xl font-black tracking-wide text-[#97bc00] leading-tight">Ethan01&nbsp;&nbsp;InfoTech</h1>
+                        <h1 class="text-2xl font-black tracking-wide text-[#97bc00] leading-tight">Ethan01  InfoTech</h1>
                         <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest leading-tight">Services Enterprise</p>
                         <p class="text-[9px] text-gray-400 font-black tracking-widest leading-tight">RC: 9023456</p>
                         <p class="text-[9px] text-gray-400 font-medium tracking-widest leading-tight">Abuja, Federal Capital Territory, Nigeria</p>
@@ -214,7 +214,7 @@
                         <img id="invlist-logo-img" src="" style="display:none; max-width: 100%; max-height: 100%; object-fit: contain;" />
                     </div>
                     <div class="flex flex-col gap-0.5">
-                        <h1 class="text-2xl font-black tracking-wider text-[#97bc00] leading-tight">Ethan01&nbsp;&nbsp;InfoTech</h1>
+                        <h1 class="text-2xl font-black tracking-wider text-[#97bc00] leading-tight">Ethan01  InfoTech</h1>
                         <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest leading-tight">Services Enterprise</p>
                         <p class="text-[9px] text-gray-400 font-black tracking-widest leading-tight">RC: 9023456</p>
                         <p class="text-[9px] text-gray-400 font-medium tracking-widest leading-tight">Abuja, Federal Capital Territory, Nigeria</p>
@@ -316,23 +316,6 @@
         </td>
     </tr>
     {noteRowHtml}
-</template>
-
-<template id="tpl-cli-timeline-row">
-    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active z-10">
-        <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-surface {bgClass} {textClass} shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 {shadowClass} z-10 {borderClass}">
-            <span class="material-symbols-outlined text-sm {iconAnim}">{icon}</span>
-        </div>
-        <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] {cardClass} p-5 rounded-xl border transition-all shadow-sm">
-            <div class="flex justify-between items-center mb-1">
-                <span class="text-[10px] font-bold uppercase tracking-widest {labelClass}">{phaseLabel}</span>
-                <span class="text-[10px] {labelClass} font-mono">{scopePct}%</span>
-            </div>
-            <h4 class="text-base font-bold {titleClass}">{phaseName}</h4>
-            <p class="text-xs {descClass} mt-2 leading-relaxed font-mono">Phase Duration: {duration} Days</p>
-            <p class="text-[11px] text-on-surface-variant mt-2 leading-relaxed opacity-80 border-t border-[var(--input-border)] pt-2">{phaseDesc}</p>
-        </div>
-    </div>
 </template>
 
 <script type="text/plain" id="cli-vault-data-script">
@@ -486,7 +469,6 @@
             const element = document.getElementById('vanguard-invoicelist-template');
             const safeProjName = (projData.projectName || 'Project').replace(/[^a-z0-9]/gi, '_').toLowerCase();
             
-            // Reverted html2canvas settings to default capturing mechanism to fix layout shift
             const opt = {
                 margin:       [30, 0, 50, 0], 
                 filename:     `Invoice_Ledger_${safeProjName}.pdf`,
@@ -625,7 +607,6 @@
             
             const element = document.getElementById('vanguard-receipt-template');
             
-            // Reverted html2canvas settings to default capturing mechanism
             const opt = {
                 margin:       [30, 0, 50, 0],
                 filename:     `Receipt_${displayRef}.pdf`,
@@ -862,7 +843,6 @@
                 const amt = parseFloat(item.cost) || 0;
                 if (amt <= 0) return;
 
-                // MATH: Unconditionally sum for the project total BEFORE UI rendering choices
                 totalBilled += amt;
 
                 let status = item.paymentStatus || 'Unbilled';
@@ -935,11 +915,7 @@
             if(elOut) elOut.innerText = `${currency} ${outstanding.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
 
             const tlCont = document.getElementById('cli-timeline-vault-container');
-            const tlTpl = document.getElementById('tpl-cli-timeline-row').innerHTML;
             let tlHtml = '';
-            
-            let trueScopePct = 0;
-            let activeScopeBoost = 0;
 
             if (projData.phases && projData.phases.length > 0) {
                 projData.phases.forEach((p, index) => {
@@ -950,51 +926,100 @@
                     if (['internal review', 'pending review', 'rejected internal', 'under review'].includes(normStatus)) {
                         displayStatus = 'in progress'; 
                     }
-
-                    if(displayStatus === 'approved' || displayStatus === 'completed') {
-                        trueScopePct += (p.scopePct || 0);
-                    }
-                    if(displayStatus === 'in progress' || displayStatus === 'active' || displayStatus === 'client review') {
-                        activeScopeBoost = (p.scopePct || 0) / 2;
-                    }
                     
-                    let bgClass = 'bg-surface-container', textClass = 'text-on-surface-variant', borderClass = 'border-4 border-surface', shadowClass = '', icon = 'radio_button_unchecked', iconAnim = '', labelClass = 'text-on-surface-variant', titleClass = 'text-on-surface-variant', descClass = 'text-on-surface-variant', cardClass = 'bg-surface-container border-outline-variant opacity-50';
+                    let bgClass = 'bg-surface-container-highest';
+                    let textClass = 'text-on-surface-variant';
+                    let borderClass = 'border-4 border-surface-container-lowest';
+                    let shadowClass = '';
+                    let icon = 'radio_button_unchecked';
+                    let iconAnim = '';
+                    let labelClass = 'text-on-surface-variant';
+                    let titleClass = 'text-on-surface-variant';
+                    let descClass = 'text-on-surface-variant';
+                    let cardClass = 'bg-surface-container-highest border-outline-variant';
+
+                    let topLineBg = 'bg-surface-container-highest';
+                    let bottomLineBg = 'bg-surface-container-highest';
 
                     if (displayStatus === 'approved' || displayStatus === 'completed') {
-                        bgClass = 'bg-primary'; textClass = 'text-[#09090b]'; icon = 'rocket_launch'; shadowClass = 'shadow-[0_4px_15px_var(--color-primary-glow)]';
-                        labelClass = 'text-on-surface-variant'; titleClass = 'text-on-surface'; descClass = 'text-on-surface-variant'; cardClass = 'bg-surface-container-highest border-outline-variant opacity-70';
+                        bgClass = 'bg-primary'; 
+                        textClass = 'text-[#09090b]'; 
+                        icon = 'rocket_launch'; 
+                        shadowClass = 'shadow-[0_4px_15px_var(--color-primary-glow)]';
+                        borderClass = 'border-4 border-surface-container-lowest';
+                        labelClass = 'text-on-surface-variant'; 
+                        titleClass = 'text-on-surface'; 
+                        descClass = 'text-on-surface-variant'; 
+                        cardClass = 'bg-surface-container-highest border-outline-variant';
+                        
+                        topLineBg = 'bg-primary';
+                        bottomLineBg = 'bg-primary';
                     } else if (displayStatus === 'in progress' || displayStatus === 'active') {
-                        bgClass = 'bg-[var(--color-primary-alpha-30)]'; textClass = 'text-primary'; borderClass = 'border-4 border-surface !border-primary'; shadowClass = 'shadow-[0_0_20px_var(--color-primary-glow)]'; 
-                        icon = 'autorenew'; iconAnim = 'animate-spin'; labelClass = 'text-primary'; titleClass = 'text-on-surface'; descClass = 'text-on-surface-variant'; cardClass = 'bg-surface-container-highest border-[var(--color-primary-alpha-30)] shadow-[var(--card-shadow)]';
+                        bgClass = 'bg-surface-container-highest'; 
+                        textClass = 'text-primary'; 
+                        borderClass = 'border-4 border-surface-container-lowest !border-primary'; 
+                        shadowClass = 'shadow-[0_0_20px_var(--color-primary-glow)]'; 
+                        icon = 'autorenew'; 
+                        iconAnim = 'animate-spin'; 
+                        labelClass = 'text-primary'; 
+                        titleClass = 'text-on-surface'; 
+                        descClass = 'text-on-surface-variant'; 
+                        cardClass = 'bg-surface-container-highest border-primary shadow-[var(--card-shadow)]';
                         document.getElementById('cli-timeline-badge').innerText = `Phase ${index + 1} Active`;
+                        
+                        topLineBg = 'bg-primary';
+                        bottomLineBg = 'bg-surface-container-highest';
                     } else if (displayStatus === 'client review') {
-                        bgClass = 'bg-[var(--color-error-container)]'; textClass = 'text-error'; borderClass = 'border-4 border-surface !border-[var(--color-error-dim)]'; shadowClass = 'shadow-[0_0_20px_rgba(255,0,0,0.4)]';
-                        icon = 'warning'; iconAnim = 'animate-pulse'; labelClass = 'text-error'; titleClass = 'text-on-surface'; descClass = 'text-on-surface-variant'; cardClass = 'bg-surface-container-highest border-outline-variant';
-                    } else {
-                        icon = 'radio_button_unchecked'; iconAnim = '';
+                        bgClass = 'bg-[var(--color-error-container)]'; 
+                        textClass = 'text-error'; 
+                        borderClass = 'border-4 border-surface-container-lowest !border-[var(--color-error-dim)]'; 
+                        shadowClass = 'shadow-[0_0_20px_rgba(255,0,0,0.4)]';
+                        icon = 'warning'; 
+                        iconAnim = 'animate-pulse'; 
+                        labelClass = 'text-error'; 
+                        titleClass = 'text-on-surface'; 
+                        descClass = 'text-on-surface-variant'; 
+                        cardClass = 'bg-surface-container-highest border-outline-variant';
+                        
+                        topLineBg = 'bg-primary';
+                        bottomLineBg = 'bg-surface-container-highest';
                     }
 
                     const renderDesc = p.description ? p.description : 'Awaiting architectural definitions for this milestone.';
+                    const phaseLabel = `Phase ${(index + 1).toString().padStart(2, '0')}`;
+                    const scopePct = p.scopePct || 0;
+                    const duration = p.durationDays || 0;
+                    const phaseName = p.name || 'Unnamed Phase';
 
-                    tlHtml = tlTpl.replace(/{bgClass}/g, bgClass)
-                                   .replace(/{textClass}/g, textClass)
-                                   .replace(/{borderClass}/g, borderClass)
-                                   .replace(/{shadowClass}/g, shadowClass)
-                                   .replace(/{icon}/g, icon)
-                                   .replace(/{iconAnim}/g, iconAnim)
-                                   .replace(/{labelClass}/g, labelClass)
-                                   .replace(/{titleClass}/g, titleClass)
-                                   .replace(/{descClass}/g, descClass)
-                                   .replace(/{cardClass}/g, cardClass)
-                                   .replace(/{phaseLabel}/g, `Phase ${(index + 1).toString().padStart(2, '0')}`)
-                                   .replace(/{scopePct}/g, p.scopePct || 0)
-                                   .replace(/{phaseName}/g, p.name)
-                                   .replace(/{duration}/g, p.durationDays || 0)
-                                   .replace(/{phaseDesc}/g, renderDesc) + tlHtml; 
+                    let isTopMost = (index === 0);
+                    let isBottomMost = (index === projData.phases.length - 1);
+                    
+                    let topLineVisibility = isTopMost ? 'opacity-0' : 'opacity-100';
+                    let bottomLineVisibility = isBottomMost ? 'opacity-0' : 'opacity-100';
+
+                    tlHtml += `
+                    <div class="relative flex items-stretch w-full md:odd:justify-start md:even:justify-end group">
+                        <div class="absolute top-0 bottom-0 left-0 md:left-1/2 flex flex-col items-center w-10 -translate-x-0 md:-translate-x-1/2 z-20">
+                            <div class="w-0.5 flex-1 ${topLineBg} ${topLineVisibility} transition-colors duration-500"></div>
+                            <div class="flex items-center justify-center w-10 h-10 rounded-full ${borderClass} ${bgClass} ${textClass} shrink-0 ${shadowClass} z-10">
+                                <span class="material-symbols-outlined text-sm ${iconAnim}">${icon}</span>
+                            </div>
+                            <div class="w-0.5 flex-1 ${bottomLineBg} ${bottomLineVisibility} transition-colors duration-500"></div>
+                        </div>
+                        <div class="w-full md:w-1/2 pl-14 md:pl-0 md:group-odd:pr-8 md:group-even:pl-8 py-4 z-10">
+                            <div class="${cardClass} p-5 rounded-xl border transition-all shadow-sm">
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-[10px] font-bold uppercase tracking-widest ${labelClass}">${phaseLabel}</span>
+                                    <span class="text-[10px] ${labelClass} font-mono">${scopePct}%</span>
+                                </div>
+                                <h4 class="text-base font-bold ${titleClass}">${phaseName}</h4>
+                                <p class="text-xs ${descClass} mt-2 leading-relaxed font-mono">Phase Duration: ${duration} Days</p>
+                                <p class="text-[11px] text-on-surface-variant mt-2 leading-relaxed border-t border-[var(--input-border)] pt-2">${renderDesc}</p>
+                            </div>
+                        </div>
+                    </div>
+                    `; 
                 });
-                
-                const renderScopePct = Math.min(100, trueScopePct + activeScopeBoost);
-                tlHtml = `<div class="absolute bottom-0 left-5 md:left-1/2 w-0.5 md:-translate-x-px z-0 transition-all duration-1000 shadow-[0_0_15px_var(--color-primary-glow)]" style="height: ${renderScopePct}%; background: linear-gradient(0deg, var(--color-primary) 0%, var(--color-primary-alpha-30) 100%);"></div>` + tlHtml;
                 
                 tlCont.innerHTML = tlHtml;
             } else {

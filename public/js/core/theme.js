@@ -20,7 +20,6 @@ export function initTheme() {
         const newTheme = isDark ? 'dark' : 'light';
         localStorage.setItem('ethan01_theme', newTheme);
         
-        // Dispatch event for JS-dependent components
         window.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme: newTheme } }));
         
         // CRITICAL: If a client's custom brand color is active, recalculate its contrast for the new theme
@@ -29,7 +28,7 @@ export function initTheme() {
         }
         
         if (window.Toast) {
-            window.Toast.show(`Switched to ${newTheme.toUpperCase()} mode.`, 'info');
+window.Toast.show(`Switched to ${newTheme.charAt(0).toUpperCase() + newTheme.slice(1).toLowerCase()} mode.`, 'info');
         }
     };
 

@@ -261,16 +261,22 @@
     </section>
 </main>
 
-<div id="vanguard-report-export-zone" class="fixed top-0 left-0 -z-50 pointer-events-none opacity-0 flex justify-center w-full">
-    <div id="vanguard-report-template" class="w-[794px] min-h-[1123px] bg-white text-[#09090b] p-12 font-sans box-border relative overflow-hidden">
-        <div class="flex justify-between items-start mb-12 border-b-2 border-gray-900 pb-8">
+<div id="vanguard-report-export-zone" style="position: absolute; left: -100000px; top: 0; z-index: -9999; width: 794px;">
+    <div id="vanguard-report-template" class="w-[794px] bg-white text-[#09090b] p-12 font-sans box-border relative overflow-hidden">
+        
+        <img id="pdf-watermark-img" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-5 pointer-events-none" style="width: 400px; max-width: 100%; max-height: 100%; object-fit: contain;" alt="Watermark"/>
+
+        <div class="flex justify-between items-start mb-12 border-b-2 border-[#97bc00] pb-8">
             <div class="flex flex-col">
-                <img src="/assets/icons/ethan01logo.svg" alt="Ethan01 Logo" class="h-10 w-auto mb-4" style="filter: invert(1);"/>
-                <h1 class="text-lg font-black tracking-tighter text-[#09090b]">Ethan01 InfoTech Services Enterprise</h1>
-                <p class="text-xs text-gray-500">Project Status & Performance Report</p>
+                <div class="h-10 mb-4 flex items-start justify-start">
+                    <img id="pdf-logo-img" alt="Ethan01 Logo" style="height: 100%; width: auto; object-fit: contain; object-position: left; flex-shrink: 0;"/>
+                </div>
+                <h1 class="text-lg font-black tracking-widest text-[#09090b] uppercase">Ethan01&nbsp;&nbsp;InfoTech</h1>
+                <p class="text-[10px] font-bold text-gray-500 tracking-wider mt-1">RC: 9023456 | Abuja, Nigeria | +234 812 019 5699</p>
+                <p class="text-xs text-[#97bc00] tracking-widest uppercase font-bold mt-2">Project Status & Performance Report</p>
             </div>
             <div class="text-right flex flex-col items-end">
-                <h2 class="text-3xl font-black tracking-tighter text-[#09090b] mb-2 uppercase">Status Report</h2>
+                <h2 class="text-3xl font-black tracking-widest text-[#09090b] mb-2 uppercase">Status Report</h2>
                 <div class="px-3 py-1 bg-gray-100 border border-gray-200 rounded">
                     <span class="text-gray-700 font-bold text-[10px] uppercase tracking-widest flex items-center gap-1">
                         Date: <span id="pdf-report-date">--</span>
@@ -281,11 +287,11 @@
 
         <div class="grid grid-cols-2 gap-8 mb-10 bg-gray-50 p-6 rounded-lg border border-gray-200">
             <div>
-                <h3 class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-2">Client Details</h3>
+                <h3 class="text-[9px] font-bold text-[#97bc00] uppercase tracking-widest mb-2">Client Details</h3>
                 <p id="pdf-client-name" class="text-sm font-bold text-[#09090b] mb-0.5">--</p>
             </div>
             <div class="text-right">
-                <h3 class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-2">Project Workspace</h3>
+                <h3 class="text-[9px] font-bold text-[#97bc00] uppercase tracking-widest mb-2">Project Workspace</h3>
                 <p id="pdf-project-name" class="text-sm font-bold text-[#09090b]">--</p>
             </div>
         </div>
@@ -329,6 +335,21 @@
             </div>
         </div>
 
+<h3 class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4 border-b border-gray-200 pb-2">Active Task Implementation Details</h3>
+        <table class="w-full text-left mb-10 border-collapse">
+            <thead>
+                <tr class="bg-gray-100">
+                    <th class="py-2 px-3 text-[8px] font-bold text-gray-500 uppercase tracking-widest border border-gray-200">Task Name</th>
+                    <th class="py-2 px-3 text-[8px] font-bold text-gray-500 uppercase tracking-widest border border-gray-200">Department / Phase</th>
+                    <th class="py-2 px-3 text-[8px] font-bold text-gray-500 uppercase tracking-widest border border-gray-200 text-center">Weight</th>
+                    <th class="py-2 px-3 text-[8px] font-bold text-gray-500 uppercase tracking-widest border border-gray-200">QA Gate</th>
+                    <th class="py-2 px-3 text-[8px] font-bold text-gray-500 uppercase tracking-widest border border-gray-200">Current Status</th>
+                </tr>
+            </thead>
+            <tbody id="pdf-task-details-body" class="divide-y divide-gray-200">
+                </tbody>
+        </table>
+
         <h3 class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4 border-b border-gray-200 pb-2">Financial Ledger Overview</h3>
         <table class="w-full text-left mb-10 border-collapse">
             <thead>
@@ -346,12 +367,6 @@
                 </tr>
             </tbody>
         </table>
-
-        <div class="absolute bottom-12 left-12 right-12">
-            <div class="border-t border-gray-200 pt-4 text-center text-[9px] text-gray-400 font-mono">
-                Generated securely by Vanguard Engine • Strictly Confidential
-            </div>
-        </div>
     </div>
 </div>
 
@@ -532,22 +547,47 @@
     window.cmdTaskFilter = 'All'; 
     window.cmdCurrentTasksSnap = null; 
 
+    window.getBase64ImageFromURL = function(url) {
+        return new Promise((resolve) => {
+            var img = new Image();
+            img.setAttribute("crossOrigin", "anonymous");
+            img.onload = function() {
+                try {
+                    var canvas = document.createElement("canvas");
+                    canvas.width = this.width; canvas.height = this.height;
+                    canvas.getContext("2d").drawImage(this, 0, 0);
+                    resolve(canvas.toDataURL("image/png"));
+                } catch(e) {
+                    console.warn("Base64 Failed for:", url);
+                    resolve(""); 
+                }
+            };
+            img.onerror = () => resolve("");
+            img.src = url;
+        });
+    };
+
     window.exportStatusReportPDF = async function() {
         if (!window.activeProjectId) {
             if(window.Toast) window.Toast.show('Select a project workspace first.', 'error');
             return;
         }
 
-        if(window.Toast) window.Toast.show('Compiling high-fidelity Status Report...', 'info');
+        if(window.Toast) window.Toast.show('Initializing Vanguard Engine... Compiling Data.', 'info');
 
         if (typeof window.html2pdf === 'undefined') {
-            await new Promise((resolve, reject) => {
-                const script = document.createElement('script');
-                script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
-                script.onload = resolve;
-                script.onerror = reject;
-                document.head.appendChild(script);
-            });
+            try {
+                await new Promise((resolve, reject) => {
+                    const script = document.createElement('script');
+                    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+                    script.onload = resolve;
+                    script.onerror = () => reject(new Error('Failed to load html2pdf.js'));
+                    document.head.appendChild(script);
+                });
+            } catch(e) {
+                if(window.Toast) window.Toast.show('Network error loading PDF Engine.', 'error');
+                return;
+            }
         }
 
         try {
@@ -563,98 +603,162 @@
             const cSnap = await getDoc(cRef);
             const clientData = cSnap.exists() ? cSnap.data() : { companyName: 'Unknown Client' };
 
-            // 1. Header Details
+            // 1. Base64 Rasterization
+            const logoPath = '/assets/icons/ethan01logo.svg';
+            const logoBase64 = await window.getBase64ImageFromURL(logoPath);
+            if(logoBase64) {
+                document.getElementById('pdf-logo-img').src = logoBase64;
+                document.getElementById('pdf-watermark-img').src = logoBase64;
+            }
+
+            // DOM Population
             document.getElementById('pdf-report-date').innerText = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
             document.getElementById('pdf-client-name').innerText = clientData.companyName || 'Unknown';
             document.getElementById('pdf-project-name').innerText = projData.projectName || 'Untitled Project';
 
-            // 2. Performance Metrics Calculation
-            const startDate = projData.createdAt?.toDate() || new Date();
-            const now = new Date();
-            const diffDays = Math.max(0, Math.ceil((now - startDate) / (1000 * 60 * 60 * 24)));
-            const durationDays = projData.durationDays !== undefined ? projData.durationDays : 1;
-            const timeElapsedPct = Math.min(100, (diffDays / durationDays) * 100);
-            
             let trueScopePct = 0;
             (projData.phases || []).forEach(p => {
-                const nps = (p.status || 'To Do').toLowerCase().replace(/-/g, ' ').trim();
-                if (nps === 'completed' || nps === 'approved') trueScopePct += (p.scopePct || 0);
+                if ((p.status || '').toLowerCase() === 'completed' || (p.status || '').toLowerCase() === 'approved') 
+                    trueScopePct += (p.scopePct || 0);
             });
 
-            const variance = trueScopePct - timeElapsedPct;
-            let paceStatus = 'On Track';
-            let paceColor = 'text-green-600';
-            if (variance < -5) { paceStatus = 'Behind Schedule'; paceColor = 'text-red-600'; }
-            else if (variance > 5) { paceStatus = 'Ahead of Schedule'; paceColor = 'text-blue-600'; }
-
-            document.getElementById('pdf-metric-scope').innerText = `${trueScopePct.toFixed(0)}%`;
-            const pacingEl = document.getElementById('pdf-metric-pacing');
-            pacingEl.innerText = paceStatus;
-            pacingEl.className = `text-[9px] font-bold uppercase mt-2 ${paceColor}`;
-
-            document.getElementById('pdf-metric-time').innerText = diffDays;
-            
+            const diffDays = Math.max(0, Math.ceil((new Date() - (projData.createdAt?.toDate() || new Date())) / 86400000));
             const curr = projData.currency || '₦';
-            const consumed = projData.budgetConsumed || 0;
-            const total = projData.totalBudget || 0;
-            document.getElementById('pdf-metric-budget').innerText = curr + ' ' + consumed.toLocaleString('en-US');
-            document.getElementById('pdf-metric-budget-total').innerText = 'OF ' + curr + ' ' + total.toLocaleString('en-US');
+            
+            document.getElementById('pdf-metric-scope').innerText = `${trueScopePct.toFixed(0)}%`;
+            document.getElementById('pdf-metric-time').innerText = diffDays;
+            document.getElementById('pdf-metric-budget').innerText = curr + ' ' + (projData.budgetConsumed || 0).toLocaleString();
+            document.getElementById('pdf-metric-budget-total').innerText = 'OF ' + curr + ' ' + (projData.totalBudget || 0).toLocaleString();
 
-            // 3. Task Board Breakdown
+// 3. Task Board Breakdown & Implementation Details Extraction
             let tTodo = 0, tInprog = 0, tRev = 0, tDone = 0;
-            if (window.cmdCurrentTasksSnap) {
-                window.cmdCurrentTasksSnap.forEach(doc => {
-                    const status = (doc.data().status || 'To Do').toLowerCase().replace(/-/g, ' ').trim();
-                    if (status === 'completed' || status === 'approved') tDone++;
-                    else if (status === 'internal review' || status === 'client review' || status === 'under review' || status === 'pending review') tRev++;
-                    else if (status === 'in progress' || status === 'active') tInprog++;
+            let taskDetailsHtml = '';
+
+            if (window.cmdCurrentTasksSnap && window.cmdCurrentTasksSnap.docs.length > 0) {
+                window.cmdCurrentTasksSnap.forEach(d => {
+                    const t = d.data();
+                    const s = (t.status || 'To Do').toLowerCase().replace(/-/g, ' ').trim();
+                    
+                    if(s === 'completed' || s === 'approved') tDone++;
+                    else if(s.includes('review')) tRev++;
+                    else if(s.includes('progress') || s.includes('active')) tInprog++;
                     else tTodo++;
+
+                    // Status Column Styling
+                    let statusColor = 'text-gray-500';
+                    if (s.includes('progress') || s.includes('active')) statusColor = 'text-blue-600';
+                    if (s.includes('review')) statusColor = 'text-purple-600';
+                    if (s === 'completed' || s === 'approved') statusColor = 'text-green-600';
+                    if (s.includes('reject')) statusColor = 'text-red-600';
+
+                    // QA Gate Column Logic
+                    let qaStage = '--';
+                    let qaColor = 'text-gray-400';
+                    
+                    if (s === 'internal review' || s === 'pending review') {
+                        qaStage = 'Internal Admin QA';
+                        qaColor = 'text-purple-600';
+                    } else if (s === 'client review') {
+                        qaStage = 'Client Portal Review';
+                        qaColor = 'text-[#97bc00]'; // Vanguard Primary Accent
+                    } else if (s === 'rejected internal') {
+                        qaStage = 'Failed Internal QA';
+                        qaColor = 'text-red-600';
+                    } else if (s === 'approved' || s === 'completed' || s === 'approved internally') {
+                        qaStage = 'Cleared';
+                        qaColor = 'text-green-600';
+                    }
+
+                    taskDetailsHtml += `
+                        <tr>
+                            <td class="py-2 px-3 border border-gray-200 font-bold text-[#09090b] text-[9px]">${t.title || 'Untitled'}</td>
+                            <td class="py-2 px-3 border border-gray-200 text-[8px] uppercase tracking-widest text-gray-500">${t.department || 'GEN'} • ${t.phase || 'N/A'}</td>
+                            <td class="py-2 px-3 border border-gray-200 text-center font-mono text-[9px]">${t.weightPct || 0}%</td>
+                            <td class="py-2 px-3 border border-gray-200 text-[8px] font-black uppercase tracking-widest ${qaColor}">${qaStage}</td>
+                            <td class="py-2 px-3 border border-gray-200 text-[8px] font-black uppercase tracking-widest ${statusColor}">${t.status || 'To Do'}</td>
+                        </tr>
+                    `;
                 });
+            } else {
+                taskDetailsHtml = '<tr><td colspan="5" class="py-4 border border-gray-200 text-center text-[9px] text-gray-400">No tasks documented in workspace.</td></tr>';
             }
+
             document.getElementById('pdf-task-todo').innerText = tTodo;
             document.getElementById('pdf-task-inprog').innerText = tInprog;
             document.getElementById('pdf-task-review').innerText = tRev;
             document.getElementById('pdf-task-done').innerText = tDone;
+            document.getElementById('pdf-task-details-body').innerHTML = taskDetailsHtml;
 
-            // 4. Financial Ledger Calculation
-            let billed = 0;
-            let collected = 0;
-            const processFin = (item) => {
+            // Finance Ledger Counts
+            let billed = 0, collected = 0;
+            const procFin = (item) => {
                 const amt = parseFloat(item.cost) || 0;
-                if (amt > 0) billed += amt;
-                if (item.paymentStatus === 'Paid') collected += amt;
+                if(amt > 0) billed += amt;
+                if(item.paymentStatus === 'Paid') collected += amt;
             };
-            (projData.phases || []).forEach(processFin);
-            (projData.extraBilling || []).forEach(processFin);
+            (projData.phases || []).forEach(procFin);
+            (projData.extraBilling || []).forEach(procFin);
+            
+            document.getElementById('pdf-fin-billed').innerText = curr + ' ' + billed.toLocaleString(undefined, {minimumFractionDigits: 2});
+            document.getElementById('pdf-fin-col').innerText = curr + ' ' + collected.toLocaleString(undefined, {minimumFractionDigits: 2});
+            document.getElementById('pdf-fin-out').innerText = curr + ' ' + (billed - collected).toLocaleString(undefined, {minimumFractionDigits: 2});
 
-            const outstanding = billed - collected;
-            document.getElementById('pdf-fin-billed').innerText = curr + ' ' + billed.toLocaleString('en-US', {minimumFractionDigits: 2});
-            document.getElementById('pdf-fin-col').innerText = curr + ' ' + collected.toLocaleString('en-US', {minimumFractionDigits: 2});
-            document.getElementById('pdf-fin-out').innerText = curr + ' ' + outstanding.toLocaleString('en-US', {minimumFractionDigits: 2});
-
-            // Trigger Export with Fixed Render Configuration
             const element = document.getElementById('vanguard-report-template');
             const safeProjName = (projData.projectName || 'Project').replace(/[^a-z0-9]/gi, '_').toLowerCase();
+
+            // 2. Paint-Syncing
+            await new Promise(r => setTimeout(r, 150));
+            await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+
+            // 3. Generation Engine Configuration
             const opt = {
-                margin:       0,
-                filename:     `Status_Report_${safeProjName}.pdf`,
-                image:        { type: 'jpeg', quality: 0.92 }, // Drastically reduces size with minimal visual loss
-                html2canvas:  { 
-                    scale: 2, 
-                    useCORS: true, 
-                    logging: false, 
-                    width: 794,        // Strictly limits capture width to the A4 div
-                    windowWidth: 794 
-                },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' } // Forces natural A4 PDF mapping
+                margin: [10, 0, 15, 0], // Top and Bottom margins leave room for the custom stripes
+                filename: `Status_Report_${safeProjName}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true, logging: false },
+                pagebreak: { mode: 'css', avoid: 'tr' },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
-            
-            await window.html2pdf().set(opt).from(element).save();
-            if (window.Toast) window.Toast.show('Status Report generated successfully.', 'success');
+
+            // 4. Custom Pagination Render Loop
+            window.html2pdf().set(opt).from(element).toPdf().get('pdf').then((pdf) => {
+                const totalPages = pdf.internal.getNumberOfPages();
+                const pageWidth = pdf.internal.pageSize.getWidth();
+                const pageHeight = pdf.internal.pageSize.getHeight();
+                
+                // Native Striped Bar Generator
+                const canvas = document.createElement('canvas');
+                canvas.width = 1000; canvas.height = 20;
+                const ctx = canvas.getContext('2d');
+                ctx.fillStyle = '#97bc00'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'rgba(255,255,255,0.3)';
+                for(let j = -20; j < canvas.width; j+=20) {
+                    ctx.beginPath(); ctx.moveTo(j, 0); ctx.lineTo(j+20, 20); ctx.lineTo(j+30, 20); ctx.lineTo(j+10, 0); ctx.fill();
+                }
+                const stripeImgData = canvas.toDataURL('image/jpeg');
+
+                for (let i = 1; i <= totalPages; i++) {
+                    pdf.setPage(i);
+                    
+                    // Top stripe at absolute top
+                    pdf.addImage(stripeImgData, 'JPEG', 0, 0, pageWidth, 4); 
+                    // Bottom stripe at absolute bottom
+                    pdf.addImage(stripeImgData, 'JPEG', 0, pageHeight - 4, pageWidth, 4); 
+                    
+                    // Confidential Footer pushed above the bottom stripe
+                    pdf.setFontSize(8); 
+                    pdf.setTextColor(150, 150, 150);
+                    const footerTxt = "GENERATED SECURELY BY THE ETHAN01 VANGUARD ENGINE • STRICTLY CONFIDENTIAL!";
+                    const textWidth = pdf.getStringUnitWidth(footerTxt) * pdf.internal.getFontSize() / pdf.internal.scaleFactor;
+                    pdf.text(footerTxt, (pageWidth - textWidth) / 2, pageHeight - 7);
+                }
+            }).save().then(() => {
+                if(window.Toast) window.Toast.show('Status Report compiled securely.', 'success');
+            });
 
         } catch (e) {
-            console.error("PDF Export Error:", e);
-            if (window.Toast) window.Toast.show('Failed to compile report: ' + e.message, 'error');
+            console.error("PDF Export Failure:", e);
+            if(window.Toast) window.Toast.show('Failed to compile report: ' + e.message, 'error');
         }
     };
 

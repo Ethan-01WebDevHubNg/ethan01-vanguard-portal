@@ -100,39 +100,12 @@
                     <span id="cli-current-phase-badge" class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Synchronizing...</span>
                 </div>
             </div>
-            <div id="cli-roadmap-container" class="relative flex flex-col md:flex-row justify-between gap-8 z-10">
+            <div id="cli-roadmap-container" class="relative flex flex-col md:flex-row w-full z-10 md:pb-24">
                 <div class="text-sm text-on-surface-variant text-center w-full py-4 animate-pulse">Loading roadmap data...</div>
             </div>
         </section>
     </div>
 </main>
-
-<template id="tpl-cli-roadmap-item">
-    <div class="relative z-10 flex md:flex-col gap-4 md:items-center text-left md:text-center w-full" style="flex: {flexValue};">
-        <div class="h-10 w-10 rounded-full {bgClass} flex items-center justify-center {textClass} shrink-0 {borderClass} {shadowClass} transition-all duration-500 relative z-10">
-            <span class="material-symbols-outlined text-lg {iconAnim}">{icon}</span>
-        </div>
-        <div class="pt-1 md:pt-0">
-            <p class="text-[10px] font-bold uppercase tracking-widest {labelClass} mb-1 transition-colors">{phaseLabel}</p>
-            <h4 class="text-sm font-bold {titleClass} transition-colors">{phaseName}</h4>
-            <p class="text-[11px] {descClass} mt-1 hidden md:block transition-colors">{desc}</p>
-            <p class="text-xs text-on-surface-variant mt-2 hidden md:block leading-relaxed max-w-[180px] mx-auto opacity-80">{phaseDesc}</p>
-        </div>
-    </div>
-</template>
-
-<template id="tpl-resource-row">
-    <div class="flex flex-col gap-1 border-b border-outline-variant pb-4 last:border-0 last:pb-0">
-        <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-on-surface flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_var(--color-primary-glow)]"></span> {department}</span>
-            <span class="text-xs font-mono font-bold text-on-surface">{timeInvested} Days</span>
-        </div>
-        <div class="flex justify-between items-center pl-4">
-            <span class="text-[10px] uppercase tracking-widest text-on-surface-variant">Capital Weighting</span>
-            <span class="text-[10px] font-black text-primary bg-[var(--color-primary-alpha-30)] px-2 py-0.5 rounded">{budgetPct}% Budget</span>
-        </div>
-    </div>
-</template>
 
 <script type="text/plain" id="cli-dash-data-script">
     window.clientProjects = [];
@@ -321,14 +294,13 @@
         let currentActivePhase = 'Pending Kickoff';
         
         let roadmapHtml = '';
-        const tlTpl = document.getElementById('tpl-cli-roadmap-item').innerHTML;
-        let qaPendingTask = null;
-
+        
         let departmentMetrics = {};
         let totalBudget = proj.totalBudget || 0;
+        let lastPhaseLineBg = 'bg-surface-container-highest';
 
-        if(proj.phases) {
-            proj.phases.forEach((p, idx) => { 
+        if(proj.phases && proj.phases.length > 0) {
+            proj.phases.forEach((p, index) => { 
                 const dept = p.department || 'Unassigned';
                 if(!departmentMetrics[dept]) departmentMetrics[dept] = { time: 0, cost: 0, count: 0 };
                 departmentMetrics[dept].time += (p.durationDays || 0);
@@ -339,7 +311,7 @@
                 const normStatus = rawStatus.toLowerCase().replace(/-/g, ' ').trim();
 
                 let displayStatus = normStatus;
-                // Mask internal admin states from the client
+                
                 if (['internal review', 'pending review', 'rejected internal', 'under review'].includes(normStatus)) {
                     displayStatus = 'in progress'; 
                 }
@@ -350,30 +322,160 @@
                 }
                 if(displayStatus === 'in progress' || displayStatus === 'active' || displayStatus === 'client review') {
                     currentActivePhase = p.name;
-                    activeScopeBoost = (p.scopePct || 0) / 2; // Line extends halfway through the active phase
+                    activeScopeBoost = (p.scopePct || 0) / 2;
                 }
 
-                let bgClass = 'bg-surface-container', textClass = 'text-on-surface-variant', borderClass = 'border-4 border-surface', shadowClass = '', icon = 'radio_button_unchecked', iconAnim = '', labelClass = 'text-on-surface-variant', titleClass = 'text-on-surface-variant', descClass = 'text-on-surface-variant';
+                let bgClass = 'bg-surface-container-highest';
+                let textClass = 'text-on-surface-variant';
+                let borderClass = 'border-4 border-surface-container-lowest';
+                let shadowClass = '';
+                let icon = 'radio_button_unchecked';
+                let iconAnim = '';
+                let labelClass = 'text-on-surface-variant';
+                let titleClass = 'text-on-surface-variant';
+                let descClass = 'text-on-surface-variant';
+                let bottomLineBg = 'bg-surface-container-highest';
+                
+                let isPhaseActiveOrDone = ['approved', 'completed', 'in progress', 'active', 'client review'].includes(displayStatus);
+                let nodeOpacityClass = isPhaseActiveOrDone ? 'opacity-100' : 'opacity-40';
 
                 if (displayStatus === 'approved' || displayStatus === 'completed') {
-                    bgClass = 'bg-primary'; textClass = 'text-[#09090b]'; icon = 'rocket_launch'; shadowClass = 'shadow-[0_4px_15px_var(--color-primary-glow)]';
-                    labelClass = 'text-on-surface-variant'; titleClass = 'text-on-surface'; descClass = 'text-on-surface-variant';
+                    bgClass = 'bg-primary'; 
+                    textClass = 'text-[#09090b]'; 
+                    icon = 'rocket_launch'; 
+                    shadowClass = 'shadow-[0_4px_15px_var(--color-primary-glow)]';
+                    borderClass = 'border-4 border-surface-container-lowest';
+                    labelClass = 'text-on-surface-variant'; 
+                    titleClass = 'text-on-surface'; 
+                    descClass = 'text-on-surface-variant'; 
+                    bottomLineBg = 'bg-primary';
                 } else if (displayStatus === 'in progress' || displayStatus === 'active') {
-                    bgClass = 'bg-[var(--color-primary-alpha-30)]'; textClass = 'text-primary'; borderClass = 'border-4 border-surface !border-primary'; shadowClass = 'shadow-[0_0_20px_var(--color-primary-glow)]'; 
-                    icon = 'autorenew'; iconAnim = 'animate-spin'; labelClass = 'text-primary'; titleClass = 'text-on-surface'; descClass = 'text-on-surface-variant';
+                    bgClass = 'bg-surface-container-highest'; 
+                    textClass = 'text-primary'; 
+                    borderClass = 'border-4 border-surface-container-lowest !border-primary'; 
+                    shadowClass = 'shadow-[0_0_20px_var(--color-primary-glow)]'; 
+                    icon = 'autorenew'; 
+                    iconAnim = 'animate-spin'; 
+                    labelClass = 'text-primary'; 
+                    titleClass = 'text-on-surface'; 
+                    descClass = 'text-on-surface-variant'; 
+                    bottomLineBg = 'bg-surface-container-highest';
                 } else if (displayStatus === 'client review') {
-                    bgClass = 'bg-[var(--color-error-container)]'; textClass = 'text-error'; borderClass = 'border-4 border-surface !border-[var(--color-error-dim)]'; shadowClass = 'shadow-[0_0_20px_rgba(255,0,0,0.4)]';
-                    icon = 'warning'; iconAnim = 'animate-pulse'; labelClass = 'text-error'; titleClass = 'text-on-surface'; descClass = 'text-on-surface-variant';
+                    bgClass = 'bg-[var(--color-error-container)]'; 
+                    textClass = 'text-error'; 
+                    borderClass = 'border-4 border-surface-container-lowest !border-[var(--color-error-dim)]'; 
+                    shadowClass = 'shadow-[0_0_20px_rgba(255,0,0,0.4)]';
+                    icon = 'warning'; 
+                    iconAnim = 'animate-pulse'; 
+                    labelClass = 'text-error'; 
+                    titleClass = 'text-on-surface'; 
+                    descClass = 'text-on-surface-variant'; 
+                    bottomLineBg = 'bg-surface-container-highest';
+                }
+
+                if (index === proj.phases.length - 1) {
+                    lastPhaseLineBg = bottomLineBg;
                 }
 
                 const renderDesc = p.description ? p.description : '';
+                const phaseLabel = `Phase ${(index + 1).toString().padStart(2, '0')}`;
+                const scopePct = p.scopePct || 0;
+                const phaseName = p.name || 'Unnamed Phase';
 
-                roadmapHtml += tlTpl.replace(/{flexValue}/g, Math.max(1, p.scopePct || 0)).replace(/{bgClass}/g, bgClass).replace(/{textClass}/g, textClass).replace(/{borderClass}/g, borderClass).replace(/{shadowClass}/g, shadowClass).replace(/{icon}/g, icon).replace(/{iconAnim}/g, iconAnim).replace(/{labelClass}/g, labelClass).replace(/{titleClass}/g, titleClass).replace(/{descClass}/g, descClass).replace(/{phaseLabel}/g, `Phase ${(idx+1).toString().padStart(2,'0')}`).replace(/{phaseName}/g, p.name).replace(/{desc}/g, `${p.scopePct}% Scope Weight`).replace(/{phaseDesc}/g, renderDesc);
+                let isTopMost = (index === 0);
+                let flexValue = Math.max(1, scopePct);
+
+                let flexStyle = `flex: ${flexValue} 1 0%; min-width: 0;`;
+                let bottomLineClass = `flex-1 w-0.5 md:w-full md:h-0.5 ${bottomLineBg} transition-colors duration-500`;
+
+                let textContainerAlign = 'items-start';
+                let textJustify = 'text-left';
+                let textWidthClass = '';
+                let textMarginClass = 'ml-4 md:mt-4 pb-8 md:pb-0';
+
+                if (isTopMost) {
+                    textWidthClass = 'w-[calc(100%-3.5rem)] md:w-full md:pr-4';
+                    textMarginClass += ' md:ml-0';
+                } else {
+                    textContainerAlign = 'items-start md:items-center';
+                    textJustify = 'text-left md:text-center';
+                    textWidthClass = 'w-[calc(100%-3.5rem)] md:w-[160px]';
+                    textMarginClass += ' md:ml-0 md:transform md:translate-x-[calc(20px-50%)]';
+                }
+
+                roadmapHtml += `
+                <div class="relative flex flex-row md:flex-col items-stretch md:items-start group" style="${flexStyle}">
+                    
+                    <!-- Track Container -->
+                    <div class="flex flex-col md:flex-row items-center md:justify-start shrink-0 w-10 md:w-full md:h-10 z-20">
+                        <!-- Node Anchor -->
+                        <div class="flex items-center justify-center w-10 h-10 rounded-full ${borderClass} ${bgClass} ${textClass} shrink-0 ${shadowClass} ${nodeOpacityClass} transition-all duration-500 z-10 md:mx-0">
+                            <span class="material-symbols-outlined text-sm ${iconAnim}">${icon}</span>
+                        </div>
+                        
+                        <!-- Duration Line -->
+                        <div class="${bottomLineClass}"></div>
+                    </div>
+
+                    <!-- Content Container -->
+                    <div class="${textMarginClass} ${textJustify} ${textWidthClass} z-10 flex flex-col justify-start ${textContainerAlign} overflow-hidden">
+                        <p class="text-[10px] font-bold uppercase tracking-widest ${labelClass} mb-1 transition-colors">${phaseLabel}</p>
+                        <h4 class="text-sm font-bold ${titleClass} transition-colors truncate w-full">${phaseName}</h4>
+                        <p class="text-[11px] ${descClass} mt-1 hidden md:block transition-colors">${scopePct}% Scope Weight</p>
+                        <p class="text-xs text-on-surface-variant mt-2 hidden md:block leading-relaxed w-full opacity-80 line-clamp-3">${renderDesc}</p>
+                    </div>
+                </div>
+                `;
             });
+
+            // ARTIFICIAL COMPLETION / CAPSTONE NODE
+            let compIsActive = (approvedCount === totalPhases && totalPhases > 0);
+            let compOpacityClass = compIsActive ? 'opacity-100' : 'opacity-40';
+            
+            let compBgClass = compIsActive ? 'bg-primary' : 'bg-surface-container-highest';
+            let compTextClass = compIsActive ? 'text-[#09090b]' : 'text-on-surface-variant';
+            let compBorderClass = 'border-4 border-surface-container-lowest';
+            let compShadowClass = compIsActive ? 'shadow-[0_4px_15px_var(--color-primary-glow)]' : '';
+            
+            let compLabelClass = compIsActive ? 'text-primary' : 'text-on-surface-variant';
+            let compTitleClass = compIsActive ? 'text-on-surface' : 'text-on-surface-variant';
+
+            roadmapHtml += `
+            <div class="relative flex flex-row md:flex-col items-stretch md:items-start group" style="flex: 0 0 40px; min-width: 40px;">
+                
+                <!-- Track Container -->
+                <div class="flex flex-col md:flex-row items-center md:justify-end shrink-0 w-10 md:w-10 md:h-10 z-20">
+                    
+                    <!-- Node Anchor -->
+                    <div class="relative flex items-center justify-center w-10 h-10 rounded-full ${compBorderClass} ${compBgClass} ${compTextClass} shrink-0 ${compShadowClass} ${compOpacityClass} transition-all duration-500 z-10 md:mx-0">
+                        <!-- 
+                          FLAG CONTROLS: 
+                          - Change text-[32px] to scale the flag.
+                          - Adjust left-[6px] to move it left/right. 
+                          - Adjust bottom-[8px] to move it up/down.
+                        -->
+                        <span class="material-symbols-outlined absolute bottom-[14px] left-[8px] text-[32px]" style="font-variation-settings: 'FILL' 1;">flag</span>
+                        
+                        <!-- 
+                          DOT CONTROLS: 
+                          - Adjust mt-[14px] to push the dot higher or lower from the center.
+                        -->
+                        <span class="w-1.5 h-1.5 rounded-full bg-current relative z-10"></span>
+                    </div>
+                </div>
+
+                <!-- Content Container -->
+                <div class="ml-4 md:ml-0 md:mt-4 pb-0 text-left md:text-right w-[calc(100%-3.5rem)] md:w-max md:max-w-[150px] md:absolute md:top-14 md:right-0 z-10 flex flex-col justify-start items-start md:items-end overflow-hidden ${compOpacityClass} transition-opacity duration-500">
+                    <p class="text-[10px] font-bold uppercase tracking-widest ${compLabelClass} mb-1 transition-colors">Deployment</p>
+                    <h4 class="text-sm font-bold ${compTitleClass} transition-colors truncate w-full">Project Delivery</h4>
+                    <p class="text-[11px] text-on-surface-variant mt-1 hidden md:block transition-colors">100% Scope</p>
+                    <p class="text-xs text-on-surface-variant mt-2 hidden md:block leading-relaxed w-full opacity-80 line-clamp-3">Final handover and launch authorization.</p>
+                </div>
+            </div>
+            `;
         }
 
         const resCont = document.getElementById('cli-resource-allocation-container');
-        const resTpl = document.getElementById('tpl-resource-row').innerHTML;
         let resHtml = '';
         
         if (Object.keys(departmentMetrics).length === 0) {
@@ -381,18 +483,20 @@
         } else {
             for (const [deptName, metrics] of Object.entries(departmentMetrics)) {
                 let calcPct = totalBudget > 0 ? ((metrics.cost / totalBudget) * 100).toFixed(0) : 0;
-                resHtml += resTpl.replace(/{department}/g, deptName).replace(/{timeInvested}/g, metrics.time).replace(/{budgetPct}/g, calcPct);
+                resHtml += `
+                <div class="flex flex-col gap-1 border-b border-outline-variant pb-4 last:border-0 last:pb-0">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-on-surface flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_var(--color-primary-glow)]"></span> ${deptName}</span>
+                        <span class="text-xs font-mono font-bold text-on-surface">${metrics.time} Days</span>
+                    </div>
+                    <div class="flex justify-between items-center pl-4">
+                        <span class="text-[10px] uppercase tracking-widest text-on-surface-variant">Capital Weighting</span>
+                        <span class="text-[10px] font-black text-primary bg-[var(--color-primary-alpha-30)] px-2 py-0.5 rounded">${calcPct}% Budget</span>
+                    </div>
+                </div>`;
             }
         }
         resCont.innerHTML = resHtml;
-
-        const renderScopePct = Math.min(100, trueScopePct + activeScopeBoost);
-
-        roadmapHtml = `
-            <div class="absolute top-5 left-5 md:left-0 md:w-full h-[calc(100%-40px)] md:h-0.5 bg-black/20 dark:bg-white/10 z-0"></div>
-            <div class="absolute top-5 left-5 md:left-0 bg-primary z-0 shadow-[0_0_15px_var(--color-primary-glow)] transition-all duration-1000 hidden md:block" style="width: ${renderScopePct}%; height: 2px;"></div>
-            <div class="absolute top-5 left-5 md:hidden bg-primary z-0 shadow-[0_0_15px_var(--color-primary-glow)] transition-all duration-1000" style="height: calc(${renderScopePct}% - 40px); width: 2px;"></div>
-        ` + roadmapHtml;
 
         document.getElementById('cli-scope-val').innerText = `${Math.min(100, trueScopePct).toFixed(1)}%`;
         

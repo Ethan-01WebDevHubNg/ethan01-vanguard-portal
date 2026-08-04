@@ -30,7 +30,7 @@
         <div class="overflow-x-auto w-full">
             <table class="w-full text-left border-collapse whitespace-nowrap" id="client-data-table">
                 <thead>
-                    <tr class="bg-surface-container-high border-b border-[var(--input-border)]">
+                    <tr class="bg-surface-container-high">
                         <th class="px-6 sm:px-8 py-5 text-[11px] font-black uppercase tracking-[0.15em] text-on-surface-variant">Client Name</th>
                         <th class="px-6 sm:px-8 py-5 text-[11px] font-black uppercase tracking-[0.15em] text-on-surface-variant text-center">Active Projects</th>
                         <th class="px-6 sm:px-8 py-5 text-[11px] font-black uppercase tracking-[0.15em] text-on-surface-variant">SLA Tier</th>
@@ -201,12 +201,6 @@
 </template>
 
 <script type="text/plain" id="dir-data-script">
-    if (!window.XLSX) {
-        const script = document.createElement('script');
-        script.src = 'https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js';
-        document.head.appendChild(script);
-    }
-
     window.globalClients = [];
     window.globalProjects = [];
 
@@ -215,7 +209,6 @@
         window.location.hash = '#/admin/project/new';
     };
 
-    // PHASE 1 OVERHAUL: Trigger custom warning modal instead of window.confirm
     window.executeAtomicClientDelete = async function(clientId) {
         const role = window.currentUserRole;
         if (role !== 'Super Admin' && role !== 'admin' && role !== 'SuperAdmin') {
@@ -228,7 +221,6 @@
         if(window.Modal) window.Modal.show('Delete Client Workspace', m, a);
     };
 
-    // PHASE 1 OVERHAUL: Proceed with cascade delete
     window.confirmAtomicClientDelete = async function(clientId) {
         if(window.Modal) window.Modal.hide();
         if(window.Toast) window.Toast.show('Initiating atomic deletion cascade...', 'info');
@@ -266,7 +258,6 @@
         }
     };
 
-    // CURRENCY CONVERSION ENGINE
     window.convertToNaira = function(amount, currency) {
         if (!amount) return 0;
         if (currency === '$') return amount * 1500; 
@@ -327,7 +318,6 @@
             let clientPipelineValue = 0;
             
             clientProjects.forEach(proj => {
-                // CONVERT TO NAIRA FOR AGGREGATION
                 clientPipelineValue += window.convertToNaira(proj.totalBudget, proj.currency);
                 
                 const startDate = proj.createdAt?.toDate() || new Date();
@@ -425,29 +415,122 @@
         if(window.Toast) window.Toast.show('Filters applied.', 'success');
     };
 
-    window.exportToExcel = function() {
-        if (!window.XLSX) {
-            if(window.Toast) window.Toast.show('Loading Excel Engine...', 'info');
-            setTimeout(window.exportToExcel, 1000);
-            return;
-        }
-        if(window.Toast) window.Toast.show('Compiling Excel Data...', 'info');
-        setTimeout(() => {
-            const table = document.getElementById('client-data-table');
-            const clone = table.cloneNode(true);
-            clone.querySelectorAll('.material-symbols-outlined, button, .lead-architect-only').forEach(el => el.remove());
-            
-            const wb = XLSX.utils.table_to_book(clone, {sheet: 'Client Directory'});
-            XLSX.writeFile(wb, 'Vanguard_Client_Directory.xlsx');
-            
-            if(window.Toast) window.Toast.show('Excel Export downloaded.', 'success');
-        }, 800);
-    };
-
     window.openEditClientModal = function(clientName) {
         const m = document.getElementById('tpl-edit-modal').innerHTML.replace('{name}', clientName);
         const a = document.getElementById('tpl-edit-action').innerHTML;
         if(window.Modal) window.Modal.show('Edit Client: ' + clientName, m, a);
+    };
+
+window.exportToExcel = async function() {
+        if(window.Toast) window.Toast.show('Loading Vanguard Excel Engine...', 'info');
+
+        // Dynamically inject SheetJS if not already available
+        if (!window.XLSX) {
+            await new Promise((resolve) => {
+                const script = document.createElement('script');
+                script.src = 'https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js';
+                script.onload = resolve;
+                document.head.appendChild(script);
+            });
+        }
+
+        if(window.Toast) window.Toast.show('Compiling Database & Applying Formatting...', 'info');
+
+        try {
+            const role = window.currentUserRole;
+            const isSuperAdmin = (role === 'Super Admin' || role === 'admin' || role === 'SuperAdmin');
+
+            let globalRevenue = 0;
+            let totalProjects = 0;
+            let compliantProjects = 0;
+            
+            // Prepare Client Directory Sheet Data
+            const directoryHeaders = ["CLIENT NAME", "DOMAIN / PORTAL", "ACTIVE PROJECTS", "SLA TIER", "PIPELINE VALUE (NGN)"];
+            const directoryData = [];
+
+            window.globalClients.forEach(client => {
+                const clientProjects = window.globalProjects.filter(p => p.clientId === (client.clientId || client.id) && p.status !== 'Archived');
+                const activeProjectCount = clientProjects.length;
+                totalProjects += activeProjectCount;
+
+                let clientPipelineValue = 0;
+                
+                clientProjects.forEach(proj => {
+                    clientPipelineValue += window.convertToNaira(proj.totalBudget, proj.currency);
+                    
+                    const startDate = proj.createdAt?.toDate() || new Date();
+                    const now = new Date();
+                    const diffDays = Math.max(0, Math.ceil((now - startDate) / (1000 * 60 * 60 * 24)));
+                    const durationDays = proj.durationDays && proj.durationDays > 0 ? proj.durationDays : 1;
+                    const timeElapsedPct = Math.min(100, (diffDays / durationDays) * 100);
+                    
+                    let trueScopePct = 0;
+                    if(proj.phases) proj.phases.forEach(p => { if(p.status === 'Approved' || p.status === 'Completed') trueScopePct += (p.scopePct || 0); });
+                    
+                    const variance = trueScopePct - timeElapsedPct;
+                    if (variance >= -5) compliantProjects++;
+                });
+
+                globalRevenue += clientPipelineValue;
+
+                // Push Native Excel Cell Types (Numbers/Currency) instead of flat strings
+                directoryData.push([
+                    client.companyName || 'Unnamed Client',
+                    client.domain || 'N/A',
+                    { t: 'n', v: activeProjectCount }, // Explicit number type
+                    client.slaTier || 'Basic',
+                    isSuperAdmin ? { t: 'n', v: clientPipelineValue, z: '"₦"#,##0.00' } : 'RESTRICTED' // Explicit accounting format
+                ]);
+            });
+
+            // Prepare Summary Sheet Data
+            const slaRatio = totalProjects > 0 ? (compliantProjects / totalProjects) : 1;
+            const summaryData = [
+                ["ETHAN01 VANGUARD ENGINE", ""],
+                ["GLOBAL PIPELINE EXECUTIVE SUMMARY", ""],
+                ["GENERATED ON", new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })],
+                ["", ""],
+                ["PERFORMANCE METRICS", "VALUE"],
+                ["Combined Pipeline Revenue", isSuperAdmin ? { t: 'n', v: globalRevenue, z: '"₦"#,##0.00' } : "RESTRICTED"],
+                ["Global SLA Compliance", { t: 'n', v: slaRatio, z: '0%' }],
+                ["Total Active Workspaces", { t: 'n', v: totalProjects }],
+                ["Registered Clients", { t: 'n', v: window.globalClients.length }]
+            ];
+
+            // Build Professional Workbook
+            const wb = XLSX.utils.book_new();
+            
+            // 1. EXECUTIVE SUMMARY SHEET formatting
+            const wsSummary = XLSX.utils.aoa_to_sheet(summaryData);
+            wsSummary['!cols'] = [{ wch: 35 }, { wch: 25 }]; // Precise column widths
+            wsSummary['!merges'] = [
+                { s: { r: 0, c: 0 }, e: { r: 0, c: 1 } }, // Merge Title Row
+                { s: { r: 1, c: 0 }, e: { r: 1, c: 1 } }  // Merge Subtitle Row
+            ];
+            XLSX.utils.book_append_sheet(wb, wsSummary, "Executive Summary");
+
+            // 2. CLIENT DIRECTORY SHEET formatting
+            const wsDirectory = XLSX.utils.aoa_to_sheet([directoryHeaders, ...directoryData]);
+            wsDirectory['!cols'] = [
+                { wch: 35 }, // Client Name Width
+                { wch: 30 }, // Domain Width
+                { wch: 18 }, // Active Projects Width
+                { wch: 18 }, // SLA Tier Width
+                { wch: 25 }  // Pipeline Value Width
+            ];
+            // Inject Native Excel Auto-filters for the table headers
+            wsDirectory['!autofilter'] = { ref: `A1:E${directoryData.length + 1}` };
+            XLSX.utils.book_append_sheet(wb, wsDirectory, "Client Directory");
+
+            // Trigger Optimized Download
+            XLSX.writeFile(wb, `Global_Pipeline_Summary_${new Date().toISOString().split('T')[0]}.xlsx`, { bookSST: true, type: 'binary' });
+            
+            if(window.Toast) window.Toast.show('Elite Excel Report compiled securely.', 'success');
+
+        } catch (e) {
+            console.error("Excel Export Error", e);
+            if(window.Toast) window.Toast.show('Failed to compile Excel file.', 'error');
+        }
     };
 
     window.initializeLiveDirectory();
